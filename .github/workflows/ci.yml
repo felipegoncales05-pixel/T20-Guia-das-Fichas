@@ -38,7 +38,7 @@ jobs:
       - name: Instalar navegador de teste
         run: |
           npm install --no-save --package-lock=false playwright@1.56.1
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
       - name: Verificar onze tamanhos de tela
         run: node tests/responsive-browser.cjs
       - name: Anexar capturas para revisão
