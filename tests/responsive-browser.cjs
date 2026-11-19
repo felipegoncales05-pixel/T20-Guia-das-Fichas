@@ -52,6 +52,11 @@ async function assertLayout(page,label){
     await page.locator("#levelSelect").waitFor();
     await page.locator("#levelSelect").evaluate(el=>{el.value="12";el.dispatchEvent(new Event("input",{bubbles:true}))});
     assert.equal((await page.locator("#selectedLevel").textContent()).trim(),"12");
+    assert.equal((await page.locator("#globalLevelText").textContent()).trim(),"12");
+    const maxPV=Number((await page.locator("[data-stat=PV]").textContent()).trim());
+    const maxPM=Number((await page.locator("[data-stat=PM]").textContent()).trim());
+    assert.ok(maxPV>13&&maxPM>=36,id+": nível não atualizou PV/PM");
+    assert.ok(await page.locator("#levelReadout").textContent().then(t=>t.includes("COMO USAR NA MESA")));
     assert.equal(await page.locator(".level-item").count(),12);
     await assertLayout(page,width+" "+id+" progressão");
     await page.locator('[data-tab="techniques"]').click();
@@ -59,6 +64,7 @@ async function assertLayout(page,label){
     await assertLayout(page,width+" "+id+" técnicas");
     await page.locator('[data-tab="sources"]').click();
     await page.locator(".source-link").first().waitFor();
+    assert.equal(await page.locator(".source-level").count(),12,id+": páginas por nível");
     await assertLayout(page,width+" "+id+" fontes");
    }
    assert.deepEqual(errors,[]);
