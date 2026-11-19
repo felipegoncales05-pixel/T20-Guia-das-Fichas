@@ -1,0 +1,18 @@
+/* Capturas panorâmicas dos Lord Ravagers ocupam todo o card e o retrato.
+   Evita uma faixa de pôster simbólico atrás de imagens horizontais. */
+.roster-card[class*="mega-"] .photo img[src$="/em-archforger.webp"],
+.roster-card[class*="mega-"] .photo img[src$="/em-celenova.webp"],
+.roster-card[class*="mega-"] .photo img[src$="/em-asat.webp"],
+.roster-card[class*="mega-"] .photo img[src$="/em-zephyro.webp"],
+.roster-card[class*="mega-"] .photo img[src$="/em-luxbane.webp"],
+body[data-theme^="mega-"] .hero-portrait img[src$="/em-archforger.webp"],
+body[data-theme^="mega-"] .hero-portrait img[src$="/em-celenova.webp"],
+body[data-theme^="mega-"] .hero-portrait img[src$="/em-asat.webp"],
+body[data-theme^="mega-"] .hero-portrait img[src$="/em-zephyro.webp"],
+body[data-theme^="mega-"] .hero-portrait img[src$="/em-luxbane.webp"]{
+  width:100%;height:100%;padding:0;object-fit:cover;
+}
+.roster-card[class*="mega-"] .photo img[src$="/em-zephyro.webp"],
+body[data-theme^="mega-"] .hero-portrait img[src$="/em-zephyro.webp"]{object-position:23% center}
+.roster-card[class*="mega-"] .photo img[src$="/em-luxbane.webp"],
+body[data-theme^="mega-"] .hero-portrait img[src$="/em-luxbane.webp"]{object-position:19% center}

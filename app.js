@@ -8,7 +8,7 @@ const tabs=[["overview","Dossiê"],["attributes","Atributos iniciais"],["equipme
 let search="",universe="all",lastRoute="",toastTimer=null,selectedLevel=1,diegoMode="normal",gokuMode="z";
 const e=(v)=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 const url=(u)=>/^https:\/\//.test(String(u||""))?e(u):"#";
-const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,")||/^\.\/assets\/(?:portraits|art|art-optimized|card-art)\/[a-z0-9-]+\.(?:svg|webp|avif|png|jpg)$/.test(String(u||""))?e(u):url(u);
+const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,")||/^\.\/assets\/(?:portraits|art|art-optimized|card-art|character-art)\/[a-z0-9-]+\.(?:svg|webp|avif|png|jpg)$/.test(String(u||""))?e(u):url(u);
 const icon=(v)=>e(v||"◈");
 const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
 const normalizeSearch=(v)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").replace(/[^a-z0-9]+/g," ").trim();

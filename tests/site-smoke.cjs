@@ -1,7 +1,7 @@
 const fs=require("node:fs");
 const vm=require("node:vm");
 const assert=require("node:assert/strict");
-const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
+const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","character-art.css","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync("data.js","utf8"),context,{filename:"data.js"});
@@ -14,6 +14,7 @@ vm.runInNewContext(fs.readFileSync("mega-runtime.js","utf8"),context,{filename:"
 vm.runInNewContext(fs.readFileSync("catalog-media.js","utf8"),context,{filename:"catalog-media.js"});
 for(const n of ["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
 vm.runInNewContext(fs.readFileSync("local-media.js","utf8"),context,{filename:"local-media.js"});
+vm.runInNewContext(fs.readFileSync("character-art.js","utf8"),context,{filename:"character-art.js"});
 vm.runInNewContext(fs.readFileSync("review-data.js","utf8"),context,{filename:"review-data.js"});
 const project=context.window.T20_DATA;
 assert.ok(project&&Array.isArray(project.characters));
@@ -29,7 +30,7 @@ for(const char of project.characters){
  assert.deepEqual(Array.from(char.progression,p=>Number(p[0])),Array.from({length:12},(_,i)=>i+1),char.id+" níveis");
  assert.ok(char.skills.length>4&&char.gear.length>2&&char.techniques.length>2,char.id+" ficha incompleta");
  assert.ok(char.sources.length&&char.media.length,char.id+" fontes e mídia");
- for(const obj of [char.portrait,...char.media])assert.ok(/^(https:\/\/|data:image\/svg\+xml;charset=utf-8,|\.\/assets\/(portraits|art|art-optimized|card-art)\/[a-z0-9-]+\.(svg|webp|avif|png|jpg))/.test(obj.url||obj.image),char.id+" URL de mídia inválida");
+ for(const obj of [char.portrait,...char.media])assert.ok(/^(https:\/\/|data:image\/svg\+xml;charset=utf-8,|\.\/assets\/(portraits|art|art-optimized|card-art|character-art)\/[a-z0-9-]+\.(svg|webp|avif|png|jpg))/.test(obj.url||obj.image),char.id+" URL de mídia inválida");
  assert.ok(char.notes.attributes&&char.notes.progression,char.id+" notas ausentes");
 }
 assert.match(fs.readFileSync("index.html","utf8"),/id="app"/);
@@ -98,6 +99,24 @@ assert.equal(mediaSources.length,30,"Total de retratos recuperados");
 for(const entry of mediaSources){const body=fs.readFileSync(entry.asset);assert.ok(body.length>2000,entry.id+" sem arte local");assert.equal(body.toString("ascii",0,4),"RIFF",entry.id+" WebP inválido");assert.ok(entry.source_page.startsWith("https://"),entry.id+" sem fonte da arte");}
 assert.equal(context.window.T20_ALTERNATES.diego.alternative.portrait.url,"./assets/card-art/diego-alternative.webp");
 for(const form of ["gt","daima","super"])assert.equal(context.window.T20_GOKU_VARIANTS[form].portrait.url,"./assets/card-art/goku-"+form+".webp");
+const characterArt=JSON.parse(fs.readFileSync("assets/character-art/sources.json","utf8"));
+assert.equal(characterArt.length,20,"20 novas imagens correspondentes");
+assert.equal(context.window.T20_CHARACTER_ART_IDS.length,characterArt.length);
+for(const entry of characterArt){
+ const c=project.characters.find(x=>x.id===entry.id);
+ const body=fs.readFileSync(entry.asset);
+ const format=entry.asset.split(".").at(-1);
+ assert.ok(body.length>10000,entry.id+" imagem incompleta");
+ assert.ok(format==="png"?body.subarray(0,8).equals(Buffer.from("89504e470d0a1a0a","hex")):format==="webp"?body.toString("ascii",0,4)==="RIFF":body.subarray(0,2).equals(Buffer.from("ffd8","hex")),entry.id+" formato incorreto");
+ assert.equal(c.portrait.url,"./"+entry.asset,entry.id+" sem retrato associado");
+ assert.ok(c.media.some(m=>m.image===c.portrait.url&&m.source===entry.source_page),entry.id+" sem imagem e fonte na galeria");
+ assert.ok(entry.source_url.startsWith("https://")&&entry.credit,entry.id+" sem proveniência");
+}
+for(const id of ["em-diamond","em-taravan","em-shuhu"]){
+ const c=project.characters.find(x=>x.id===id);
+ assert.ok(c.portrait.url.endsWith(".svg")||c.portrait.url.startsWith("data:image/svg+xml"),id+" requer visual pendente");
+}
+assert.match(fs.readFileSync("index.html","utf8"),/local-media\.js"><\/script>\s*<script defer src="\.\/character-art\.js"/);
 assert.equal(context.window.T20_REVIEW.list().length,0,"Uma decisão não pode vir aprovada de fábrica");
 const review=context.window.T20_REVIEW;
 const sample=review.add({type:"regra",character:"diego",variant:"alternative",title:"Conferir custo",body:"Verificar livro antes de aprovar",page:""});

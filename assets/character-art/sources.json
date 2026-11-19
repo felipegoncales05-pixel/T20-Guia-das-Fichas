@@ -1,0 +1,142 @@
+[
+  {
+    "id": "jojo-kars",
+    "asset": "assets/character-art/jojo-kars.webp",
+    "source_url": "https://static.jojowiki.com/images/thumb/8/88/latest/20240224164606/Kars_Infobox_Manga.png/800px-Kars_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Kars",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "jojo-jonathan",
+    "asset": "assets/character-art/jojo-jonathan.webp",
+    "source_url": "https://static.jojowiki.com/images/thumb/b/bd/latest/20221006234855/Jonathan_Infobox_Manga.png/800px-Jonathan_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Jonathan_Joestar",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "jojo-joseph",
+    "asset": "assets/character-art/jojo-joseph.webp",
+    "source_url": "https://static.jojowiki.com/images/thumb/e/e2/latest/20221006235618/Joseph_Joestar_Infobox_Manga.png/800px-Joseph_Joestar_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Joseph_Joestar",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "jojo-jotaro",
+    "asset": "assets/character-art/jojo-jotaro.webp",
+    "source_url": "https://static.jojowiki.com/images/6/69/latest/20201130220440/Jotaro_SC_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Jotaro_Kujo",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "jojo-josuke4",
+    "asset": "assets/character-art/jojo-josuke4.webp",
+    "source_url": "https://static.jojowiki.com/images/thumb/a/a1/latest/20221007024100/Josuke_DU_Infobox_Manga.png/800px-Josuke_DU_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Josuke_Higashikata",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "jojo-giorno",
+    "asset": "assets/character-art/jojo-giorno.webp",
+    "source_url": "https://static.jojowiki.com/images/thumb/2/21/latest/20210313222135/Giorno_Giovanna_Infobox_Manga.png/800px-Giorno_Giovanna_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Giorno_Giovanna",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "jojo-jolyne",
+    "asset": "assets/character-art/jojo-jolyne.webp",
+    "source_url": "https://static.jojowiki.com/images/2/20/latest/20200923041552/Jolyne_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Jolyne_Cujoh",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "jojo-johnny",
+    "asset": "assets/character-art/jojo-johnny.webp",
+    "source_url": "https://static.jojowiki.com/images/thumb/b/b7/latest/20230129074253/Johnny_Joestar_Infobox_Manga.png/800px-Johnny_Joestar_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Johnny_Joestar",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "jojo-gappy",
+    "asset": "assets/character-art/jojo-gappy.webp",
+    "source_url": "https://static.jojowiki.com/images/thumb/3/3a/latest/20210617175837/Josuke_JJL_Infobox_Manga.png/800px-Josuke_JJL_Infobox_Manga.png",
+    "source_page": "https://jojowiki.com/Josuke_Higashikata_(JoJolion)",
+    "credit": "Hirohiko Araki / Shueisha · JoJo Wiki"
+  },
+  {
+    "id": "denji",
+    "asset": "assets/character-art/denji.webp",
+    "source_url": "https://chainsawman.dog/tvseries/assets/img/chara/chara_1_stand.png",
+    "source_page": "https://chainsawman.dog/tvseries/character/",
+    "credit": "Chainsaw Man · site oficial do anime"
+  },
+  {
+    "id": "satoru-gojo",
+    "asset": "assets/character-art/satoru-gojo.webp",
+    "source_url": "https://jujutsukaisen.jp/images/chara_category6/chara_detail1_2nd.png",
+    "source_page": "https://jujutsukaisen.jp/character/category6.php",
+    "credit": "Jujutsu Kaisen · site oficial do anime"
+  },
+  {
+    "id": "shigaraki",
+    "asset": "assets/character-art/shigaraki.webp",
+    "source_url": "https://heroaca.com/wp/wp-content/uploads/2020/09/01-3.png",
+    "source_page": "https://heroaca.com/character/chara_group06/06-01/",
+    "credit": "My Hero Academia · site oficial do anime"
+  },
+  {
+    "id": "midoriya",
+    "asset": "assets/character-art/midoriya.webp",
+    "source_url": "https://heroaca.com/wp/wp-content/uploads/2020/09/h01.png",
+    "source_page": "https://heroaca.com/character/chara_group01/01-01/",
+    "credit": "My Hero Academia · site oficial do anime"
+  },
+  {
+    "id": "em-phantylia",
+    "asset": "assets/character-art/em-phantylia.webp",
+    "source_url": "https://static.zerochan.net/Phantylia.the.Undying.1024.4688312.webp",
+    "source_page": "https://www.zerochan.net/4688312",
+    "credit": "HoYoverse · reprodução via Zerochan"
+  },
+  {
+    "id": "em-irontomb",
+    "asset": "assets/character-art/em-irontomb.webp",
+    "source_url": "https://static.zerochan.net/Irontomb.1024.4688315.webp",
+    "source_page": "https://www.zerochan.net/4688315",
+    "credit": "HoYoverse · reprodução via Zerochan"
+  },
+  {
+    "id": "em-archforger",
+    "asset": "assets/character-art/em-archforger.webp",
+    "source_url": "https://static.zerochan.net/Archforger.full.4689072.png",
+    "source_page": "https://www.zerochan.net/4689072",
+    "credit": "HoYoverse · reprodução via Zerochan"
+  },
+  {
+    "id": "em-celenova",
+    "asset": "assets/character-art/em-celenova.webp",
+    "source_url": "https://static.beebom.com/wp-content/uploads/2025/06/Lord-Ravager-Celenova-Honkai-Star-Rail.jpg?quality=75&strip=all",
+    "source_page": "https://beebom.com/honkai-star-rail-lord-ravagers/",
+    "credit": "HoYoverse · imagem de trailer via Beebom"
+  },
+  {
+    "id": "em-asat",
+    "asset": "assets/character-art/em-asat.webp",
+    "source_url": "https://staticg.sportskeeda.com/editor/2025/06/eb916-17507578953452-1920.jpg",
+    "source_page": "https://www.sportskeeda.com/esports/honkai-star-rail-hsr-all-lord-ravagers-revealed-myriad-celestia-trailer-fables-about-stars-part-2",
+    "credit": "HoYoverse · imagem de trailer via Sportskeeda"
+  },
+  {
+    "id": "em-zephyro",
+    "asset": "assets/character-art/em-zephyro.webp",
+    "source_url": "https://static.beebom.com/wp-content/uploads/2025/06/Lord-Ravager-Zephyro-Honkai-Star-Rail.jpg?quality=75&strip=all",
+    "source_page": "https://beebom.com/honkai-star-rail-lord-ravagers/",
+    "credit": "HoYoverse · imagem de trailer via Beebom"
+  },
+  {
+    "id": "em-luxbane",
+    "asset": "assets/character-art/em-luxbane.webp",
+    "source_url": "https://static.beebom.com/wp-content/uploads/2025/06/Lord-Ravager-Luxbane-Honkai-Star-Rail.jpg?quality=75&strip=all",
+    "source_page": "https://beebom.com/honkai-star-rail-lord-ravagers/",
+    "credit": "HoYoverse · imagem de trailer via Beebom"
+  }
+]

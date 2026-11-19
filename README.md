@@ -33,6 +33,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - tests/site-smoke.cjs — teste mínimo de integridade de dados
 - local-media.js — retratos locais recuperados das referências da ficha
 - assets/card-art/sources.json — proveniência dos retratos recuperados
+- character-art.js e assets/character-art/sources.json — 20 retratos adicionais locais, suas origens e créditos
 - review-data.js e review.css — registros editoriais locais, exportação/importação e interface
 - .github/workflows/ci.yml — verificação de sintaxe e dados
 - GitHub Pages: publicação automática da branch main, pasta / (root)
@@ -44,6 +45,8 @@ O catálogo agora inclui **59 dossiês**. Em JoJo, estão os oito protagonistas 
 A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opcional da **Dragão Brasil nº 199**, com Arma Ancestral, Código do Samurai, Grito de Kiai, melhorias e poderes por nível. A descrição do livro e os custos se encontram na edição mencionada; a ficha é uma adaptação não oficial, com escolhas opcionais sujeitas à mesa.
 
 **Imagens locais:** os 59 personagens têm um pôster-reserva original em `assets/portraits/{id}.svg`. Ele aparece atrás da arte externa durante o carregamento, garantindo uma imagem identificável mesmo que o servidor remoto falhe. Pôsteres-reserva são ilustrações gráficas simbólicas e não fingem ser arte oficial das obras. A ficha de D. mantém `assets/portraits/d-salvage.avif` na galeria de equipamentos, com uma representação de armadura improvisada (Scrapframe), sem cyberskeleton. O retrato principal, porém, utiliza a terceira imagem enviada pelo usuário, otimizada e hospedada localmente.
+
+**Retratos corrigidos:** 20 cards que exibiam apenas arte simbólica agora usam arquivos do próprio repositório: Kars e oito protagonistas de JoJo, Denji, Gojo, Midoriya, Shigaraki e sete Lord Ravagers de Honkai: Star Rail. As URLs de origem, páginas e créditos estão em `assets/character-art/sources.json`; os arquivos locais não dependem de hotlink. **Diamond, Taravan e Shuhu** continuam com símbolos e a indicação “RETRATO PENDENTE”, porque não foi confirmada uma aparência para cada um. As capturas de trailer dos Lord Ravagers representam a identidade visual mostrada na obra e não alteram as regras das fichas.
 
 **Artes do usuário — 19/11/2026:** foram recebidas dez imagens, associadas *exatamente* nesta ordem: Dio Brando → `jojo-dio1`, DIO → `jojo-dio3`, D. → `d`, Funny Valentine → `jojo-valentine`, Gyro Zeppeli → `gyro`, Enrico Pucci → `jojo-pucci`, Yoshikage Kira → `jojo-kira`, Tooru → `jojo-tooru`, Diavolo → `jojo-diavolo` e Zandar One Kuwabara → `em-zandar`. Os originais estão em `assets/art/*.png`, e versões WebP de menor tamanho ficam em `assets/art-optimized/*.webp`. O site carrega as versões WebP pelo script `user-gallery.js`; não utiliza URLs de terceiros para esses dez retratos. Essas imagens foram fornecidas pelo usuário e não possuem créditos autorais individuais verificados. O visual da ilustração de Funny Valentine foi mantido conforme enviado, sem substituição por arte oficial. O carregamento remoto de outros personagens continua sujeito a bloqueios de servidores externos, com fallback SVG local.
 
