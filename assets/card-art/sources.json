@@ -1,0 +1,242 @@
+[
+  {
+    "id": "ado",
+    "asset": "assets/card-art/ado.webp",
+    "source_image": "https://rockinon.com/images/entry/default/207107/1",
+    "source_page": "https://rockinon.com/news/detail/207107",
+    "credit": "Persona ilustrada de Ado · divulgação em rockin'on",
+    "note": "Fonte de imagem substituída após falha na URL anterior."
+  },
+  {
+    "id": "cipher",
+    "asset": "assets/card-art/cipher.webp",
+    "source_image": "https://miyoversee.com/wp-content/uploads/2025/06/cipher.webp",
+    "source_page": "https://miyoversee.com/quantum/cipher/",
+    "credit": "Arte da personagem · Miyoversee",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "cyrene",
+    "asset": "assets/card-art/cyrene.webp",
+    "source_image": "https://static.zerochan.net/Cyrene.%28Honkai.Star.Rail%29.full.4623397.jpg",
+    "source_page": "https://www.hoyoverse.com/en-us/news/160640",
+    "credit": "Arte promocional da HoYoverse, reproduzida em Zerochan",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "david",
+    "asset": "assets/card-art/david.webp",
+    "source_image": "https://i0.wp.com/thepathwitcher.blog/wp-content/uploads/2024/05/david-main-image.png?fit=1200%2C600&ssl=1",
+    "source_page": "https://thepathwitcher.blog/2024/05/16/david-martinez-myth-special/",
+    "credit": "Cena de Edgerunners · The Path",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "diego",
+    "asset": "assets/card-art/diego.webp",
+    "source_image": "https://jojo-portal-anime.com/sbr/assets/images/pc/character/img_character-visual-03.png",
+    "source_page": "https://jojo-portal-anime.com/sbr/character/03/",
+    "credit": "Arte oficial de Diego Brando · anime Steel Ball Run",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "diego-alternative",
+    "asset": "assets/card-art/diego-alternative.webp",
+    "source_image": "https://static.jojowiki.com/images/e/e9/latest/20230601020731/Alternate_World_Diego_ASBR.png",
+    "source_page": "https://jojowiki.com/File:Alternate_World_Diego_ASBR.png",
+    "credit": "Diego paralelo e THE WORLD · All-Star Battle R, via JoJo Wiki",
+    "note": "Fonte de imagem substituída após falha na URL anterior."
+  },
+  {
+    "id": "elster",
+    "asset": "assets/card-art/elster.webp",
+    "source_image": "https://images.nintendolife.com/d03911fb9b35c/signalis-cover.cover_large.jpg",
+    "source_page": "https://www.nintendolife.com/reviews/switch-eshop/signalis",
+    "credit": "Arte de capa de SIGNALIS · Nintendo Life / rose-engine",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "em-acheron",
+    "asset": "assets/card-art/em-acheron.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1308.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "em-herta",
+    "asset": "assets/card-art/em-herta.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1401.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "goku",
+    "asset": "assets/card-art/goku.webp",
+    "source_image": "https://cdn.dokkan.fyi/assets/en/character/card/1006760/card_1006760_character.png",
+    "source_page": "https://en.dragon-ball-official.com/",
+    "credit": "Dragon Ball Dokkan Battle — imagem do jogo",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "goku-daima",
+    "asset": "assets/card-art/goku-daima.webp",
+    "source_image": "https://images8.alphacoders.com/135/1355535.jpeg",
+    "source_page": "https://en.dragon-ball-official.com/",
+    "credit": "Dragon Ball Daima / imagem promocional",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "goku-gt",
+    "asset": "assets/card-art/goku-gt.webp",
+    "source_image": "https://i.imgur.com/uAL1QP5.jpg",
+    "source_page": "https://en.dragon-ball-official.com/",
+    "credit": "Imagem promocional Dragon Ball GT",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "goku-super",
+    "asset": "assets/card-art/goku-super.webp",
+    "source_image": "https://en.dragon-ball-official.com/dragonball/jp/news/2023/12/%E3%83%AC%E3%82%B8%E3%82%A7%E3%83%B3%E3%82%BA%E7%94%A8%E6%82%9F%E7%A9%BA%28CMYK%29_%E5%85%88%E7%94%9F%E3%81%AE%E3%82%B5%E3%82%A4%E3%83%B3%E4%BB%98%E3%81%8D.jpg?_=1771666020",
+    "source_page": "https://en.dragon-ball-official.com/",
+    "credit": "Dragon Ball Official — Toyotarou",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-aglaea",
+    "asset": "assets/card-art/hsr-aglaea.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1402.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-anaxa",
+    "asset": "assets/card-art/hsr-anaxa.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1405.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-castorice",
+    "asset": "assets/card-art/hsr-castorice.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1407.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-cerydra",
+    "asset": "assets/card-art/hsr-cerydra.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1412.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-evernight",
+    "asset": "assets/card-art/hsr-evernight.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1413.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-hyacine",
+    "asset": "assets/card-art/hsr-hyacine.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1409.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-hysilens",
+    "asset": "assets/card-art/hsr-hysilens.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1410.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-mydei",
+    "asset": "assets/card-art/hsr-mydei.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1404.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-phainon",
+    "asset": "assets/card-art/hsr-phainon.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1408.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-terrae",
+    "asset": "assets/card-art/hsr-terrae.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1414.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "hsr-tribbie",
+    "asset": "assets/card-art/hsr-tribbie.webp",
+    "source_image": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1403.png",
+    "source_page": "https://hsr.hoyoverse.com/en-us/character",
+    "credit": "HoYoverse / materiais do jogo via StarRailRes",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "makima",
+    "asset": "assets/card-art/makima.webp",
+    "source_image": "https://images8.alphacoders.com/128/thumb-1920-1284789.jpg",
+    "source_page": "https://chainsaw-man.fandom.com/wiki/Makima",
+    "credit": "Ilustração de Makima por eastman, via Wallpaper Abyss",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "marin",
+    "asset": "assets/card-art/marin.webp",
+    "source_image": "https://static.zerochan.net/Kitagawa.Marin.full.3561466.jpg",
+    "source_page": "https://www.zerochan.net/3561466",
+    "credit": "Design de Marin Kitagawa por Ishida Kazumasa · reprodução em Zerochan",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "optimus",
+    "asset": "assets/card-art/optimus.webp",
+    "source_image": "https://www.deviantart.com/barricade24/art/Optimus-Prime-Prime-Beast-Hunters-Promo-655061791",
+    "source_page": "https://www.deviantart.com/barricade24/art/Optimus-Prime-Prime-Beast-Hunters-Promo-655061791",
+    "credit": "Render de Optimus Prime Beast Hunters por Barricade24 · DeviantArt",
+    "note": "Fonte visual equivalente à referência original da ficha; cópia WebP local para evitar falha de hotlink."
+  },
+  {
+    "id": "rentarou",
+    "asset": "assets/card-art/rentarou.webp",
+    "source_image": "https://hyakkano.com/xUtUy1FY/wp-content/themes/hyakkano_v1/assets/images/common/character/rentaro/img_rentaro.png",
+    "source_page": "https://hyakkano.com/character/rentaro/",
+    "credit": "Arte oficial do anime · hyakkano.com",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "yoru",
+    "asset": "assets/card-art/yoru.webp",
+    "source_image": "https://statico.soapcentral.com/editor/2025/08/82cc1-17555889435280-1920.jpg",
+    "source_page": "https://chainsaw-man.fandom.com/wiki/Yoru",
+    "credit": "Painel de Chainsaw Man, reproduzido em SoapCentral",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  },
+  {
+    "id": "yuta",
+    "asset": "assets/card-art/yuta.webp",
+    "source_image": "https://a.storyblok.com/f/178900/750x719/abf59283d4/df68b91a4f7c133352f2a4867d1bf5771627578039_main.png/m/filters%3Aquality%2895%29format%28webp%29",
+    "source_page": "https://jujutsu-kaisen.fandom.com/wiki/Yuta_Okkotsu",
+    "credit": "Crunchyroll / arte promocional de JJK 0",
+    "note": "Referência visual já presente na ficha; arquivo local otimizado para evitar bloqueio de imagem externa."
+  }
+]

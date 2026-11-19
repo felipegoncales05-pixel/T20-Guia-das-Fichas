@@ -1,7 +1,7 @@
 const fs=require("node:fs");
 const vm=require("node:vm");
 const assert=require("node:assert/strict");
-const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
+const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync("data.js","utf8"),context,{filename:"data.js"});
@@ -13,6 +13,8 @@ vm.runInNewContext(fs.readFileSync("mega-data.js","utf8"),context,{filename:"meg
 vm.runInNewContext(fs.readFileSync("mega-runtime.js","utf8"),context,{filename:"mega-runtime.js"});
 vm.runInNewContext(fs.readFileSync("catalog-media.js","utf8"),context,{filename:"catalog-media.js"});
 for(const n of ["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
+vm.runInNewContext(fs.readFileSync("local-media.js","utf8"),context,{filename:"local-media.js"});
+vm.runInNewContext(fs.readFileSync("review-data.js","utf8"),context,{filename:"review-data.js"});
 const project=context.window.T20_DATA;
 assert.ok(project&&Array.isArray(project.characters));
 assert.equal(project.characters.length,59);
@@ -27,7 +29,7 @@ for(const char of project.characters){
  assert.deepEqual(Array.from(char.progression,p=>Number(p[0])),Array.from({length:12},(_,i)=>i+1),char.id+" níveis");
  assert.ok(char.skills.length>4&&char.gear.length>2&&char.techniques.length>2,char.id+" ficha incompleta");
  assert.ok(char.sources.length&&char.media.length,char.id+" fontes e mídia");
- for(const obj of [char.portrait,...char.media])assert.ok(/^(https:\/\/|data:image\/svg\+xml;charset=utf-8,|\.\/assets\/(portraits|art|art-optimized)\/[a-z0-9-]+\.(svg|webp|avif|png|jpg))/.test(obj.url||obj.image),char.id+" URL de mídia inválida");
+ for(const obj of [char.portrait,...char.media])assert.ok(/^(https:\/\/|data:image\/svg\+xml;charset=utf-8,|\.\/assets\/(portraits|art|art-optimized|card-art)\/[a-z0-9-]+\.(svg|webp|avif|png|jpg))/.test(obj.url||obj.image),char.id+" URL de mídia inválida");
  assert.ok(char.notes.attributes&&char.notes.progression,char.id+" notas ausentes");
 }
 assert.match(fs.readFileSync("index.html","utf8"),/id="app"/);
@@ -52,7 +54,7 @@ assert.equal(Object.keys(context.window.T20_GOKU_VARIANTS).length,4);
 console.log("Megacatálogo validado: 59 cards, quatro Gokus e manual de 12 níveis.");
 
 assert.ok(context.window.T20_MEDIA_BACKUPS,"Fontes de recuperação de imagens ausentes");
-for(const id of ["diego","marin","ado","elster"]){const c=project.characters.find(x=>x.id===id);assert.ok(c.portrait.url.startsWith("https://"),id+" sem retrato remoto");}
+for(const id of ["diego","marin","ado","elster"]){const c=project.characters.find(x=>x.id===id);assert.ok(c.portrait.url.startsWith("./assets/card-art/"),id+" sem retrato local");}
 assert.match(fs.readFileSync("app.js","utf8"),/ORDEM ALFABÉTICA/);
 
 const a=project.characters.find(c=>c.id==="em-acheron");
@@ -91,3 +93,18 @@ for(const id of userArt){
 }
 assert.equal(project.characters.find(c=>c.id==="d").info.className,"Arcanista — Bruxo","D. perdeu a build");
 assert.match(project.characters.find(c=>c.id==="d").notes.equipment,/sucata local/i,"D. perdeu o traje de sucata");
+const mediaSources=JSON.parse(fs.readFileSync("assets/card-art/sources.json","utf8"));
+assert.equal(mediaSources.length,30,"Total de retratos recuperados");
+for(const entry of mediaSources){const body=fs.readFileSync(entry.asset);assert.ok(body.length>2000,entry.id+" sem arte local");assert.equal(body.toString("ascii",0,4),"RIFF",entry.id+" WebP inválido");assert.ok(entry.source_page.startsWith("https://"),entry.id+" sem fonte da arte");}
+assert.equal(context.window.T20_ALTERNATES.diego.alternative.portrait.url,"./assets/card-art/diego-alternative.webp");
+for(const form of ["gt","daima","super"])assert.equal(context.window.T20_GOKU_VARIANTS[form].portrait.url,"./assets/card-art/goku-"+form+".webp");
+assert.equal(context.window.T20_REVIEW.list().length,0,"Uma decisão não pode vir aprovada de fábrica");
+const review=context.window.T20_REVIEW;
+const sample=review.add({type:"regra",character:"diego",variant:"alternative",title:"Conferir custo",body:"Verificar livro antes de aprovar",page:""});
+assert.equal(sample.status,"pendente");
+assert.ok(review.change(sample.id,"aprovado"));
+const exported=review.exportRecords();
+assert.equal(JSON.parse(exported)[0].status,"aprovado");
+assert.throws(()=>review.importRecords('{"invalido":true}'));
+assert.equal(review.list().length,1,"Importação inválida alterou registros");
+assert.ok(review.remove(sample.id));

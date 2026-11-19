@@ -10,7 +10,7 @@ const scriptRuntime=fs.readFileSync("expansion-runtime.js","utf8");
 const scriptMega=fs.readFileSync("mega-data.js","utf8");
 const scriptMegaRuntime=fs.readFileSync("mega-runtime.js","utf8");
 const scriptCatalogMedia=fs.readFileSync("catalog-media.js","utf8");
-const addons=["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js"].map(name=>[name,fs.readFileSync(name,"utf8")]);
+const addons=["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","review-data.js"].map(name=>[name,fs.readFileSync(name,"utf8")]);
 const hooks={};
 const elements=new Map();
 function get(id){if(!elements.has(id))elements.set(id,{id,innerHTML:"",value:"",classList:{add(){},remove(){}},textContent:""});return elements.get(id);}
@@ -38,6 +38,7 @@ for(const [name,src] of addons)vm.runInNewContext(src,context,{filename:name});
 vm.runInNewContext(scriptApp,context,{filename:"app.js"});
 assert.equal((get("roster").innerHTML.match(/class="roster-card /g)||[]).length,59);
 assert.match(get("app").innerHTML,/PESQUISAR FICHAS/);
+assert.match(get("app").innerHTML,/PAINEL DE REVISÃO/);
 assert.match(get("app").innerHTML,/<option value="jojo">JoJo<\/option>/);
 const cardNames=[...get("roster").innerHTML.matchAll(/aria-label="Abrir ficha de ([^"]+)"/g)].map(x=>x[1]);
 const compare=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
@@ -73,7 +74,7 @@ assert.doesNotMatch(get("roster").innerHTML,/Makima/);
 hooks["document:change"]({target:{id:"universe",value:"all"}});
 
 for(const c of fakeWindow.T20_DATA.characters){
- for(const tab of ["overview","attributes","equipment","abilities","progression","techniques","sources"]){
+ for(const tab of ["overview","attributes","equipment","abilities","progression","techniques","sources","compare","review"]){
   location.hash="#/"+c.id+"/"+tab;
   hooks["window:hashchange"]();
   assert.match(get("app").innerHTML,new RegExp(c.id==="d"?"D\\.":c.name.replace(/[.*+?^$()|[\]{}\\]/g,"\\$&").split(" ")[0]));
@@ -83,9 +84,11 @@ for(const c of fakeWindow.T20_DATA.characters){
   if(tab==="progression"){assert.match(get("app").innerHTML,/level-grid/);hooks["document:input"]({target:{id:"levelSelect",value:"12"}});assert.equal(get("globalLevelText").textContent,"12");assert.match(get("progressStats").innerHTML,/PONTOS DE VIDA/);assert.match(get("levelReadout").innerHTML,/COMO USAR NA MESA/);}
   if(tab==="abilities"){assert.match(get("app").innerHTML,/COMO USAR NA MESA/);assert.match(get("app").innerHTML,/Habilidades desbloqueadas/);}
   if(tab==="sources")assert.match(get("app").innerHTML,/Página de cada poder/);
+  if(tab==="compare")assert.match(get("app").innerHTML,/compare-table/);
+  if(tab==="review")assert.match(get("app").innerHTML,/Conferência pendente/);
  }
 }
-console.log("VALIDADO: busca, doze cards, sete abas por personagem, radar, equipamento e progressão.");
+console.log("VALIDADO: busca, 59 cards, nove abas por personagem, radar, equipamento e progressão.");
 
 location.hash="#/diego/overview";
 hooks["window:hashchange"]();
@@ -93,9 +96,18 @@ assert.match(get("app").innerHTML,/Scary Monsters/i);
 hooks["document:click"]({target:{closest(selector){return selector==="[data-diego-toggle]"?{}:null}}});
 assert.match(get("app").innerHTML,/THE WORLD/);
 assert.match(get("app").innerHTML,/SCARY MONSTERS/);
-location.hash="#/diego/progression";
+location.hash="#/diego/alternative/progression";
 hooks["window:hashchange"]();
 assert.match(get("app").innerHTML,/Coração Heroico/);
 hooks["document:click"]({target:{closest(selector){return selector==="[data-diego-toggle]"?{}:null}}});
 assert.match(get("app").innerHTML,/Forma Selvagem/);
 console.log("Alternative validado: duas fichas independentes no mesmo card.");
+location.hash="#/diego/alternative/compare";hooks["window:hashchange"]();
+assert.match(get("app").innerHTML,/THE WORLD/);
+assert.match(get("app").innerHTML,/Scary Monsters/);
+location.hash="#/goku/gt/progression";hooks["window:hashchange"]();
+assert.match(get("app").innerHTML,/GT|SUPER SAIYAJIN 4/i);
+location.hash="#/arquivo";hooks["window:hashchange"]();
+assert.match(get("app").innerHTML,/ARQUIVO DE REVISÃO/);
+assert.match(get("app").innerHTML,/59|Son Goku/);
+console.log("Comparação, URLs de variantes e painel editorial validados.");

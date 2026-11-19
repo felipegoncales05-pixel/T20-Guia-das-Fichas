@@ -4,7 +4,8 @@ const {pathToFileURL}=require("node:url");
 const path=require("node:path");
 const fs=require("node:fs");
 const assert=require("node:assert/strict");
-const sizes=[[320,700],[360,740],[375,812],[390,844],[430,932],[600,900],[768,1024],[820,1180],[1024,768],[1440,900],[844,390]];
+const quick=process.env.T20_QUICK==="1";
+const sizes=quick?[[375,812],[768,1024],[1440,900]]:[[320,700],[360,740],[375,812],[390,844],[430,932],[600,900],[768,1024],[820,1180],[1024,768],[1440,900],[844,390]];
 const site=pathToFileURL(path.resolve("index.html")).href;
 const allIds=["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-johnny","jojo-gappy","denji","satoru-gojo","shigaraki","midoriya"];
 const representativeIds=["gyro","d","david","diego","jojo-johnny","jojo-valentine","jojo-jolyne","jojo-jonathan","em-acheron","satoru-gojo","midoriya","goku","elster"];
@@ -22,7 +23,7 @@ async function assertLayout(page,label){
  for(const t of p.tabs)assert.ok(t[0]>=-2&&t[1]<=p.width+2&&t[2]>=40&&t[3]!=="none",label+" aba inacessível "+t[4]);
 }
 (async()=>{
- const browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
+ const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:["--no-sandbox"]});
  try{
   for(const [width,height] of sizes){
    const page=await browser.newPage({viewport:{width,height}});
@@ -56,9 +57,9 @@ async function assertLayout(page,label){
    await page.locator(".topbar").scrollIntoViewIfNeeded();
 
    if(width===375||width===768)await page.screenshot({path:"tests/screenshots/"+width+"-catalogo.png"});
-   for(const id of ([375,768,1440].includes(width)?allIds:representativeIds)){
+   for(const id of (!quick&&[375,768,1440].includes(width)?allIds:representativeIds)){
     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
-    assert.equal(await page.locator(".detail-tabs button").count(),7);
+    assert.equal(await page.locator(".detail-tabs button").count(),9);
     if(id==="em-acheron")assert.match(await page.locator("#detail-section").textContent(),/Samurai|katana/i);
     if(width===375&&["jojo-dio1","jojo-dio3","d","jojo-valentine","gyro","jojo-pucci","jojo-kira","jojo-tooru","jojo-diavolo","em-zandar"].includes(id)){
      const portrait=page.locator(".hero-portrait img:not(.portrait-underlay)");
@@ -66,6 +67,12 @@ async function assertLayout(page,label){
      assert.match(await portrait.getAttribute("src"),/assets\/art-optimized\/[a-z0-9-]+\.webp$/);
      await portrait.evaluate(el=>el.decode());
      assert.ok(await portrait.evaluate(el=>el.naturalWidth>0),id+": imagem WebP local não carregou no celular");
+    }
+    if(width===375&&["ado","diego","elster","goku","hsr-aglaea","em-acheron"].includes(id)){
+     const portrait=page.locator(".hero-portrait img:not(.portrait-underlay)");
+     await portrait.evaluate(el=>el.decode());
+     assert.ok(await portrait.evaluate(el=>el.naturalWidth>0),id+": retrato local não carregou");
+     assert.match(await portrait.getAttribute("src"),/assets\/card-art\/[a-z0-9-]+\.webp$/);
     }
     await assertLayout(page,width+" "+id+" dossiê");
     if(width===375&&(id==="gyro"||id==="rentarou"))await page.screenshot({path:"tests/screenshots/375-"+id+".png"});

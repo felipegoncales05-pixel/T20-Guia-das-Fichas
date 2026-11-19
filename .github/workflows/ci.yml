@@ -27,6 +27,8 @@ jobs:
           node --check heroes-custom.js
           node --check d-salvage.js
           node --check user-gallery.js
+          node --check local-media.js
+          node --check review-data.js
           node --check app.js
           node --check tests/site-smoke.cjs
           node --check tests/browser-lite.cjs

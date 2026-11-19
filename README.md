@@ -17,7 +17,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - **Makima** — Feiticeira Feérica, magia de controle com testes de resistência
 - **Optimus Prime** — Golem de Ferro Paladino, chassi, aura, defesa e liderança
 
-**Recursos:** 59 cards em ordem alfabética, pesquisa em destaque e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes e créditos. Cada card gera uma URL de hash compartilhável, por exemplo #/gyro/attributes.
+**Recursos:** 59 cards em ordem alfabética, pesquisa em destaque e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes, créditos, comparação e revisão. Cada card gera uma URL de hash compartilhável, por exemplo `#/gyro/attributes`.
 
 ## Estrutura
 
@@ -31,6 +31,9 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - expansion-runtime.js — cálculos por nível das novas fichas (PV/PM, defesa, CDs, atributos, perícias)
 - expansion.css — temas das sete novas fichas e do modo THE WORLD
 - tests/site-smoke.cjs — teste mínimo de integridade de dados
+- local-media.js — retratos locais recuperados das referências da ficha
+- assets/card-art/sources.json — proveniência dos retratos recuperados
+- review-data.js e review.css — registros editoriais locais, exportação/importação e interface
 - .github/workflows/ci.yml — verificação de sintaxe e dados
 - GitHub Pages: publicação automática da branch main, pasta / (root)
 
@@ -54,7 +57,7 @@ A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opci
 - A **barra de pesquisa** tem destaque no catálogo e localiza nome, universo, classe e descrição. Pode pesquisar sem acentos; use a tecla `/` quando o catálogo estiver aberto. `Esc` limpa uma busca ativa.
 - Os filtros mostram a categoria **JoJo** (partes 1 a 8), em lugar de Steel Ball Run; o filtro geral Honkai: Star Rail também inclui Herdeiros de Chrysos e Emanadores.
 - A contagem indica quantos resultados foram encontrados. O botão **LIMPAR** restaura o catálogo completo.
-- Imagens continuam externas, mas retratos problemáticos de Diego, Marin, Ado e Elster têm fontes alternativas identificadas em `catalog-media.js`. Quando um site bloqueia as tentativas, a interface apresenta uma **arte tipográfica local com nome e cor do personagem**, não o ícone quebrado do navegador. As artes tipográficas de vários dossiês adicionais são intencionais e não representam retratos oficiais.
+- Os 30 retratos externos que respondiam com arte correspondente foram convertidos para WebP local em `assets/card-art/`, incluindo Diego, Marin, Ado, Elster, Chrysos, Yuta e variantes de Goku. A proveniência e os créditos estão em `assets/card-art/sources.json`. As dez artes enviadas pelo usuário continuam em `assets/art-optimized/`. Outros cards com pôster simbólico são marcados como **retrato pendente**; não há personagem oficial confirmado nesses arquivos. O fallback tipográfico evita ícones quebrados se um recurso secundário falhar.
 - `catalog.css` implementa busca, contador e arte-reserva de maneira responsiva.
 
 ## Abrir localmente
@@ -72,7 +75,7 @@ O workflow de deploy customizado foi removido porque não é necessário para pu
 
 ## Precisão de regras
 
-Fichas iniciais e progressões são adaptações baseadas na conversa de criação. **Requerem conferência na edição oficial em uso e nas erratas**, sobretudo custos de PM, pré-requisitos de poderes de suplementos, itens iniciais e requisitos de devoção. Itens com visual de outro universo não recebem estatísticas novas. A classe, as habilidades, as magias e as condições de uso continuam as de Tormenta20. Valkyrie como parceiro inicial depende de anuência do mestre.
+Fichas iniciais e progressões são adaptações já existentes neste repositório. **Todas entram na fila de revisão**, especialmente as geradas em lote: custos de PM, pré-requisitos de poderes de suplementos, itens iniciais e requisitos de devoção exigem conferência na edição oficial em uso e nas erratas. A interface não declara uma build aprovada automaticamente. Itens com visual de outro universo não recebem estatísticas novas. Valkyrie como parceiro inicial depende de anuência do mestre.
 
 Livros oficiais:
 - [Tormenta20 — Edição Jogo do Ano](https://jamboeditora.com.br/produto/tormenta20-edicao-jogo-do-ano/)
@@ -81,14 +84,21 @@ Livros oficiais:
 
 ## Imagens, uso e créditos
 
-O projeto agora combina **imagens locais** e **URLs externas identificadas**. Dez retratos enviados pelo usuário estão armazenados em PNG e exibidos em WebP otimizado, além dos pôsteres SVG locais de reserva. As outras referências externas podem sofrer bloqueio de hotlink; nesses casos, aparece a arte-reserva do próprio projeto. Créditos individuais das dez imagens enviadas não foram identificados e são descritos como arte fornecida pelo usuário; isso não implica cessão de direitos. Para substituir artes, modifique os registros em `user-gallery.js`, `data.js` ou `mega-data.js` conforme aplicável.
+O projeto combina dez retratos enviados pelo usuário, 30 referências externas copiadas em WebP local e pôsteres SVG simbólicos de reserva. Os arquivos em `assets/card-art/` têm origem e crédito registrados em `sources.json`; a presença local resolve falhas de hotlink, sem atribuir licença ao projeto. Os créditos individuais das dez imagens enviadas não foram identificados e são descritos como arte fornecida pelo usuário. Para substituir artes, atualize `local-media.js`, `user-gallery.js` ou os dados de origem e confira o arquivo de proveniência.
 
-**Diego — segredo:** na ficha de Diego, use o botão `Alternative` acima do retrato para alternar entre Scary Monsters (Druida) e THE WORLD (Guerreiro). As versões possuem estatísticas e progressões independentes. THE WORLD não congela literalmente o tempo: Surto Heroico simula apenas uma ação extra com PM.
+**Diego — segredo:** na ficha de Diego, use o botão `THE WORLD / ALTERNATIVE` acima do retrato para alternar entre Scary Monsters (Druida) e THE WORLD (Guerreiro). As versões possuem estatísticas e progressões independentes. Links diretos: `#/diego/normal/overview` e `#/diego/alternative/overview`. THE WORLD não congela literalmente o tempo: Surto Heroico simula apenas uma ação extra com PM.
 
 **Adaptações não literais:** os equipamentos de Yoru devem ser construídos pelo Inventor, e Optimus não se transforma automaticamente em caminhão. Ado usa avatar ilustrado creditado; o site não afirma mostrar uma foto pessoal da cantora. Devido a bloqueios de hotlink, imagens externas podem exibir pôsteres-reserva locais.
 
 **D. (armadura final):** o retrato principal usa a imagem enviada pelo usuário (terceira na ordem), armazenada em `assets/art/d.png` e exibida por `assets/art-optimized/d.webp`. A ficha mantém a descrição da armadura improvisada por Capri com sucata local. A ilustração secundária `assets/portraits/d-salvage.avif` mostra o equipamento Scrapframe; não é o cyberskeleton de David Martinez.
 
 Todos os textos de observação no site são creditados a **O Sistema**.
+
+## Comparação e revisão
+
+- A aba **Comparar** coloca lado a lado duas versões e seus níveis (1–12). Diego tem duas versões; Goku tem quatro. Nas outras fichas, compare dois níveis da mesma build. Os valores são os do repositório e permanecem sujeitos à revisão editorial.
+- A aba **Revisão** por personagem e o painel `#/arquivo` permitem registrar fontes, regras, decisões, pendências e correções. Um registro nasce pendente; sua aprovação é manual. O painel lista as 59 fichas como pendentes de conferência, independentemente do estado de uma anotação individual.
+- As anotações ficam em `localStorage` **somente no navegador usado**. Exporte `t20-guia-revisao.json` para guardar ou compartilhar e importe o arquivo em outro navegador. Isso não altera `data.js` nem publica decisões para outros visitantes. Para consolidar uma decisão no projeto, revise o JSON e atualize os dados versionados no GitHub.
+- Páginas explícitas já presentes nos guias são mostradas. Referências a capítulos/verbete são identificadas como tal; ausências aparecem como pendências, sem completar números por adivinhação.
 
 Projeto pessoal, gratuito, sem vínculo com Jambô Editora, CD PROJEKT RED, Netflix, Shueisha ou HoYoverse.
