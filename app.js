@@ -150,7 +150,7 @@ function card(c){
   '<p>'+e(shown.info.race)+' · '+e(shown.info.className)+'<br>'+e(shown.universe)+'</p><div class="card-action"><span>ACESSAR FICHA</span><b aria-hidden="true">↗</b></div></div></button>';
  if(!alternate)return button;
  const options=c.id==="diego"?[["normal","SM"],["alternative","TW"]]:[["z","DBZ"],["gt","GT"],["daima","DAIMA"],["super","SUPER"]];
- return '<div class="roster-entry">'+button+'<div class="card-variant-switch" role="group" aria-label="Versões de '+e(c.name)+'">'+options.map(([key,label])=>'<button type="button" data-card-switch="'+e(c.id)+'" data-card-mode="'+e(key)+'" aria-pressed="'+(mode===key)+'" aria-label="Visualizar '+e(c.name)+' · '+e(label)+'">'+e(label)+'</button>').join("")+'</div></div>';
+ return '<div class="roster-entry">'+button+'<div class="card-variant-switch" role="group" aria-label="Versões de '+e(c.name)+'">'+options.map(([key,label])=>'<button type="button" data-card-switch="'+e(c.id)+'" data-card-mode="'+e(key)+'" aria-pressed="'+(mode===key)+'" aria-label="Visualizar '+e(c.name)+' · '+e(c.id==="diego"?(key==="normal"?"Scary Monsters":"The World"):label)+'">'+e(label)+'</button>').join("")+'</div></div>';
 }
 function plannedCard(c){
  const v=visualFor(c,"principal");
