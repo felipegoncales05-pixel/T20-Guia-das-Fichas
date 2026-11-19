@@ -1,6 +1,6 @@
 # O Sistema // T20 — relatório da Fase II
 
-Revisão da branch art-direction-overhaul sobre o trabalho visual anterior. A branch principal não foi alterada.
+Revisão das 59 fichas T20 originais na branch art-direction-overhaul sobre o trabalho visual anterior. Depois desta passagem, foram acrescentados [dez dossiês de planejamento](expansao-pendente.md), sem regras mecânicas presumidas. A branch principal não foi alterada.
 
 ## Cards e dossiês modificados
 

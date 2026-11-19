@@ -21,4 +21,13 @@ Quando a mesa fornecer uma build com regras conferidas, cadastre seus dados na f
 
 ## Evidência visual
 
-As capturas de catálogo e dos dossiês em 375 e 1440 px serão anexadas após a validação Chromium da expansão. A curadoria e as capturas da passagem anterior estão em [relatorio-fase-ii.md](relatorio-fase-ii.md).
+[Os dez cards no celular](screenshots/expansion/375-planejados.webp). Duas capas em desktop e celular demonstram o enquadramento sem atribuir aparência canônica:
+
+| Dossiê | Desktop 1440 px | Celular 375 px |
+| --- | --- | --- |
+| Toji | ![Capa tipográfica de Toji no desktop](screenshots/expansion/1440-toji-planejado.webp) | ![Capa tipográfica de Toji no celular](screenshots/expansion/375-toji-planejado.webp) |
+| Isaac | ![Capa tipográfica de Isaac no desktop](screenshots/expansion/1440-isaac-planejado.webp) | ![Capa tipográfica de Isaac no celular](screenshots/expansion/375-isaac-planejado.webp) |
+
+[Soul of Cinder no celular](screenshots/expansion/375-soul-of-cinder-planejado.webp) mostra o terceiro tratamento. São capturas reais do [Chromium em 11 viewports](https://github.com/felipegoncales05-pixel/T20-Guia-das-Fichas/actions/runs/44564333471): sintaxe, integridade, busca, filtros, dez rotas pendentes, ausência de estatísticas presumidas, progressão vazia, formulário editorial, imagens das fichas existentes, variantes, movimento reduzido e ausência de corte horizontal passaram. O artefato `responsivo-capturas` contém os PNG originais; estes WebP são conversões de formato para revisão no repositório.
+
+A curadoria e as capturas da passagem anterior estão em [relatorio-fase-ii.md](relatorio-fase-ii.md).
