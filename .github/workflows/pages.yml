@@ -27,6 +27,7 @@ jobs:
           node --check data.js
           node --check app.js
           node tests/site-smoke.cjs
+          node tests/browser-lite.cjs
       - name: Montar site estático
         run: |
           mkdir -p _site
