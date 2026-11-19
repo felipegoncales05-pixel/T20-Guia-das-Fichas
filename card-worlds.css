@@ -1,0 +1,223 @@
+/* Identidades dos cards. Mantém a estrutura e a leitura da ficha em cada universo. */
+.roster-card .world-mark{
+ position:absolute;z-index:4;top:12px;right:11px;max-width:52%;
+ padding:5px 8px;border:1px solid var(--card-accent,#7edbd6);
+ background:#07121de0;color:var(--card-accent,#7edbd6);
+ font:700 11px/1.1 var(--mono);letter-spacing:.1em;text-align:right;
+ box-shadow:3px 3px 0 #050b12ba;
+}
+.roster-card .card-topline{top:46px;right:13px;width:55px}
+.roster-card[data-world="jojo"]{
+ border:2px solid var(--card-accent);
+ border-radius:3px 23px 3px 3px;
+ box-shadow:inset 0 0 0 3px #0c0d16,0 14px 32px #0006;
+}
+.roster-card[data-world="jojo"] .photo{
+ background:radial-gradient(circle at 65% 18%,color-mix(in srgb,var(--card-accent),#fff 16%),transparent 55%),
+ repeating-conic-gradient(from 10deg at 48% 38%,#301f46 0 10deg,#121328 10deg 22deg);
+}
+.roster-card[data-world="jojo"] .photo img.portrait-underlay{opacity:.35;filter:saturate(1.1)}
+.roster-card[data-world="jojo"] .photo img:not(.portrait-underlay){filter:saturate(1.18) contrast(1.1) drop-shadow(5px 4px 0 #130d26a8)}
+.roster-card[data-world="jojo"] .photo::before{
+ content:"ゴ ゴ ゴ";position:absolute;z-index:2;right:12px;top:66px;
+ writing-mode:vertical-rl;transform:rotate(11deg);pointer-events:none;
+ font:900 31px/1 var(--head);letter-spacing:-.08em;
+ color:var(--card-accent);opacity:.7;
+ -webkit-text-stroke:1px #19102f;text-shadow:3px 3px 0 #180e27,0 0 19px var(--card-glow);
+}
+.roster-card[data-world="jojo"] .photo::after{
+ z-index:3;background:
+  radial-gradient(circle,#fff7 0 .9px,transparent 1.2px) right top / 9px 9px,
+  linear-gradient(133deg,transparent 38%,color-mix(in srgb,var(--card-accent),transparent 85%) 41%,transparent 45%),
+  linear-gradient(180deg,#1010200c 0%,transparent 42%,#10102083 68%,#080913 96%);
+ mask-image:linear-gradient(90deg,transparent 3%,#000 75%);
+}
+.roster-card[data-world="jojo"] .card-no{
+ top:12px;left:11px;border:2px solid #101020;background:var(--card-accent);
+ color:#141321;font-weight:700;transform:skewX(-9deg);
+ box-shadow:4px 4px 0 #161025;
+}
+.roster-card[data-world="jojo"] .world-mark{
+ background:#101024e6;border-width:2px;transform:rotate(2deg);
+ font-weight:900;letter-spacing:.17em;
+}
+.roster-card[data-world="jojo"] .card-topline{height:5px;transform:skew(-28deg);box-shadow:4px 4px 0 #080a14}
+.roster-card[data-world="jojo"] .card-body{
+ padding-top:35px;background:linear-gradient(0deg,#090a13 12%,#101022e8 69%,#1b163480 93%,transparent);
+ clip-path:polygon(0 6%,100% 0,100% 100%,0 100%);
+}
+.roster-card[data-world="jojo"] .card-body h3{
+ font-style:italic;text-transform:uppercase;letter-spacing:.015em;
+ font-size:clamp(32px,2.8vw,44px);line-height:.91;
+ text-shadow:3px 3px 0 #131224,5px 5px 0 color-mix(in srgb,var(--card-accent),transparent 20%);
+ overflow-wrap:anywhere;
+}
+.roster-card[data-world="jojo"] .card-overline{
+ display:inline-block;padding:3px 7px 3px 5px;
+ color:#111221;background:var(--card-accent);font-weight:700;
+ box-shadow:5px 3px 0 #0009;transform:skewX(-8deg);
+}
+.roster-card[data-world="jojo"] .card-body p{color:#f1eaf7}
+.roster-card[data-world="jojo"] .card-action{border-color:var(--card-accent);font-weight:700}
+.roster-card[data-world="jojo"]:hover,.roster-card[data-world="jojo"]:focus-visible{
+ box-shadow:0 20px 52px #0009,0 0 0 3px var(--card-accent),8px 8px 0 color-mix(in srgb,var(--card-accent),transparent 55%);
+}
+/* Algumas partes mudam o clima do quadrinho sem trocar a cor própria do personagem. */
+.roster-card[data-open="jojo-jonathan"] .photo,
+.roster-card[data-open="jojo-dio1"] .photo{background-color:#472a34}
+.roster-card[data-open="jojo-josuke4"] .photo,
+.roster-card[data-open="jojo-kira"] .photo{background-color:#372349}
+.roster-card[data-open="jojo-jolyne"] .photo,
+.roster-card[data-open="jojo-pucci"] .photo{background-color:#163b42}
+.roster-card[data-open="gyro"] .photo::before,
+.roster-card[data-open="diego"] .photo::before{font-size:26px;opacity:.55}
+
+/* Honkai: vitrine astral, brilho contido e bordas de carta. */
+.roster-card:is([data-world="hsr"],[data-world="chrysos"],[data-world="emanator"]){
+ border-radius:18px 5px 18px 5px;
+ border-color:color-mix(in srgb,var(--card-accent),#e7dfb4 32%);
+ box-shadow:inset 0 0 0 2px #d7e7fd17,inset 0 0 0 6px #111827a8;
+}
+.roster-card:is([data-world="hsr"],[data-world="chrysos"],[data-world="emanator"]) .photo::before{
+ content:"✧";position:absolute;z-index:2;top:65px;right:14px;
+ color:var(--card-accent);font:400 74px/1 Georgia,serif;
+ text-shadow:0 0 22px var(--card-accent);opacity:.48;
+}
+.roster-card:is([data-world="hsr"],[data-world="chrysos"],[data-world="emanator"]) .world-mark{
+ border-radius:16px 0 16px 0;background:#141d31d9;
+}
+.roster-card:is([data-world="hsr"],[data-world="chrysos"],[data-world="emanator"]) .card-body{
+ background:linear-gradient(0deg,#0e1427 5%,#131d35e6 69%,transparent 100%);
+ border-top:1px solid color-mix(in srgb,var(--card-accent),transparent 65%);
+}
+/* SIGNALIS: monitor de sobrevivência. */
+.roster-card[data-world="signalis"]{border-radius:2px;border:2px solid #ed5b39;box-shadow:inset 0 0 0 4px #0c0e0c}
+.roster-card[data-world="signalis"] .photo::after{
+ background:repeating-linear-gradient(0deg,transparent 0 3px,#0b120c42 4px 5px),
+ linear-gradient(0deg,#090c0d 6%,transparent 85%);
+}
+.roster-card[data-world="signalis"] .world-mark{background:#ed5b39;color:#090b0b;border-color:#ed5b39;box-shadow:none}
+.roster-card[data-world="signalis"] .card-body{background:linear-gradient(0deg,#0b0d0e 20%,#131819eb 75%,transparent)}
+.roster-card[data-world="signalis"] .card-body h3{font-family:var(--mono);font-size:clamp(24px,2.2vw,34px);letter-spacing:-.03em}
+/* Outros universos também recebem uma assinatura legível. */
+.roster-card[data-world="dragonball"]{border:2px solid #fba04c;border-radius:27px 4px 27px 4px}
+.roster-card[data-world="dragonball"] .photo::before{
+ content:"悟";position:absolute;top:58px;right:9px;z-index:2;
+ font:900 85px/1 serif;color:#ffb3557a;text-shadow:0 0 24px #fe8042a3;
+}
+.roster-card[data-world="dragonball"] .card-body{background:linear-gradient(0deg,#281722 15%,#21172ae0 73%,transparent)}
+.roster-card[data-world="mha"]{border:2px solid #f6dd68;border-radius:4px 18px 4px 18px}
+.roster-card[data-world="mha"] .card-body{background:linear-gradient(160deg,transparent 0 8%,#1b2b44ed 15%,#101426 100%);border-top:5px solid #f6dd68}
+.roster-card[data-world="mha"] .world-mark{background:#f6dd68;color:#11182b;transform:skewX(-9deg)}
+.roster-card[data-world="jjk"]{border:2px solid #9e99da;border-radius:16px 3px}
+.roster-card[data-world="jjk"] .photo::before{
+ content:"領";position:absolute;top:62px;right:12px;z-index:2;
+ font:900 77px/1 serif;color:#c9bdf06a;text-shadow:0 0 24px #7b77d3a6;
+}
+.roster-card[data-world="jjk"] .card-body{background:linear-gradient(0deg,#111529 17%,#141c36e8 73%,transparent)}
+.roster-card[data-world="chainsaw"]{border:2px solid #f78c56;border-radius:2px 20px 2px 2px}
+.roster-card[data-world="chainsaw"] .world-mark{background:#f78c56;color:#16120e;border-color:#f78c56}
+.roster-card[data-world="chainsaw"] .card-body{background:linear-gradient(0deg,#1b1110 20%,#241617e8 73%,transparent);border-top:4px dashed #f78c56}
+.roster-card[data-world="romcom"]{border:2px solid #ffc9df;border-radius:24px}
+.roster-card[data-world="romcom"] .world-mark{border-radius:22px;background:#642855dc;color:#ffe2f0}
+.roster-card[data-world="romcom"] .card-body{background:linear-gradient(0deg,#322039 10%,#3a2240e8 70%,transparent)}
+.roster-card[data-world="music"]{border:2px solid #68baff;border-radius:4px 20px}
+.roster-card[data-world="music"] .card-body{background:linear-gradient(0deg,#0a1633 15%,#152348df 75%,transparent);border-top:2px solid #6eaaff}
+.roster-card[data-world="transformers"]{border:2px solid #7dc8f5;border-radius:3px;box-shadow:inset 0 0 0 4px #1e3d60}
+.roster-card[data-world="transformers"] .card-body{background:linear-gradient(0deg,#0a1b30 15%,#172f4bdc 73%,transparent);border-top:4px solid #9dcefa}
+
+/* Cyberpunk / David: falha de sinal em pequenos intervalos, sem luzes piscando continuamente. */
+.roster-card[data-open="david"]{border:2px solid #f9e658;border-radius:3px 19px 3px 3px;box-shadow:inset 0 0 0 3px #070e17}
+.roster-card[data-open="david"] .world-mark{background:#f9e658;color:#08121b;border-color:#f9e658}
+.roster-card[data-open="david"] .card-body{background:linear-gradient(0deg,#0b1118 13%,#161822f0 71%,transparent);border-top:4px solid #f9e658}
+.roster-card[data-open="david"] .card-body h3{text-shadow:2px 2px 0 #111,4px 3px 0 #24dfffab,-2px 0 #f639727c}
+.psycho-hud{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none}
+.psycho-echo{
+ position:absolute;inset:0 0 18%;background:url("./assets/card-art/david.webp") center 18%/cover no-repeat;
+ mix-blend-mode:screen;filter:hue-rotate(165deg) saturate(2);opacity:0;
+ animation:psychosis-echo 11s steps(1,end) infinite;
+}
+.psycho-status,.psycho-error{
+ position:absolute;right:12px;top:53px;
+ padding:5px 7px;background:#0b151cdc;border:1px solid #fae260;
+ color:#f9e66b;font:700 10px/1.2 var(--mono);letter-spacing:.08em;text-align:right;
+}
+.psycho-error{
+ top:91px;right:27px;background:#e42258;color:#fff;border-color:#ff75a2;
+ transform:translateX(4px);opacity:0;animation:psychosis-error 11s steps(1,end) infinite;
+}
+@keyframes psychosis-echo{
+ 0%,79%,83%,95%,100%{opacity:0;clip-path:inset(0 0 100% 0);transform:none}
+ 80%{opacity:.5;clip-path:inset(13% 0 68% 0);transform:translateX(7px)}
+ 81%{opacity:.46;clip-path:inset(37% 0 43% 0);transform:translateX(-6px)}
+ 82%{opacity:.42;clip-path:inset(58% 0 27% 0);transform:translateX(4px)}
+ 96%{opacity:.35;clip-path:inset(24% 0 62% 0);transform:translateX(-3px)}
+}
+@keyframes psychosis-error{0%,78%,83%,94%,100%{opacity:0}79%,82%,95%,97%{opacity:1}}
+
+/* D. / Capri: imagem oficial dentro de um monitor pequeno, com pupila e risada
+   independentes do retrato principal. */
+.roster-card[data-open="d"]{border:2px solid #62d1f2;border-radius:3px 18px 3px 3px;box-shadow:inset 0 0 0 3px #071523}
+.roster-card[data-open="d"] .world-mark{background:#113147;color:#a6f5f4;border-color:#66e6e7}
+.roster-card[data-open="d"] .card-body{background:linear-gradient(0deg,#081827 11%,#0c2130e8 72%,transparent);border-top:3px solid #2be6c4}
+.capri-hud{
+ position:absolute;z-index:4;right:13px;top:56px;width:120px;height:179px;
+ border:1px solid #54f3bf;clip-path:polygon(0 0,88% 0,100% 10%,100% 100%,0 100%);
+ background:linear-gradient(145deg,#071c29ee,#121527ed);
+ box-shadow:inset 0 0 0 3px #070d17,0 0 22px #44e7d352;pointer-events:none;
+}
+.capri-signal,.capri-caption{
+ position:absolute;z-index:3;left:5px;right:5px;top:4px;
+ color:#95fada;font:700 9px/1.25 var(--mono);letter-spacing:.05em;
+ text-shadow:0 0 6px #4cefc0;
+}
+.capri-signal::before{content:"● ";color:#e9f458}
+.capri-screen{
+ position:absolute;inset:20px 4px 23px;overflow:hidden;
+ border:1px solid #cf328685;background:linear-gradient(#091624,#18253b);
+}
+.capri-screen::after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:repeating-linear-gradient(0deg,transparent 0 4px,#ec469114 5px 6px);
+}
+.capri-screen img{
+ width:100%;height:100%;object-fit:cover;object-position:center top;
+ filter:drop-shadow(0 0 8px #ed1a94);opacity:.97;
+}
+.capri-eye{
+ position:absolute;z-index:2;top:51%;left:52%;width:5px;height:5px;border-radius:50%;
+ background:#b8ff8d;box-shadow:0 0 5px 2px #29ed83;
+ transform:translate(var(--capri-x,0px),var(--capri-y,0px));
+ transition:transform .09s ease-out;
+}
+.capri-mouth{
+ position:absolute;z-index:2;top:67%;left:49%;
+ width:12px;height:2px;border-radius:50%;background:#f92f91;
+ box-shadow:0 0 7px #fb3ca5;
+ animation:capri-mouth 13s steps(1,end) infinite;
+}
+.capri-caption{top:auto;bottom:3px;color:#76dbeb}
+.capri-laugh{
+ position:absolute;z-index:4;top:67px;left:4px;
+ padding:4px 6px;background:#e42185;border:1px solid #ff9bd4;
+ color:white;font:900 10px/1 var(--mono);letter-spacing:.06em;
+ transform:translateX(-12px) rotate(-4deg);opacity:0;
+ animation:capri-laugh 13s steps(1,end) infinite;
+}
+@keyframes capri-mouth{
+ 0%,70%,78%,87%,96%,100%{height:2px;border-radius:50%}
+ 71%,77%,88%,95%{height:10px;border-radius:20% 20% 55% 55%}
+}
+@keyframes capri-laugh{
+ 0%,70%,78%,87%,96%,100%{opacity:0}
+ 71%,77%,88%,95%{opacity:1}
+}
+@media(max-width:560px){
+ .roster-card .world-mark{font-size:10px}
+ .capri-hud{width:111px;height:164px;right:9px;top:55px}
+ .roster-card[data-world="jojo"] .photo::before{font-size:26px}
+}
+@media(prefers-reduced-motion:reduce){
+ .psycho-echo,.psycho-error,.capri-mouth,.capri-laugh{animation:none!important}
+ .capri-eye{transition:none}
+}

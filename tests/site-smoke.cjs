@@ -1,7 +1,7 @@
 const fs=require("node:fs");
 const vm=require("node:vm");
 const assert=require("node:assert/strict");
-const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","character-art.css","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
+const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","character-art.css","card-worlds.js","card-worlds.css","assets/motifs/capri-hud.webp","assets/motifs/capri-source.json","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync("data.js","utf8"),context,{filename:"data.js"});
@@ -117,6 +117,12 @@ for(const id of ["em-diamond","em-taravan","em-shuhu"]){
  assert.ok(c.portrait.url.endsWith(".svg")||c.portrait.url.startsWith("data:image/svg+xml"),id+" requer visual pendente");
 }
 assert.match(fs.readFileSync("index.html","utf8"),/local-media\.js"><\/script>\s*<script defer src="\.\/character-art\.js"/);
+const capriSource=JSON.parse(fs.readFileSync("assets/motifs/capri-source.json","utf8"));
+assert.equal(capriSource.asset,"assets/motifs/capri-hud.webp");
+assert.ok(capriSource.source_page.startsWith("https://www.cyberpunk.net/"));
+assert.equal(fs.readFileSync(capriSource.asset).toString("ascii",0,4),"RIFF","Imagem de Capri inválida");
+assert.match(fs.readFileSync("index.html","utf8"),/card-worlds\.css/);
+assert.match(fs.readFileSync("index.html","utf8"),/card-worlds\.js/);
 assert.equal(context.window.T20_REVIEW.list().length,0,"Uma decisão não pode vir aprovada de fábrica");
 const review=context.window.T20_REVIEW;
 const sample=review.add({type:"regra",character:"diego",variant:"alternative",title:"Conferir custo",body:"Verificar livro antes de aprovar",page:""});

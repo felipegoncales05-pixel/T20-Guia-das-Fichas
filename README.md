@@ -34,6 +34,8 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - local-media.js — retratos locais recuperados das referências da ficha
 - assets/card-art/sources.json — proveniência dos retratos recuperados
 - character-art.js e assets/character-art/sources.json — 20 retratos adicionais locais, suas origens e créditos
+- card-worlds.css e card-worlds.js — identidade visual dos universos e interação da HUD de Capri nos cards
+- assets/motifs/capri-source.json — proveniência da ilustração usada na HUD do card de D.
 - review-data.js e review.css — registros editoriais locais, exportação/importação e interface
 - .github/workflows/ci.yml — verificação de sintaxe e dados
 - GitHub Pages: publicação automática da branch main, pasta / (root)
@@ -51,6 +53,8 @@ A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opci
 **Artes do usuário — 19/11/2026:** foram recebidas dez imagens, associadas *exatamente* nesta ordem: Dio Brando → `jojo-dio1`, DIO → `jojo-dio3`, D. → `d`, Funny Valentine → `jojo-valentine`, Gyro Zeppeli → `gyro`, Enrico Pucci → `jojo-pucci`, Yoshikage Kira → `jojo-kira`, Tooru → `jojo-tooru`, Diavolo → `jojo-diavolo` e Zandar One Kuwabara → `em-zandar`. Os originais estão em `assets/art/*.png`, e versões WebP de menor tamanho ficam em `assets/art-optimized/*.webp`. O site carrega as versões WebP pelo script `user-gallery.js`; não utiliza URLs de terceiros para esses dez retratos. Essas imagens foram fornecidas pelo usuário e não possuem créditos autorais individuais verificados. O visual da ilustração de Funny Valentine foi mantido conforme enviado, sem substituição por arte oficial. O carregamento remoto de outros personagens continua sujeito a bloqueios de servidores externos, com fallback SVG local.
 
 **Efeitos dos cards:** `character-fx.css` mantém Steel Balls pixeladas giratórias para Gyro, unhas azuis e Spin dourado para Johnny, bandeira com 44 estrelas e 13 listras para Valentine, glitches sutis para David, sucata de rua para D., bolhas, fios, clackers, Hamon e detalhes para os outros protagonistas. Os efeitos desaparecem ou ficam estáticos na preferência de movimento reduzido.
+
+**Remodelagem dos cards:** `card-worlds.css` distingue JoJo (retícula, enquadramento e tipografia de quadrinho), Honkai: Star Rail (carta astral), SIGNALIS (monitor industrial), Dragon Ball, My Hero Academia, Jujutsu Kaisen, Chainsaw Man, Cyberpunk e os demais universos. David recebe uma falha de sinal breve e intermitente como efeito visual de cyberpsicose. No card de D., a HUD mostra uma reprodução local da arte oficial de Capri; a pupila acompanha o ponteiro dentro do card e uma pequena risada aparece periodicamente. São elementos decorativos, sem alterar regras, níveis ou fontes de T20. Em dispositivos de toque não há rastreamento do ponteiro; com movimento reduzido, as animações ficam estáticas. Fonte da arte de Capri: `assets/motifs/capri-source.json`.
 
 **Novos arquivos:** `acheron-samurai.js`, `heroes-custom.js`, `d-salvage.js`, `character-fx.css`, `assets/motifs/valentine-44.svg` e `assets/portraits/`.
 
