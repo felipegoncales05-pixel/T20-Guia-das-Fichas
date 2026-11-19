@@ -70,6 +70,7 @@ async function assertLayout(page,label){
     }
     if(width===375&&["ado","diego","elster","goku","hsr-aglaea","em-acheron"].includes(id)){
      const portrait=page.locator(".hero-portrait img:not(.portrait-underlay)");
+     await portrait.scrollIntoViewIfNeeded();
      await portrait.evaluate(el=>el.decode());
      assert.ok(await portrait.evaluate(el=>el.naturalWidth>0),id+": retrato local não carregou");
      assert.match(await portrait.getAttribute("src"),/assets\/card-art\/[a-z0-9-]+\.webp$/);
