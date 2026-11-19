@@ -9,7 +9,7 @@
  const emptyLevel=()=>({classId:"",variantId:"",powerId:"",powerVersion:"",why:"",usage:"",synergy:"",limits:"",sourceNote:"",
   customPowerName:"",customPowerBook:"",customPowerPage:"",customPowerEdition:"",customPowerPrereqs:"",customPowerEffect:"",customPowerVersions:"",customPowerAmbiguity:""});
  const makeDraft=(seed={})=>({schemaVersion:VERSION,id:seed.id&&/^local-[a-z0-9-]{8,70}$/.test(seed.id)?seed.id:"local-"+(globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2)),
-  catalogId:short(seed.catalogId,60),name:short(seed.name||"Nova ficha",100),work:short(seed.work,100),description:"",theme:short(seed.theme||"arquivo",30),raceId:"",raceBonuses:[],originId:"",allowedBooks:["jda-1.3"],attributes:Object.fromEntries(KEYS.map(k=>[k,0])),levels:[emptyLevel()],inventory:[],combat:Object.fromEntries(COMBAT.map(k=>[k,""])),notes:"",status:"rascunho"});
+  catalogId:short(seed.catalogId,60),name:short(seed.name||"Nova ficha",100),work:short(seed.work,100),description:"",theme:short(seed.theme||"arquivo",30),raceId:"",raceBonuses:[],originId:"",originBenefits:[],trainedSkills:[],arcanePath:"",spellbook:[],allowedBooks:["jda-1.3"],attributes:Object.fromEntries(KEYS.map(k=>[k,0])),levels:[emptyLevel()],inventory:[],combat:Object.fromEntries(COMBAT.map(k=>[k,""])),notes:"",status:"rascunho"});
  function normalize(raw){
   if(!raw||typeof raw!=="object"||raw.schemaVersion!==VERSION||!/^local-[a-z0-9-]{8,70}$/.test(raw.id||""))throw Error("Formato de ficha local inválido.");
   if(!Array.isArray(raw.levels)||!raw.levels.length||raw.levels.length>MAX_LEVEL||!Array.isArray(raw.allowedBooks)||!Array.isArray(raw.inventory))throw Error("Progressão ou livros inválidos.");
@@ -18,6 +18,10 @@
   clean.description=short(raw.description,1000);clean.notes=short(raw.notes,2000);
   clean.combat=Object.fromEntries(COMBAT.map(k=>[k,short(raw.combat?.[k],2000)]));
   clean.raceId=short(raw.raceId,40);clean.originId=short(raw.originId,40);
+  clean.originBenefits=Array.isArray(raw.originBenefits)?raw.originBenefits.slice(0,2).map(x=>short(x,70)):[];
+  clean.trainedSkills=Array.isArray(raw.trainedSkills)?[...new Set(raw.trainedSkills.slice(0,25).map(x=>short(x,70)))]:[];
+  clean.arcanePath=["mago","bruxo","feiticeiro"].includes(raw.arcanePath)?raw.arcanePath:"";
+  clean.spellbook=Array.isArray(raw.spellbook)?raw.spellbook.slice(0,45).map(x=>({name:short(x?.name,80),circle:Number(x?.circle)||0,classLevel:Number(x?.classLevel)||0,why:short(x?.why,350),how:short(x?.how,400),source:short(x?.source,120)})).filter(x=>x.name):[];
   clean.raceBonuses=Array.isArray(raw.raceBonuses)?raw.raceBonuses.filter(k=>KEYS.includes(k)).slice(0,6):[];
   clean.allowedBooks=[...new Set(raw.allowedBooks.map(x=>short(x,40)))];
   if(clean.allowedBooks.some(id=>!rules.books.some(b=>b.id===id)))throw Error("Livro não cadastrado na edição do laboratório.");
@@ -29,6 +33,13 @@
  function evaluate(raw){
   const sheet=normalize(raw),issues=[],rows=[],counts={},selected=new Set();
   const allowed=new Set(sheet.allowedBooks);
+  const arcaneSpells=new Set([
+    ["Criar Ilusão",1],["Hipnotismo",1],["Sono",1],["Enfeitiçar",1],["Disfarce Ilusório",1],["Imagem Espelhada",1],["Adaga Mental",1],
+    ["Armadura Arcana",1],["Seta Infalível de Talude",1],["Teia",1],["Amedrontar",1],["Leque Cromático",1],["Explosão de Chamas",1],["Conjurar Monstro",1],
+    ["Invisibilidade",2],["Sussurros Insanos",2],["Campo de Força",2],["Camuflagem Ilusória",2],["Aparência Perfeita",2],
+    ["Bola de Fogo",2],["Velocidade",2],["Metamorfose",2],["Dissipar Magia",2],["Toque Vampírico",2],["Desespero Esmagador",2],
+    ["Ilusão Lacerante",3],["Miragem",3],["Imobilizar",3]
+   ].map(([name,circle])=>name+"|"+circle));
   if(!allowed.has("jda-1.3"))issues.push("A edição básica verificada precisa estar permitida para usar estas classes.");
   for(const id of allowed){const book=rules.books.find(b=>b.id===id);if(book?.status!=="parcial")issues.push(book.name+": opções mecânicas ainda não catalogadas; a autorização da mesa não as verifica.")}
   let cost=0;for(const k of KEYS)cost+=rules.pointBuy[sheet.attributes[k]];
@@ -37,8 +48,17 @@
   if(sheet.raceId&&sheet.raceId!=="humano")issues.push("Raça sem regras cadastradas neste catálogo.");
   if(!sheet.raceId)issues.push("Raça ainda não escolhida.");
   if(sheet.raceId==="humano"&&(sheet.raceBonuses.length!==3||new Set(sheet.raceBonuses).size!==3))issues.push("Humano exige três atributos diferentes para o bônus racial.");
-  if(sheet.originId)issues.push("Origem informada sem regras cadastradas nesta edição do laboratório.");
-  else issues.push("Origem e seus benefícios ainda não foram conferidos no catálogo.");
+  const origin=rules.origins?.[sheet.originId];
+  if(!origin)issues.push("Origem não cadastrada ou pendente.");
+  else if(sheet.originBenefits.length!==2||sheet.originBenefits.some(x=>!origin.choices.includes(x)))issues.push("Escolha exatamente dois benefícios de perícia válidos da origem "+origin.name+".");
+  const arcanistLevels=sheet.levels.filter(x=>x.classId==="arcanista").length;
+  if(arcanistLevels&&!sheet.arcanePath)issues.push("Arcanista exige caminho definido: Bruxo, Mago ou Feiticeiro.");
+  if(sheet.arcanePath==="feiticeiro"&&arcanistLevels)issues.push("Feiticeiro: linhagem e habilidades próprias ainda não cadastradas.");
+  for(const spell of sheet.spellbook){
+   if(!arcaneSpells.has(spell.name+"|"+spell.circle))issues.push("Magia "+spell.name+": círculo/nome não indexado neste laboratório.");
+   if(!spell.classLevel||spell.classLevel>arcanistLevels||spell.classLevel<1+4*(spell.circle-1))issues.push("Magia "+spell.name+": círculo não liberado no nível da classe Arcanista.");
+   if(!spell.why.trim()||!spell.how.trim())issues.push("Magia "+spell.name+": explique escolha e uso.");
+  }
   const attrs=Object.fromEntries(KEYS.map(k=>[k,sheet.attributes[k]+(sheet.raceId==="humano"&&sheet.raceBonuses.includes(k)?1:0)]));
   let pv=0,pm=0,canCalculate=true;
   for(let i=0;i<sheet.levels.length;i++){
@@ -62,6 +82,7 @@
    // A primeira entrada numa classe adicional usa o ganho subsequente de PV.
    const hpDelta=firstClass?cls.initialPV+attrs.CON:Math.max(1,cls.gainPV+attrs.CON);
    pv+=hpDelta;pm+=cls.gainPM;
+   if(row.classId==="arcanista"&&classLevel===1)pm+=(sheet.arcanePath==="feiticeiro"?attrs.CAR:attrs.INT);
    const grants=(cls.grants[classLevel]||[]).map(id=>({id,ability:rules.abilities[id]||null}));
    for(const grant of grants)if(!grant.ability?.manual)issues.push("Nível "+(i+1)+": manual de "+grant.id+" ainda não integrado.");
    if(grants.length&&(!row.why.trim()||!row.usage.trim()))issues.push("Nível "+(i+1)+": registre por que e como usa os ganhos automáticos desta classe.");
@@ -72,7 +93,8 @@
    if(row.powerId){
     if(!ability||ability.kind!=="poder"||ability.classId!==row.classId||!allowed.has(ability.source.book))issues.push("Nível "+(i+1)+": poder inexistente ou incompatível com a classe/livro.");
     else{
-     if(selected.has(row.powerId))issues.push("Nível "+(i+1)+": poder repetido sem regra que permita repetição.");
+     if(selected.has(row.powerId)&&!ability.repeatable)issues.push("Nível "+(i+1)+": poder repetido sem regra que permita repetição.");
+     for(const requiredPower of ability.requires?.powers||[])if(!selected.has(requiredPower))issues.push("Nível "+(i+1)+": "+ability.name+" requer o poder "+(rules.abilities[requiredPower]?.name||requiredPower)+".");
      selected.add(row.powerId);
      if(ability.requires?.classLevel>classLevel)issues.push("Nível "+(i+1)+": "+ability.name+" requer nível "+ability.requires.classLevel+" de "+cls.name+".");
      for(const [key,min] of Object.entries(ability.requires?.attributes||{}))if(attrs[key]<min)issues.push("Nível "+(i+1)+": "+ability.name+" requer "+key+" "+min+".");
@@ -84,10 +106,11 @@
     newClass:classLevel===1&&!firstClass,source:cls.source,reason:row.why,usage:row.usage});
   }
   if(!sheet.name.trim())issues.push("Nome obrigatório.");
-  if(sheet.raceId==="humano")issues.push("Versátil humano: escolha de perícias ou poder geral ainda não integrada.");
+  if(sheet.raceId==="humano"&&!sheet.trainedSkills.length)issues.push("Humano: identifique perícias treinadas e o benefício Versátil escolhido.");
+  // Poderes, magias e opções de origem não alteram automaticamente os subtotais acima.
   // O subtotal não inclui efeitos condicionais, origens, magias, distinções ou erratas.
   return {sheet,attributes:attrs,attributeCost:cost,rows,levelsByClass:counts,basePV:canCalculate?pv:null,basePM:canCalculate?pm:null,
-   issues:[...new Set(issues)],complete:false,summary:"PV/PM de classe e Constituição; modificadores de outros recursos não incluídos."};
+   issues:[...new Set(issues)],complete:false,summary:"Subtotal de PV/PM por níveis de classe, Constituição e atributo-chave de Arcanista; poderes, itens, origem e ajustes situacionais não incluídos."};
  }
  function importJSON(json){if(typeof json!=="string"||json.length>250000)throw Error("Arquivo muito grande.");return normalize(JSON.parse(json))}
  function exportJSON(sheet){return JSON.stringify(normalize(sheet),null,2)}
