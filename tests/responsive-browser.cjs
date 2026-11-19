@@ -71,8 +71,8 @@ async function assertLayout(page,label){
     assert.ok(Math.abs(Number.parseInt(await page.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),10))<=2);
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk.png"});
     const laugh=await page.locator(".capri-laugh").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=14100;return Number(getComputedStyle(el).opacity)});
-    const mouth=await page.locator(".capri-mouth").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=14100;return el.getBoundingClientRect().height});
-    assert.ok(laugh>.9&&mouth>=5,"Boca e risada da Capri fora de sincronia");
+    const mouth=await page.locator(".capri-mouth").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=14100;return {opacity:Number(getComputedStyle(el).opacity),transform:getComputedStyle(el).transform,loaded:el.naturalWidth>0}});
+    assert.ok(laugh>.9&&mouth.opacity>.9&&mouth.transform!=="none"&&mouth.loaded,"Boca e risada da Capri fora de sincronia");
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-capri-risada.png"});
     for(const selector of [".capri-laugh",".capri-mouth"])await page.locator(selector).evaluate(el=>el.getAnimations()[0].currentTime=0);
     const opacity=await page.locator(".psycho-echo").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13620;return Number(getComputedStyle(el).opacity)});

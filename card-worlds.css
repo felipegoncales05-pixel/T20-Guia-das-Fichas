@@ -191,10 +191,10 @@
  transform:translate(var(--capri-x,0px),var(--capri-y,0px));
  transition:transform .16s ease-out;
 }
-.capri-mouth{
- position:absolute;z-index:2;top:58%;left:55%;
- width:6px;height:2px;border-radius:45%;background:#160e25;opacity:0;
- box-shadow:0 0 0 1px #e43997;
+.capri-screen .capri-mouth{
+ z-index:2;opacity:0;transform-origin:53% 56%;
+ mask-image:radial-gradient(ellipse 9px 4px at 53% 56%,#000 55%,transparent 100%);
+ -webkit-mask-image:radial-gradient(ellipse 9px 4px at 53% 56%,#000 55%,transparent 100%);
  animation:capri-mouth 19s steps(1,end) infinite;
 }
 .capri-caption{top:auto;bottom:3px;color:#76dbeb}
@@ -205,8 +205,8 @@
  opacity:0;animation:capri-laugh 19s steps(1,end) infinite;
 }
 @keyframes capri-mouth{
- 0%,73%,77%,86%,90%,100%{height:2px;opacity:0}
- 74%,76%,87%,89%{height:5px;opacity:.8}
+ 0%,73%,77%,86%,90%,100%{opacity:0;transform:none}
+ 74%,76%,87%,89%{opacity:.95;transform:translateY(1px) scaleY(1.12)}
 }
 @keyframes capri-laugh{
  0%,73%,77%,86%,90%,100%{opacity:0}

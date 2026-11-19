@@ -79,7 +79,7 @@ Cada linha registra a assinatura aplicada ao card e às nove abas internas. A fa
 - signature-finish.css recebe a superfície como data-finish e distingue Chrysos, Emanadores e Lord Ravagers via data-lineage. A decoração fica nas margens da imagem; os retratos e créditos existentes são preservados.
 - app.js transmite a mesma assinatura para capa e seções: identidade, atributos, equipamentos, habilidades, progressão, técnicas, fontes, comparação e revisão.
 - Diego alternativo e as quatro realidades de Goku têm variantes visuais e rotas próprias; a lógica mecânica existente permanece intacta.
-- A HUD de Capri duplica somente a imagem local existente para recortar os olhos desenhados. O ponteiro desloca essa região no máximo dois pixels na horizontal e um na vertical. A risada e a boca compartilham 19 segundos; David usa um pulso de 17 segundos em faixas estreitas. Movimento reduzido desativa tudo isso.
+- A HUD de Capri reutiliza a imagem local existente em recortes dos olhos e da boca, sem criar um ponto facial novo. O ponteiro desloca a região dos olhos no máximo dois pixels na horizontal e um na vertical. A risada e a boca compartilham 19 segundos; David usa um pulso de 17 segundos em faixas estreitas. Movimento reduzido desativa tudo isso.
 
 ## Pendências editoriais
 
