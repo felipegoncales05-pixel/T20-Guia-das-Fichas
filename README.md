@@ -37,7 +37,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - card-worlds.css e card-worlds.js — identidade visual dos universos e interação da HUD de Capri nos cards
 - visual-direction.js e visual-direction.css — assinaturas visuais dos 59 personagens, quatro variantes extras e composição editorial reutilizável
 - signature-finish.css — acabamento individual e materiais contextuais em cards e dossiês
-- planned-data.js e planned.css — dez entradas editoriais pendentes e pôsteres tipográficos sem retrato canônico
+- planned-data.js, planned.css e art-portraits.css — dez entradas editoriais com artes de referência locais, assinaturas por obra e pôsteres de reserva
 - docs/curadoria-fase-ii.md — registro das 59 assinaturas e quatro variantes
 - assets/motifs/capri-source.json — proveniência da ilustração usada na HUD do card de D.
 - review-data.js e review.css — registros editoriais locais, exportação/importação e interface
@@ -50,7 +50,7 @@ O catálogo tem **59 dossiês T20 com dados mecânicos** e **dez entradas em pla
 
 ### Dez personagens em planejamento
 
-Toji, Aizen, Vegitto, Gogeta, Soul of Cinder, Isaac, Adão, Grimm, Sekiro e Kaneki têm cards próprios, busca, filtros, URLs e nove abas de planejamento. A seção 1–12 mostra **posições vazias**, sem declarar uma habilidade em cada nível. Retratos canônicos, classe, raça, atributos, equipamentos, fontes T20 e páginas continuam pendentes. Os pôsteres são composições tipográficas provisórias. A aba Revisão aceita fontes e decisões por personagem, com exportação JSON. Veja [docs/expansao-pendente.md](docs/expansao-pendente.md).
+Toji, Aizen, Vegitto, Gogeta, Soul of Cinder, Isaac, Adão, Grimm, Sekiro e Kaneki têm cards próprios, busca, filtros, URLs, imagens de referência locais creditadas e nove abas de planejamento. A seção 1–12 mostra **posições vazias**, sem declarar uma habilidade em cada nível. Classe, raça, atributos, equipamentos, fontes T20, páginas e versões continuam pendentes. Os pôsteres tipográficos aparecem somente quando a arte falha. A aba Revisão aceita fontes e decisões por personagem, com exportação JSON. Veja [docs/expansao-pendente.md](docs/expansao-pendente.md).
 
 A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opcional da **Dragão Brasil nº 199**, com Arma Ancestral, Código do Samurai, Grito de Kiai, melhorias e poderes por nível. A descrição do livro e os custos se encontram na edição mencionada; a ficha é uma adaptação não oficial, com escolhas opcionais sujeitas à mesa.
 

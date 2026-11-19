@@ -1,33 +1,26 @@
 # Expansão solicitada — dez dossiês pendentes
 
-Estas entradas organizam os dez nomes solicitados em 19/11/2026. Elas **não são builds T20 jogáveis**. A obra indicada serve apenas à busca e à identidade visual; não foi usada como fonte de regra. Nenhum retrato canônico foi selecionado.
+As dez entradas solicitadas em 19/11/2026 continuam **sem build T20 jogável**. Busca, filtros, URLs, nove abas e espaços vazios de progressão seguem disponíveis. As artes abaixo são referências visuais de cada obra, copiadas para `assets/planned-art/` para evitar hotlink quebrado. A proveniência completa, incluindo arquivo original e crédito, está em [`sources.json`](../assets/planned-art/sources.json). Nenhuma imagem define raça, classe, habilidade, fase ou variante da adaptação.
 
-| Dossiê | Obra de origem | Direção do pôster provisório | Estado |
-| --- | --- | --- | --- |
-| Toji | Jujutsu Kaisen | corte diagonal e verde apagado | Mecânica, retrato e fontes pendentes |
-| Aizen | Bleach | reflexo geométrico e azul frio | Mecânica, retrato e fontes pendentes |
-| Vegitto | Dragon Ball | anéis deslocados e âmbar | Mecânica, retrato e fontes pendentes |
-| Gogeta | Dragon Ball | diagonal e coral | Mecânica, retrato e fontes pendentes |
-| Soul of Cinder | Dark Souls III | cinza e marcas de brasa | Mecânica, retrato e fontes pendentes |
-| Isaac | The Binding of Isaac | papel e elipse irregular | Mecânica, retrato e fontes pendentes |
-| Adão | Shuumatsu no Valkyrie | círculo monumental e marfim | Mecânica, retrato e fontes pendentes |
-| Grimm | Black Souls | página escura e tipografia de conto | Mecânica, retrato e fontes pendentes |
-| Sekiro | Sekiro: Shadows Die Twice | papel e corte vertical | Mecânica, retrato e fontes pendentes |
-| Kaneki | Tokyo Ghoul | divisão entre claro e escuro | Mecânica, retrato e fontes pendentes |
+| Dossiê | Obra | Assinatura editorial | Referência visual | Pendente |
+| --- | --- | --- | --- | --- |
+| Toji | Jujutsu Kaisen | corte oblíquo, volume escuro e verde contido | [Anime oficial](https://jujutsukaisen.jp/character/index_2nd.php) | Build e fontes T20 |
+| Aizen | Bleach | coluna clara e reflexo vertical | [Anime oficial](https://bleach-anime.com/en/character/?chara=80) | Build e fontes T20 |
+| Vegitto | Dragon Ball | pares circulares e campo âmbar/violeta | [Dragon Ball Official](https://en.dragon-ball-official.com/news/01_4032.html) | Build, versão T20 e fontes |
+| Gogeta | Dragon Ball | diagonal coral e recorte de energia | [Dragon Ball Official](https://en.dragon-ball-official.com/news/01_4435.html) | Build, versão T20 e fontes |
+| Soul of Cinder | Dark Souls III | carvão, dupla linha e marcas de cinza | [Arte de FromSoftware](https://www.cookandbecker.com/en/article/118/the-withered-beauty-of-dark-souls-iii.html) | Build e fontes T20 |
+| Isaac | The Binding of Isaac | capa de porão e papel gasto | [Página do jogo](https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/) | Build e fontes T20 |
+| Adão | Shuumatsu no Valkyrie | pórtico de arena, marfim e título lapidar | [Anime oficial](https://ragnarok-official.com/1st/character/) | Build e fontes T20 |
+| Grimm | Black Souls | página rasurada, capa em preto e branco | [Arte promocional do jogo](https://store.steampowered.com/app/3755860/BLACK_SOULS/) | Build, aparência escolhida e fontes T20 |
+| Sekiro | Sekiro: Shadows Die Twice | corte de lâmina e papel escurecido | [Galeria oficial](https://www.sekirothegame.com/gallery?filter=art) | Build e fontes T20 |
+| Kaneki | Tokyo Ghoul | modelo frente/costas, fissura rubra | [Anime oficial](https://www.marv.jp/special/tokyoghoul/first/chara.html) | Build e fontes T20 |
 
-Cada card abre uma URL `#/id/overview`, com nove abas: identidade, atributos, equipamentos, habilidades, progressão, técnicas, fontes, comparação e revisão. Os campos mecânicos mostram **pendente**. A progressão apresenta doze lugares vazios para planejamento, sem afirmar que um poder ou nível de classe já foi escolhido. A comparação informa que ainda não há variantes. A revisão aceita registros por personagem, URLs e páginas verificadas, com exportação/importação do histórico local.
+Vegitto e Gogeta têm ilustrações promocionais de formas específicas; isso **não** aprova uma forma ou variante T20. A capa de BLACK SOULS mostra um cavaleiro, mas o protagonista pode ter aparências diferentes; a escolha visual da ficha de Grimm segue pendente.
 
-Quando a mesa fornecer uma build com regras conferidas, cadastre seus dados na fonte mecânica versionada, indique os livros e páginas confirmados, escolha um retrato com crédito e só então migre a entrada de `planned-data.js` para as fichas jogáveis. A identidade gráfica já está mapeada em `visual-direction.js`; ela não determina raça, classe ou poderes.
+Cada card abre `#/id/overview`. A aba Fontes separa o **crédito da arte** das **fontes de regras T20 pendentes**. As doze posições de progressão são lugares vazios de planejamento; não afirmam níveis de classe ou poderes escolhidos. A comparação informa que não há variantes aprovadas. Na aba Revisão, registros por personagem continuam pendentes até decisão explícita, com exportação/importação do histórico local.
+
+Uma imagem ausente exibe o pôster tipográfico de reserva com nome e obra. A correção do recorte horizontal elimina a borda superior do bloco de texto sobre a arte da Celenova e de outros cards; um pequeno traço junto ao título mantém a hierarquia sem atravessar o retrato.
 
 ## Evidência visual
 
-[Os dez cards no celular](screenshots/expansion/375-planejados.webp). Duas capas em desktop e celular demonstram o enquadramento sem atribuir aparência canônica:
-
-| Dossiê | Desktop 1440 px | Celular 375 px |
-| --- | --- | --- |
-| Toji | ![Capa tipográfica de Toji no desktop](screenshots/expansion/1440-toji-planejado.webp) | ![Capa tipográfica de Toji no celular](screenshots/expansion/375-toji-planejado.webp) |
-| Isaac | ![Capa tipográfica de Isaac no desktop](screenshots/expansion/1440-isaac-planejado.webp) | ![Capa tipográfica de Isaac no celular](screenshots/expansion/375-isaac-planejado.webp) |
-
-[Soul of Cinder no celular](screenshots/expansion/375-soul-of-cinder-planejado.webp) mostra o terceiro tratamento. São capturas reais do [Chromium em 11 viewports](https://github.com/felipegoncales05-pixel/T20-Guia-das-Fichas/actions/runs/44564333471): sintaxe, integridade, busca, filtros, dez rotas pendentes, ausência de estatísticas presumidas, progressão vazia, formulário editorial, imagens das fichas existentes, variantes, movimento reduzido e ausência de corte horizontal passaram. O artefato `responsivo-capturas` contém os PNG originais; estes WebP são conversões de formato para revisão no repositório.
-
-A curadoria e as capturas da passagem anterior estão em [relatorio-fase-ii.md](relatorio-fase-ii.md).
+As capturas de Chromium em desktop e celular e os resultados de CI desta passagem serão anexados após a validação. A [passagem anterior](relatorio-fase-ii.md) permanece documentada sem alterações.

@@ -60,9 +60,27 @@ async function assertLayout(page,label){
    await page.locator("#universe").selectOption("all");
    await page.locator("#search").fill("pendente");
    assert.equal(await page.locator(".roster-card[data-pending]").count(),10,width+": dez planejamentos");
-   assert.equal(await page.locator(".roster-card img").count(),0,width+": pôster provisório virou imagem quebrada");
+   assert.equal(await page.locator(".planned-card img.planned-art").count(),10,width+": retratos planejados ausentes");
+   for(const id of plannedIds){
+    const art=page.locator('[data-open="'+id+'"] img.planned-art');
+    await art.scrollIntoViewIfNeeded();await art.evaluate(el=>el.decode());
+    assert.ok(await art.evaluate(el=>el.naturalWidth>0),width+" "+id+": imagem não carregou");
+   }
    if([375,1440].includes(width))await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-planejados.png"});
+   if(width===375){
+    await page.locator('[data-open="toji"] img.planned-art').evaluate(el=>{el.src="./assets/planned-art/indisponivel.png"});
+    await page.locator('[data-open="toji"].art-unavailable .pending-poster').waitFor({state:"visible"});
+    assert.equal(await page.locator('[data-open="toji"] img.planned-art').count(),0,"Imagem quebrada não cedeu ao pôster reserva");
+   }
    await page.locator("[data-clear-search]").click();
+   if([375,1440].includes(width)){
+    await page.locator("#search").fill("Celenova");
+    const celenova=page.locator('[data-open="em-celenova"]');
+    await celenova.locator('img:not(.portrait-underlay)').evaluate(el=>el.decode());
+    assert.equal(await celenova.locator('.card-body').evaluate(el=>getComputedStyle(el).borderTopWidth),"0px","Faixa horizontal atravessou Celenova");
+    await celenova.screenshot({path:"tests/screenshots/"+width+"-celenova-depois.png"});
+    await page.locator("[data-clear-search]").click();
+   }
    if([375,1440].includes(width)){
     await page.locator("#universe").selectOption("cyberpunk");
     assert.equal(await page.locator(".roster-card").count(),2);
@@ -189,7 +207,10 @@ async function assertLayout(page,label){
     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
     assert.equal(await page.locator(".detail-tabs button").count(),9,id+": navegação incompleta");
     assert.equal(await page.locator("body").getAttribute("data-pending"),"true");
-    assert.ok(await page.locator(".pending-hero-poster [role=img]").isVisible(),id+": pôster ausente");
+    const art=page.locator(".pending-hero-poster img.planned-art");
+    await art.scrollIntoViewIfNeeded();await art.evaluate(el=>el.decode());
+    assert.ok(await art.evaluate(el=>el.naturalWidth>0),id+": arte de referência ausente");
+    assert.equal(await page.locator(".pending-hero-poster .pending-poster").isVisible(),false,id+": pôster reserva cobriu a arte");
     assert.equal(await page.locator("[data-stat],.global-level-picker").count(),0,id+": números presumidos");
     await assertLayout(page,width+" "+id+" planejamento");
     if([375,1440].includes(width)&&["toji","soul-of-cinder","isaac"].includes(id))
@@ -201,6 +222,7 @@ async function assertLayout(page,label){
     await page.locator('[data-tab="sources"]').click();
     await page.locator('#detail-section[data-tab="sources"]').waitFor();
     assert.match(await page.locator("#detail-section").textContent(),/Nenhuma página de livro ou suplemento/);
+    assert.match(await page.locator(".planned-source-link").getAttribute("href"),/^https:\/\//,id+": crédito da imagem ausente");
     await page.locator('[data-tab="review"]').click();
     await page.locator("#reviewForm").waitFor();
     await assertLayout(page,width+" "+id+" revisão pendente");
