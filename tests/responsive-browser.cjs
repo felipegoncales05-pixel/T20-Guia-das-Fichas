@@ -238,6 +238,38 @@ async function assertLayout(page,label){
     assert.match(await page.locator("#reviewRecords").textContent(),/Fonte a conferir/);
     assert.equal(await page.locator("#reviewRecords .review-entry").count(),1);
    }
+   if([375,1440].includes(width)){
+    await page.goto(site+"#/laboratorio",{waitUntil:"load"});
+    await page.locator('[data-lab-seed="toji"]').click();
+    assert.match(await page.locator('.lab-editor').textContent(),/Toji/);
+    assert.equal(await page.locator('.lab-draft').count(),1);
+    await page.locator('[data-field="class:0"]').selectOption('guerreiro');
+    await page.locator('[data-lab-action="add-level"]').click();
+    await page.locator('[data-field="class:1"]').selectOption('ladino');
+    assert.match(await page.locator('.lab-summary').textContent(),/Guerreiro 1 \/ Ladino 1/);
+    assert.match(await page.locator('.lab-summary').textContent(),/PV base: 23 · PM base: 7/);
+    assert.match(await page.locator('.lab-audit').textContent(),/Origem.*não foram conferidos/);
+    await assertLayout(page,width+" laboratório");
+    await page.screenshot({path:"tests/screenshots/"+width+"-laboratorio.png",fullPage:true});
+    const downloadPromise=page.waitForEvent('download');
+    await page.locator('[data-lab-action="export"]').click();
+    const download=await downloadPromise;
+    assert.match(download.suggestedFilename(),/^o-sistema-local-.*\.json$/);
+    const exported=await download.path();
+    await page.locator('[data-lab-action="delete"]').click();
+    assert.equal(await page.locator('.lab-draft').count(),0);
+    await page.locator('#labImport').setInputFiles(exported);
+    await page.locator('.lab-draft').first().waitFor();
+    assert.match(await page.locator('.lab-summary').textContent(),/Guerreiro 1 \/ Ladino 1/,"Importação JSON não preservou multiclasse");
+    await page.reload();
+    await page.locator('.lab-draft').first().click();
+    assert.match(await page.locator('.lab-summary').textContent(),/Guerreiro 1 \/ Ladino 1/,"Rascunho local não persistiu");
+    await page.goto(site+'#/toji/overview',{waitUntil:'load'});
+    await page.locator('a[href="#/laboratorio/toji"]').click();
+    assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
+    await page.goto(site,{waitUntil:'load'});
+    assert.equal(await page.locator('.roster-card').count(),69,"Ficha pessoal entrou no catálogo");
+   }
    assert.deepEqual(errors,[]);
    console.log("OK viewport "+width+"x"+height+" — 59 dossiês e interações");
    await page.close();
