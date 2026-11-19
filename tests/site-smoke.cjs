@@ -1,7 +1,7 @@
 const fs=require("node:fs");
 const vm=require("node:vm");
 const assert=require("node:assert/strict");
-const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","app.js"];
+const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","app.js"];
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync("data.js","utf8"),context,{filename:"data.js"});
@@ -11,6 +11,7 @@ vm.runInNewContext(fs.readFileSync("expansion.js","utf8"),context,{filename:"exp
 vm.runInNewContext(fs.readFileSync("expansion-runtime.js","utf8"),context,{filename:"expansion-runtime.js"});
 vm.runInNewContext(fs.readFileSync("mega-data.js","utf8"),context,{filename:"mega-data.js"});
 vm.runInNewContext(fs.readFileSync("mega-runtime.js","utf8"),context,{filename:"mega-runtime.js"});
+vm.runInNewContext(fs.readFileSync("catalog-media.js","utf8"),context,{filename:"catalog-media.js"});
 const project=context.window.T20_DATA;
 assert.ok(project&&Array.isArray(project.characters));
 assert.equal(project.characters.length,47);
@@ -48,3 +49,7 @@ console.log("Expansão validada: 7 novos cards, 8 builds e troca Alternative.");
 for(const c of project.characters.filter(c=>context.window.T20_MEGA.ids.has(c.id))){assert.equal(c._guide.levels.length,12,c.id+" guiado");assert.ok(context.window.T20_MEGA.stats(c,12).pv>context.window.T20_MEGA.stats(c,1).pv,c.id+" PV sem evolução");}
 assert.equal(Object.keys(context.window.T20_GOKU_VARIANTS).length,4);
 console.log("Megacatálogo validado: 47 cards, quatro Gokus e manual de 12 níveis.");
+
+assert.ok(context.window.T20_MEDIA_BACKUPS,"Fontes de recuperação de imagens ausentes");
+for(const id of ["diego","marin","ado","elster"]){const c=project.characters.find(x=>x.id===id);assert.ok(c.portrait.url.startsWith("https://"),id+" sem retrato remoto");}
+assert.match(fs.readFileSync("app.js","utf8"),/ORDEM ALFABÉTICA/);
