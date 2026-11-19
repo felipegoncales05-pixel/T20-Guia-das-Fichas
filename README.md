@@ -19,7 +19,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - app.js — busca, rota por hash, radar, inventário, progressão e ações
 - tests/site-smoke.cjs — teste mínimo de integridade de dados
 - .github/workflows/ci.yml — verificação de sintaxe e dados
-- .github/workflows/pages.yml — publicação estática via GitHub Pages
+- GitHub Pages: publicação automática da branch main, pasta / (root)
 
 ## Abrir localmente
 
@@ -27,12 +27,12 @@ Abra index.html num navegador moderno. O catálogo não depende de npm, API, Fir
 
 ## Publicar no GitHub Pages
 
-1. No GitHub do repositório, abra **Settings → Pages**.
-2. Em **Build and deployment → Source**, escolha **GitHub Actions**.
-3. Acesse **Actions → Publicar O Sistema no GitHub Pages** e execute o workflow, se necessário.
-4. Após concluir com sucesso, o site normalmente ficará em https://felipegoncales05-pixel.github.io/T20-Guia-das-Fichas/ .
+1. Em **Settings → Pages**, selecione **Source: Deploy from a branch**.
+2. Selecione **Branch: main** e **Folder: / (root)**, e clique em Save.
+3. O GitHub Pages construirá automaticamente o site a partir de index.html no diretório principal.
+4. Após a publicação aparecer como concluída, o endereço será https://felipegoncales05-pixel.github.io/T20-Guia-das-Fichas/ .
 
-> A URL acima é o endereço esperado, não uma garantia de que o Pages já está ativado.
+O workflow de deploy customizado foi removido porque não é necessário para publicação por branch; continua disponível o workflow de validação dos dados.
 
 ## Precisão de regras
 
