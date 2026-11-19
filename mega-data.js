@@ -94,7 +94,7 @@ function build(p,variant){
  progression:prog,techniques,notes:{overview:baseNotes[0],attributes:baseNotes[1],equipment:baseNotes[2],abilities:baseNotes[3],progression:baseNotes[4],techniques:baseNotes[5]},
  media:[{name:cfg.name+" — referência",image:pic,source:cfg.source,credit:cfg.image?cfg.credit:"Arte tipográfica original; sem visual oficial confirmado"}],
  sources:[{name:"Referência do personagem / obra",url:cfg.source},{name:"Tormenta20 — Edição Jogo do Ano",url:official}],
- _mega:{className:cfg.klass,mainAttr:R.stat,group:cfg.group,skillAttr,description:cfg.mechanic,form:cfg.form||null}
+ _mega:{className:cfg.klass,mainAttr:R.stat,group:cfg.group,color:cfg.color,skillAttr,description:cfg.mechanic,form:cfg.form||null}
  };
  const guide={levels:prog.map(([lvl,power,desc],i)=>({
   why:"O nível "+lvl+" introduz "+power+". "+cfg.identity+" é representado por esta escolha; confirme se ela é automática, se exige poder de classe ou se é opção de poder geral.",
@@ -118,6 +118,12 @@ for(const [key,data] of Object.entries({
  daima:{identity:"DAIMA // POLE & SSJ4",klass:"Guerreiro",focus:"striker",color:"#b86bd5",mechanic:"O bastão mágico funciona como arma oficial; Surto Heroico depende de origem.",form:"daima",universe:"Dragon Ball DAIMA"},
  super:{identity:"GOD KI // ULTRA INSTINCT",klass:"Arcanista",focus:"caster",color:"#63c8f0",mechanic:"Velocidade, Campo de Força e efeitos mágicos simulam Ki Divino; não existe esquiva automática.",form:"super",universe:"Dragon Ball Super"}
 })){gu[key]=build({...defs.list.find(c=>c.id==="goku"),...data,id:"goku",number:coreGoku.number,name:"Son Goku — "+key.toUpperCase()})}
+gu.z.portrait.url="https://cdn.dokkan.fyi/assets/en/character/card/1006760/card_1006760_character.png";
+gu.z.portrait.credit="Dragon Ball Dokkan Battle — imagem do jogo";
+gu.gt.portrait.url="https://i.imgur.com/uAL1QP5.jpg";
+gu.gt.portrait.credit="Imagem promocional Dragon Ball GT";
+gu.super.portrait.url="https://en.dragon-ball-official.com/dragonball/jp/news/2023/12/%E3%83%AC%E3%82%B8%E3%82%A7%E3%83%B3%E3%82%BA%E7%94%A8%E6%82%9F%E7%A9%BA%28CMYK%29_%E5%85%88%E7%94%9F%E3%81%AE%E3%82%B5%E3%82%A4%E3%83%B3%E4%BB%98%E3%81%8D.jpg?_=1771666020";
+gu.super.portrait.credit="Dragon Ball Official — Toyotarou";
 window.T20_GOKU_VARIANTS=gu;
 window.T20_MEGA={ids:new Set(cards.map(c=>c.id)),classes:classRules,skillAttr,origIcon};
 })();
