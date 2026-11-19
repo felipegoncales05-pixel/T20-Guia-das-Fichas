@@ -69,10 +69,34 @@
   "goku:daima":["DAIMA","ki","trail","soft","#c9a4e9","#463b5c"],
   "goku:super":["KI DIVINO","ki","orbit","offset","#a6dff1","#344a66"]
  };
+ // Superfícies escolhidas pelo contexto de cada ficha; combinam com o motivo
+ // geométrico do perfil, sem introduzir iconografia ou poderes novos.
+ const finishes={
+  gyro:"dust",d:"circuitry",david:"signal",cipher:"glass",rentarou:"paper",yoru:"ink",
+  diego:"dust",ado:"velvet",cyrene:"frost",marin:"fabric",makima:"ink",optimus:"alloy",
+  "jojo-dio1":"stone","jojo-kars":"stone","jojo-dio3":"ink","jojo-kira":"paper",
+  "jojo-diavolo":"ink","jojo-pucci":"paper","jojo-valentine":"paper","jojo-tooru":"glass",
+  yuta:"ink",goku:"energy",
+  "hsr-aglaea":"fabric","hsr-tribbie":"paper","hsr-mydei":"stone","hsr-castorice":"velvet",
+  "hsr-anaxa":"ledger","hsr-hyacine":"glass","hsr-phainon":"energy","hsr-hysilens":"glass",
+  "hsr-cerydra":"foil","hsr-evernight":"velvet","hsr-terrae":"stone",
+  "em-herta":"ledger","em-acheron":"ink","em-phantylia":"velvet","em-diamond":"stone",
+  "em-taravan":"ledger","em-zandar":"ledger","em-shuhu":"organic","em-zephyro":"energy",
+  "em-celenova":"foil","em-irontomb":"circuitry","em-archforger":"alloy",
+  "em-asat":"ink","em-luxbane":"eclipse",elster:"signal",
+  "jojo-jonathan":"energy","jojo-joseph":"paper","jojo-jotaro":"ink",
+  "jojo-josuke4":"glass","jojo-giorno":"organic","jojo-jolyne":"fabric",
+  "jojo-johnny":"dust","jojo-gappy":"glass",denji:"alloy",
+  "satoru-gojo":"glass",shigaraki:"stone",midoriya:"energy",
+  "diego:alternative":"foil","goku:gt":"organic","goku:daima":"paper","goku:super":"glass"
+ };
  const families={western:"CORRIDA / MANGÁ",cyber:"NIGHT CITY",astral:"AMPHOREUS / ESTRELAS",romance:"PÁGINA / AFETO",brutal:"TINTA / TENSÃO",stage:"PALCO / VOZ",machine:"CHASSI / ENGENHARIA",gothic:"MANGÁ / CLÁSSICO",manga:"MANGÁ / IMPRESSÃO",curse:"ENERGIA / SOMBRA",ki:"DRAGON BALL",cosmic:"ARQUIVO / CÓSMICO",terminal:"LSTR / ARQUIVO",heroic:"QUADRO / HERÓI"};
  function forCharacter(c,key){
   const [motif,family,pattern,layout,accent,dark]=variations[c.id+":"+key]||profiles[c.id]||["ARQUIVO","cosmic","grid","spine","#9bd9d5","#253546"];
-  return {motif,family,pattern,layout,accent,dark,series:families[family],id:c.id,variant:key||"principal"};
+  const finish=finishes[c.id+":"+key]||finishes[c.id]||"paper";
+  const lineage=c.universe.includes("Lord Ravager")?"ravager":c.universe.includes("Emanador")?"emanator":c.universe.includes("Chrysos")?"chrysos":"other";
+  const series={ravager:"LORD RAVAGER",emanator:"EMANADORES",chrysos:"HERDEIROS / CHRYSOS"}[lineage]||families[family];
+  return {motif,family,pattern,layout,accent,dark,finish,lineage,series,id:c.id,variant:key||"principal"};
  }
- window.T20_VISUAL={profiles,variations,forCharacter};
+ window.T20_VISUAL={profiles,variations,finishes,forCharacter};
 })();

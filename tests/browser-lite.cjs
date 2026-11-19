@@ -54,6 +54,10 @@ for(const name of ["Jonathan Joestar","Johnny Joestar","Jolyne Cujoh","Denji","S
 assert.match(get("roster").innerHTML,/character-fx/);
 assert.match(get("roster").innerHTML,/data-world="jojo"/);
 assert.match(get("roster").innerHTML,/class="capri-hud"/);
+assert.match(get("roster").innerHTML,/class="capri-gaze"/);
+assert.doesNotMatch(get("roster").innerHTML,/class="capri-eye"/);
+assert.match(get("roster").innerHTML,/data-finish="signal"/);
+assert.match(get("roster").innerHTML,/data-lineage="ravager"/);
 assert.match(get("roster").innerHTML,/class="art-insignia"/);
 assert.match(get("roster").innerHTML,/data-card-switch="goku"/);
 assert.match(get("roster").innerHTML,/data-card-switch="diego"/);
@@ -68,8 +72,8 @@ const target={closest(){return capriCard}};
 hooks["document:pointermove"]({target,pointerType:"mouse",clientX:200,clientY:0});
 assert.equal(frames.length,1,"HUD não reagiu ao ponteiro");
 frames.shift()();
-assert.equal(props.get("--capri-x"),"4px");
-assert.equal(props.get("--capri-y"),"-3px");
+assert.equal(props.get("--capri-x"),"2px");
+assert.equal(props.get("--capri-y"),"-1px");
 hooks["document:pointerout"]({target,relatedTarget:null});
 assert.equal(props.has("--capri-x"),false,"HUD não voltou ao centro");
 for(const id of fakeWindow.T20_USER_ART_IDS){
@@ -99,6 +103,7 @@ for(const c of fakeWindow.T20_DATA.characters){
   hooks["window:hashchange"]();
   assert.match(get("app").innerHTML,new RegExp(c.id==="d"?"D\\.":c.name.replace(/[.*+?^$()|[\]{}\\]/g,"\\$&").split(" ")[0]));
   assert.ok(get("app").innerHTML.includes("O SISTEMA // OBSERVAÇÃO"),c.id+" sem nota em "+tab);
+  assert.match(get("app").innerHTML,/class="section-context"/,c.id+" / "+tab+" sem cabeçalho contextual");
   if(tab==="attributes")assert.match(get("app").innerHTML,/radar-svg/);
   if(tab==="equipment")assert.match(get("app").innerHTML,/gear-card/);
   if(tab==="progression"){assert.match(get("app").innerHTML,/level-grid/);hooks["document:input"]({target:{id:"levelSelect",value:"12"}});assert.equal(get("globalLevelText").textContent,"12");assert.match(get("progressStats").innerHTML,/PONTOS DE VIDA/);assert.match(get("levelReadout").innerHTML,/COMO USAR NA MESA/);}

@@ -57,6 +57,20 @@ async function assertLayout(page,label){
    await page.locator("#universe").selectOption("mha");
    assert.equal(await page.locator(".roster-card").count(),2,width+": filtro My Hero Academia");
    await page.locator("#universe").selectOption("all");
+   if([375,1440].includes(width)){
+    await page.locator("#universe").selectOption("cyberpunk");
+    assert.equal(await page.locator(".roster-card").count(),2);
+    const capri=page.locator('[data-open="d"] .capri-gaze');
+    await capri.evaluate(el=>el.decode());
+    assert.ok(await capri.evaluate(el=>el.naturalWidth>0),"Retrato local da Capri não carregou");
+    assert.equal(await page.locator('[data-open="d"] .capri-eye').count(),0,"Ponto extra no rosto");
+    assert.equal(await page.locator('[data-open="david"] .psycho-echo').count(),1);
+    await page.locator('[data-open="d"]').hover({position:{x:100,y:95}});
+    await page.waitForFunction(()=>!!document.querySelector('[data-open="d"]')?.style.getPropertyValue("--capri-x"));
+    assert.ok(Math.abs(Number.parseInt(await page.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),10))<=2);
+    await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk.png"});
+    await page.locator("#universe").selectOption("all");
+   }
    if([375,768,1440].includes(width)){
     await page.locator('[data-card-switch="diego"][data-card-mode="alternative"]').click();
     assert.equal(await page.locator('[data-open="diego"]').getAttribute("data-variant"),"alternative");
@@ -84,6 +98,10 @@ async function assertLayout(page,label){
    for(const id of (!quick&&[375,768,1440].includes(width)?allIds:representativeIds)){
     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
     assert.equal(await page.locator(".detail-tabs button").count(),9);
+    assert.ok(await page.locator("body").getAttribute("data-finish"),id+": acabamento ausente");
+    assert.ok(await page.locator(".section-context").isVisible(),id+": assinatura interna ausente");
+    if([375,1440].includes(width)&&["d","david","jojo-jolyne","em-acheron","elster","goku"].includes(id))
+     await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-"+id+"-capa.png"});
     if(id==="em-acheron")assert.match(await page.locator("#detail-section").textContent(),/Samurai|katana/i);
     if(width===375&&["jojo-dio1","jojo-dio3","d","jojo-valentine","gyro","jojo-pucci","jojo-kira","jojo-tooru","jojo-diavolo","em-zandar"].includes(id)){
      const portrait=page.locator(".hero-portrait img:not(.portrait-underlay)");
@@ -105,12 +123,25 @@ async function assertLayout(page,label){
      await page.locator("[data-diego-toggle]").click();
      await page.locator("#character-title").getByText(/Alternative/).waitFor();
      assert.equal(await page.locator("body").getAttribute("data-theme"),"diego-alt");
+     assert.equal(await page.locator("body").getAttribute("data-finish"),"foil");
+     if([375,1440].includes(width))await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-diego-alternative.png"});
      await assertLayout(page,width+" diego / THE WORLD");
      await page.locator("[data-diego-toggle]").click();
      assert.equal(await page.locator("body").getAttribute("data-theme"),"diego");
     }
+    if(id==="goku"&&[375,1440].includes(width)){
+     for(const variant of ["gt","daima","super"]){
+      await page.goto(site+"#/goku/"+variant+"/overview",{waitUntil:"load"});
+      assert.equal(await page.locator("body").getAttribute("data-variant"),variant);
+      assert.match(await page.locator(".hero-portrait img:not(.portrait-underlay)").getAttribute("src"),new RegExp("goku-"+variant+"\\.webp$"));
+      await assertLayout(page,width+" Goku / "+variant);
+      await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-goku-"+variant+".png"});
+     }
+     await page.goto(site+"#/goku/overview",{waitUntil:"load"});
+    }
     await page.locator('[data-tab="attributes"]').click();
     await page.locator(".attr-row").first().waitFor();
+    assert.equal(await page.locator("#detail-section").getAttribute("data-tab"),"attributes");
     assert.equal(await page.locator(".attr-row").count(),6);
     await assertLayout(page,width+" "+id+" radar");
     if(width===375&&id==="gyro")await page.screenshot({path:"tests/screenshots/375-radar.png"});
@@ -142,6 +173,17 @@ async function assertLayout(page,label){
    console.log("OK viewport "+width+"x"+height+" — 59 dossiês e interações");
    await page.close();
   }
+  const reduced=await browser.newPage({viewport:{width:375,height:812},reducedMotion:"reduce"});
+  await reduced.route(/^https?:\/\//,route=>route.abort());
+  await reduced.goto(site,{waitUntil:"load"});
+  await reduced.locator("#universe").selectOption("cyberpunk");
+  assert.equal(await reduced.locator(".capri-gaze").evaluate(el=>getComputedStyle(el).transform),"none","Olhos se movem sob movimento reduzido");
+  for(const selector of [".capri-laugh",".capri-mouth",".psycho-echo",".psycho-error"])
+   assert.equal(await reduced.locator(selector).evaluate(el=>getComputedStyle(el).animationName),"none",selector+" animado sob movimento reduzido");
+  await reduced.locator('[data-open="d"]').hover();
+  assert.equal(await reduced.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),"","HUD reage sob movimento reduzido");
+  await reduced.close();
+  console.log("Movimento reduzido validado: Capri e David sem animações.");
   console.log("VALIDADO: 11 viewports e 59 fichas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

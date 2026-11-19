@@ -14,7 +14,7 @@
   const box=card.getBoundingClientRect();
   const x=Math.max(-1,Math.min(1,(event.clientX-box.left-box.width/2)/(box.width/2)));
   const y=Math.max(-1,Math.min(1,(event.clientY-box.top-box.height/2)/(box.height/2)));
-  queued={card,x:Math.round(x*4),y:Math.round(y*3)};
+  queued={card,x:Math.round(x*2),y:Math.round(y)};
   if(frame)return;
   frame=requestAnimationFrame(()=>{
    if(queued?.card.isConnected){
@@ -31,4 +31,8 @@
    reset(card);
   }
  },{passive:true});
+ motion?.addEventListener?.("change",()=>{
+  document.querySelectorAll?.('.roster-card[data-open="d"]').forEach(reset);
+  queued=null;
+ });
 })();
