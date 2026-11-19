@@ -45,7 +45,7 @@
    const row=sheet.levels[i],cls=rules.classes[row.classId];
    if(row.customPowerName){
     const book=rules.books.find(b=>b.id===row.customPowerBook);
-    if(!book||!allowed.has(book.id))issues.push("Nível "+(i+1)+": suplemento da opção ""+row.customPowerName+"" não selecionado ou não cadastrado.");
+    if(!book||!allowed.has(book.id))issues.push("Nível "+(i+1)+": suplemento da opção "+row.customPowerName+" não selecionado ou não cadastrado.");
     if(!row.customPowerPage.trim()||!row.customPowerEdition.trim()||!row.customPowerPrereqs.trim()||!row.customPowerEffect.trim())
      issues.push("Nível "+(i+1)+": opção de suplemento exige página, edição, pré-requisitos e efeito conferidos.");
     if(!row.why.trim()||!row.usage.trim())issues.push("Nível "+(i+1)+": descreva por que escolheu e como usaria a opção do suplemento.");
