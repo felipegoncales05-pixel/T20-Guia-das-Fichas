@@ -50,3 +50,10 @@ Na biblioteca, a seleção de suplementos registra somente a intenção de consu
 ## Registro de opções de suplemento por nível
 
 Cada nível pode armazenar um **registro editorial opcional** com nome da habilidade, livro, edição, página, pré-requisitos, resumo do efeito, versões alternativas e resolução da ambiguidade. Os campos são persistidos no JSON v1, sem mudar fichas anteriores. O registro não concede a habilidade mecanicamente, não altera estatísticas e permanece na lista de pendências até a opção ser catalogada, verificada e aprovada. Ele serve para construir propostas rastreáveis sem inventar regras de Heróis de Arton, Deuses de Arton, Atlas de Arton, Ameaças de Arton ou Dragão Brasil.
+
+
+## Dez adaptações com progressão escolhida — revisão de 19/11/2026
+
+O arquivo \`build-presets.js\` agora pré-preenche uma proposta de 12 níveis para cada um dos dez personagens, com distribuição de classes, origem, dois benefícios de perícia, compra de dez pontos de atributos, três bônus humanos, lista planejada de perícias, poderes de classe por nível, equipamentos, táticas e notas de ambiguidade. Arcanistas recebem o caminho Mago/Bruxo e um grimório editável com nomes, círculos e nível da classe na aquisição. As referências de regras partem de Tormenta20 — Edição Jogo do Ano v1.3; nenhum suplemento foi necessário para os conceitos escolhidos. Os livros adicionais seguem listados para avaliação futura, não habilitados como regras automáticas.
+
+**Natureza da entrega:** adaptações preenchidas para revisão, ainda no estado \`rascunho\`. O motor calcula subtotais e identifica pré-requisitos, mas não promete fichas definitivas para mesa: ainda faltam validar benefícios de Versátil, proficiências e inventário inicial, escolher escola/familiar/Golpe Pessoal em cada caso, aplicar efeitos de poderes que alteram os subtotais, e conferir aprendizagem exata/erratas de magias e suplementos. Não transformar esse estágio em "aprovado" sem revisão. As 59 fichas originais não foram alteradas. O catálogo continua com 59 fichas existentes e dez dossiês editoriais, com acesso ao laboratório para editar as adaptações.
