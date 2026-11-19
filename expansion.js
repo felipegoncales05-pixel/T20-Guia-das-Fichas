@@ -447,7 +447,7 @@ const profiles=[
  excerpt:"Liberdade é o direito de todos os seres sencientes. A esperança ainda se transforma.",
  summary:"Golem de Ferro Paladino: Chassi e sem origem representam corpo Autobot; Golpe Divino, Código do Herói, Aura Sagrada e Cura pelas Mãos representam a liderança e proteção de Optimus. Transformação em caminhão NÃO é habilidade racial ou de classe: apenas estética até o mestre permitir outro recurso oficial.",
  history:["Optimus Prime é um líder dos Autobots em Transformers, conhecido por seu senso de justiça, sacrifício e defesa da liberdade. O visual adotado nesta ficha é inspirado em Transformers Prime/Beast Hunters.","Como Golem Paladino, é um construto consciente equipado para defender aliados. A figura de caminhão, o blaster de íons e o tamanho colossal exigiriam outras regras, itens e autorização do mestre; não são vantagens iniciais."],
- skills:[["Luta","Lâmina energon"],["Vontade","Ideal de liberdade"],["Fortitude","Resistência do chassi"],["Diplomacia","Comando sábio"],["Guerra","Tática autobot"],["Percepção","Vigilância"],["Intuição","Identificar riscos"]],
+ skills:[["Luta","Lâmina energon"],["Vontade","Ideal de liberdade"],["Fortitude","Resistência do chassi"],["Diplomacia","Comando sábio"],["Guerra","Tática autobot"]],
  initial:["Golem de Ferro: FOR +2, CON +1, CAR −1; Chassi +2 Defesa e penalidade de armadura","Sem Origem: escolha um poder geral em vez dos benefícios de origem; sugestão Estilo de Duas Mãos","Paladino 1: Abençoado, Código do Herói e Golpe Divino","Devoção a Khalmyr: Coragem Total e Reparar Injustiça, observando Obrigações e Restrições; sem transformação ou laser grátis"],
  gear:[
  ["Lâmina energon","Montante (arma marcial de duas mãos)","Visual energético; sem dano elemental automático. Verifique aquisição legal da arma.","1",art.optimus,"https://tfwiki.net/wiki/Optimus_Prime_(Prime)","Transformers Wiki"],
@@ -517,8 +517,7 @@ const diegoAlt=make({
  excerpt:"O segundo Diego não precisa de dinossauros. Ele controla instantes de batalha.",
  summary:"Guerreiro humano de Heroi Camponês com Surto Heroico e Coração Heroico. THE WORLD é representado por uma ação adicional uma vez por rodada, Golpe Pessoal e Ataque Extra; NÃO congela literalmente o tempo.",
  history:["Esta é a contraparte de Diego Brando trazida de outro universo no arco final de Steel Ball Run. Diferentemente do original, ele possui THE WORLD, um Stand capaz de parar o tempo por um intervalo.","A ficha usa Guerreiro e efeitos de economia de ações de Tormenta20 para simular essa vantagem. Parar o Tempo é uma magia arcana avançada, não liberada por Guerreiro de nível 12."],
- skills:[["Luta","Ataques de THE WORLD"],["Pontaria","Facas e arremessos"],["Cavalgar","Jóquei extraordinário"],["Iniciativa","Ataque antes do alvo"],["Reflexos","Tempo de reação"],["Percepção","Antecipar o inimigo"],["Fortitude","Sobreviver"],
- ["Guerra","Calcular vantagens"]],
+ skills:[["Luta","Ataques de THE WORLD"],["Pontaria","Facas e arremessos"],["Cavalgar","Jóquei extraordinário"],["Iniciativa","Ataque antes do alvo"],["Percepção","Antecipar o inimigo"],["Fortitude","Sobreviver"]],
  initial:["Ataque Especial +4 (Guerreiro 1)","Coração Heroico +3 PM e Surto Heroico (origem)","Humano (Versátil): Percepção treinada + Sortudo","THE WORLD é o nome dos efeitos; Stand não tem turno independente"],
  gear:[
  ["Facas arremessáveis","Adagas oficiais","Lançamentos repetidos durante o 'tempo parado', sem multiplicar ações indevidamente.","4",art.diegoAlt,"https://jojowiki.com/Parallel_World_Diego","JoJo"],
