@@ -1,0 +1,159 @@
+/* O SISTEMA // Assinaturas visuais: cada card é um dossiê do personagem.
+   Efeitos em CSS (sem JavaScript contínuo), tolerantes a toque e reduzidos em celular. */
+.roster-card{isolation:isolate}
+.roster-card .photo{background-color:#111827}
+.roster-card .photo img.portrait-underlay{
+ position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;
+ opacity:.94;filter:saturate(.9);pointer-events:none;
+}
+.roster-card .photo img:not(.portrait-underlay){position:relative;z-index:1}
+.hero-portrait img.portrait-underlay{position:absolute;inset:0;width:100%;height:100%;z-index:0;object-fit:cover;opacity:.8}
+.hero-portrait img:not(.portrait-underlay){position:relative;z-index:1}
+.character-fx{pointer-events:none;position:absolute;inset:0;z-index:1;overflow:hidden;opacity:.83;contain:paint}
+.character-fx>*{position:absolute;display:block;pointer-events:none}
+.roster-card:hover .character-fx{opacity:1}
+@keyframes fx-spin{to{transform:rotate(360deg)}}
+@keyframes fx-spinrev{to{transform:rotate(-360deg)}}
+@keyframes fx-drift{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-5px,8px,0)}}
+@keyframes fx-pulse{0%,100%{opacity:.3;filter:brightness(.9)}50%{opacity:.95;filter:brightness(1.3)}}
+@keyframes fx-cyber{0%,83%,100%{transform:translate(0);filter:drop-shadow(0 0 0 transparent)}84%{transform:translate(4px,-2px);filter:drop-shadow(-6px 0 #05f4ff90) drop-shadow(6px 0 #ff246985)}86%{transform:translate(-2px,1px)}88%{transform:translate(0)}}
+@keyframes fx-scan{0%,100%{transform:translateY(-100%);opacity:0}45%{opacity:.3}75%{transform:translateY(120%);opacity:.2}}
+@keyframes fx-lightning{0%,83%,90%,100%{opacity:.22}85%,88%{opacity:.85}}
+/* Gyro: duas Steel Balls 'pixeladas' girando como satélites. */
+.roster-card[data-open="gyro"] .fx-a,.roster-card[data-open="gyro"] .fx-b{
+ top:18%;right:12%;width:74px;aspect-ratio:1;border-radius:50%;
+ background:radial-gradient(circle at 39% 32%,#d0f59c 0 13%,#648a51 15% 44%,#203d30 48% 68%,#b7cf84 70% 80%,transparent 85%);
+ border:5px dashed #daf3a8;box-shadow:0 0 0 4px #16251bb8,0 0 24px #9eeb8599,inset 0 0 18px #142519;
+ image-rendering:pixelated;animation:fx-spin 5.5s linear infinite
+}
+.roster-card[data-open="gyro"] .fx-b{width:52px;right:32%;top:34%;opacity:.86;animation:fx-spinrev 4s linear infinite}
+.roster-card[data-open="gyro"] .fx-c{
+ right:6%;top:12%;width:140px;height:140px;border:2px dotted #b3ed8d80;
+ border-radius:50%;animation:fx-spin 14s linear infinite
+}
+/* Johnny: unhas azuis / Golden Rectangle */
+.roster-card[data-open="jojo-johnny"] .fx-a,.roster-card[data-open="jojo-johnny"] .fx-b{
+ width:125px;height:125px;border:3px solid #edcd6da8;border-left-color:transparent;border-radius:50%;top:15%;right:13%;
+ box-shadow:0 0 0 14px #dec76519,0 0 0 33px #e3c26e0d;animation:fx-spin 9s linear infinite
+}
+.roster-card[data-open="jojo-johnny"] .fx-b{width:45px;height:80px;border:0;right:18%;top:28%;background:linear-gradient(#63b9ff,#274b9e);clip-path:polygon(50% 0,80% 17%,100% 77%,65% 100%,10% 75%,30% 15%);transform-origin:center;animation:fx-spinrev 3s linear infinite}
+/* Funny Valentine — 44 estrelas exatas e 13 listras. */
+.roster-card[data-open="jojo-valentine"] .fx-a{
+ inset:4% 0 27% 13%;width:auto;height:auto;background:url("./assets/motifs/valentine-44.svg") center / cover no-repeat;
+ opacity:.32;transform:rotate(-7deg)
+}
+.roster-card[data-open="jojo-valentine"] .fx-b{
+ width:160px;height:160px;right:10%;top:13%;
+ border:2px dotted #fff9;transform:rotate(45deg);animation:fx-spin 24s linear infinite
+}
+/* David / cyberpsicose: eco visual, duplicação cromática e scanline curta. */
+.roster-card[data-open="david"] .photo img:not(.portrait-underlay){animation:fx-cyber 5.6s steps(1,end) infinite}
+.roster-card[data-open="david"] .fx-a{
+ inset:0 0 18%;background:repeating-linear-gradient(0deg,transparent 0 17px,#16d7fb1a 18px 19px,transparent 20px 37px);
+ mix-blend-mode:screen;animation:fx-pulse 4.3s ease-in-out infinite
+}
+.roster-card[data-open="david"] .fx-b{
+ width:120%;height:10%;left:-10%;top:16%;background:linear-gradient(90deg,transparent,#ff155f88,#13e8ff66,transparent);
+ filter:blur(6px);animation:fx-scan 6s steps(2,end) infinite
+}
+.roster-card[data-open="david"] .fx-c{inset:0;border-left:3px solid #f9e34770;border-right:3px solid #15e4fc60;box-shadow:inset 4px 0 #ef267326,inset -7px 0 #2dfcfc1a}
+/* D.: sucata amarela, soldas e remendos, sem cyberskeleton. */
+.roster-card[data-open="d"] .fx-a{
+ height:19px;width:155px;top:10%;right:-30px;
+ background:repeating-linear-gradient(135deg,#d4b944 0 10px,#1a1e26 10px 20px);transform:rotate(31deg);opacity:.8
+}
+.roster-card[data-open="d"] .fx-b{
+ width:110px;height:135px;right:7%;top:27%;border:1px dashed #7ddef499;border-radius:8px;
+ box-shadow:inset 0 0 0 5px #32465329
+}
+.roster-card[data-open="d"] .fx-c{top:18%;right:20%;width:95px;height:2px;transform:rotate(-21deg);background:#14d3ecb0;box-shadow:0 7px #13d5ef75,0 14px #f6bb4660}
+/* Jonathan / respiração solar (Hamon), Joseph / bolas clacker */
+.roster-card[data-open="jojo-jonathan"] .fx-a{
+ width:160px;height:160px;right:5%;top:10%;border-radius:50%;
+ background:repeating-conic-gradient(from 10deg,#f7d88d 0 7deg,transparent 7deg 18deg);
+ mask:radial-gradient(transparent 36%,#000 40% 58%,transparent 62%);
+ animation:fx-spin 16s linear infinite
+}
+.roster-card[data-open="jojo-joseph"] .fx-a,.roster-card[data-open="jojo-joseph"] .fx-b{
+ width:49px;height:49px;border-radius:50%;border:7px double #f1b7ec;
+ right:19%;top:26%;box-shadow:0 0 19px #df9fe9bb;animation:fx-drift 4s ease-in-out infinite
+}
+.roster-card[data-open="jojo-joseph"] .fx-b{right:41%;top:35%;animation-delay:-2s}
+.roster-card[data-open="jojo-joseph"] .fx-c{
+ width:115px;height:110px;border-top:3px dashed #d9a5e3;right:20%;top:15%;transform:rotate(-24deg)
+}
+/* Jotaro: corrente e relógio, Star Platinum. */
+.roster-card[data-open="jojo-jotaro"] .fx-a{
+ width:120px;height:120px;right:9%;top:15%;border:3px solid #d7c2828c;border-radius:50%;
+ background:conic-gradient(transparent 0 65deg,#cfb87c50 66deg 70deg,transparent 71deg);
+ animation:fx-spin 16s linear infinite
+}
+.roster-card[data-open="jojo-jotaro"] .fx-b{
+ width:140px;height:23px;top:54%;right:-18px;border-top:8px dotted #d5ba6a99;transform:rotate(-29deg)
+}
+/* Josuke 4: Crazy Diamond, coração e recomposição. */
+.roster-card[data-open="jojo-josuke4"] .fx-a{
+ right:11%;top:16%;width:120px;height:120px;border:3px solid #ffbad6;
+ clip-path:polygon(50% 12%,73% 0%,98% 25%,100% 49%,50% 100%,0% 51%,3% 20%,25% 0%);
+ opacity:.62;animation:fx-pulse 4s ease-in-out infinite
+}
+.roster-card[data-open="jojo-josuke4"] .fx-b{right:15%;top:18%;width:118px;height:110px;background:repeating-linear-gradient(135deg,transparent 0 23px,#bde6fa85 24px 26px,transparent 27px 34px);opacity:.5}
+/* Giorno: joaninha e folhas douradas. */
+.roster-card[data-open="jojo-giorno"] .fx-a{
+ width:92px;height:92px;right:10%;top:14%;border-radius:50% 50% 44% 44%;
+ background:radial-gradient(circle at 28% 35%,#181818 0 8px,transparent 9px),radial-gradient(circle at 71% 64%,#181818 0 9px,transparent 10px),#e6c259;
+ border:3px solid #ffe49b;animation:fx-drift 5s ease-in-out infinite
+}
+.roster-card[data-open="jojo-giorno"] .fx-b{width:100px;height:160px;right:30%;top:28%;background:radial-gradient(ellipse at 30% 40%,#9bc56b77,transparent 55%);transform:rotate(38deg)}
+/* Jolyne: fios visíveis, sem cobrir as letras. */
+.roster-card[data-open="jojo-jolyne"] .fx-a{
+ inset:0 0 20%;background:repeating-linear-gradient(125deg,transparent 0 52px,#72e3b94b 53px 54px,transparent 55px 84px)
+}
+.roster-card[data-open="jojo-jolyne"] .fx-b{width:120px;height:120px;right:9%;top:16%;border:2px dashed #67cfa499;border-radius:50%;animation:fx-spinrev 17s linear infinite}
+/* Gappy: bolhas Soft & Wet */
+.roster-card[data-open="jojo-gappy"] .fx-a,.roster-card[data-open="jojo-gappy"] .fx-b{
+ width:110px;height:110px;right:8%;top:17%;border:2px solid #b0f6fb88;border-radius:50%;
+ box-shadow:inset 12px 8px 20px #b0f6fb28,0 0 19px #a6d6f444;animation:fx-drift 7s ease-in-out infinite
+}
+.roster-card[data-open="jojo-gappy"] .fx-b{width:45px;height:45px;right:41%;top:33%;animation-delay:-3s}
+/* Denji: dentes de serra laranja */
+.roster-card[data-open="denji"] .fx-a{
+ inset:12% 5% 24% auto;width:135px;height:290px;
+ background:repeating-linear-gradient(155deg,transparent 0 22px,#ee944d65 23px 25px,transparent 27px 36px);
+ clip-path:polygon(0 0,100% 0,100% 100%,0 90%);transform:rotate(18deg)
+}
+.roster-card[data-open="denji"] .fx-b{width:0;height:0;top:15%;right:16%;border-left:48px solid transparent;border-right:48px solid transparent;border-top:95px solid #fa9e6450;animation:fx-pulse 5s infinite}
+/* Gojo: infinity / Domain */
+.roster-card[data-open="satoru-gojo"] .fx-a{
+ width:150px;height:150px;right:6%;top:13%;border:3px solid #a9edff8f;border-radius:50%;
+ box-shadow:inset 0 0 24px #67e9ff4d,0 0 27px #28c5f870;animation:fx-pulse 3.4s infinite
+}
+.roster-card[data-open="satoru-gojo"] .fx-b{width:150px;height:70px;right:6%;top:27%;border:3px solid #b6eff9a0;border-radius:50%;transform:rotate(-35deg)}
+/* Shigaraki: Decay se espalha em linhas quebradas. */
+.roster-card[data-open="shigaraki"] .fx-a{
+ inset:0;background:linear-gradient(120deg,transparent 0 36%,#af99ca40 36.4% 36.8%,transparent 37.2% 100%),linear-gradient(60deg,transparent 0 42%,#a496be49 42.4% 43%,transparent 43.2% 100%);
+ animation:fx-pulse 6s infinite
+}
+.roster-card[data-open="shigaraki"] .fx-b{
+ width:155px;height:155px;right:4%;top:20%;border:1px solid #b09cc66b;clip-path:polygon(3% 0%,75% 13%,82% 50%,100% 67%,64% 91%,12% 100%,0 60%)
+}
+/* Midoriya: Full Cowl em raios verdes */
+.roster-card[data-open="midoriya"] .fx-a{
+ width:190px;height:250px;top:8%;right:3%;background:#9ef7a3b3;
+ clip-path:polygon(60% 0,43% 44%,70% 39%,30% 100%,46% 54%,17% 56%);
+ opacity:.55;animation:fx-lightning 6s steps(1) infinite
+}
+.roster-card[data-open="midoriya"] .fx-b{width:95px;height:150px;top:36%;right:32%;background:#7ef6a079;clip-path:polygon(60% 0,43% 44%,70% 39%,30% 100%,46% 54%,17% 56%);animation:fx-lightning 6s steps(1) -3s infinite}
+/* Acheron: linha roxa-vermelha de corte. */
+.roster-card[data-open="em-acheron"] .fx-a{width:200%;height:13px;left:-30%;top:40%;transform:rotate(-34deg);background:linear-gradient(90deg,transparent,#e9abff90,#f03f7790,transparent);box-shadow:0 0 30px #c954e0}
+/* Personagens restantes recebem moldura e efeito sutil de identidade */
+.roster-card .character-fx:not(:has(.fx-a)){display:none}
+@media(max-width:680px){
+ .character-fx{opacity:.61}
+ .roster-card[data-open="gyro"] .fx-a{width:53px}
+ .roster-card[data-open="gyro"] .fx-b{width:38px}
+ .roster-card[data-open="david"] .fx-b{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .character-fx *,.roster-card[data-open="david"] .photo img:not(.portrait-underlay){animation:none!important;transition:none!important}
+}
