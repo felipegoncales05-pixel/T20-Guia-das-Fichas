@@ -48,7 +48,28 @@ async function assertLayout(page,label){
    const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
    assert.match(await page.locator("#resultsCount").textContent(),/69 DE 69/);
-   await page.locator("#search").fill("MAKIMA");
+   
+    // Fase III: categoria Chrysos e alternadores de Diego/Goku.
+    await page.locator("#universe").selectOption("chrysos");
+    const heirs=await page.locator(".roster-card").evaluateAll(nodes=>nodes.map(node=>node.dataset.open));
+    assert.ok(heirs.includes("cyrene")&&heirs.includes("cipher"),width+": herdeiros incompletos");
+    assert.equal(heirs.length,new Set(heirs).size,width+": herdeiros duplicados");
+    assert.ok(!heirs.includes("em-acheron"),width+": Emanador no filtro Chrysos");
+    if([375,1440].includes(width))await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-chrysos-fase3.png"});
+    await page.locator("#universe").selectOption("all");
+    for(const [id,labels] of [["diego",["SM","TW"]],["goku",["DBZ","GT","DAIMA","SUPER"]]]){
+      const buttons=page.locator('[data-card-switch="'+id+'"]');
+      assert.deepEqual(await buttons.allTextContents(),labels,width+": siglas incorretas em "+id);
+      const coords=await buttons.evaluateAll(nodes=>nodes.map(n=>({y:n.getBoundingClientRect().y,width:n.getBoundingClientRect().width,height:n.getBoundingClientRect().height})));
+      assert.ok(coords.every(n=>Math.abs(n.y-coords[0].y)<=2&&n.height<=36&&n.width>=15),width+": seletor não horizontal/compacto em "+id);
+      assert.equal(await buttons.first().getAttribute("aria-pressed"),"true",width+": primeira versão não ativa em "+id);
+      if([375,1440].includes(width))await page.locator('[data-open="'+id+'"]').screenshot({path:"tests/screenshots/"+width+"-"+id+"-fase3-antes.png"});
+      await buttons.last().click();
+      assert.equal(await page.locator('[data-card-switch="'+id+'"]').last().getAttribute("aria-pressed"),"true",width+": variante não alternou em "+id);
+      assert.equal(await page.evaluate(()=>location.hash),"",width+": alternador abriu o dossiê de "+id);
+      if([375,1440].includes(width))await page.locator('[data-open="'+id+'"]').screenshot({path:"tests/screenshots/"+width+"-"+id+"-fase3-depois.png"});
+    }
+    await page.locator("#search").fill("MAKIMA");
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
    assert.match(await page.locator("#resultsCount").textContent(),/01 DE 69/);
    await page.locator("[data-clear-search]").click();
