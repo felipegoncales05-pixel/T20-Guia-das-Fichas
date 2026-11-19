@@ -10,7 +10,7 @@ const scriptRuntime=fs.readFileSync("expansion-runtime.js","utf8");
 const scriptMega=fs.readFileSync("mega-data.js","utf8");
 const scriptMegaRuntime=fs.readFileSync("mega-runtime.js","utf8");
 const scriptCatalogMedia=fs.readFileSync("catalog-media.js","utf8");
-const addons=["acheron-samurai.js","heroes-custom.js","d-salvage.js"].map(name=>[name,fs.readFileSync(name,"utf8")]);
+const addons=["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js"].map(name=>[name,fs.readFileSync(name,"utf8")]);
 const hooks={};
 const elements=new Map();
 function get(id){if(!elements.has(id))elements.set(id,{id,innerHTML:"",value:"",classList:{add(){},remove(){}},textContent:""});return elements.get(id);}
@@ -51,6 +51,12 @@ assert.match(get("roster").innerHTML,/Diego Brando/);
 assert.match(get("roster").innerHTML,/Optimus Prime/);
 for(const name of ["Jonathan Joestar","Johnny Joestar","Jolyne Cujoh","Denji","Satoru Gojo","Tomura Shigaraki","Izuku Midoriya"])assert.ok(get("roster").innerHTML.includes(name),name+" faltando no catálogo");
 assert.match(get("roster").innerHTML,/character-fx/);
+for(const id of fakeWindow.T20_USER_ART_IDS){
+ const char=fakeWindow.T20_DATA.characters.find(c=>c.id===id);
+ assert.equal(char.portrait.url,"./assets/art/"+id+".png",id+": arte do usuário não carregada");
+ assert.match(get("roster").innerHTML,new RegExp("assets/art/"+id+"\\.png"),id+": imagem fora dos cards");
+}
+
 hooks["document:input"]({target:{id:"search",value:"David"}});
 assert.match(get("roster").innerHTML,/David Martinez/);
 assert.doesNotMatch(get("roster").innerHTML,/Gyro Zeppeli/);
