@@ -60,6 +60,13 @@ async function assertLayout(page,label){
     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
     assert.equal(await page.locator(".detail-tabs button").count(),7);
     if(id==="em-acheron")assert.match(await page.locator("#detail-section").textContent(),/Samurai|katana/i);
+    if(width===375&&["jojo-dio1","jojo-dio3","d","jojo-valentine","gyro","jojo-pucci","jojo-kira","jojo-tooru","jojo-diavolo","em-zandar"].includes(id)){
+     const portrait=page.locator(".hero-portrait img:not(.portrait-underlay)");
+     await portrait.scrollIntoViewIfNeeded();
+     assert.match(await portrait.getAttribute("src"),/assets\/art-optimized\/[a-z0-9-]+\.webp$/);
+     await portrait.evaluate(el=>el.decode());
+     assert.ok(await portrait.evaluate(el=>el.naturalWidth>0),id+": imagem WebP local não carregou no celular");
+    }
     await assertLayout(page,width+" "+id+" dossiê");
     if(width===375&&(id==="gyro"||id==="rentarou"))await page.screenshot({path:"tests/screenshots/375-"+id+".png"});
     if(id==="diego"){
