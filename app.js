@@ -16,7 +16,7 @@ function toast(msg){const el=document.getElementById("toast");el.textContent=msg
 function note(text){return '<aside class="system-note"><span class="who">O SISTEMA // OBSERVAÇÃO</span><p>'+e(text)+'</p></aside>'}
 
 const guides=window.T20_GUIDE||{books:{},people:{}};
-const guideFor=(c)=>c._guide||c.id==="diego"&&c.theme==="diego-alt"&&window.T20_ALTERNATE_GUIDES?.diego?window.T20_ALTERNATE_GUIDES.diego:guides.people[c.id]||{levels:[],basics:[]};
+const guideFor=(c)=>c._guide||(c.id==="diego"&&c.theme==="diego-alt"&&window.T20_ALTERNATE_GUIDES?.diego?window.T20_ALTERNATE_GUIDES.diego:guides.people[c.id]||{levels:[],basics:[]});
 const attrDelta=(c,n,k)=>window.T20_MEGA?.ids.has(c.id)?window.T20_MEGA.delta(c,n,k):window.T20_EXPANSION.delta(c,n,k);
 const levelClamp=(v)=>Math.min(12,Math.max(1,Number(v)||1));
 const fmt=(n)=>(n>=0?"+":"")+n;
