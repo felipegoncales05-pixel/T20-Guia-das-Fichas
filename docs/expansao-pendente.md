@@ -23,4 +23,13 @@ Uma imagem ausente exibe o pôster tipográfico de reserva com nome e obra. A co
 
 ## Evidência visual
 
-As capturas de Chromium em desktop e celular e os resultados de CI desta passagem serão anexados após a validação. A [passagem anterior](relatorio-fase-ii.md) permanece documentada sem alterações.
+O [Chromium passou em onze larguras](https://github.com/felipegoncales05-pixel/T20-Guia-das-Fichas/actions/runs/44616601805), de 320 a 1440 px, com dez imagens locais carregadas no catálogo, dez capas de dossiê, fallback de arquivo ausente, ausência de overflow e movimento reduzido. As [capturas PNG completas](https://github.com/felipegoncales05-pixel/T20-Guia-das-Fichas/actions/runs/44616601805#artifacts) estão no artefato `responsivo-capturas`; as seleções abaixo foram copiadas da execução real, sem reconstrução da interface.
+
+| Trecho | Antes | Depois |
+| --- | --- | --- |
+| Toji no celular | ![Pôster tipográfico de Toji antes da arte](screenshots/expansion/375-toji-planejado.webp) | ![Retrato local e capa de Toji](screenshots/expansion/375-toji-com-arte.png) |
+| Celenova no celular | ![Linha atravessando a arte de Celenova na captura enviada](screenshots/expansion/375-celenova-antes.png) | ![Celenova sem linha sobre o retrato](screenshots/expansion/375-celenova-depois.png) |
+
+[Catálogo mobile com as dez artes](screenshots/expansion/375-planejados-com-arte.png) · [Capa de Toji no desktop](screenshots/expansion/1440-toji-com-arte.png) · [Celenova no desktop](screenshots/expansion/1440-celenova-depois.png).
+
+A [passagem anterior](relatorio-fase-ii.md) permanece documentada sem alterações. Os retratos ainda podem receber curadoria final do autor; arte promocional não determina variante T20.
