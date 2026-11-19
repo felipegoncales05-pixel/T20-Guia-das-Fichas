@@ -19,6 +19,13 @@ async function assertLayout(page,label){
    return [r.left,r.right,r.height,getComputedStyle(el).display,el.textContent.trim()];
   })
  }));
+ if(p.scroll>p.width+2){
+  const offenders=await page.evaluate(()=>[...document.querySelectorAll('body *')].map(el=>{
+   const box=el.getBoundingClientRect();
+   return {element:el.tagName.toLowerCase()+(el.id?'#'+el.id:'')+(typeof el.className==='string'&&el.className?'.'+el.className.trim().split(/\s+/).join('.'):''),left:Math.round(box.left),right:Math.round(box.right),width:Math.round(box.width)};
+  }).filter(x=>x.right>document.documentElement.clientWidth+2||x.left< -2).slice(0,20));
+  console.error(label+" elementos que ultrapassam a tela",offenders);
+ }
  assert.ok(p.scroll<=p.width+2,label+" overflow "+JSON.stringify(p));
  for(const t of p.tabs)assert.ok(t[0]>=-2&&t[1]<=p.width+2&&t[2]>=40&&t[3]!=="none",label+" aba inacessível "+t[4]);
 }
