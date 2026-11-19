@@ -28,12 +28,12 @@ async function assertLayout(page,label){
    page.on("pageerror",err=>errors.push(String(err)));
    await page.route(/^https?:\/\//,route=>route.abort()); // Testa também fallbacks de imagens
    await page.goto(site,{waitUntil:"load"});
-   assert.equal(await page.locator(".roster-card").count(),12);
+   assert.equal(await page.locator(".roster-card").count(),47);
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
    if(width===375||width===768)await page.screenshot({path:"tests/screenshots/"+width+"-catalogo.png"});
-   for(const id of ["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus"]){
+   for(const id of ["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster"]){
     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
     assert.equal(await page.locator(".detail-tabs button").count(),7);
     await assertLayout(page,width+" "+id+" dossiê");
@@ -76,9 +76,9 @@ async function assertLayout(page,label){
     await assertLayout(page,width+" "+id+" fontes");
    }
    assert.deepEqual(errors,[]);
-   console.log("OK viewport "+width+"x"+height+" — 12 dossiês e interações");
+   console.log("OK viewport "+width+"x"+height+" — 47 dossiês e interações");
    await page.close();
   }
-  console.log("VALIDADO: 11 viewports e doze fichas sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports e 47 fichas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});
