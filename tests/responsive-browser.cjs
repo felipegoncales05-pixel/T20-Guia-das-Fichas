@@ -61,7 +61,8 @@ async function assertLayout(page,label){
     await page.locator("#universe").selectOption("cyberpunk");
     assert.equal(await page.locator(".roster-card").count(),2);
     const capri=page.locator('[data-open="d"] .capri-gaze');
-    await capri.evaluate(el=>el.decode());
+    await capri.scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>document.querySelector('[data-open="d"] .capri-gaze')?.naturalWidth>0);
     assert.ok(await capri.evaluate(el=>el.naturalWidth>0),"Retrato local da Capri não carregou");
     assert.equal(await page.locator('[data-open="d"] .capri-eye').count(),0,"Ponto extra no rosto");
     assert.equal(await page.locator('[data-open="david"] .psycho-echo').count(),1);
@@ -69,8 +70,8 @@ async function assertLayout(page,label){
     await page.waitForFunction(()=>!!document.querySelector('[data-open="d"]')?.style.getPropertyValue("--capri-x"));
     assert.ok(Math.abs(Number.parseInt(await page.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),10))<=2);
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk.png"});
-    const opacity=await page.locator(".psycho-echo").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13600;return Number(getComputedStyle(el).opacity)});
-    await page.locator(".psycho-error").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13600});
+    const opacity=await page.locator(".psycho-echo").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13620;return Number(getComputedStyle(el).opacity)});
+    await page.locator(".psycho-error").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13620});
     assert.ok(opacity>0&&opacity<=.18,"Glitch de David intenso ou ausente: "+opacity);
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk-pulso.png"});
     await page.locator("#universe").selectOption("all");
