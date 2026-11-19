@@ -110,6 +110,51 @@
     "source": "https://www.hoyolab.com/article/40967778",
     "credit": "Arte promocional de Honkai: Star Rail · via HoYoLAB",
     "type": "official-art"
+  },
+  "jojo-joseph": {
+    "series": "JoJo's Bizarre Adventure — Battle Tendency",
+    "volume": "Volume 11",
+    "publisher": "Shueisha",
+    "image": "https://cdn1.fahasa.com/media/catalog/product/9/7/9784088510675.jpg",
+    "source": "https://www.fahasa.com/jojo-no-kimyouna-bouken-11.html",
+    "credit": "Hirohiko Araki · Shueisha",
+    "type": "manga-cover"
+  },
+  "jojo-jotaro": {
+    "series": "JoJo's Bizarre Adventure — Stardust Crusaders",
+    "volume": "Volume 28",
+    "publisher": "Shueisha",
+    "image": "https://vignette.wikia.nocookie.net/jjba/images/e/e6/Volume_28.jpg/revision/latest?cb=20170623235902",
+    "source": "https://jojo.fandom.com/wiki/Volume_28",
+    "credit": "Hirohiko Araki · Shueisha",
+    "type": "manga-cover"
+  },
+  "jojo-dio3": {
+    "series": "JoJo's Bizarre Adventure — Stardust Crusaders",
+    "volume": "Volume 27",
+    "publisher": "Shueisha",
+    "image": "https://cdn11.bigcommerce.com/s-89ffd/images/stencil/1280x1280/products/154207/660836/shueisha-jojos-bizarre-adventure-vol.27-part-3-stardust-crusaders-jump-comics-manga-japanese-language__16672.1737708200.jpg",
+    "source": "https://www.shueisha.co.jp/books/items/contents.html?isbn=978-4-08-851570-0",
+    "credit": "Hirohiko Araki · Shueisha",
+    "type": "manga-cover"
+  },
+  "jojo-josuke4": {
+    "series": "JoJo's Bizarre Adventure — Diamond is Unbreakable",
+    "volume": "Volume 29",
+    "publisher": "Shueisha",
+    "image": "https://cdn11.bigcommerce.com/s-89ffd/images/stencil/1280x1280/products/152175/681134/shueisha-jojos-bizarre-adventure-vol.29-part-4-diamond-is-unbreakable-jump-comics-manga-japanese-language__82337.1737740600.jpg",
+    "source": "https://www.plazajapan.com/9784088516356/",
+    "credit": "Hirohiko Araki · Shueisha",
+    "type": "manga-cover"
+  },
+  "jojo-johnny": {
+    "series": "JoJo's Bizarre Adventure — Steel Ball Run",
+    "volume": "Volume 4",
+    "publisher": "Shueisha",
+    "image": "https://cdn1.fahasa.com/media/catalog/product/9/7/9784088736891.jpg",
+    "source": "https://jojowiki.com/SBR_Volume_4",
+    "credit": "Hirohiko Araki · Shueisha",
+    "type": "manga-cover"
   }
 });
 })();
