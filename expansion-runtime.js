@@ -9,7 +9,7 @@ const delta=(c,n,k)=>{
  if(c.id==="yoru")return (k==="INT"&&n>=8)||(k==="DEX"&&n>=9)||(k==="FOR"&&n>=11)||(k==="CON"&&n>=12)?1:0;
  if(c.id==="diego"&&c.theme==="diego"&&k==="SAB"&&n>=10)return 1;
  if(c.id==="ado"&&k==="CAR")return(n>=5?1:0)+(n>=11?1:0);
- if(c.id==="cyrene"&&k==="CAR"&&n>=10)return 1;
+ if(c.id==="cyrene"&&k==="CAR"&&n>=12)return 1;
  if(c.id==="marin"&&k==="CAR")return(n>=5?1:0)+(n>=11?1:0);
  if(c.id==="marin"&&k==="INT"&&n>=9)return 1;
  if(c.id==="makima"&&k==="CAR"&&n>=8)return 1;
@@ -55,11 +55,12 @@ const stats=(c,n)=>{
  }else if(c.id==="cyrene"||c.id==="makima"){
   if(n>=4)o.pm+=n; // Poder Mágico no 4º nível.
   o.pm+=delta(c,n,"CAR");
-  o.magicDC=10+half+car+(c.id==="cyrene"&&n>=7?1:0)+(c.id==="makima"&&n>=9?1:0);
+  o.magicDC=10+half+car+(c.id==="cyrene"&&n>=5?1:0)+(c.id==="makima"&&n>=5?1:0);
   o.extra="Magias do "+(n>=9?"3º":n>=5?"2º":"1º")+" círculo";
   o.explanation="Feiticeira: CD básica de magia e PM são calculados com CAR; Poder Mágico acrescenta PM retroativos. A CD exibida não inclui modificadores de escola ou gastos opcionais.";
  }else if(c.id==="optimus"){
   o.pv+=n>=10?n:0;
+  o.pm+=n>=12?6:n>=8?3:n>=2?1:0;
   o.attack=signed(str+2+half+(n>=7?2:0));
   o.damage="Montante 2d6+"+str+(n>=9?" + 3d8":n>=5?" + 2d8":" + 1d8")+" (Golpe Divino, se usado)";
   o.extra="Chassi +2 Defesa • Sem Origem";
