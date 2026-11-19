@@ -132,9 +132,9 @@ for(const c of fakeWindow.T20_PLANNED){
   assert.doesNotMatch(get("app").innerHTML,/global-level-picker|data-stat="PV"|radar-svg/,c.id+" gerou estatísticas inexistentes");
   if(tab==="progression"){
    assert.match(get("app").innerHTML,/EVOLUÇÃO DOCUMENTADA/);
-   assert.equal((get("app").innerHTML.match(/<div><span>d{2}</span><strong>/g)||[]).length,12,c.id+" / 12 níveis preenchidos");
+   assert.equal((get("app").innerHTML.match(/<div><span>[0-9][0-9]<[/]span><strong>/g)||[]).length,12,c.id+" / 12 níveis preenchidos");
   }
-  if(tab==="sources")assert.match(get("app").innerHTML,/Tormenta20 — Edição Jogo do Ano v1.3/);
+  if(tab==="sources")assert.match(get("app").innerHTML,/Tormenta20 — Edição Jogo do Ano v1[.]3/);
   if(tab==="review")assert.match(get("app").innerHTML,/name="character"|id="reviewCharacter"/);
  }
 }
