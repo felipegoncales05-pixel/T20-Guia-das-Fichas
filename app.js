@@ -50,6 +50,13 @@ function statFor(c,lvl){
    damage=(n>=9?"1d10":n>=5?"1d8":"1d6")+"+"+(attrStr+(n>=10?con:0));
    extra="Briga "+(n>=9?"1d10":n>=5?"1d8":"1d6");
    explanation="PV incluem Sarado (FOR) desde o 4º; PM incluem Coração Heroico nos níveis 5 e 11; Defesa presume ausência de armadura para Braços Calejados e Casca Grossa. Dano não aplica bônus temporários.";
+ }else if(c.id==="rentarou"){
+   pm+=(n>=5?3:0)+(n>=11?3:0);
+   defense+=(n>=5?1:0)+(n>=11?1:0);
+   attack=fmt(2+floor+(n>=7?2:0));
+   damage=n>=10?"Palavras Afiadas 6d6":n>=6?"Palavras Afiadas 4d6":n>=2?"Palavras Afiadas 2d6":"Clava 1d6";
+   extra="CAR "+fmt(4+(n>=5?1:0)+(n>=11?1:0))+" • Comandar +1";
+   explanation="Nobre de apoio: PV aumentam 7 por nível, PM aumentam 4 por nível, além dos +3 PM de Coração Heroico nos níveis 1, 5 e 11. A Defesa inclui couro (+2) e Carisma (Autoconfiança). Palavras Afiadas usa Diplomacia contra Vontade, dano não letal; não é ataque de Luta.";
  }else if(c.id==="cipher"){
    attack=fmt(6+floor+(n>=7?2:0));
    damage=(n>=2?"1d4+4":"1d4")+(n>=1?" + "+(1+Math.floor((n-1)/2))+"d6 furtivo (se válido)":"");
@@ -64,6 +71,10 @@ function skillFor(c,entry,level){
  if(c.id==="cipher"&&n>=3&&["Ladinagem","Furtividade"].includes(entry[0]))bonus+=3;
  if(c.id==="david"&&entry[0]==="Fortitude"&&n>=4)bonus+=(n>=7?5:4);
  if(c.id==="david"&&entry[0]==="Atletismo"&&n>=2)bonus+=2;
+ if(c.id==="rentarou"){
+   if(["Diplomacia","Enganação"].includes(entry[0]))bonus+=(n>=5?1:0)+(n>=11?1:0);
+   if(entry[0]==="Diplomacia"&&n>=4)bonus+=2;
+ }
  return fmt(bonus);
 }
 function referenceLinks(refs){
@@ -94,11 +105,11 @@ function sourceLink(entry,category){return '<a class="source-link" href="'+url(e
 function card(c){return '<button type="button" class="roster-card '+e(c.theme)+'" data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+'"><div class="photo">'+image(c.portrait.url,"Retrato ilustrativo de "+c.name)+'</div><span class="card-no">DOSSIÊ // '+e(c.number)+'</span><span class="card-topline" aria-hidden="true"></span><div class="card-body"><span class="card-overline">'+e(c.label)+'</span><h3>'+e(c.name)+'</h3><p>'+e(c.info.race)+' · '+e(c.info.className)+'<br>'+e(c.universe)+'</p><div class="card-action"><span>ACESSAR FICHA</span><b aria-hidden="true">↗</b></div></div></button>'}
 function listView(){document.body.removeAttribute("data-theme");document.title="O Sistema // T20 — Arquivo de Fichas";root.innerHTML=
 '<div class="container"><section class="landing-hero" aria-label="Arquivo de personagens"><div><div class="kicker">ARQUIVO CENTRAL // FICHAS DE COMBATE</div><h1>QUATRO MUNDOS.<br><em>INFINITAS BUILDS.</em></h1><p>Personagens de outras histórias convertidos em fichas jogáveis de Tormenta20. Selecione um operador, compare os atributos e explore cada técnica até a evolução final.</p></div><div class="hero-mark" aria-hidden="true">T20</div></section>'+
-'<div class="stats-strip"><div class="mini-stat"><strong>04</strong><span>DOSSIÊS<br>DISPONÍVEIS</span></div><div class="mini-stat"><strong>12</strong><span>NÍVEIS<br>POR FICHA</span></div><div class="mini-stat"><strong>06</strong><span>ATRIBUTOS<br>POR RADAR</span></div></div>'+
-'<section aria-labelledby="roster-title"><div class="list-toolbar"><div><div class="corner-label">SISTEMA DE IDENTIFICAÇÃO // SELEÇÃO</div><h2 id="roster-title">ARQUIVO DE PERSONAGENS</h2></div><div class="filters"><label class="filter-label" for="search">BUSCA</label><input class="search-input" id="search" type="search" placeholder="Buscar personagem..." autocomplete="off" value="'+e(search)+'"><label class="filter-label" for="universe">UNIVERSO</label><select class="filter-select" id="universe"><option value="all">Todos os universos</option><option value="jojo">Steel Ball Run</option><option value="cyberpunk">Cyberpunk</option><option value="hsr">Honkai: Star Rail</option></select></div></div><div class="roster-grid" id="roster" aria-live="polite"></div></section>'+
+'<div class="stats-strip"><div class="mini-stat"><strong>'+String(data.characters.length).padStart(2,"0")+'</strong><span>DOSSIÊS<br>DISPONÍVEIS</span></div><div class="mini-stat"><strong>12</strong><span>NÍVEIS<br>POR FICHA</span></div><div class="mini-stat"><strong>06</strong><span>ATRIBUTOS<br>POR RADAR</span></div></div>'+
+'<section aria-labelledby="roster-title"><div class="list-toolbar"><div><div class="corner-label">SISTEMA DE IDENTIFICAÇÃO // SELEÇÃO</div><h2 id="roster-title">ARQUIVO DE PERSONAGENS</h2></div><div class="filters"><label class="filter-label" for="search">BUSCA</label><input class="search-input" id="search" type="search" placeholder="Buscar personagem..." autocomplete="off" value="'+e(search)+'"><label class="filter-label" for="universe">UNIVERSO</label><select class="filter-select" id="universe"><option value="all">Todos os universos</option><option value="jojo">Steel Ball Run</option><option value="cyberpunk">Cyberpunk</option><option value="hsr">Honkai: Star Rail</option><option value="romcom">100 Namoradas</option></select></div></div><div class="roster-grid" id="roster" aria-live="polite"></div></section>'+
 '<div class="rule-note"><b>O SISTEMA //</b><span>Construções independentes, com regras oficiais e alterações apenas de aparência/narrativa. Cada ficha inclui fontes, limitações e pontos que exigem aprovação do mestre.</span></div></div>';
 const input=document.getElementById("search"),select=document.getElementById("universe");input.value=search;select.value=universe;updateCards();lastRoute="library"}
-function updateCards(){const slot=document.getElementById("roster");if(!slot)return;const matches=data.characters.filter(c=>{const cat=c.id==="gyro"?"jojo":c.id==="cipher"?"hsr":"cyberpunk";return(universe==="all"||universe===cat)&&(!search||[c.name,c.label,c.info.className,c.universe].join(" ").toLowerCase().includes(search.toLowerCase()))});slot.innerHTML=matches.length?matches.map(card).join(""):'<div class="empty-state">Nenhum dossiê corresponde à busca. Tente outro nome ou universo.</div>'}
+function updateCards(){const slot=document.getElementById("roster");if(!slot)return;const matches=data.characters.filter(c=>{const cat=c.id==="gyro"?"jojo":c.id==="cipher"?"hsr":c.id==="rentarou"?"romcom":"cyberpunk";return(universe==="all"||universe===cat)&&(!search||[c.name,c.label,c.info.className,c.universe].join(" ").toLowerCase().includes(search.toLowerCase()))});slot.innerHTML=matches.length?matches.map(card).join(""):'<div class="empty-state">Nenhum dossiê corresponde à busca. Tente outro nome ou universo.</div>'}
 function cover(c){return '<section class="detail-hero" aria-labelledby="character-title"><div class="hero-watermark" aria-hidden="true">'+icon(c.symbol)+'</div><div class="hero-copy"><div class="kicker">DOSSIÊ '+e(c.number)+' // '+e(c.label)+'</div><h1 id="character-title">'+e(c.name)+'</h1><p>'+e(c.excerpt)+'</p><div class="hero-chips"><span class="chip strong">NÍVEL INICIAL 01</span><span class="chip">'+e(c.info.race)+'</span><span class="chip">'+e(c.info.className)+'</span></div></div><div class="hero-portrait">'+image(c.portrait.url,"Referência de "+c.name)+'</div></section>'}
 function quickStats(c){
  const v=statFor(c,selectedLevel);
