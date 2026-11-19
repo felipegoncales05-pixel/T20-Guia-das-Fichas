@@ -5,7 +5,7 @@
  if(!engine||!rules)return;
  const KEY="t20-laboratorio-v1",planned=()=>window.T20_PLANNED||[];
  const concepts=window.T20_CONCEPTS;
- const seedDraft=s=>concepts?.fromPlanned(s,engine)||seedDraft(s);
+ const seedDraft=s=>concepts?.fromPlanned(s,engine)||engine.makeDraft({catalogId:s.id,name:s.name,work:s.universe,theme:s.catalogCategory});
  const esc=v=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
  let drafts=[],active="",host=null,message="";
  try{const raw=JSON.parse(localStorage.getItem(KEY)||"[]");if(Array.isArray(raw))drafts=raw.slice(0,40).map(x=>{try{return engine.normalize(x)}catch{return null}}).filter(Boolean)}catch{}

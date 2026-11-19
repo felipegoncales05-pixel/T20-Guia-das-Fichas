@@ -96,7 +96,7 @@ for(const id of expected){
  assert.equal(d.catalogId,id);
  assert.equal(d.levels.length,12);
  assert.equal(d.levels.every(x=>x.powerId===''),true,'Não conceder poderes sem conferência');
- assert.ok(d.notes.includes('não'));
+ assert.ok(d.notes.includes('Nenhuma classe'));
  assert.ok(evaluate(d).issues.length>0,'Conceito não pode ser aprovado');
 }
 const sampleToji=concepts.fromPlanned({id:'toji',name:'Toji',universe:'JJK'},engine);
