@@ -1,0 +1,150 @@
+/* Fotografia e edição de composição dos dez planejamentos. Nenhuma arte
+   do acervo anterior é substituída; esta camada também remove o recorte
+   horizontal causado pela borda do bloco de texto sobre retratos. */
+.roster-card[data-art] .card-body{border-top:0!important}
+.roster-card[data-art] .card-body::before{
+ content:"";display:block;width:28px;height:2px;margin:-10px 0 13px;
+ background:var(--art-accent);opacity:.88;
+}
+.roster-card[data-pending] .pending-poster,.planned-hero .pending-poster{display:none}
+.roster-card[data-pending].art-unavailable .pending-poster,
+.planned-hero.art-unavailable .pending-poster{display:flex}
+.roster-card[data-pending].art-unavailable .pending-poster{inset:50px 13px 155px}
+.roster-card[data-pending] .pending-photo{background:#18222a}
+.roster-card[data-pending] .pending-photo .planned-art{
+ position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;
+ object-fit:cover;object-position:center 22%;opacity:1;
+}
+.roster-card[data-pending] .pending-photo::after{
+ background:linear-gradient(0deg,#090e16 4%,#0a1119e8 29%,#10182044 53%,transparent 80%);
+}
+.roster-card[data-pending] .card-body{
+ min-height:180px;padding-top:17px;
+ background:linear-gradient(0deg,#0a1019 1%,#0a1019ec 67%,transparent);
+}
+.roster-card[data-pending] .card-body::before{margin:0 0 10px}
+.roster-card[data-pending] .art-insignia{opacity:.21}
+.roster-card[data-pending] .art-insignia span{opacity:.32}
+.roster-card[data-pending] .card-versions.symbolic{color:#f2eee4}
+.planned-hero .pending-hero-poster{background:var(--art-dark)}
+.planned-hero .pending-hero-poster .planned-art{
+ position:absolute;inset:0;z-index:1;width:100%;height:100%;
+ object-fit:cover;object-position:center 23%;filter:none;
+}
+.planned-hero .pending-hero-poster::after{
+ display:block;z-index:2;
+ background:linear-gradient(90deg,var(--art-dark) 0%,transparent 22%),
+ linear-gradient(0deg,var(--art-dark) 1%,transparent 23%);
+}
+.planned-art-credit{position:absolute;z-index:3;bottom:34px;right:13px;max-width:240px;
+ padding:4px 6px;background:#09131ccc;color:#f4eee4;
+ font:700 9px/1.35 var(--mono);letter-spacing:.05em;text-align:right}
+.planned-source-link{display:inline-block;margin:0 0 13px;color:var(--art-accent);
+ text-decoration:underline;text-underline-offset:3px;font:700 13px/1.5 var(--body)}
+.planned-panel dd a{color:var(--art-accent);text-underline-offset:3px}
+.planned-panel small{display:block}
+
+/* Jujutsu Kaisen: passagem cortada e volume preto; Toji ocupa o campo todo. */
+.planned-card[data-art="toji"]{border-radius:0;clip-path:polygon(0 0,96% 0,100% 5%,100% 100%,0 100%)}
+.planned-card[data-art="toji"] .pending-photo{background:#273f39}
+.planned-card[data-art="toji"] .pending-photo .planned-art{object-fit:contain;object-position:center 18%;filter:drop-shadow(8px 7px 0 #081a16a8)}
+.planned-card[data-art="toji"] .pending-photo::after{
+ background:linear-gradient(149deg,transparent 0 47%,#b1cbb01b 47.4% 48%,transparent 48.4%),
+ linear-gradient(0deg,#101d1c 3%,#101d1cf0 27%,transparent 65%)}
+.planned-card[data-art="toji"] .world-mark{border-left:4px solid var(--art-accent)}
+body[data-pending][data-art="toji"] .planned-hero{background:linear-gradient(140deg,#142923 0 63%,#96ae9433 63.3% 64%,#162321 64.3%)}
+body[data-pending][data-art="toji"] .pending-hero-poster .planned-art{object-fit:contain}
+body[data-pending][data-art="toji"] .section-cover{border-left:0;border-top:4px solid var(--art-accent);transform:skewX(-1deg)}
+
+/* BLEACH: coluna branca, fio vertical e reflexo contido. */
+.planned-card[data-art="aizen"] .pending-photo{background:#283446}
+.planned-card[data-art="aizen"] .pending-photo .planned-art{object-fit:contain;object-position:center 18%}
+.planned-card[data-art="aizen"] .pending-photo::after{background:linear-gradient(104deg,transparent 0 76%,#e3edf063 76.3% 76.8%,transparent 77%),linear-gradient(0deg,#192032 4%,#192032e8 30%,transparent 70%)}
+.planned-card[data-art="aizen"] .card-body{border-left:3px solid #c5d5e3}
+body[data-pending][data-art="aizen"] .planned-hero{background:linear-gradient(115deg,#202943 0 74%,#d1dce256 74.2% 74.5%,#1c263d 74.8%)}
+body[data-pending][data-art="aizen"] .pending-hero-poster .planned-art{object-fit:contain}
+body[data-pending][data-art="aizen"] .section-cover{border-left:2px solid #d0e2ef;border-right:7px solid #d0e2ef}
+
+/* Dragon Ball: os brincos emparelhados de Vegitto e a diagonal de Gogeta
+   são dois ritmos, mesmo quando dividem a categoria no filtro. */
+.planned-card[data-art="vegitto"] .pending-photo{background:#34264b}
+.planned-card[data-art="vegitto"] .pending-photo .planned-art{object-position:51% 29%}
+.planned-card[data-art="vegitto"] .art-insignia i{border-radius:50%;width:30%;right:22%;box-shadow:34px 2px 0 -2px #f4bb743b}
+.planned-card[data-art="vegitto"] .card-body{border-left:6px double #f4bb74}
+body[data-pending][data-art="vegitto"] .planned-hero{background:radial-gradient(circle at 35% 42%,#73528855 0 24%,transparent 25%),#2d2541}
+body[data-pending][data-art="vegitto"] .section-cover{border-left:6px double var(--art-accent)}
+.planned-card[data-art="gogeta"] .pending-photo{background:#27214a}
+.planned-card[data-art="gogeta"] .pending-photo .planned-art{object-position:50% 23%}
+.planned-card[data-art="gogeta"] .pending-photo::after{
+ background:linear-gradient(141deg,transparent 0 48%,#e8846680 48.2% 49%,transparent 49.3%),
+ linear-gradient(0deg,#261d3b 5%,#261d3bee 29%,transparent 75%)}
+.planned-card[data-art="gogeta"] .card-body{border-right:7px solid #ed8e73}
+body[data-pending][data-art="gogeta"] .planned-hero{background:linear-gradient(135deg,#2b2346 0 68%,#f09b774f 68.4% 69%,#2c2544 69.4%)}
+body[data-pending][data-art="gogeta"] .section-cover{border-left:0;border-bottom:3px solid var(--art-accent);clip-path:polygon(0 0,100% 0,100% 100%,3% 100%)}
+
+/* Dark Souls III: carvão, cinza e uma pequena brasa no rodapé. */
+.planned-card[data-art="soul-of-cinder"]{border-color:#a07b5e;border-radius:0}
+.planned-card[data-art="soul-of-cinder"] .pending-photo{background:#171919}
+.planned-card[data-art="soul-of-cinder"] .pending-photo .planned-art{object-position:68% 30%;filter:contrast(1.08)}
+.planned-card[data-art="soul-of-cinder"] .pending-photo::after{background:linear-gradient(0deg,#1c1919 3%,#211d1dea 33%,transparent 72%),repeating-linear-gradient(10deg,transparent 0 31px,#daa5721a 32px 33px)}
+.planned-card[data-art="soul-of-cinder"] .card-body h3{font-family:Georgia,serif;font-weight:700;font-size:clamp(30px,3vw,40px);line-height:.91}
+body[data-pending][data-art="soul-of-cinder"] .planned-hero{background:#292220}
+body[data-pending][data-art="soul-of-cinder"] .pending-hero-poster .planned-art{object-position:62% center}
+body[data-pending][data-art="soul-of-cinder"] .section-cover{border-left:0;border-top:3px double #d09a6c}
+
+/* Isaac: capa de porão, papel gasto e moldura imperfeita. */
+.planned-card[data-art="isaac"]{border-radius:18px 3px 17px 2px;border-color:#c9a792}
+.planned-card[data-art="isaac"] .pending-photo{background:#332b30}
+.planned-card[data-art="isaac"] .pending-photo .planned-art{object-position:center 18%}
+.planned-card[data-art="isaac"] .pending-photo::after{background:linear-gradient(0deg,#30262a 2%,#342a2beb 28%,transparent 68%)}
+.planned-card[data-art="isaac"] .card-body h3{font-family:Georgia,serif;font-style:italic;text-transform:none;letter-spacing:-.06em}
+body[data-pending][data-art="isaac"] .planned-hero{border-radius:15px 2px 13px 2px;background:#3c3032}
+body[data-pending][data-art="isaac"] .section-cover{border-left:3px dotted var(--art-accent);border-radius:13px 2px 14px 2px}
+
+/* Shuumatsu: pórtico de arena e tipografia lapidar, sem simular atributo. */
+.planned-card[data-art="adao"] .pending-photo{background:#4b4148}
+.planned-card[data-art="adao"] .pending-photo .planned-art{object-position:0% 18%}
+.planned-card[data-art="adao"] .pending-photo::after{background:radial-gradient(ellipse at 39% 40%,transparent 0 34%,#dbc59652 34.4% 34.8%,transparent 35.3%),linear-gradient(0deg,#332e39 5%,#332e39e9 30%,transparent 75%)}
+.planned-card[data-art="adao"] .card-body h3{font-family:Georgia,serif;font-weight:700}
+body[data-pending][data-art="adao"] .planned-hero{background:repeating-linear-gradient(90deg,transparent 0 36px,#f0dcac17 37px 39px),#403640}
+body[data-pending][data-art="adao"] .pending-hero-poster .planned-art{object-position:0% 17%}
+body[data-pending][data-art="adao"] .section-cover{border-left:0;border-top:3px solid var(--art-accent);border-bottom:1px solid var(--art-accent)}
+
+/* Black Souls: página rasurada; a arte de capa não fixa a aparência do herói. */
+.planned-card[data-art="grimm"]{border-radius:0;border-color:#b1a0aa}
+.planned-card[data-art="grimm"] .pending-photo{background:#252229}
+.planned-card[data-art="grimm"] .pending-photo .planned-art{object-position:29% center;filter:contrast(1.09) saturate(.82)}
+.planned-card[data-art="grimm"] .pending-photo::after{background:linear-gradient(0deg,#211d24 3%,#211d24eb 28%,transparent 75%),repeating-linear-gradient(0deg,transparent 0 34px,#e5d9df20 35px 36px)}
+.planned-card[data-art="grimm"] .card-body h3{font-family:Georgia,serif;font-weight:700;font-style:italic}
+body[data-pending][data-art="grimm"] .planned-hero{background:#261e2a}
+body[data-pending][data-art="grimm"] .pending-hero-poster .planned-art{object-position:28% center}
+body[data-pending][data-art="grimm"] .section-cover{border-left:8px double var(--art-accent)}
+
+/* Sekiro: tinta, papel de arroz e corte vertical de lâmina. */
+.planned-card[data-art="sekiro"]{border-radius:0}
+.planned-card[data-art="sekiro"] .pending-photo{background:#242822}
+.planned-card[data-art="sekiro"] .pending-photo .planned-art{object-position:31% center;filter:contrast(1.06)}
+.planned-card[data-art="sekiro"] .pending-photo::after{background:linear-gradient(107deg,transparent 0 82%,#b89973a8 82.3% 82.7%,transparent 83%),linear-gradient(0deg,#242420 4%,#242420f0 30%,transparent 72%)}
+.planned-card[data-art="sekiro"] .card-body{border-left:4px solid #c3ae89}
+body[data-pending][data-art="sekiro"] .planned-hero{background:repeating-linear-gradient(0deg,transparent 0 27px,#dac7a815 28px 29px),#282d2b}
+body[data-pending][data-art="sekiro"] .pending-hero-poster .planned-art{object-position:30% center}
+body[data-pending][data-art="sekiro"] .section-cover{border-left:2px solid var(--art-accent);border-right:2px solid var(--art-accent)}
+
+/* Tokyo Ghoul: folha de modelo, frente/costas e uma fissura rubra. */
+.planned-card[data-art="kaneki"]{border-radius:0;border-color:#d9b1b2}
+.planned-card[data-art="kaneki"] .pending-photo{background:#27212a}
+.planned-card[data-art="kaneki"] .pending-photo .planned-art{object-position:8% 18%;filter:contrast(1.1)}
+.planned-card[data-art="kaneki"] .pending-photo::after{background:linear-gradient(105deg,transparent 0 41%,#be525d8c 41.3% 42%,transparent 42.3%),linear-gradient(0deg,#271c26 5%,#271c26ee 31%,transparent 69%)}
+.planned-card[data-art="kaneki"] .card-body{border-left:3px solid #bc6f7c}
+body[data-pending][data-art="kaneki"] .planned-hero{background:linear-gradient(112deg,#31262c 0 65%,#b3647155 65.3% 66%,#31262c 66.3%)}
+body[data-pending][data-art="kaneki"] .pending-hero-poster .planned-art{object-position:5% 17%}
+body[data-pending][data-art="kaneki"] .section-cover{border-left:4px solid #b96571;border-right:1px solid #b96571}
+
+@media(max-width:680px){
+ .planned-hero .pending-hero-poster::after{background:linear-gradient(0deg,var(--art-dark) 2%,transparent 34%)}
+ .planned-art-credit{bottom:11px;right:9px;font-size:8px}
+ .roster-card[data-pending].art-unavailable .pending-poster{bottom:160px}
+}
+@media(prefers-reduced-motion:reduce){
+ .roster-card[data-pending] .pending-photo .planned-art{transition:none}
+}

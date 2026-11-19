@@ -1,0 +1,147 @@
+/* Fase II — matéria e escala editorial. O motivo, a cor e a composição
+   individuais vêm de visual-direction.js; nenhuma imagem ou regra é alterada. */
+:is(.roster-card,body)[data-finish]{
+ --grain:repeating-linear-gradient(110deg,transparent 0 18px,#ffffff42 19px 20px);
+ --grain-opacity:.13;
+}
+:is(.roster-card,body)[data-finish="dust"]{
+ --grain:repeating-linear-gradient(164deg,transparent 0 16px,#d8ba9166 17px 18px,transparent 19px 49px);
+ --grain-opacity:.18;
+}
+:is(.roster-card,body)[data-finish="circuitry"]{
+ --grain:linear-gradient(90deg,transparent 0 48%,#8de8e54b 48% 49%,transparent 49%),
+   repeating-linear-gradient(0deg,transparent 0 30px,#8de8e53b 31px 32px);
+ --grain-opacity:.17;
+}
+:is(.roster-card,body)[data-finish="signal"]{
+ --grain:repeating-linear-gradient(0deg,transparent 0 5px,#d1e5df47 6px 7px);
+ --grain-opacity:.12;
+}
+:is(.roster-card,body)[data-finish="glass"]{
+ --grain:linear-gradient(120deg,transparent 0 58%,#d5f9f17a 58.2% 58.6%,transparent 59% 65%,#d5f9f138 65.2% 65.5%,transparent 66%);
+ --grain-opacity:.22;
+}
+:is(.roster-card,body)[data-finish="paper"]{
+ --grain:radial-gradient(circle,#e7dcc17a 0 .8px,transparent 1px) 0 0/9px 11px;
+ --grain-opacity:.17;
+}
+:is(.roster-card,body)[data-finish="ink"]{
+ --grain:repeating-linear-gradient(130deg,transparent 0 18px,#090b1d99 19px 21px,transparent 22px 38px);
+ --grain-opacity:.19;
+}
+:is(.roster-card,body)[data-finish="velvet"]{
+ --grain:repeating-linear-gradient(90deg,transparent 0 22px,#f5dbf033 23px 24px);
+ --grain-opacity:.14;
+}
+:is(.roster-card,body)[data-finish="frost"]{
+ --grain:repeating-linear-gradient(135deg,transparent 0 27px,#dff7f367 28px 29px,transparent 30px 47px);
+ --grain-opacity:.15;
+}
+:is(.roster-card,body)[data-finish="fabric"]{
+ --grain:repeating-linear-gradient(90deg,transparent 0 8px,#d8e4d449 9px 10px),
+   repeating-linear-gradient(0deg,transparent 0 13px,#d8e4d432 14px 15px);
+ --grain-opacity:.12;
+}
+:is(.roster-card,body)[data-finish="alloy"]{
+ --grain:repeating-linear-gradient(145deg,transparent 0 37px,#b9d1d448 38px 40px);
+ --grain-opacity:.2;
+}
+:is(.roster-card,body)[data-finish="stone"]{
+ --grain:repeating-linear-gradient(154deg,transparent 0 41px,#e2d8c040 42px 44px,transparent 45px 57px);
+ --grain-opacity:.15;
+}
+:is(.roster-card,body)[data-finish="energy"]{
+ --grain:repeating-conic-gradient(from 8deg at 74% 37%,transparent 0 24deg,#e3d3a14a 25deg 26deg,transparent 27deg 45deg);
+ --grain-opacity:.17;
+}
+:is(.roster-card,body)[data-finish="ledger"]{
+ --grain:repeating-linear-gradient(0deg,transparent 0 23px,#dae6e856 24px 25px),
+   linear-gradient(90deg,transparent 0 72%,#dae6e85e 72% 72.4%,transparent 72.5%);
+ --grain-opacity:.18;
+}
+:is(.roster-card,body)[data-finish="foil"]{
+ --grain:linear-gradient(116deg,transparent 0 27%,#ead3a46e 27.2% 27.6%,transparent 28% 72%,#ead3a449 72.2% 72.6%,transparent 73%);
+ --grain-opacity:.19;
+}
+:is(.roster-card,body)[data-finish="organic"]{
+ --grain:radial-gradient(ellipse at 85% 18%,transparent 0 35%,#c5edbd55 35.5% 36%,transparent 36.5% 50%,#c5edbd40 50.5% 51%,transparent 51.5%);
+ --grain-opacity:.23;
+}
+:is(.roster-card,body)[data-finish="eclipse"]{
+ --grain:radial-gradient(circle at 76% 34%,#100f1d 0 19%,#e8bd9a8a 19.4% 19.8%,transparent 20.5%);
+ --grain-opacity:.26;
+}
+/* A textura fica nas margens do retrato e termina antes do nome. O glifo
+   repetido de JoJo e a estrela repetida de HSR cedem ao motivo de cada ficha. */
+.roster-card[data-finish] .photo::before{
+ content:"";position:absolute;inset:0;z-index:2;display:block;
+ width:auto;height:auto;writing-mode:horizontal-tb;transform:none;
+ background:var(--grain);opacity:var(--grain-opacity);
+ text-shadow:none;-webkit-text-stroke:0;pointer-events:none;
+ mask-image:linear-gradient(90deg,#000 0 14%,transparent 48%,transparent 75%,#000 100%);
+ -webkit-mask-image:linear-gradient(90deg,#000 0 14%,transparent 48%,transparent 75%,#000 100%);
+}
+.roster-card[data-lineage="chrysos"]{border-radius:2px 18px 2px 18px}
+.roster-card[data-lineage="chrysos"] .art-insignia i{border-style:double;border-width:5px;opacity:.23}
+.roster-card[data-lineage="emanator"]{border-radius:17px 2px 17px 2px}
+.roster-card[data-lineage="emanator"] .art-insignia{transform:rotate(-4deg);top:14%}
+.roster-card[data-lineage="ravager"]{border-radius:0;clip-path:polygon(0 0,95% 0,100% 6%,100% 100%,0 100%)}
+.roster-card[data-lineage="ravager"] .art-insignia i{border-style:dashed;opacity:.27}
+.roster-card[data-lineage="ravager"] .card-body{border-top-width:3px}
+.roster-card[data-art="jojo-jonathan"] .art-insignia span,
+.roster-card[data-art="jojo-dio1"] .art-insignia span{font-family:Georgia,serif;font-style:italic}
+.roster-card[data-art="jojo-kira"] .art-insignia{top:16%;transform:rotate(0)}
+.roster-card[data-art="jojo-pucci"] .art-insignia i{border-style:dashed}
+.roster-card[data-art="jojo-jolyne"] .art-insignia i{transform:rotate(18deg)}
+.roster-card[data-art="jojo-gappy"] .art-insignia i{opacity:.16}
+.roster-card[data-art="david"] .art-insignia{right:-23%;top:13%;opacity:.52}
+.roster-card[data-art="david"] .art-insignia i{opacity:.16}
+.roster-card[data-art="elster"] .art-insignia span{font:700 clamp(30px,3vw,49px)/.9 var(--mono);letter-spacing:.02em}
+
+/* O cabeçalho de cada aba carrega a matéria do card sem atrapalhar leitura,
+   rolagem, controles ou as URLs existentes. */
+body[data-finish] .section-cover{
+ position:relative;isolation:isolate;overflow:hidden;min-height:103px;
+ padding:17px 21px;margin-top:24px;
+ border:1px solid color-mix(in srgb,var(--art-accent),transparent 52%);
+ border-left:5px solid var(--art-accent);background:var(--art-dark);
+}
+body[data-finish] .section-cover::before{
+ content:"";position:absolute;z-index:-1;inset:0 0 0 51%;
+ background:var(--grain);opacity:var(--grain-opacity);pointer-events:none;
+}
+body[data-finish] .section-cover h2{color:#f6f4ef;letter-spacing:.015em}
+body[data-finish] .section-cover .kicker{color:var(--art-accent)}
+body[data-finish] .section-cover .number{color:#d5dfde;text-align:right}
+.section-context{display:block;margin-top:9px;color:var(--art-accent);font:700 11px/1.4 var(--mono);letter-spacing:.07em}
+body[data-finish] .panel{box-shadow:inset 0 2px 0 color-mix(in srgb,var(--art-accent),transparent 77%)}
+body[data-finish] .ability-detail{border-left:3px solid var(--art-accent)}
+body[data-finish] .gear-card,body[data-finish] .tech-card,body[data-finish] .source-level{
+ box-shadow:inset 0 1px 0 color-mix(in srgb,var(--art-accent),transparent 75%);
+}
+body[data-finish] .compare-controls,body[data-finish] .review-form{border-left:3px solid var(--art-accent)}
+body[data-finish] #detail-section[data-tab="progression"] .level-grid{
+ background-image:linear-gradient(#0c1827e8,#0c1827e8),var(--grain);
+}
+body[data-lineage="chrysos"] .section-cover{border-left-width:2px;border-top:3px double var(--art-accent)}
+body[data-lineage="emanator"] .section-cover{border-left-width:7px}
+body[data-lineage="ravager"] .section-cover{border-left-width:0;border-top:4px solid var(--art-accent);clip-path:polygon(0 0,98% 0,100% 15%,100% 100%,0 100%)}
+body[data-family="manga"] .section-cover h2{font-style:italic;text-transform:uppercase}
+body[data-art="elster"] .section-cover h2,body[data-art="elster"] .section-context{font-family:var(--mono)}
+body[data-art="elster"] .detail-hero::before{opacity:1;background:none;color:#ff896d;text-shadow:1px 1px #0a0e10}
+body[data-art="diego"][data-variant="alternative"] .section-cover{border-left-style:double;border-left-width:9px}
+body[data-art="diego"][data-variant="alternative"] .section-context::after{content:" / THE WORLD";color:#f0d49c}
+body[data-art="goku"] .section-cover{border-top:3px solid var(--art-accent)}
+body[data-art="goku"][data-variant="gt"] .section-cover{border-radius:13px 0 0 0}
+body[data-art="goku"][data-variant="daima"] .section-cover{border-radius:0 13px 0 0}
+body[data-art="goku"][data-variant="super"] .section-cover{border-top-style:double;border-top-width:6px}
+@media(max-width:680px){
+ body[data-finish] .section-cover{padding:15px;min-height:0;align-items:flex-start}
+ body[data-finish] .section-cover h2{font-size:clamp(29px,9vw,39px)}
+ body[data-finish] .section-cover .number{font-size:9px;min-width:62px}
+ .section-context{font-size:10px;max-width:35ch}
+}
+@media(forced-colors:active){
+ .roster-card[data-finish] .photo::before,body[data-finish] .section-cover::before{display:none}
+ body[data-finish] .section-cover{border:2px solid CanvasText}
+}
