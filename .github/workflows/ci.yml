@@ -32,6 +32,7 @@ jobs:
           node --check review-data.js
           node --check app.js
           node --check card-worlds.js
+          node --check visual-direction.js
           node --check tests/site-smoke.cjs
           node --check tests/browser-lite.cjs
       - name: Validar as 59 fichas

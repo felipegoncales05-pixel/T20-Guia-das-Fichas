@@ -35,6 +35,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - assets/card-art/sources.json — proveniência dos retratos recuperados
 - character-art.js e assets/character-art/sources.json — 20 retratos adicionais locais, suas origens e créditos
 - card-worlds.css e card-worlds.js — identidade visual dos universos e interação da HUD de Capri nos cards
+- visual-direction.js e visual-direction.css — assinaturas visuais dos 59 personagens, quatro variantes extras e composição editorial reutilizável
 - assets/motifs/capri-source.json — proveniência da ilustração usada na HUD do card de D.
 - review-data.js e review.css — registros editoriais locais, exportação/importação e interface
 - .github/workflows/ci.yml — verificação de sintaxe e dados
@@ -55,6 +56,14 @@ A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opci
 **Efeitos dos cards:** `character-fx.css` mantém Steel Balls pixeladas giratórias para Gyro, unhas azuis e Spin dourado para Johnny, bandeira com 44 estrelas e 13 listras para Valentine, glitches sutis para David, sucata de rua para D., bolhas, fios, clackers, Hamon e detalhes para os outros protagonistas. Os efeitos desaparecem ou ficam estáticos na preferência de movimento reduzido.
 
 **Remodelagem dos cards:** `card-worlds.css` distingue JoJo (retícula, enquadramento e tipografia de quadrinho), Honkai: Star Rail (carta astral), SIGNALIS (monitor industrial), Dragon Ball, My Hero Academia, Jujutsu Kaisen, Chainsaw Man, Cyberpunk e os demais universos. David recebe uma falha de sinal breve e intermitente como efeito visual de cyberpsicose. No card de D., a HUD mostra uma reprodução local da arte oficial de Capri; a pupila acompanha o ponteiro dentro do card e uma pequena risada aparece periodicamente. São elementos decorativos, sem alterar regras, níveis ou fontes de T20. Em dispositivos de toque não há rastreamento do ponteiro; com movimento reduzido, as animações ficam estáticas. Fonte da arte de Capri: `assets/motifs/capri-source.json`.
+
+### Direção de arte editorial
+
+`visual-direction.js` atribui uma receita visual a **cada um dos 59 personagens** e às quatro versões adicionais de Diego/Goku. Cada receita contém uma palavra de composição, família visual, motivo geométrico, layout, cor de destaque e cor de fundo. Esses campos descrevem apenas a apresentação; nenhuma habilidade ou regra é derivada deles. `visual-direction.css` aplica a mesma assinatura ao card e ao dossiê interno por meio de `data-art`, `data-family`, `data-pattern`, `data-layout` e `data-variant`. JoJo combina linguagens de quadrinho, retícula e corrida; Night City mantém os efeitos de David e a HUD de Capri em D.; Elster conserva a HUD industrial de SIGNALIS. As demais famílias e personagens têm paletas e motivos próprios no mapa de perfis.
+
+O catálogo oferece seleção de versão **dentro do mesmo card**: Scary Monsters/THE WORLD para Diego e DBZ/GT/Daima/Super para Goku. A escolha muda o retrato, a cor, o rótulo, a classe e o destino da ficha, e os botões informam seu estado com `aria-pressed`. Há 59 entradas e 63 fichas contando as variantes. No dossiê, as abas, comparação, fontes, progressão e revisão usam os dados já existentes. O retrato SVG de reserva só permanece visível até a arte principal carregar; em falha de imagem, o mecanismo de recuperação local continua ativo.
+
+Para adicionar um personagem, cadastre os dados na fonte apropriada, registre uma entrada em `profiles` e escolha uma combinação das famílias/padrões/layouts já disponíveis (ou crie uma receita CSS). Para uma variante adicional no mesmo card, inclua a ficha nos dados de variantes e a assinatura em `variations`, depois adicione o botão ao seletor do card. Confira o retrato local e sua proveniência em `assets/*/sources.json`. A verificação `node tests/site-smoke.cjs` detecta perfis ausentes e regressões de integridade; `node tests/browser-lite.cjs` verifica navegação e HUD; a ação de PR executa Chromium nos onze tamanhos e anexa capturas `entrada`/`catalogo` para 375, 768 e 1440 pixels.
 
 **Novos arquivos:** `acheron-samurai.js`, `heroes-custom.js`, `d-salvage.js`, `character-fx.css`, `assets/motifs/valentine-44.svg` e `assets/portraits/`.
 

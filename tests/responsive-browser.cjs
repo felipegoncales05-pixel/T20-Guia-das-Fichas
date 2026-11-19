@@ -35,6 +35,7 @@ async function assertLayout(page,label){
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
+   if([375,768,1440].includes(width))await page.screenshot({path:"tests/screenshots/"+width+"-entrada.png"});
    const names=await page.locator(".roster-card h3").allTextContents();
    const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
@@ -49,14 +50,30 @@ async function assertLayout(page,label){
    await page.locator("#universe").selectOption("mha");
    assert.equal(await page.locator(".roster-card").count(),2,width+": filtro My Hero Academia");
    await page.locator("#universe").selectOption("all");
+   if([375,768,1440].includes(width)){
+    await page.locator('[data-card-switch="diego"][data-card-mode="alternative"]').click();
+    assert.equal(await page.locator('[data-open="diego"]').getAttribute("data-variant"),"alternative");
+    assert.match(await page.locator('[data-open="diego"] img:not(.portrait-underlay)').getAttribute("src"),/diego-alternative\.webp$/);
+    await page.locator('[data-open="diego"]').click();
+    await page.locator('body[data-art="diego"][data-variant="alternative"]').waitFor();
+    assert.equal(await page.locator('.hero-portrait img:not(.portrait-underlay)').getAttribute("src"),'./assets/card-art/diego-alternative.webp');
+    await assertLayout(page,width+" Diego alternativo a partir do card");
+    await page.locator('.back-link').click();
+    await page.locator('[data-card-switch="goku"][data-card-mode="super"]').click();
+    assert.equal(await page.locator('[data-open="goku"]').getAttribute("data-variant"),"super");
+    assert.match(await page.locator('[data-open="goku"]').textContent(),/Dragon Ball Super/);
+    assert.match(await page.locator('[data-open="goku"] img:not(.portrait-underlay)').getAttribute("src"),/goku-super\.webp$/);
+    await assertLayout(page,width+" variantes no catálogo");
+   }
    await page.locator('[data-open="ado"]').scrollIntoViewIfNeeded();
    const poster=page.locator('[data-open="ado"] .portrait-underlay');
    await poster.waitFor();
    await page.waitForFunction(()=>document.querySelector('[data-open="ado"] .portrait-underlay')?.naturalWidth>0,{timeout:10000});
    assert.ok(await poster.isVisible(),width+": imagem offline de reserva ausente");
-   await page.locator(".topbar").scrollIntoViewIfNeeded();
-
-   if(width===375||width===768)await page.screenshot({path:"tests/screenshots/"+width+"-catalogo.png"});
+   if([375,768,1440].includes(width)){
+    await page.locator('#catalogo').scrollIntoViewIfNeeded();
+    await page.screenshot({path:"tests/screenshots/"+width+"-catalogo.png"});
+   }
    for(const id of (!quick&&[375,768,1440].includes(width)?allIds:representativeIds)){
     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
     assert.equal(await page.locator(".detail-tabs button").count(),9);
