@@ -23,10 +23,13 @@ jobs:
           node --check mega-data.js
           node --check mega-runtime.js
           node --check catalog-media.js
+          node --check acheron-samurai.js
+          node --check heroes-custom.js
+          node --check d-salvage.js
           node --check app.js
           node --check tests/site-smoke.cjs
           node --check tests/browser-lite.cjs
-      - name: Validar as 47 fichas
+      - name: Validar as 59 fichas
         run: |
           node tests/site-smoke.cjs
           node tests/browser-lite.cjs
