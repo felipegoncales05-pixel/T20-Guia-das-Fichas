@@ -63,7 +63,9 @@ async function assertLayout(page,label){
    assert.equal(await page.locator(".planned-card img.planned-art").count(),10,width+": retratos planejados ausentes");
    for(const id of plannedIds){
     const art=page.locator('[data-open="'+id+'"] img.planned-art');
-    await art.scrollIntoViewIfNeeded();await art.evaluate(el=>el.decode());
+    await art.scrollIntoViewIfNeeded();
+    await page.waitForFunction(key=>document.querySelector('[data-open="'+key+'"] img.planned-art')?.naturalWidth>0,id,{timeout:10000});
+    await art.evaluate(el=>el.decode());
     assert.ok(await art.evaluate(el=>el.naturalWidth>0),width+" "+id+": imagem não carregou");
    }
    if([375,1440].includes(width))await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-planejados.png"});
@@ -208,7 +210,9 @@ async function assertLayout(page,label){
     assert.equal(await page.locator(".detail-tabs button").count(),9,id+": navegação incompleta");
     assert.equal(await page.locator("body").getAttribute("data-pending"),"true");
     const art=page.locator(".pending-hero-poster img.planned-art");
-    await art.scrollIntoViewIfNeeded();await art.evaluate(el=>el.decode());
+    await art.scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>document.querySelector('.pending-hero-poster img.planned-art')?.naturalWidth>0,null,{timeout:10000});
+    await art.evaluate(el=>el.decode());
     assert.ok(await art.evaluate(el=>el.naturalWidth>0),id+": arte de referência ausente");
     assert.equal(await page.locator(".pending-hero-poster .pending-poster").isVisible(),false,id+": pôster reserva cobriu a arte");
     assert.equal(await page.locator("[data-stat],.global-level-picker").count(),0,id+": números presumidos");
