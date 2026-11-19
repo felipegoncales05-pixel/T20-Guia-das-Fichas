@@ -270,7 +270,7 @@ async function assertLayout(page,label){
     await page.locator('.lab-draft').first().click();
     assert.match(await page.locator('.lab-summary').textContent(),/Lutador 1 \/ Guerreiro 7 \/ Ladino 4/,"Rascunho local não persistiu");
     await page.goto(site+'#/toji/overview',{waitUntil:'load'});
-    await page.locator('a[href="#/laboratorio/toji"]').click();
+    await page.getByRole('link',{name:'ABRIR CÓPIA NO LABORATÓRIO'}).click();
     await page.locator('.lab-draft').first().waitFor({state:"visible"});
     assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
     await page.goto(site,{waitUntil:'load'});
