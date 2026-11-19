@@ -1,7 +1,7 @@
 const fs=require("node:fs");
 const vm=require("node:vm");
 const assert=require("node:assert/strict");
-const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
+const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync("data.js","utf8"),context,{filename:"data.js"});
@@ -12,7 +12,7 @@ vm.runInNewContext(fs.readFileSync("expansion-runtime.js","utf8"),context,{filen
 vm.runInNewContext(fs.readFileSync("mega-data.js","utf8"),context,{filename:"mega-data.js"});
 vm.runInNewContext(fs.readFileSync("mega-runtime.js","utf8"),context,{filename:"mega-runtime.js"});
 vm.runInNewContext(fs.readFileSync("catalog-media.js","utf8"),context,{filename:"catalog-media.js"});
-for(const n of ["acheron-samurai.js","heroes-custom.js","d-salvage.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
+for(const n of ["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
 const project=context.window.T20_DATA;
 assert.ok(project&&Array.isArray(project.characters));
 assert.equal(project.characters.length,59);
@@ -27,7 +27,7 @@ for(const char of project.characters){
  assert.deepEqual(Array.from(char.progression,p=>Number(p[0])),Array.from({length:12},(_,i)=>i+1),char.id+" níveis");
  assert.ok(char.skills.length>4&&char.gear.length>2&&char.techniques.length>2,char.id+" ficha incompleta");
  assert.ok(char.sources.length&&char.media.length,char.id+" fontes e mídia");
- for(const obj of [char.portrait,...char.media])assert.ok(/^(https:\/\/|data:image\/svg\+xml;charset=utf-8,|\.\/assets\/portraits\/[a-z0-9-]+\.(svg|webp|avif))/.test(obj.url||obj.image),char.id+" URL de mídia inválida");
+ for(const obj of [char.portrait,...char.media])assert.ok(/^(https:\/\/|data:image\/svg\+xml;charset=utf-8,|\.\/assets\/(portraits|art|art-optimized)\/[a-z0-9-]+\.(svg|webp|avif|png|jpg))/.test(obj.url||obj.image),char.id+" URL de mídia inválida");
  assert.ok(char.notes.attributes&&char.notes.progression,char.id+" notas ausentes");
 }
 assert.match(fs.readFileSync("index.html","utf8"),/id="app"/);
@@ -75,3 +75,16 @@ for(const c of project.characters){
 const flag=fs.readFileSync("assets/motifs/valentine-44.svg","utf8");
 assert.equal((flag.match(/fill="#fff4e3"/g)||[]).length,44,"Valentine precisa de 44 estrelas");
 console.log("VALIDADO: 59 fichas, Samurai, mídia local, Scrapframe e bandeira 44 estrelas.");
+
+const userArt=["jojo-dio1","jojo-dio3","d","jojo-valentine","gyro","jojo-pucci","jojo-kira","jojo-tooru","jojo-diavolo","em-zandar"];
+assert.equal(context.window.T20_USER_ART_IDS.length,10,"10 artes não foram registradas");
+for(const id of userArt){
+ const char=project.characters.find(x=>x.id===id);
+ const imagePath="assets/art/"+id+".png";
+ assert.ok(fs.existsSync(imagePath),id+": PNG enviado não consta no repositório");
+ assert.ok(fs.statSync(imagePath).size>10000,id+": PNG suspeito");
+ assert.equal(char.portrait.url,"./"+imagePath,id+": retrato não aponta para PNG local");
+ assert.ok(char.media.some(m=>m.image==="./"+imagePath),id+": galeria não mostra arte enviada");
+}
+assert.equal(project.characters.find(c=>c.id==="d").info.className,"Arcanista — Bruxo","D. perdeu a build");
+assert.match(project.characters.find(c=>c.id==="d").notes.equipment,/sucata local/i,"D. perdeu o traje de sucata");
