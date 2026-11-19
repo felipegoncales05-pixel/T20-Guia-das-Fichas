@@ -1,7 +1,7 @@
 /* Arquivo de fichas. Regras e propriedade intelectual pertencem aos seus titulares. */
 window.T20_DATA = {
   rulebooks: [
-    {name:"Tormenta20 — Jogo do Ano",url:"https://jamboeditora.com.br/produto/tormenta20-jogo-do-ano/",detail:"Regras de criação, classes, equipamentos e combate"},
+    {name:"Tormenta20 — Jogo do Ano",url:"https://jamboeditora.com.br/produto/tormenta20-edicao-jogo-do-ano/",detail:"Regras de criação, classes, equipamentos e combate"},
     {name:"Heróis de Arton",url:"https://jamboeditora.com.br/produto/tormenta20-herois-de-arton/",detail:"Poderes de combate, de classe e Golpe Pessoal"},
     {name:"Ameaças de Arton",url:"https://jamboeditora.com.br/produto/ameacas-de-arton/",detail:"Moreau e aliados"}
   ],
@@ -140,7 +140,7 @@ window.T20_DATA = {
       sources:[{name:"Cyberpunk: Edgerunners — David (Cyberpunk Wiki)",url:"https://cyberpunk.fandom.com/wiki/David_Martinez"},{name:"Guia de cosplay David (CD PROJEKT RED)",url:"https://cdn-s-cyberpunk.cdprojektred.com/cosplay-guides/DAVID_MARTINEZ_COSPLAY_GUIDE_PTBR.pdf"}]
     },
     {
-      id:"cipher",number:"04",name:"Cipher",universe:"Honkai: Star Rail",label:"LADRA FANTASMA // QUÂNTICO",symbol:"◇",theme:"cipher",
+      id:"cipher",number:"04",name:"Cipher (Cypher)",universe:"Honkai: Star Rail",label:"LADRA FANTASMA // QUÂNTICO",symbol:"◇",theme:"cipher",
       portrait:{url:"https://miyoversee.com/wp-content/uploads/2025/06/cipher.webp",credit:"Arte da personagem · Miyoversee",page:"https://miyoversee.com/quantum/cipher/"},
       excerpt:"A gata que transforma cada distração em oportunidade e cada inimigo em alvo.",
       info:{race:"Moreau — Herança do Gato",className:"Ladina",origin:"Criminoso",devotion:"Hyninn",role:"Furtividade · Trapaça · Ataque oportunista",partner:"Nenhum"},
