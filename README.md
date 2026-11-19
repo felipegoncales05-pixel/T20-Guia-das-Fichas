@@ -8,15 +8,18 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - **D.** — Arcanista Bruxo humano, quickhacks/Cyberdeck e evolução Capricorn; tema tecnológico azul e vermelho
 - **David Martinez** — Lutador humano, Sandevistan via Surto Heroico; tema amarelo/ciano Edgerunners
 - **Cipher (Cypher)** — Ladina Moreau Gato, Hyninn, garras e ataques furtivos; tema azul/roxo/dourado Honkai: Star Rail
+- **Rentarou Aijou** — Nobre humano, Herói Camponês, suporte e proteção; tema com corações rosa/lilás/menta e arte oficial do anime
 
 **Recursos:** cards clicáveis, busca e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes e créditos. Cada card gera uma URL de hash compartilhável, por exemplo #/gyro/attributes.
 
 ## Estrutura
 
 - index.html — entrada e estrutura semântica
-- styles.css — HUD responsiva inspirada no DCX com quatro temas
-- data.js — os quatro dossiês, progressão, referências e fontes
+- styles.css — HUD responsiva inspirada no DCX com cinco temas
+- data.js — os cinco dossiês, progressão, referências e fontes
 - app.js — busca, rota por hash, radar, inventário, progressão e ações
+- rentarou.css — tema visual exclusivo para Rentarou
+- rentarou-guide.js — explicações, usos e referências de páginas da build de Rentarou
 - tests/site-smoke.cjs — teste mínimo de integridade de dados
 - .github/workflows/ci.yml — verificação de sintaxe e dados
 - GitHub Pages: publicação automática da branch main, pasta / (root)
