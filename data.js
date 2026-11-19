@@ -82,7 +82,7 @@ window.T20_DATA = {
         ["9","Especialização em Escola · acesso ao 3º círculo","Relâmpago"],
         ["10","Contramágica Aprimorada","Telecinesia"],
         ["11","Conhecimento Mágico","Selo de Mana"],
-        ["12","Poder Mágico ou melhoria equivalente","Voo"]
+        ["12","Aumento de Atributo (INT)","Voo; Inteligência +1 e aprimora a CD"]
       ],
       techniques:[
         {level:1,name:"Neural Shock",mechanic:"Adaga Mental",cost:"1 PM",effect:"2d6 psíquico; possível condição pela resistência.",flavor:"Descarga neural."},
@@ -148,7 +148,7 @@ window.T20_DATA = {
       attrs:[{key:"CON",value:1,buy:1,race:0,why:"Resistência moderada."},{key:"CAR",value:3,buy:2,race:1,why:"Truques, finta e charme."},{key:"SAB",value:1,buy:1,race:0,why:"Percepção e instinto."},{key:"INT",value:3,buy:2,race:1,why:"Planejamento e perícias."},{key:"FOR",value:0,buy:0,race:0,why:"Foco em agilidade, não força."},{key:"DEX",value:4,buy:3,race:1,why:"Furtividade e velocidade felina."}],
       summary:"Ladina Moreau Gato que utiliza garras, precisão, acrobacia e truques. Hyninn sustenta a fantasia da ladra enganadora; Ataque Furtivo e Oportunismo aproximam seus ataques de acompanhamento.",
       history:["Cifera, também conhecida como Cipher, é uma ladra de Amphoreus associada à astúcia e ao engano. Suas orelhas e cauda são parte marcante do design e combinam diretamente com a Herança do Gato.","Na adaptação, a mecânica de registrar dano de aliados é aproximada por preparação de Ataque Furtivo e ataques oportunistas. Não há armazenamento de dano ou dano verdadeiro."],
-      skills:[["Acrobacia","+9","DEX +4, treino +2, CAR +3 racial"],["Furtividade","+8","DEX +4, treino +2, sentidos +2"],["Ladinagem","+6","Abrir fechaduras e furtar"],["Pontaria","+6","Arremessos de adaga"],["Reflexos","+6","Esquiva"],["Iniciativa","+6","Combate rápido"],["Percepção","+5","Sentidos felinos"],["Enganação","+5","Fintas e disfarces"],["Investigação","+5","Observar detalhes"],["Jogatina","+5","Trapaças"],["Vontade","+3","Resistência mental"]],
+      skills:[["Acrobacia","+9","DEX +4, treino +2, CAR +3 racial"],["Furtividade","+8","DEX +4, treino +2, sentidos +2"],["Ladinagem","+6","Abrir fechaduras e furtar"],["Pontaria","+6","Arremessos de adaga"],["Reflexos","+6","Esquiva"],["Iniciativa","+6","Combate rápido"],["Percepção","+5","Sentidos felinos"],["Cura","+3","Treinada para Mestre Assassino no nível 12"],["Enganação","+5","Fintas e disfarces"],["Investigação","+5","Observar detalhes"],["Jogatina","+5","Trapaças"],["Vontade","+3","Resistência mental"]],
       initial:["Moreau Gato: Muitas Vidas, Garras e Sentidos Felinos","Ataque Furtivo +1d6 e Especialista (Ladina 1)","Punguista (origem Criminoso)","Farsa do Fingidor (Hyninn, se cumpridos os requisitos de devoção)"],
       gear:[
         {name:"Garras de Moreau",rule:"Armas naturais · 1d6 corte",detail:"Duas garras. A garra extra depende do custo e das condições da habilidade racial.",qty:"2",image:"https://miyoversee.com/wp-content/uploads/2025/06/cipher.webp",source:"https://miyoversee.com/quantum/cipher/",credit:"Arte de Cipher"},
