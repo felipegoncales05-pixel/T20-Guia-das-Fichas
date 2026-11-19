@@ -1,0 +1,87 @@
+/* O Sistema // Sete novas identidades visuais. 
+   Fichas novas compartilham a HUD do DCX, mas cada uma preserva sua assinatura. */
+.roster-card.yoru{--card-accent:#f17b7b;--card-glow:#c8414f40;background:radial-gradient(circle at 25% 12%,#aa434454,transparent 55%),#21131b}
+.roster-card.diego{--card-accent:#bde67b;--card-glow:#75c97c40;background:radial-gradient(circle at 60% 25%,#6c9b6b53,transparent 63%),#172b26}
+.roster-card.ado{--card-accent:#6fbdff;--card-glow:#4693df43;background:radial-gradient(circle at 45% 15%,#375aa75c,transparent 56%),#0c142f}
+.roster-card.cyrene{--card-accent:#ffc0ed;--card-glow:#d79de340;background:radial-gradient(circle at 40% 20%,#b1a0ea86,transparent 52%),#2d2648}
+.roster-card.marin{--card-accent:#ffb0d8;--card-glow:#ff8dbb43;background:radial-gradient(circle at 55% 26%,#ffd2a97a,transparent 60%),#4b2a45}
+.roster-card.makima{--card-accent:#ff846a;--card-glow:#f4635340;background:radial-gradient(circle at 60% 10%,#a74e4380,transparent 60%),#2e1d20}
+.roster-card.optimus{--card-accent:#84caff;--card-glow:#579bde50;background:radial-gradient(circle at 40% 15%,#315c9b77,transparent 57%),#15263c}
+.roster-card.yoru:before,.roster-card.diego:before,.roster-card.ado:before,.roster-card.cyrene:before,.roster-card.marin:before,.roster-card.makima:before,.roster-card.optimus:before{
+ position:absolute;z-index:1;pointer-events:none;right:24px;top:53px;font:700 44px/1 var(--head);opacity:.26;color:var(--card-accent)
+}
+.roster-card.yoru:before{content:"WAR"}
+.roster-card.diego:before{content:"RAPTOR"}
+.roster-card.ado:before{content:"♬"}
+.roster-card.cyrene:before{content:"✧"}
+.roster-card.marin:before{content:"♡"}
+.roster-card.makima:before{content:"◉"}
+.roster-card.optimus:before{content:"AUTOBOT"}
+.roster-card.yoru .photo img{filter:grayscale(1) contrast(1.13)}
+.roster-card.diego .photo img{filter:saturate(1.17) contrast(1.06)}
+.roster-card.ado .photo img{filter:saturate(1.06) drop-shadow(0 9px 20px #041020)}
+.roster-card.cyrene .photo img{object-fit:contain;padding:24px 4px 55px;filter:drop-shadow(0 15px 28px #0e123f77)}
+.roster-card.marin .photo img{object-fit:contain;object-position:center 21%;padding:16px 4px 48px}
+.roster-card.optimus .photo img{object-fit:contain;padding:20px 12px 56px;filter:drop-shadow(0 13px 22px #050f1caa)}
+.roster-card.makima .photo img{filter:saturate(.85) contrast(1.05)}
+.roster-card .card-overline{overflow-wrap:anywhere}
+.roster-card .card-body h3{font-size:clamp(33px,2.6vw,43px);overflow-wrap:normal;word-break:normal}
+.roster-card .card-body p{line-height:1.47}
+body[data-theme="yoru"]{--bg:#140d14;--panel:#28171e;--panel2:#1b131a;--line:#69414b;--line-bright:#ab6667;--ink:#ffe9e8;--muted:#c9a6aa;--faint:#9f7780;--accent:#f78b87;--accent2:#f3d5b7;--glow:#d7596250}
+body[data-theme="diego"]{--bg:#0e1e1b;--panel:#1c302c;--panel2:#122522;--line:#4b7166;--line-bright:#84ad73;--ink:#e9fbdb;--muted:#b1d1bd;--faint:#91af93;--accent:#b1e780;--accent2:#65dfbb;--glow:#9cc87335}
+body[data-theme="diego-alt"]{--bg:#181528;--panel:#28243a;--panel2:#1d1c30;--line:#5f5a7d;--line-bright:#ccad65;--ink:#fff2d1;--muted:#c7bacd;--faint:#a99baf;--accent:#f6d270;--accent2:#92cbfd;--glow:#e9bd6942}
+body[data-theme="ado"]{--bg:#090e24;--panel:#151b3a;--panel2:#0e1631;--line:#345184;--line-bright:#5679b5;--ink:#e8efff;--muted:#a7c0ed;--faint:#7c9ace;--accent:#84bfff;--accent2:#b1b3ff;--glow:#538bfb38}
+body[data-theme="cyrene"]{--bg:#201f39;--panel:#34304d;--panel2:#282746;--line:#74648f;--line-bright:#ae90c8;--ink:#fff0ff;--muted:#e5cfe9;--faint:#bba4cd;--accent:#ffbce6;--accent2:#9ce4ff;--glow:#d4a7fb55}
+body[data-theme="marin"]{--bg:#291e2f;--panel:#3e2940;--panel2:#30223b;--line:#8d607a;--line-bright:#c688a8;--ink:#fff1e9;--muted:#f2cdda;--faint:#d4a9c0;--accent:#ffb0d6;--accent2:#fce2a8;--glow:#ffb5da41}
+body[data-theme="makima"]{--bg:#1c1416;--panel:#312022;--panel2:#241a1e;--line:#744345;--line-bright:#b56c59;--ink:#fff1e3;--muted:#ddbdaf;--faint:#b08a82;--accent:#ff937c;--accent2:#e4c399;--glow:#e0775f38}
+body[data-theme="optimus"]{--bg:#0a1523;--panel:#132a3e;--panel2:#0c2033;--line:#355d7d;--line-bright:#578bb2;--ink:#e5f4ff;--muted:#b0cce1;--faint:#7fa0bf;--accent:#82c7ff;--accent2:#ff675f;--glow:#558bd83c}
+body[data-theme="yoru"] .detail-hero{background:radial-gradient(circle at 86% 10%,#a34a484f,transparent 55%),linear-gradient(120deg,#2e1d24,#161016)}
+body[data-theme="diego"] .detail-hero{background:radial-gradient(circle at 80% 15%,#77945348,transparent 53%),linear-gradient(120deg,#23382d,#11241f)}
+body[data-theme="diego-alt"] .detail-hero{background:radial-gradient(circle at 83% 15%,#caaa5e3e,transparent 60%),linear-gradient(120deg,#26213c,#17172a)}
+body[data-theme="ado"] .detail-hero{background:radial-gradient(circle at 85% 15%,#4058a747,transparent 53%),linear-gradient(120deg,#192048,#0c112a)}
+body[data-theme="cyrene"] .detail-hero{background:radial-gradient(circle at 83% 10%,#d59cc56b,transparent 56%),linear-gradient(120deg,#403150,#282544)}
+body[data-theme="marin"] .detail-hero{background:radial-gradient(circle at 85% 15%,#ffcaad52,transparent 58%),linear-gradient(120deg,#4a3150,#281e38)}
+body[data-theme="makima"] .detail-hero{background:radial-gradient(circle at 86% 5%,#984d455d,transparent 57%),linear-gradient(120deg,#392327,#1c171c)}
+body[data-theme="optimus"] .detail-hero{background:radial-gradient(circle at 78% 12%,#315c8d60,transparent 57%),linear-gradient(120deg,#1c3347,#0c1727)}
+body[data-theme="yoru"] .hero-portrait img{filter:grayscale(1) contrast(1.17)}
+body[data-theme="ado"] .hero-portrait img{object-fit:contain;object-position:center 30%;padding:14px}
+body[data-theme="cyrene"] .hero-portrait img{object-fit:contain;object-position:center;padding:10px 8px}
+body[data-theme="marin"] .hero-portrait img{object-fit:contain;object-position:center;padding:10px 4px}
+body[data-theme="optimus"] .hero-portrait img{object-fit:contain;object-position:center;padding:9px 8px}
+body[data-theme="diego-alt"] .hero-portrait img{object-fit:cover;object-position:center 20%}
+body[data-theme="makima"] .hero-portrait img{object-fit:cover;object-position:center 19%}
+body[data-theme="cyrene"] .detail-hero::after,body[data-theme="marin"] .detail-hero::after{
+ content:"✧";position:absolute;z-index:0;top:-30%;left:49%;font:700 510px/1 var(--head);opacity:.035;color:var(--accent);pointer-events:none
+}
+body[data-theme="marin"] .detail-hero::after{content:"♡"}
+body[data-theme="optimus"] .detail-hero::after{
+ content:"AUTOBOT";font:900 72px/1 var(--head);letter-spacing:.16em;position:absolute;top:9%;left:31%;opacity:.045;transform:rotate(-11deg);pointer-events:none
+}
+body[data-theme="ado"] .ambient-grid{background:radial-gradient(circle at 85% 0,#263c8255,transparent 43%),linear-gradient(transparent 23px,#4170a112 24px),linear-gradient(90deg,transparent 23px,#4170a112 24px);background-size:auto,24px 24px,24px 24px}
+body[data-theme="optimus"] .ambient-grid{background:radial-gradient(circle at 75% 0,#23486a50,transparent 47%),repeating-linear-gradient(130deg,transparent 0 75px,#2b69911a 76px 78px)}
+body[data-theme="yoru"] .ambient-grid{background:radial-gradient(circle at 75% 0,#6e354630,transparent 47%),repeating-linear-gradient(135deg,transparent 0 60px,#83424f17 61px 62px)}
+body[data-theme="cyrene"] .ambient-grid{background:radial-gradient(circle at 70% 0,#d0a0e12c,transparent 52%),radial-gradient(circle at 16% 42%,#88c4e912,transparent 43%)}
+body[data-theme="makima"] .ambient-grid{background:radial-gradient(circle at 85% 2%,#9f4d4935,transparent 45%),repeating-radial-gradient(circle at 50% 45%,transparent 0 65px,#a44c4b08 66px 67px)}
+/* Botão secreto: discreto no padrão, mas claro ao receber foco. */
+.detail-back-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.detail-back-row .back-link{margin:0}
+.alternative-toggle{
+ display:inline-flex;align-items:center;justify-content:center;gap:9px;
+ min-height:46px;border:1px dashed var(--line-bright);border-radius:5px;padding:8px 15px;
+ font:12px var(--mono);letter-spacing:.1em;color:var(--accent);background:var(--panel2);
+ box-shadow:0 0 17px var(--glow);transition:background .2s,color .2s,transform .2s;
+}
+.alternative-toggle .alternate-mark{font-size:18px}
+.alternative-toggle:hover,.alternative-toggle:focus-visible{background:var(--accent);color:#10151e;transform:translateY(-1px)}
+body[data-theme="diego-alt"] .alternative-toggle{border-style:solid;border-color:#e5be72;box-shadow:0 0 20px #e1c2693c}
+body[data-theme="diego-alt"] .detail-hero{box-shadow:inset 0 0 0 1px #deb96119,0 0 34px #e7c46d18}
+@media(max-width:680px){
+ .detail-back-row{align-items:stretch;flex-direction:column;gap:6px}
+ .alternative-toggle{align-self:flex-end;min-height:46px;font-size:12px;margin-bottom:3px}
+ .roster-card.ado .photo img,.roster-card.cyrene .photo img,.roster-card.optimus .photo img{padding-bottom:52px}
+ .roster-card.marin .photo img{padding-bottom:48px}
+ .roster-card .card-body h3{font-size:clamp(33px,9.5vw,45px)}
+ body[data-theme="cyrene"] .detail-hero::after,body[data-theme="marin"] .detail-hero::after{font-size:230px;left:25%;top:5%}
+ body[data-theme="optimus"] .detail-hero::after{font-size:36px;top:20%;left:10%}
+}
+@media(prefers-reduced-motion:reduce){.alternative-toggle{transition:none}}
