@@ -136,6 +136,9 @@ for(const c of fakeWindow.T20_PLANNED){
  }
 }
 console.log("VALIDADO: dez planejamentos sem mecânicas presumidas, nove abas e revisão local.");
+location.hash="#/toji/overview";hooks["window:hashchange"]();
+hooks["document:click"]({target:{closest(selector){return selector==="[data-tab]"?{dataset:{tab:"progression"}}:null}}});
+assert.equal(location.hash,"#/toji/progression","A navegação por clique do planejamento falhou");
 
 location.hash="#/diego/overview";
 hooks["window:hashchange"]();

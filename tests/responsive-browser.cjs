@@ -195,12 +195,14 @@ async function assertLayout(page,label){
     if([375,1440].includes(width)&&["toji","soul-of-cinder","isaac"].includes(id))
      await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-"+id+"-planejado.png"});
     await page.locator('[data-tab="progression"]').click();
+    await page.locator(".planned-levels > div").first().waitFor();
     assert.equal(await page.locator(".planned-levels > div").count(),12,id+": doze espaços pendentes");
     await assertLayout(page,width+" "+id+" progressão pendente");
     await page.locator('[data-tab="sources"]').click();
+    await page.locator('#detail-section[data-tab="sources"]').waitFor();
     assert.match(await page.locator("#detail-section").textContent(),/Nenhuma página de livro ou suplemento/);
     await page.locator('[data-tab="review"]').click();
-    assert.ok(await page.locator("#reviewForm").isVisible(),id+": sem registro editorial");
+    await page.locator("#reviewForm").waitFor();
     await assertLayout(page,width+" "+id+" revisão pendente");
    }
    if(width===375){
