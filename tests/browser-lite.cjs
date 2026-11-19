@@ -11,6 +11,7 @@ const fakeWindow={
  scrollTo(){},
 };
 const fakeDocument={
+ body:{dataset:{},removeAttribute(){}},
  getElementById:get,
  querySelectorAll(){return[]},
  addEventListener(type,fn){hooks["document:"+type]=fn}
