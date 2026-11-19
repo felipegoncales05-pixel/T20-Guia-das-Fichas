@@ -94,6 +94,8 @@
 .roster-card[data-art="jojo-pucci"] .art-insignia i{border-style:dashed}
 .roster-card[data-art="jojo-jolyne"] .art-insignia i{transform:rotate(18deg)}
 .roster-card[data-art="jojo-gappy"] .art-insignia i{opacity:.16}
+.roster-card[data-art="david"] .art-insignia{right:-23%;top:13%;opacity:.52}
+.roster-card[data-art="david"] .art-insignia i{opacity:.16}
 .roster-card[data-art="elster"] .art-insignia span{font:700 clamp(30px,3vw,49px)/.9 var(--mono);letter-spacing:.02em}
 
 /* O cabeçalho de cada aba carrega a matéria do card sem atrapalhar leitura,

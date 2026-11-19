@@ -69,6 +69,10 @@ async function assertLayout(page,label){
     await page.waitForFunction(()=>!!document.querySelector('[data-open="d"]')?.style.getPropertyValue("--capri-x"));
     assert.ok(Math.abs(Number.parseInt(await page.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),10))<=2);
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk.png"});
+    const opacity=await page.locator(".psycho-echo").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13600;return Number(getComputedStyle(el).opacity)});
+    await page.locator(".psycho-error").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13600});
+    assert.ok(opacity>0&&opacity<=.18,"Glitch de David intenso ou ausente: "+opacity);
+    await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk-pulso.png"});
     await page.locator("#universe").selectOption("all");
    }
    if([375,768,1440].includes(width)){
