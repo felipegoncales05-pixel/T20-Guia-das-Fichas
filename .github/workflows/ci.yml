@@ -16,6 +16,7 @@ jobs:
       - name: Verificar sintaxe
         run: |
           node --check data.js
+          node --check guide.js
           node --check app.js
           node --check tests/site-smoke.cjs
           node --check tests/browser-lite.cjs
