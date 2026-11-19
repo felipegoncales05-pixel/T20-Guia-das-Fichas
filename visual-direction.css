@@ -191,7 +191,7 @@ body[data-art="diego"][data-variant="alternative"] .dossier-ornament{transform:r
 body[data-art="d"] .detail-hero{border-color:#64dcd2}
 body[data-art="david"] .detail-hero{border-color:#f0e45f}
 @media(min-width:801px) and (max-width:1240px){.roster-entry{height:clamp(385px,41vw,490px)}}
-@media(min-width:681px) and (max-width:800px){.roster-entry{height:390px}.landing-hero{grid-template-columns:minmax(0,1fr) 230px}.hero-mark{min-height:275px;width:auto!important}.hero-mark strong{font-size:77px}}
+@media(min-width:681px) and (max-width:800px){.roster-entry{height:390px}.landing-hero{grid-template-columns:minmax(0,1fr) 230px}.landing-hero h1{font-size:clamp(45px,6vw,53px)}.hero-mark{min-height:275px;width:auto!important}.hero-mark strong{font-size:62px;white-space:nowrap}}
 @media(max-width:680px){
  .landing-hero{grid-template-columns:1fr;gap:14px;min-height:0;padding:30px 22px 45px;background:linear-gradient(145deg,#152b36 0 73%,#d5c7b3 73.3% 74%,#141e2d 74.2%)}
  .landing-hero h1{font-size:clamp(58px,12vw,78px);line-height:.83}
@@ -209,7 +209,7 @@ body[data-art="david"] .detail-hero{border-color:#f0e45f}
  .dossier-foot{font-size:9px}
  body[data-art] .hero-portrait{border-left:0}
 }
-@media(max-width:380px){.roster-entry{height:402px}.landing-hero h1{font-size:48px}.hero-mark strong{font-size:58px}.hero-mark-strip{font-size:8px}.card-variant-switch button{font-size:11px}}
+@media(max-width:380px){.roster-entry{height:402px}.landing-hero h1{font-size:34px}.hero-mark strong{font-size:58px;white-space:nowrap}.hero-mark-strip{font-size:8px}.card-variant-switch button{font-size:11px}}
 @media(max-width:920px) and (max-height:480px) and (orientation:landscape){.roster-entry{height:330px}.landing-hero{min-height:260px}.hero-mark{min-height:210px}}
 @media(prefers-reduced-motion:reduce){.hero-enter:hover,.hero-enter:focus-visible{transform:none}.roster-card[data-art]{transition:none}.roster-card[data-art]:hover,.roster-card[data-art]:focus-visible{transform:none}}
 @media(forced-colors:active){.card-variant-switch button[aria-pressed="true"],.roster-card[data-art]:focus-visible{outline:3px solid Highlight}.dossier-foot{border:1px solid CanvasText}}

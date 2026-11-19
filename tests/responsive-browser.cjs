@@ -78,7 +78,7 @@ async function assertLayout(page,label){
    await page.waitForFunction(()=>document.querySelector('[data-open="ado"] .portrait-underlay')?.naturalWidth>0,{timeout:10000});
    assert.ok(await poster.isVisible(),width+": imagem offline de reserva ausente");
    if([375,768,1440].includes(width)){
-    await page.locator('#catalogo').scrollIntoViewIfNeeded();
+    await page.locator('#roster-title').scrollIntoViewIfNeeded();
     await page.screenshot({path:"tests/screenshots/"+width+"-catalogo.png"});
    }
    for(const id of (!quick&&[375,768,1440].includes(width)?allIds:representativeIds)){
