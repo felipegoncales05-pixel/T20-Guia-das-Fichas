@@ -38,7 +38,7 @@
     ["Armadura Arcana",1],["Seta Infalível de Talude",1],["Teia",1],["Amedrontar",1],["Leque Cromático",1],["Explosão de Chamas",1],["Conjurar Monstro",1],
     ["Invisibilidade",2],["Sussurros Insanos",2],["Campo de Força",2],["Camuflagem Ilusória",2],["Aparência Perfeita",2],
     ["Bola de Fogo",2],["Velocidade",2],["Metamorfose",2],["Dissipar Magia",2],["Toque Vampírico",2],["Desespero Esmagador",2],
-    ["Ilusão Lacerante",3],["Miragem",3],["Imobilizar",3]
+    ["Ilusão Lacerante",3],["Miragem",3],["Imobilizar",3],["Raio do Enfraquecimento",1]
    ].map(([name,circle])=>name+"|"+circle));
   if(!allowed.has("jda-1.3"))issues.push("A edição básica verificada precisa estar permitida para usar estas classes.");
   for(const id of allowed){const book=rules.books.find(b=>b.id===id);if(book?.status!=="parcial")issues.push(book.name+": opções mecânicas ainda não catalogadas; a autorização da mesa não as verifica.")}
