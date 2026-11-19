@@ -20,10 +20,13 @@ jobs:
           node --check rentarou-guide.js
           node --check expansion.js
           node --check expansion-runtime.js
+          node --check mega-data.js
+          node --check mega-runtime.js
+          node --check catalog-media.js
           node --check app.js
           node --check tests/site-smoke.cjs
           node --check tests/browser-lite.cjs
-      - name: Validar as doze fichas
+      - name: Validar as 47 fichas
         run: |
           node tests/site-smoke.cjs
           node tests/browser-lite.cjs
