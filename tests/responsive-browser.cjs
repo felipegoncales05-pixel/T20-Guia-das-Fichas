@@ -32,6 +32,23 @@ async function assertLayout(page,label){
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
+   const names=await page.locator(".roster-card h3").allTextContents();
+   const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
+   assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
+   assert.match(await page.locator("#resultsCount").textContent(),/47 DE 47/);
+   await page.locator("#search").fill("MAKIMA");
+   assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
+   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 47/);
+   await page.locator("[data-clear-search]").click();
+   assert.equal(await page.locator(".roster-card").count(),47,width+": limpar busca");
+   await page.locator("#universe").selectOption("jojo");
+   assert.ok(await page.locator(".roster-card").count()>=8,width+": filtro JoJo");
+   await page.locator("#universe").selectOption("all");
+   await page.locator('[data-open="ado"]').scrollIntoViewIfNeeded();
+   await page.locator('[data-open="ado"] .art-recovery').waitFor({timeout:10000});
+   assert.ok(await page.locator('[data-open="ado"] .fallback-title').isVisible(),width+": fallback específico não apareceu");
+   await page.locator(".topbar").scrollIntoViewIfNeeded();
+
    if(width===375||width===768)await page.screenshot({path:"tests/screenshots/"+width+"-catalogo.png"});
    for(const id of ["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster"]){
     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
