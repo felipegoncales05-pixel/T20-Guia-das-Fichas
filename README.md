@@ -9,17 +9,27 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - **David Martinez** — Lutador humano, Sandevistan via Surto Heroico; tema amarelo/ciano Edgerunners
 - **Cipher (Cypher)** — Ladina Moreau Gato, Hyninn, garras e ataques furtivos; tema azul/roxo/dourado Honkai: Star Rail
 - **Rentarou Aijou** — Nobre humano, Herói Camponês, suporte e proteção; tema com corações rosa/lilás/menta e arte oficial do anime
+- **Yoru (Chainsaw Man)** — Inventora, armas construídas, preto/vermelho
+- **Diego Brando (Steel Ball Run)** — Druida de Scary Monsters com botão secreto **Alternative** que alterna para um Guerreiro de THE WORLD (duas fichas mecânicas num card)
+- **Ado (cantora japonesa)** — Barda, visual da rosa azul e apoio vocal; arte ilustrativa, não retrato pessoal
+- **Cyrene (Honkai: Star Rail)** — Feiticeira Feérica, magia de gelo/encantamento e memórias
+- **Marin Kitagawa** — Barda, cosplay, ilusão, maquiagem e suporte
+- **Makima** — Feiticeira Feérica, magia de controle com testes de resistência
+- **Optimus Prime** — Golem de Ferro Paladino, chassi, aura, defesa e liderança
 
 **Recursos:** cards clicáveis, busca e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes e créditos. Cada card gera uma URL de hash compartilhável, por exemplo #/gyro/attributes.
 
 ## Estrutura
 
 - index.html — entrada e estrutura semântica
-- styles.css — HUD responsiva inspirada no DCX com cinco temas
-- data.js — os cinco dossiês, progressão, referências e fontes
+- styles.css — HUD responsiva inspirada no DCX com doze temas (e a variação THE WORLD)
+- data.js — os doze dossiês, progressão, referências e fontes
 - app.js — busca, rota por hash, radar, inventário, progressão e ações
 - rentarou.css — tema visual exclusivo para Rentarou
 - rentarou-guide.js — explicações, usos e referências de páginas da build de Rentarou
+- expansion.js — sete novas fichas, a variante alternativa de Diego, histórias, equipamentos, fontes e manuais
+- expansion-runtime.js — cálculos por nível das novas fichas (PV/PM, defesa, CDs, atributos, perícias)
+- expansion.css — temas das sete novas fichas e do modo THE WORLD
 - tests/site-smoke.cjs — teste mínimo de integridade de dados
 - .github/workflows/ci.yml — verificação de sintaxe e dados
 - GitHub Pages: publicação automática da branch main, pasta / (root)
@@ -49,6 +59,10 @@ Livros oficiais:
 ## Imagens, uso e créditos
 
 O projeto usa **URLs externas e identificadas** de imagens ilustrativas, com crédito e ligação para a página de origem. Não são arquivos hospedados no repositório, e podem ficar indisponíveis ou sofrer restrição de hotlink. Nenhuma imagem originalmente mostrada por busca dinâmica no ChatGPT possui necessariamente um arquivo reaproveitável; por isso o site usa referências equivalentes e identificadas. Os direitos das imagens e personagens são de seus titulares. Para publicação estável, substitua por ilustrações próprias ou com autorização e atualize os campos portrait, media e gear em data.js.
+
+**Diego — segredo:** na ficha de Diego, use o botão `Alternative` acima do retrato para alternar entre Scary Monsters (Druida) e THE WORLD (Guerreiro). As versões possuem estatísticas e progressões independentes. THE WORLD não congela literalmente o tempo: Surto Heroico simula apenas uma ação extra com PM.
+
+**Adaptações não literais:** os equipamentos de Yoru devem ser construídos pelo Inventor, e Optimus não se transforma automaticamente em caminhão. Ado usa avatar ilustrado creditado; o site não afirma mostrar uma foto pessoal da cantora. Devido a bloqueios de hotlink, imagens externas podem exibir substitutos.
 
 **D. (armadura final):** a imagem enviada pelo usuário dentro da conversa não foi publicada como arquivo binário do GitHub. O dossiê descreve o traje e usa arte promocional externa até que um recurso autorizado seja hospedado.
 
