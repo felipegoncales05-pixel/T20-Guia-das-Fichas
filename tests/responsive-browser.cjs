@@ -8,6 +8,7 @@ const quick=process.env.T20_QUICK==="1";
 const sizes=quick?[[375,812],[768,1024],[1440,900]]:[[320,700],[360,740],[375,812],[390,844],[430,932],[600,900],[768,1024],[820,1180],[1024,768],[1440,900],[844,390]];
 const site=pathToFileURL(path.resolve("index.html")).href;
 const allIds=["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-johnny","jojo-gappy","denji","satoru-gojo","shigaraki","midoriya"];
+const plannedIds=["toji","aizen","vegitto","gogeta","soul-of-cinder","isaac","adao","grimm","sekiro","kaneki"];
 const representativeIds=["gyro","d","david","diego","jojo-johnny","jojo-valentine","jojo-jolyne","jojo-jonathan","em-acheron","satoru-gojo","midoriya","goku","elster"];
 fs.mkdirSync("tests/screenshots",{recursive:true});
 async function assertLayout(page,label){
@@ -38,7 +39,7 @@ async function assertLayout(page,label){
    page.on("pageerror",err=>errors.push(String(err)));
    await page.route(/^https?:\/\//,route=>route.abort()); // Testa também fallbacks de imagens
    await page.goto(site,{waitUntil:"load"});
-   assert.equal(await page.locator(".roster-card").count(),59);
+   assert.equal(await page.locator(".roster-card").count(),69);
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
@@ -46,17 +47,22 @@ async function assertLayout(page,label){
    const names=await page.locator(".roster-card h3").allTextContents();
    const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
-   assert.match(await page.locator("#resultsCount").textContent(),/59 DE 59/);
+   assert.match(await page.locator("#resultsCount").textContent(),/69 DE 69/);
    await page.locator("#search").fill("MAKIMA");
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
-   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 59/);
+   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 69/);
    await page.locator("[data-clear-search]").click();
-   assert.equal(await page.locator(".roster-card").count(),59,width+": limpar busca");
+   assert.equal(await page.locator(".roster-card").count(),69,width+": limpar busca");
    await page.locator("#universe").selectOption("jojo");
    assert.ok(await page.locator(".roster-card").count()>=8,width+": filtro JoJo");
    await page.locator("#universe").selectOption("mha");
    assert.equal(await page.locator(".roster-card").count(),2,width+": filtro My Hero Academia");
    await page.locator("#universe").selectOption("all");
+   await page.locator("#search").fill("pendente");
+   assert.equal(await page.locator(".roster-card[data-pending]").count(),10,width+": dez planejamentos");
+   assert.equal(await page.locator(".roster-card img").count(),0,width+": pôster provisório virou imagem quebrada");
+   if([375,1440].includes(width))await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-planejados.png"});
+   await page.locator("[data-clear-search]").click();
    if([375,1440].includes(width)){
     await page.locator("#universe").selectOption("cyberpunk");
     assert.equal(await page.locator(".roster-card").count(),2);
@@ -179,6 +185,31 @@ async function assertLayout(page,label){
     assert.equal(await page.locator(".source-level").count(),12,id+": páginas por nível");
     await assertLayout(page,width+" "+id+" fontes");
    }
+   for(const id of (!quick&&width===375?plannedIds:["toji","soul-of-cinder","isaac"])){
+    await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
+    assert.equal(await page.locator(".detail-tabs button").count(),9,id+": navegação incompleta");
+    assert.equal(await page.locator("body").getAttribute("data-pending"),"true");
+    assert.ok(await page.locator(".pending-hero-poster [role=img]").isVisible(),id+": pôster ausente");
+    assert.equal(await page.locator("[data-stat],.global-level-picker").count(),0,id+": números presumidos");
+    await assertLayout(page,width+" "+id+" planejamento");
+    if([375,1440].includes(width)&&["toji","soul-of-cinder","isaac"].includes(id))
+     await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-"+id+"-planejado.png"});
+    await page.locator('[data-tab="progression"]').click();
+    assert.equal(await page.locator(".planned-levels > div").count(),12,id+": doze espaços pendentes");
+    await assertLayout(page,width+" "+id+" progressão pendente");
+    await page.locator('[data-tab="sources"]').click();
+    assert.match(await page.locator("#detail-section").textContent(),/Nenhuma página de livro ou suplemento/);
+    await page.locator('[data-tab="review"]').click();
+    assert.ok(await page.locator("#reviewForm").isVisible(),id+": sem registro editorial");
+    await assertLayout(page,width+" "+id+" revisão pendente");
+   }
+   if(width===375){
+    await page.locator('#reviewForm [name="title"]').fill("Fonte a conferir");
+    await page.locator('#reviewForm [name="body"]').fill("Verificar regras e páginas antes de montar a build.");
+    await page.locator('#reviewForm button[type="submit"]').click();
+    assert.match(await page.locator("#reviewRecords").textContent(),/Fonte a conferir/);
+    assert.equal(await page.locator("#reviewRecords .review-entry").count(),1);
+   }
    assert.deepEqual(errors,[]);
    console.log("OK viewport "+width+"x"+height+" — 59 dossiês e interações");
    await page.close();
@@ -194,6 +225,6 @@ async function assertLayout(page,label){
   assert.equal(await reduced.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),"","HUD reage sob movimento reduzido");
   await reduced.close();
   console.log("Movimento reduzido validado: Capri e David sem animações.");
-  console.log("VALIDADO: 11 viewports e 59 fichas sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports, 59 fichas existentes e dez planejamentos sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

@@ -17,7 +17,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - **Makima** — Feiticeira Feérica, magia de controle com testes de resistência
 - **Optimus Prime** — Golem de Ferro Paladino, chassi, aura, defesa e liderança
 
-**Recursos:** 59 cards em ordem alfabética, pesquisa em destaque e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes, créditos, comparação e revisão. Cada card gera uma URL de hash compartilhável, por exemplo `#/gyro/attributes`.
+**Recursos:** 69 entradas em ordem alfabética: 59 fichas T20 existentes com 63 versões e dez personagens em planejamento. As fichas existentes têm radar, PV/PM, inventário, técnicas, progressão interativa 1–12, fontes, comparação e revisão. Os planejamentos exibem apenas campos vazios e pendências, sem estatísticas presumidas. Há busca, filtros e URLs compartilháveis, por exemplo `#/gyro/attributes` e `#/toji/review`.
 
 ## Estrutura
 
@@ -37,6 +37,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - card-worlds.css e card-worlds.js — identidade visual dos universos e interação da HUD de Capri nos cards
 - visual-direction.js e visual-direction.css — assinaturas visuais dos 59 personagens, quatro variantes extras e composição editorial reutilizável
 - signature-finish.css — acabamento individual e materiais contextuais em cards e dossiês
+- planned-data.js e planned.css — dez entradas editoriais pendentes e pôsteres tipográficos sem retrato canônico
 - docs/curadoria-fase-ii.md — registro das 59 assinaturas e quatro variantes
 - assets/motifs/capri-source.json — proveniência da ilustração usada na HUD do card de D.
 - review-data.js e review.css — registros editoriais locais, exportação/importação e interface
@@ -45,7 +46,11 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 
 ## Expansão de personagens e visuais
 
-O catálogo agora inclui **59 dossiês**. Em JoJo, estão os oito protagonistas das partes 1 a 8: Jonathan, Joseph, Jotaro, Josuke (parte 4), Giorno, Jolyne, Johnny e Josuke (JoJolion). Os convidados adicionais são Denji, Satoru Gojo, Tomura Shigaraki e Izuku Midoriya. Eles mantêm a ficha em nove abas, progressão 1–12 e temas únicos.
+O catálogo tem **59 dossiês T20 com dados mecânicos** e **dez entradas em planejamento**. Em JoJo, estão os oito protagonistas das partes 1 a 8: Jonathan, Joseph, Jotaro, Josuke (parte 4), Giorno, Jolyne, Johnny e Josuke (JoJolion). Os convidados anteriores incluem Denji, Satoru Gojo, Tomura Shigaraki e Izuku Midoriya. As 59 fichas existentes mantêm nove abas e progressão 1–12.
+
+### Dez personagens em planejamento
+
+Toji, Aizen, Vegitto, Gogeta, Soul of Cinder, Isaac, Adão, Grimm, Sekiro e Kaneki têm cards próprios, busca, filtros, URLs e nove abas de planejamento. A seção 1–12 mostra **posições vazias**, sem declarar uma habilidade em cada nível. Retratos canônicos, classe, raça, atributos, equipamentos, fontes T20 e páginas continuam pendentes. Os pôsteres são composições tipográficas provisórias. A aba Revisão aceita fontes e decisões por personagem, com exportação JSON. Veja [docs/expansao-pendente.md](docs/expansao-pendente.md).
 
 A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opcional da **Dragão Brasil nº 199**, com Arma Ancestral, Código do Samurai, Grito de Kiai, melhorias e poderes por nível. A descrição do livro e os custos se encontram na edição mencionada; a ficha é uma adaptação não oficial, com escolhas opcionais sujeitas à mesa.
 
@@ -61,9 +66,9 @@ A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opci
 
 ### Direção de arte editorial
 
-`visual-direction.js` atribui uma receita visual a **cada um dos 59 personagens** e às quatro versões adicionais de Diego/Goku. Cada receita contém uma palavra de composição, família visual, motivo geométrico, layout, cor de destaque, cor de fundo e acabamento material. Esses campos descrevem apenas a apresentação; nenhuma habilidade ou regra é derivada deles. `visual-direction.css` e `signature-finish.css` aplicam a mesma assinatura ao card e às nove abas do dossiê por meio de `data-art`, `data-family`, `data-pattern`, `data-layout`, `data-finish`, `data-lineage` e `data-variant`. A lista completa está em [docs/curadoria-fase-ii.md](docs/curadoria-fase-ii.md). JoJo combina linguagens de quadrinho, retícula e corrida; Night City mantém os efeitos de David e a HUD de Capri em D.; Elster conserva a HUD industrial de SIGNALIS. As demais famílias e personagens têm paletas e motivos próprios no mapa de perfis.
+`visual-direction.js` atribui uma receita visual às **59 fichas existentes**, às dez entradas pendentes e às quatro versões adicionais de Diego/Goku. Cada receita contém uma palavra de composição, família visual, motivo geométrico, layout, cor de destaque, cor de fundo e acabamento material. Esses campos descrevem apenas a apresentação; nenhuma habilidade ou regra é derivada deles. `visual-direction.css`, `signature-finish.css` e `planned.css` aplicam as assinaturas ao catálogo e às páginas internas. A curadoria das 59 fichas anteriores está em [docs/curadoria-fase-ii.md](docs/curadoria-fase-ii.md). JoJo combina linguagens de quadrinho, retícula e corrida; Night City mantém os efeitos de David e a HUD de Capri em D.; Elster conserva a HUD industrial de SIGNALIS.
 
-O catálogo oferece seleção de versão **dentro do mesmo card**: Scary Monsters/THE WORLD para Diego e DBZ/GT/Daima/Super para Goku. A escolha muda o retrato, a cor, o rótulo, a classe e o destino da ficha, e os botões informam seu estado com `aria-pressed`. Há 59 entradas e 63 fichas contando as variantes. No dossiê, as abas, comparação, fontes, progressão e revisão usam os dados já existentes. O retrato SVG de reserva só permanece visível até a arte principal carregar; em falha de imagem, o mecanismo de recuperação local continua ativo.
+O catálogo oferece seleção de versão **dentro do mesmo card**: Scary Monsters/THE WORLD para Diego e DBZ/GT/Daima/Super para Goku. A escolha muda o retrato, a cor, o rótulo, a classe e o destino da ficha, e os botões informam seu estado com `aria-pressed`. Há 69 entradas, das quais 59 contêm as 63 versões T20 existentes. Nos dez novos planejamentos, não há variante ou cálculo mecânico definido. O retrato SVG de reserva das fichas anteriores só permanece visível até a arte principal carregar; em falha de imagem, o mecanismo de recuperação local continua ativo.
 
 Para adicionar um personagem, cadastre os dados na fonte apropriada, registre uma entrada em `profiles` e `finishes` e escolha uma combinação das famílias/padrões/layouts já disponíveis (ou crie uma receita CSS). Para uma variante adicional no mesmo card, inclua a ficha nos dados de variantes e a assinatura em `variations` e `finishes`, depois adicione o botão ao seletor do card. Confira o retrato local e sua proveniência em `assets/*/sources.json`. A verificação `node tests/site-smoke.cjs` detecta perfis ausentes e regressões de integridade; `node tests/browser-lite.cjs` verifica navegação e HUD; a ação de PR executa Chromium nos onze tamanhos, testa movimento reduzido e anexa capturas de cards e dossiês para 375, 768 e 1440 pixels.
 
@@ -71,7 +76,7 @@ Para adicionar um personagem, cadastre os dados na fonte apropriada, registre um
 
 ## Busca, ordem e imagens (atualização 2026-11-19)
 
-- Os **59 dossiês** aparecem automaticamente em ordem alfabética A–Z, independentemente da ordem de cadastramento. A ordenação respeita acentos e números.
+- Os **69 dossiês** aparecem automaticamente em ordem alfabética A–Z, independentemente da ordem de cadastramento. A ordenação respeita acentos e números.
 - A **barra de pesquisa** tem destaque no catálogo e localiza nome, universo, classe e descrição. Pode pesquisar sem acentos; use a tecla `/` quando o catálogo estiver aberto. `Esc` limpa uma busca ativa.
 - Os filtros mostram a categoria **JoJo** (partes 1 a 8), em lugar de Steel Ball Run; o filtro geral Honkai: Star Rail também inclui Herdeiros de Chrysos e Emanadores.
 - A contagem indica quantos resultados foram encontrados. O botão **LIMPAR** restaura o catálogo completo.
@@ -115,7 +120,7 @@ Todos os textos de observação no site são creditados a **O Sistema**.
 ## Comparação e revisão
 
 - A aba **Comparar** coloca lado a lado duas versões e seus níveis (1–12). Diego tem duas versões; Goku tem quatro. Nas outras fichas, compare dois níveis da mesma build. Os valores são os do repositório e permanecem sujeitos à revisão editorial.
-- A aba **Revisão** por personagem e o painel `#/arquivo` permitem registrar fontes, regras, decisões, pendências e correções. Um registro nasce pendente; sua aprovação é manual. O painel lista as 59 fichas como pendentes de conferência, independentemente do estado de uma anotação individual.
+- A aba **Revisão** por personagem e o painel `#/arquivo` permitem registrar fontes, regras, decisões, pendências e correções. Um registro nasce pendente; sua aprovação é manual. O painel lista as 59 fichas T20 em revisão e os dez novos planejamentos separadamente, independentemente do estado de uma anotação individual.
 - As anotações ficam em `localStorage` **somente no navegador usado**. Exporte `t20-guia-revisao.json` para guardar ou compartilhar e importe o arquivo em outro navegador. Isso não altera `data.js` nem publica decisões para outros visitantes. Para consolidar uma decisão no projeto, revise o JSON e atualize os dados versionados no GitHub.
 - Páginas explícitas já presentes nos guias são mostradas. Referências a capítulos/verbete são identificadas como tal; ausências aparecem como pendências, sem completar números por adivinhação.
 

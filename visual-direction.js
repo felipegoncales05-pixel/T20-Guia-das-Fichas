@@ -61,7 +61,17 @@
   denji:["MOTOSSERRA","brutal","chassis","splice","#f2a35c","#49302b"],
   "satoru-gojo":["INFINITO","curse","orbit","offset","#a6ddf2","#29364e"],
   shigaraki:["DECAIR","heroic","fracture","splice","#bfb7d1","#393948"],
-  midoriya:["FULL COWL","heroic","rays","diagonal","#9ee2ac","#28463e"]
+  midoriya:["FULL COWL","heroic","rays","diagonal","#9ee2ac","#28463e"],
+  toji:["TOJI","curse","slash","splice","#a9c6b2","#1c2829"],
+  aizen:["AIZEN","bleach","prism","spine","#bdd4e7","#222c42"],
+  vegitto:["VEGITTO","ki","orbit","offset","#f4bb74","#3d2e51"],
+  gogeta:["GOGETA","ki","rays","diagonal","#ed8e73","#392c4e"],
+  "soul-of-cinder":["CINZAS","souls","fracture","spine","#e2a478","#312824"],
+  isaac:["ISAAC","dungeon","ripple","soft","#dfbeae","#3b3036"],
+  adao:["ADÃO","arena","diagram","offset","#dfcda7","#3b3740"],
+  grimm:["GRIMM","folklore","organic","spine","#bf9ab1","#302537"],
+  sekiro:["SEKIRO","shinobi","slash","diagonal","#c7ad88","#34342f"],
+  kaneki:["KANEKI","horror","fracture","splice","#d9b1b2","#30262d"]
  };
  const variations={
   "diego:alternative":["THE WORLD","western","clock","diagonal","#e9cb83","#3a304b"],
@@ -88,9 +98,11 @@
   "jojo-josuke4":"glass","jojo-giorno":"organic","jojo-jolyne":"fabric",
   "jojo-johnny":"dust","jojo-gappy":"glass",denji:"alloy",
   "satoru-gojo":"glass",shigaraki:"stone",midoriya:"energy",
-  "diego:alternative":"foil","goku:gt":"organic","goku:daima":"paper","goku:super":"glass"
+  "diego:alternative":"foil","goku:gt":"organic","goku:daima":"paper","goku:super":"glass",
+  toji:"ink",aizen:"glass",vegitto:"energy",gogeta:"foil","soul-of-cinder":"stone",
+  isaac:"paper",adao:"foil",grimm:"ink",sekiro:"paper",kaneki:"ink"
  };
- const families={western:"CORRIDA / MANGÁ",cyber:"NIGHT CITY",astral:"AMPHOREUS / ESTRELAS",romance:"PÁGINA / AFETO",brutal:"TINTA / TENSÃO",stage:"PALCO / VOZ",machine:"CHASSI / ENGENHARIA",gothic:"MANGÁ / CLÁSSICO",manga:"MANGÁ / IMPRESSÃO",curse:"ENERGIA / SOMBRA",ki:"DRAGON BALL",cosmic:"ARQUIVO / CÓSMICO",terminal:"LSTR / ARQUIVO",heroic:"QUADRO / HERÓI"};
+ const families={western:"CORRIDA / MANGÁ",cyber:"NIGHT CITY",astral:"AMPHOREUS / ESTRELAS",romance:"PÁGINA / AFETO",brutal:"TINTA / TENSÃO",stage:"PALCO / VOZ",machine:"CHASSI / ENGENHARIA",gothic:"MANGÁ / CLÁSSICO",manga:"MANGÁ / IMPRESSÃO",curse:"ENERGIA / SOMBRA",ki:"DRAGON BALL",cosmic:"ARQUIVO / CÓSMICO",terminal:"LSTR / ARQUIVO",heroic:"QUADRO / HERÓI",bleach:"BLEACH / ARQUIVO",souls:"SOULS / BRASA",dungeon:"ISAAC / PORÃO",arena:"SHUUMATSU / ARENA",folklore:"BLACK SOULS / CONTOS",shinobi:"SEKIRO / PERGAMINHO",horror:"TOKYO GHOUL / CONTRASTE"};
  function forCharacter(c,key){
   const [motif,family,pattern,layout,accent,dark]=variations[c.id+":"+key]||profiles[c.id]||["ARQUIVO","cosmic","grid","spine","#9bd9d5","#253546"];
   const finish=finishes[c.id+":"+key]||finishes[c.id]||"paper";
