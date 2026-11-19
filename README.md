@@ -34,9 +34,21 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - .github/workflows/ci.yml — verificação de sintaxe e dados
 - GitHub Pages: publicação automática da branch main, pasta / (root)
 
+## Expansão de personagens e visuais
+
+O catálogo agora inclui **59 dossiês**. Em JoJo, estão os oito protagonistas das partes 1 a 8: Jonathan, Joseph, Jotaro, Josuke (parte 4), Giorno, Jolyne, Johnny e Josuke (JoJolion). Os convidados adicionais são Denji, Satoru Gojo, Tomura Shigaraki e Izuku Midoriya. Eles mantêm a ficha em sete abas, progressão 1–12 e temas únicos.
+
+A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opcional da **Dragão Brasil nº 199**, com Arma Ancestral, Código do Samurai, Grito de Kiai, melhorias e poderes por nível. A descrição do livro e os custos se encontram na edição mencionada; a ficha é uma adaptação não oficial, com escolhas opcionais sujeitas à mesa.
+
+**Imagens locais:** os 59 personagens têm um pôster-reserva original em `assets/portraits/{id}.svg`. Ele aparece atrás da arte externa durante o carregamento, garantindo uma imagem identificável mesmo que o servidor remoto falhe. Pôsteres-reserva são ilustrações gráficas simbólicas e não fingem ser arte oficial das obras. A ficha de D. usa `assets/portraits/d-salvage.avif`, uma nova ilustração original de sua armadura improvisada de sucata local (Scrapframe), sem cyberskeleton. Original gerado para este projeto; alguns navegadores antigos podem receber o pôster SVG reserva.
+
+**Efeitos dos cards:** `character-fx.css` mantém Steel Balls pixeladas giratórias para Gyro, unhas azuis e Spin dourado para Johnny, bandeira com 44 estrelas e 13 listras para Valentine, glitches sutis para David, sucata de rua para D., bolhas, fios, clackers, Hamon e detalhes para os outros protagonistas. Os efeitos desaparecem ou ficam estáticos na preferência de movimento reduzido.
+
+**Novos arquivos:** `acheron-samurai.js`, `heroes-custom.js`, `d-salvage.js`, `character-fx.css`, `assets/motifs/valentine-44.svg` e `assets/portraits/`.
+
 ## Busca, ordem e imagens (atualização 2026-11-19)
 
-- Os **47 dossiês** aparecem automaticamente em ordem alfabética A–Z, independentemente da ordem de cadastramento. A ordenação respeita acentos e números.
+- Os **59 dossiês** aparecem automaticamente em ordem alfabética A–Z, independentemente da ordem de cadastramento. A ordenação respeita acentos e números.
 - A **barra de pesquisa** tem destaque no catálogo e localiza nome, universo, classe e descrição. Pode pesquisar sem acentos; use a tecla `/` quando o catálogo estiver aberto. `Esc` limpa uma busca ativa.
 - Os filtros mostram a categoria **JoJo** (partes 1 a 8), em lugar de Steel Ball Run; o filtro geral Honkai: Star Rail também inclui Herdeiros de Chrysos e Emanadores.
 - A contagem indica quantos resultados foram encontrados. O botão **LIMPAR** restaura o catálogo completo.
@@ -71,7 +83,7 @@ O projeto usa **URLs externas e identificadas** de imagens ilustrativas, com cr�
 
 **Diego — segredo:** na ficha de Diego, use o botão `Alternative` acima do retrato para alternar entre Scary Monsters (Druida) e THE WORLD (Guerreiro). As versões possuem estatísticas e progressões independentes. THE WORLD não congela literalmente o tempo: Surto Heroico simula apenas uma ação extra com PM.
 
-**Adaptações não literais:** os equipamentos de Yoru devem ser construídos pelo Inventor, e Optimus não se transforma automaticamente em caminhão. Ado usa avatar ilustrado creditado; o site não afirma mostrar uma foto pessoal da cantora. Devido a bloqueios de hotlink, imagens externas podem exibir substitutos.
+**Adaptações não literais:** os equipamentos de Yoru devem ser construídos pelo Inventor, e Optimus não se transforma automaticamente em caminhão. Ado usa avatar ilustrado creditado; o site não afirma mostrar uma foto pessoal da cantora. Devido a bloqueios de hotlink, imagens externas podem exibir pôsteres-reserva locais.
 
 **D. (armadura final):** a imagem enviada pelo usuário dentro da conversa não foi publicada como arquivo binário do GitHub. O dossiê descreve o traje e usa arte promocional externa até que um recurso autorizado seja hospedado.
 
