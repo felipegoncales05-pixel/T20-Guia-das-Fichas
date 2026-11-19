@@ -1,0 +1,151 @@
+/* O SISTEMA // MULTIVERSE VISUAL SHELL
+   Estética única por dossiê e variantes de Dragon Ball. */
+.roster-card[class*="mega-"]{
+  --card-accent:var(--char-color,#9ccaff);
+  --card-glow:color-mix(in srgb,var(--card-accent),transparent 76%);
+  background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--card-accent),transparent 75%) 0%,transparent 65%),linear-gradient(145deg,#202532,#0a101d);
+  border-color:color-mix(in srgb,var(--card-accent),#242835 53%);
+}
+.roster-card[class*="mega-"] .photo{background:radial-gradient(circle at 52% 32%,color-mix(in srgb,var(--card-accent),transparent 78%),transparent 58%)}
+.roster-card[class*="mega-"] .photo img{object-fit:contain;object-position:center bottom;padding:18px 9px 58px;filter:drop-shadow(0 10px 23px #000a)}
+.roster-card[class*="mega-"] .card-body h3{font-size:clamp(30px,2.55vw,43px);line-height:.96}
+.roster-card[class*="mega-"] .card-action{color:var(--card-accent)}
+.roster-card[class*="mega-"] .card-overline{color:var(--card-accent)}
+.roster-card[class*="mega-"]::before{
+ content:"◈";display:block;position:absolute;z-index:0;pointer-events:none;
+ top:58px;right:18px;color:var(--card-accent);opacity:.26;font:900 85px/.9 "Barlow Condensed",sans-serif;
+}
+body[data-theme^="mega-"]{
+ --bg:#0a101b;--panel:#172132;--panel2:#101b2a;--line:#314456;--line-bright:var(--char-color,#8bd6ff);
+ --ink:#f0f6ff;--muted:#b7c5d4;--faint:#899eb0;
+ --accent:var(--char-color,#85c2fd);--accent2:#ebdcaf;--glow:color-mix(in srgb,var(--accent),transparent 85%);
+ background:linear-gradient(160deg,color-mix(in srgb,var(--accent),transparent 94%),#0c121e 56%,#080b14);
+}
+body[data-theme^="mega-"] .detail-hero{
+ background:radial-gradient(circle at 77% 25%,color-mix(in srgb,var(--accent),transparent 75%),transparent 60%),linear-gradient(128deg,#1d2534,#111927);
+ border-color:color-mix(in srgb,var(--accent),transparent 45%);
+}
+body[data-theme^="mega-"] .hero-portrait img{object-fit:contain;object-position:center bottom;padding:15px 8px 0;filter:drop-shadow(0 10px 28px #080c15c2)}
+body[data-theme^="mega-"] .detail-tabs button[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#07111a}
+body[data-theme^="mega-"] .ambient-grid{background:radial-gradient(circle at 77% 1%,color-mix(in srgb,var(--accent),transparent 92%),transparent 50%),repeating-linear-gradient(90deg,transparent 0 49px,#bfcce909 50px 51px)}
+/* Vilões: acabamento do card variado pela própria cor e subtítulo. */
+.roster-card[class*="mega-jojo"]{clip-path:polygon(0 0,94% 0,100% 7%,100% 100%,0 100%)}
+body[data-theme^="mega-jojo"] .detail-hero{clip-path:polygon(0 0,97% 0,100% 9%,100% 100%,0 100%)}
+.roster-card[class*="mega-hsr"] .photo::after{background:linear-gradient(transparent 42%,#101623 88%)}
+.roster-card[class*="mega-em"]::before{content:"⬡"}
+.roster-card[class*="mega-hsr"]::before{content:"✧"}
+/* Goku — quatro fases, uma única ficha por universo */
+.goku-switch{
+ display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px;
+ margin:4px 0 16px;padding:13px 16px;border:1px solid #6e6e75;
+ background:linear-gradient(90deg,#231c2c,#181b29);border-left:4px solid #f7a03a;
+}
+.goku-switch>span{font:13px/1.6 "Share Tech Mono",monospace;color:#e7c8a0;letter-spacing:.12em}
+.goku-switch>div{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+.goku-switch button{border:1px solid #6a586c;background:#191e2e;color:#e8e6f2;padding:10px 16px;min-height:46px;min-width:60px;font:700 13px/1.1 "Share Tech Mono",monospace;letter-spacing:.09em;cursor:pointer}
+.goku-switch button[aria-pressed=true]{color:#17151c;background:#f6ab47;border-color:#f6ab47;box-shadow:0 0 18px #f6ae5260}
+.goku-switch button:hover:not([aria-pressed=true]){border-color:#f6ab47}
+body[data-theme^="goku-"]{--bg:#17111d;--panel:#261d2d;--panel2:#1d1726;--line:#74536b;--line-bright:#f6b44b;--ink:#fff1d8;--muted:#dfcbb8;--faint:#b49aa9;--accent:#ffb74f;--accent2:#75baff;--glow:#df93384d}
+body[data-theme="goku-gt"]{--accent:#ee5c50;--accent2:#fed85c;--line-bright:#dd615f}
+body[data-theme="goku-daima"]{--accent:#bc90e7;--accent2:#ffab65;--line-bright:#a671ca}
+body[data-theme="goku-super"]{--accent:#80d8ff;--accent2:#a788ff;--line-bright:#8cacf3}
+body[data-theme^="goku-"] .detail-hero{background:radial-gradient(circle at 76% 25%,color-mix(in srgb,var(--accent),transparent 67%),transparent 55%),linear-gradient(120deg,#3a2331,#181727)}
+body[data-theme^="goku-"] .hero-portrait img{object-fit:contain;object-position:center;padding:8px}
+body[data-theme^="goku-"] .detail-tabs button[aria-selected=true]{background:var(--accent);color:#17151c}
+/* SIGNALIS // LSTR-512: CRT escuro, linhas de scanner, laranja de alerta, tipografia industrial. */
+body[data-theme="signalis"]{
+ --bg:#07090a;--panel:#141717;--panel2:#101313;--line:#555653;--line-bright:#f15b35;
+ --ink:#e9e7d9;--muted:#b2b6b0;--faint:#8e918d;--accent:#ff5b37;--accent2:#eaece5;--glow:#ee492f45;
+ font-family:"Share Tech Mono",Consolas,monospace;
+}
+body[data-theme="signalis"] .ambient-grid{
+ background:repeating-linear-gradient(0deg,transparent 0 3px,#ffffff08 4px 5px),
+ radial-gradient(circle at 75% 10%,#bb35201c,transparent 50%);pointer-events:none;
+}
+body[data-theme="signalis"] .detail-hero{
+ border:2px solid #ea5033;border-radius:2px;
+ background:repeating-linear-gradient(0deg,#101414 0 3px,#111515 4px 5px);
+ clip-path:none;
+}
+body[data-theme="signalis"] .detail-hero::before{content:"LSTR UNIT PROFILE [ ACTIVE ]";position:absolute;top:8px;left:18px;font:11px "Share Tech Mono",monospace;color:#ff6943;letter-spacing:.08em;z-index:2}
+body[data-theme="signalis"] .hero-copy{padding-top:42px}
+body[data-theme="signalis"] .hero-copy h1{font-family:"Share Tech Mono",monospace;font-weight:700;text-transform:uppercase;letter-spacing:-.065em}
+body[data-theme="signalis"] .hero-portrait img{object-fit:contain;object-position:center bottom;filter:grayscale(.45) contrast(1.16);padding:12px 8px}
+body[data-theme="signalis"] .detail-tabs{border-top:2px solid #e85632;border-bottom:2px solid #e85632}
+body[data-theme="signalis"] .detail-tabs button{
+ font:12px "Share Tech Mono",Consolas,monospace!important;letter-spacing:.05em;border-radius:0;
+}
+body[data-theme="signalis"] .detail-tabs button[aria-selected=true]{background:#ee5a33;color:#090b0b}
+body[data-theme="signalis"] .panel,body[data-theme="signalis"] .gear-card,body[data-theme="signalis"] .tech-card,
+body[data-theme="signalis"] .live-metric,body[data-theme="signalis"] .source-level{border-radius:0;border:1px solid #b44833;background:#131616}
+body[data-theme="signalis"] .panel-title{background:#e75231;color:#0c0d0d;width:max-content;max-width:100%;padding:4px 8px}
+body[data-theme="signalis"] .gear-card summary{background:#101414;border-bottom:1px solid #ab3d28}
+body[data-theme="signalis"] .gear-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+body[data-theme="signalis"] .gear-card .gear-title strong{font-family:"Share Tech Mono",monospace;font-size:18px}
+body[data-theme="signalis"] .gear-thumb{border:1px solid #9a402b;border-radius:0}
+body[data-theme="signalis"] .meta-tile{border:1px solid #93462e;border-radius:0}
+body[data-theme="signalis"] .meta-tile small{color:#ff6d48}
+body[data-theme="signalis"] .global-level-picker{border-radius:0;border:1px solid #c44c30;background:#0f1313}
+.signalis-status{
+ display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1px;background:#cc4e33;
+ border:2px solid #db5737;margin:10px 0 16px;font:12px/1.4 "Share Tech Mono",Consolas,monospace;
+}
+.signalis-status>*{padding:11px 12px;background:#101515;color:#eeede5;min-width:0;overflow-wrap:anywhere}
+.signalis-status>strong{color:#f95c36;letter-spacing:.04em;font-weight:700}
+.roster-card.mega-elster{border-color:#f15d3b;background:#0d1214;clip-path:polygon(0 0,96% 0,100% 5%,100% 100%,0 100%)}
+.roster-card.mega-elster .photo::after{background:linear-gradient(transparent 40%,#0b0e0f 92%)}
+.roster-card.mega-elster::before{content:"LSTR-512";font:700 23px "Share Tech Mono",monospace;color:#f15c3b;opacity:.65;top:50px}
+/* Cyberpunk 2077 visual language for existing D. and David. */
+body[data-theme="d"],body[data-theme="david"]{
+ --bg:#0c1015;--panel:#121e25;--panel2:#0c161d;--ink:#e7f7ff;
+ --muted:#9bbec6;--faint:#658891;--line:#2a5561;--line-bright:#43c9da;
+ --accent:#58e5e9;--accent2:#f54a79;--glow:#23b0d447;
+ background:radial-gradient(ellipse at 90% 0,#143c5070,transparent 50%),#091017;
+}
+body[data-theme="david"]{--accent:#f4ee31;--accent2:#00edee;--line-bright:#f4ec35;--glow:#fae82a36;--muted:#d0d8b8}
+body[data-theme="d"] .ambient-grid,body[data-theme="david"] .ambient-grid{
+ background:radial-gradient(circle at 78% 0,color-mix(in srgb,var(--accent),transparent 89%),transparent 38%),
+ repeating-linear-gradient(90deg,transparent 0 61px,color-mix(in srgb,var(--accent),transparent 95%) 62px 63px),
+ repeating-linear-gradient(0deg,transparent 0 61px,color-mix(in srgb,var(--accent),transparent 96%) 62px 63px)
+}
+body[data-theme="d"] .detail-hero,body[data-theme="david"] .detail-hero{
+ background:linear-gradient(110deg,color-mix(in srgb,var(--accent),#0d1a26 95%),#10191e);
+ border:1px solid var(--accent);
+ clip-path:polygon(0 0,98% 0,100% 9%,100% 100%,2% 100%,0 92%);
+}
+body[data-theme="d"] .detail-hero::after,body[data-theme="david"] .detail-hero::after{
+ position:absolute;content:"NIGHT CITY // NEURAL LINK";top:12px;right:15px;
+ color:var(--accent);font:11px "Share Tech Mono",monospace;opacity:.65;letter-spacing:.12em
+}
+body[data-theme="d"] .panel,body[data-theme="david"] .panel,
+body[data-theme="d"] .gear-card,body[data-theme="david"] .gear-card{
+ border-color:color-mix(in srgb,var(--accent),transparent 65%);
+ clip-path:polygon(0 0,99% 0,100% 9px,100% 100%,0 100%);
+}
+body[data-theme="d"] .panel-title,body[data-theme="david"] .panel-title{
+ color:var(--accent);letter-spacing:.1em;font-family:"Share Tech Mono",monospace
+}
+body[data-theme="d"] .detail-tabs button,body[data-theme="david"] .detail-tabs button{font-family:"Share Tech Mono",monospace}
+body[data-theme="d"] .detail-tabs button[aria-selected=true],body[data-theme="david"] .detail-tabs button[aria-selected=true]{background:var(--accent);color:#091014;border-color:var(--accent)}
+body[data-theme="d"] .meta-tile b,body[data-theme="david"] .meta-tile b{color:var(--accent)}
+body[data-theme="d"] .global-level-picker,body[data-theme="david"] .global-level-picker{
+ border-left:4px solid var(--accent);background:linear-gradient(90deg,color-mix(in srgb,var(--accent),transparent 96%),#0b141b)
+}
+body[data-theme="d"] .stat-panel,body[data-theme="david"] .stat-panel,
+body[data-theme="d"] .live-metric,body[data-theme="david"] .live-metric{border:1px solid color-mix(in srgb,var(--accent),transparent 68%)}
+body[data-theme="d"] .meta-tile,body[data-theme="david"] .meta-tile{background:linear-gradient(130deg,#10232d,#0b181f)}
+@media(max-width:1000px){
+ body[data-theme="signalis"] .gear-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .signalis-status{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+ .goku-switch{display:grid;grid-template-columns:1fr;gap:10px;padding:13px}
+ .goku-switch>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ .goku-switch button{min-width:0;padding:10px 6px;font-size:11px}
+ .signalis-status{grid-template-columns:repeat(2,minmax(0,1fr));font-size:10px}
+ .signalis-status>*{padding:9px}
+ body[data-theme="signalis"] .gear-grid{grid-template-columns:1fr}
+ body[data-theme="signalis"] .hero-copy h1{font-size:clamp(33px,11vw,59px)}
+ .roster-card[class*="mega-"] .card-body h3{font-size:clamp(32px,9vw,43px)}
+ .roster-card[class*="mega-"] .photo img{padding-bottom:52px}
+}
