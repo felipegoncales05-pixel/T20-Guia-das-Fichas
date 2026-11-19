@@ -272,3 +272,30 @@ button, .sys-button, .source-link, .back-link, .gear-card summary { touch-action
 @media (forced-colors: active) {
   .detail-tabs button[aria-selected=true],.roster-card:hover { outline: 2px solid Highlight; }
 }
+
+/* Acabamento dos retratos não disponíveis: placeholder no topo, sem cobrir título. */
+.roster-card .photo .img-fallback {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 58%;
+  min-height: 0;
+  width: 100%;
+  padding: 18px;
+  background: transparent;
+  justify-content: center;
+  gap: 6px;
+}
+.roster-card .photo .img-fallback b { font-size: 38px; opacity: .9; }
+.roster-card .photo .img-fallback span {
+  max-width: 23ch;
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.45;
+  color: var(--card-accent, var(--accent));
+}
+@media (min-width: 681px) and (max-width: 1100px) {
+  .list-toolbar { display: grid; grid-template-columns: 1fr; align-items: start; gap: 16px; }
+  .filters { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: center; width: 100%; }
+  .filters .filter-label { display: block; white-space: nowrap; }
+  .filters .search-input, .filters .filter-select { width: 100%; min-width: 0; }
+}
