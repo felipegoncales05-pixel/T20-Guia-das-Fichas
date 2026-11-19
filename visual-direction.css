@@ -49,10 +49,10 @@
 /* Variante visual continua no mesmo card e é selecionável por teclado/toque. */
 .roster-entry{position:relative;min-width:0;height:432px}
 .roster-entry .roster-card{width:100%;height:100%}
-.card-variant-switch{position:absolute;z-index:8;display:flex;gap:3px;left:9px;right:9px;top:55px;padding:3px;background:#07111bcc;border:1px solid var(--archive-paper);box-shadow:3px 4px 0 #06091080}
-.card-variant-switch button{flex:1;min-width:0;min-height:44px;padding:5px 2px;border:0;border-right:1px solid #93a0a973;color:#e6e9e1;background:transparent;font:800 12px/1.1 var(--mono);letter-spacing:.01em}
+.card-variant-switch{position:absolute;z-index:8;display:flex;align-items:center;justify-content:center;flex-wrap:nowrap;gap:1px;left:50%;right:auto;top:53px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 18px);padding:2px;background:#07111bf2;border:1px solid #b1a7a17a;border-radius:5px;box-shadow:0 3px 8px #0609109c}
+.card-variant-switch button{flex:0 0 auto;min-width:0;min-height:28px;padding:4px 9px;border:0;border-right:1px solid #93a0a954;white-space:nowrap;color:#e6e9e1;background:transparent;font:800 10px/1.1 var(--mono);letter-spacing:.01em}
 .card-variant-switch button:last-child{border-right:0}
-.card-variant-switch button[aria-pressed="true"]{background:#f2e3ad;color:#192029}
+.card-variant-switch button[aria-pressed="true"]{background:#e6d8ad;color:#192029}
 .card-variant-switch button:hover:not([aria-pressed="true"]){background:#ffffff28}
 .card-variant-switch button:focus-visible{outline:3px solid #fff;outline-offset:-2px}
 .roster-card[data-art]{
@@ -209,7 +209,18 @@ body[data-art="david"] .detail-hero{border-color:#f0e45f}
  .dossier-foot{font-size:9px}
  body[data-art] .hero-portrait{border-left:0}
 }
-@media(max-width:380px){.roster-entry{height:402px}.landing-hero h1{font-size:34px}.hero-mark strong{font-size:58px;white-space:nowrap}.hero-mark-strip{font-size:8px}.card-variant-switch button{font-size:11px}}
+@media(max-width:380px){.roster-entry{height:402px}.landing-hero h1{font-size:34px}.hero-mark strong{font-size:58px;white-space:nowrap}.hero-mark-strip{font-size:8px}.card-variant-switch button{font-size:9px;min-height:26px;padding:3px 7px}}
 @media(max-width:920px) and (max-height:480px) and (orientation:landscape){.roster-entry{height:330px}.landing-hero{min-height:260px}.hero-mark{min-height:210px}}
 @media(prefers-reduced-motion:reduce){.hero-enter:hover,.hero-enter:focus-visible{transform:none}.roster-card[data-art]{transition:none}.roster-card[data-art]:hover,.roster-card[data-art]:focus-visible{transform:none}}
 @media(forced-colors:active){.card-variant-switch button[aria-pressed="true"],.roster-card[data-art]:focus-visible{outline:3px solid Highlight}.dossier-foot{border:1px solid CanvasText}}
+
+/* Fase III — recuperar os ornamentos JoJo que a camada artística genérica encobria. */
+.roster-card[data-art][data-world="jojo"] .photo::after{z-index:3;mask-image:linear-gradient(90deg,transparent 3%,#000 75%);background:radial-gradient(circle,#fff7 0 .9px,transparent 1.2px) right top/9px 9px,linear-gradient(133deg,transparent 38%,color-mix(in srgb,var(--art-accent),transparent 85%) 41%,transparent 45%),linear-gradient(180deg,#1010200c 0%,transparent 42%,#10102083 68%,#080913 96%)}
+.roster-card[data-art][data-world="jojo"] .card-body{padding-top:35px;clip-path:polygon(0 6%,100% 0,100% 100%,0 100%);border-top:0;background:linear-gradient(0deg,#090a13 12%,#101022e8 69%,#1b163480 93%,transparent)}
+.roster-card[data-art][data-world="jojo"] .card-body h3{font-style:italic;text-transform:uppercase;letter-spacing:.015em;text-shadow:3px 3px 0 #131224,5px 5px 0 color-mix(in srgb,var(--art-accent),transparent 22%)}
+.roster-card[data-art][data-world="jojo"] .card-no{transform:skewX(-9deg);background:var(--art-accent);color:#141321;border:2px solid #101020;box-shadow:4px 4px 0 #161025}
+.roster-card[data-art][data-world="jojo"] .world-mark{transform:rotate(2deg);font-weight:900;letter-spacing:.13em;border-width:2px}
+.roster-card[data-art][data-world="jojo"] .card-overline{transform:skewX(-8deg);display:inline-block;box-shadow:5px 3px 0 #0009}
+.roster-card[data-art][data-world="jojo"] .card-topline{display:block;height:5px;transform:skew(-28deg);box-shadow:4px 4px 0 #080a14}
+/* Cypher: subir o rosto somente no catálogo, mantendo o arquivo intacto. */
+.roster-card[data-open="cipher"] .photo img:not(.portrait-underlay){object-position:center 0%}
