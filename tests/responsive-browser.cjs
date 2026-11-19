@@ -28,16 +28,24 @@ async function assertLayout(page,label){
    page.on("pageerror",err=>errors.push(String(err)));
    await page.route(/^https?:\/\//,route=>route.abort()); // Testa também fallbacks de imagens
    await page.goto(site,{waitUntil:"load"});
-   assert.equal(await page.locator(".roster-card").count(),5);
+   assert.equal(await page.locator(".roster-card").count(),12);
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
    if(width===375||width===768)await page.screenshot({path:"tests/screenshots/"+width+"-catalogo.png"});
-   for(const id of ["gyro","d","david","cipher","rentarou"]){
+   for(const id of ["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus"]){
     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
     assert.equal(await page.locator(".detail-tabs button").count(),7);
     await assertLayout(page,width+" "+id+" dossiê");
     if(width===375&&(id==="gyro"||id==="rentarou"))await page.screenshot({path:"tests/screenshots/375-"+id+".png"});
+    if(id==="diego"){
+     await page.locator("[data-diego-toggle]").click();
+     await page.locator("#character-title").getByText(/Alternative/).waitFor();
+     assert.equal(await page.locator("body").getAttribute("data-theme"),"diego-alt");
+     await assertLayout(page,width+" diego / THE WORLD");
+     await page.locator("[data-diego-toggle]").click();
+     assert.equal(await page.locator("body").getAttribute("data-theme"),"diego");
+    }
     await page.locator('[data-tab="attributes"]').click();
     await page.locator(".attr-row").first().waitFor();
     assert.equal(await page.locator(".attr-row").count(),6);
@@ -68,9 +76,9 @@ async function assertLayout(page,label){
     await assertLayout(page,width+" "+id+" fontes");
    }
    assert.deepEqual(errors,[]);
-   console.log("OK viewport "+width+"x"+height+" — 5 dossiês e interações");
+   console.log("OK viewport "+width+"x"+height+" — 12 dossiês e interações");
    await page.close();
   }
-  console.log("VALIDADO: 11 viewports e cinco fichas sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports e doze fichas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});
