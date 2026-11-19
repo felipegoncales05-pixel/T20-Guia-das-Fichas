@@ -64,7 +64,7 @@ assert.equal(a.progression[9][1].includes("Corte do Vácuo"),true);
 assert.equal(context.window.T20_MEGA.stats(a,12).pm,36);
 assert.equal(context.window.T20_GUIDE.people["em-acheron"].levels.length,12);
 const d=project.characters.find(c=>c.id==="d");
-assert.equal(d.portrait.url,"./assets/portraits/d-salvage.avif");
+assert.equal(d.portrait.url,"./assets/art-optimized/d.webp");
 assert.ok(d.summary.includes("não é o cyberskeleton"));
 assert.ok(fs.statSync("assets/portraits/d-salvage.avif").size>1000);
 for(const c of project.characters){
@@ -80,11 +80,14 @@ const userArt=["jojo-dio1","jojo-dio3","d","jojo-valentine","gyro","jojo-pucci",
 assert.equal(context.window.T20_USER_ART_IDS.length,10,"10 artes não foram registradas");
 for(const id of userArt){
  const char=project.characters.find(x=>x.id===id);
- const imagePath="assets/art/"+id+".png";
- assert.ok(fs.existsSync(imagePath),id+": PNG enviado não consta no repositório");
- assert.ok(fs.statSync(imagePath).size>10000,id+": PNG suspeito");
- assert.equal(char.portrait.url,"./"+imagePath,id+": retrato não aponta para PNG local");
- assert.ok(char.media.some(m=>m.image==="./"+imagePath),id+": galeria não mostra arte enviada");
+ const original="assets/art/"+id+".png";
+ const optimized="assets/art-optimized/"+id+".webp";
+ assert.ok(fs.existsSync(original),id+": PNG original ausente");
+ assert.ok(fs.statSync(original).size>10000,id+": PNG suspeito");
+ assert.ok(fs.existsSync(optimized),id+": WebP otimizado ausente");
+ assert.ok(fs.statSync(optimized).size>3000,id+": WebP suspeito");
+ assert.equal(char.portrait.url,"./"+optimized,id+": retrato não aponta para WebP local");
+ assert.ok(char.media.some(m=>m.image==="./"+optimized),id+": galeria não mostra a arte enviada");
 }
 assert.equal(project.characters.find(c=>c.id==="d").info.className,"Arcanista — Bruxo","D. perdeu a build");
 assert.match(project.characters.find(c=>c.id==="d").notes.equipment,/sucata local/i,"D. perdeu o traje de sucata");
