@@ -1,0 +1,22 @@
+name: Validar fichas e interface
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verificar sintaxe
+        run: |
+          node --check data.js
+          node --check app.js
+          node --check tests/site-smoke.cjs
+      - name: Validar as quatro fichas
+        run: node tests/site-smoke.cjs
