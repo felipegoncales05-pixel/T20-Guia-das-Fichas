@@ -202,7 +202,7 @@ const profiles=[
  progression:[
  ["Inspiração +1 · 1º círculo","Primeiro concerto"],
  ["Arte Mágica · Eclético (automático)","Presença sobrenatural"],
- ["Fascinar","Prender a atenção do alvo"],
+ ["Música: Balada Fascinante","Prender a atenção do alvo"],
  ["Aumentar Repertório","Vozes e efeitos novos"],
  ["Aumento de Atributo (CAR) · Inspiração +2","A voz cresce"],
  ["Melodia Curativa · 2º círculo","Refrão que reanima"],
@@ -216,7 +216,7 @@ const profiles=[
  techniques:[
  [1,"Blue Rose Overture","Inspiração","2 PM","Inspiração +1 em testes de perícia de aliados em alcance curto.","A primeira nota reúne o grupo."],
  [1,"Vocal Break","Adaga Mental","1 PM","Dano psíquico e condição nos limites da magia.","Um grito atravessa a defesa emocional."],
- [3,"Palco Hipnótico","Fascinar","Conforme poder","Usa Atuação e as limitações de Fascinar.","Silêncio absoluto da plateia."],
+ [3,"Palco Hipnótico","Música: Balada Fascinante","Conforme poder","Usa Atuação e as limitações de Fascinar.","Silêncio absoluto da plateia."],
  [6,"Refrão Restaurador","Melodia Curativa","Conforme poder","Recuperação por habilidade oficial, com alvos, ação e PM definidos.","Uma nota levanta os aliados."],
  [8,"Encore","Fascinar em Massa","Conforme poder","Estende Fascinar a vários alvos, conforme pré-requisitos.","O concerto domina a cena."]
  ],
@@ -237,7 +237,7 @@ const profiles=[
  "CAR sobe de +4 para +5, afeta CD/PM/Atuação; Inspiração +2 requer custo aprimorado.",
  "Melodia Curativa usa Inspiração como fundamento; 2º círculo permite magias novas, não de qualquer escola.",
  "Novas magias de suporte ou controle respeitam escolas de Bardo.",
- "Fascinar em Massa depende de Fascinar e condições do poder, não hipnotiza todos sem resistência.",
+ "Fascinar em Massa exige Música: Balada Fascinante e as condições do poder; não hipnotiza todos sem resistência.",
  "Melodia Restauradora requer Melodia Curativa; Inspiração +3 aumenta alcance tático de buffs.",
  "CON +1 reforça PV e Fortitude; o 3º círculo fica disponível para magia nova.",
  "CAR pode crescer mais uma vez em novo patamar, mantendo o cálculo de CD e PM.",
@@ -268,20 +268,20 @@ const profiles=[
  ["Familiar","Memosprite simbólico"],
  ["Magia Pungente","Resistências mais difíceis"],
  ["Poder Mágico","Mais energia arcana"],
- ["Linhagem Aprimorada · 2º círculo","Magia e memórias mais fortes"],
- ["Conhecimento Mágico","Magias de apoio adicionais"],
+ ["Fortalecimento Arcano · 2º círculo","Magia e memórias mais fortes"],
+ ["Herança Aprimorada","Memória feérica amadurece"],
  ["Fortalecimento Arcano","Magia mais efetiva"],
  ["Magia Acelerada","Reações velozes"],
- ["Especialista em Escola (Encantamento) · 3º círculo","Laços memoráveis"],
- ["Aumento de Atributo (CAR)","Memória viva"],
+ ["Raio Arcano · 3º círculo","Laços memoráveis"],
+ ["Raio Elemental","Ataque de gelo e lentidão"],
  ["Conhecimento Mágico","Novos efeitos de gelo"],
- ["Magia Ilimitada","Controle aprimorado"]
+ ["Aumento de Atributo (CAR)","Memória viva"]
  ],
  techniques:[
  [1,"Frostbound Memory","Área Escorregadia","1 PM","Controla o chão pelas regras de magia, sem congelar criaturas automaticamente.","Um campo de gelo florido aparece."],
  [1,"Sonhos do Passado","Sono","1 PM","Incapacita alvos apenas se cumpridas as condições de resistência.","Um sussurro atravessa a memória."],
  [2,"Memória Companheira","Familiar","Poder de classe","Familiar concede benefícios oficiais de parceiro especial, não turno completo.","Um ser recordado acompanha Cyrene."],
- [5,"Recordação Coletiva","Linhagem Aprimorada","Passivo","Magias de Encantamento e Ilusão melhoram a CD e podem custar menos PM.","O vínculo se intensifica."],
+ [6,"Recordação Coletiva","Herança Aprimorada","Passivo","Magias de Encantamento e Ilusão melhoram a CD e podem custar menos PM.","O vínculo se intensifica."],
  [9,"Memosprite Evocado","Conjurar Monstro (se aprendido)","Custo da magia","O monstro usa regras da magia e não é o memosprite original literal.","Recordações tomam forma."]
  ],
  notes:[
@@ -298,14 +298,14 @@ const profiles=[
  "O Familiar concede bônus de espécie; descreva como memosprite sem criar ficha extra de combate.",
  "Magia Pungente custa PM adicional para elevar CD das magias que permitam resistência.",
  "Poder Mágico aumenta a reserva em função do nível; aplique retroativamente.",
- "Linhagem Aprimorada reduz custos e eleva a CD de Encantamento/Ilusão. O 2º círculo libera opções novas.",
- "Conhecimento Mágico adiciona magias, inclusive de gelo, respeitando os círculos disponíveis.",
+ "Fortalecimento Arcano soma +1 à CD das magias. O 2º círculo permite aprender Conjurar Monstro para representar o memosprite.",
+ "Herança Aprimorada só pode ser escolhida a partir do nível 6 e melhora Encantamento e Ilusão.",
  "Fortalecimento Arcano aumenta CD de magia de modo permanente.",
  "Magia Acelerada altera a execução de uma magia pagando os custos e limites oficiais.",
- "Especialista em Escola reforça Encantamento; o 3º círculo permite efeitos mais fortes se aprendidos.",
- "CAR +1 aumenta CD, perícias sociais e PM pelo bônus de atributo.",
+ "Raio Arcano permite dano de essência com resistência. O 3º círculo fica disponível para magias aprendidas.",
+ "Raio Elemental exige Raio Arcano e permite causar frio e lentidão conforme o poder.",
  "Conhecimento Mágico permite selecionar novos efeitos de suporte e frio.",
- "Magia Ilimitada amplia limites de aprimoramento conforme o poder, não dá PM gratuitos."
+ "CAR +1 aumenta CD, perícias sociais e PM total no novo patamar."
  ]
 },
 {
@@ -330,7 +330,7 @@ const profiles=[
  attacks:[["Criar Ilusão","Vontade conforme magia","Ilusão visual","1 PM","Não cria objetos físicos permanentes nem muda atributos."],["Inspiração","Aliados em alcance curto","+1 em perícias","2 PM","Pode ser interpretada como performance de cosplay que motiva o grupo."]],
  progression:[
  ["Inspiração +1 · 1º círculo","Primeiro cosplay"],
- ["Fascinar · Eclético (automático)","Dominar a atenção"],
+ ["Música: Balada Fascinante · Eclético (automático)","Dominar a atenção"],
  ["Arte Mágica","Cenas mais convincentes"],
  ["Aumentar Repertório","Novos personagens"],
  ["Aumento de Atributo (CAR) · Inspiração +2","Palco maior"],
@@ -345,7 +345,7 @@ const profiles=[
  techniques:[
  [1,"Shizuku-tan Cosplay","Criar Ilusão","1 PM","Efeito visual com limites de magia, não transformação real.","O figurino ganha magia."],
  [1,"Cosplay Motivation","Inspiração","2 PM","+1 aos testes de perícia dos aliados em alcance curto até o fim da cena.","Uma apresentação encoraja o grupo."],
- [2,"Perfect Pose","Fascinar","Conforme poder","Captura atenção dos alvos nas condições de Atuação.","O público prende a respiração."],
+ [2,"Perfect Pose","Música: Balada Fascinante","Conforme poder","Captura atenção dos alvos nas condições de Atuação.","O público prende a respiração."],
  [6,"Imitação de Cena","Paródia","Conforme poder","Pode copiar uma magia vista sob as condições de Paródia.","A personagem de ficção parece viva."],
  [8,"Convenção Completa","Fascinar em Massa","Conforme poder","Estende Fascinar aos alvos válidos.","Todo o salão assiste."]
  ],
@@ -366,7 +366,7 @@ const profiles=[
  "CAR cresce e Inspiração +2 amplia o suporte quando investe o custo adicional.",
  "Paródia tem pré-requisitos e depende de uma magia vista. O 2º círculo amplia efeitos de ilusão.",
  "Aprenda novas magias para representar outros figurinos e cenas.",
- "Fascinar em Massa exige cumprir os requisitos de Fascinar; não afeta uma cidade automaticamente.",
+ "Fascinar em Massa exige Música: Balada Fascinante; não afeta uma cidade automaticamente.",
  "INT melhora Conhecimento, Misticismo e Ofício; Inspiração +3 melhora a potência do suporte.",
  "O 3º círculo permite magias mais elaboradas, desde que conhecidas e das escolas apropriadas.",
  "CAR ganha outro +1 no novo patamar e amplia atuação social.",
@@ -394,14 +394,14 @@ const profiles=[
  attacks:[["Enfeitiçar","Vontade CD 14","Condição social","1 PM","O alvo recebe a condição prevista na magia; não vira escravo permanente."],["Sono","Vontade CD 14","Controle limitado","1 PM","A criatura pode resistir; tem imunidades e limitações de círculo."]],
  progression:[
  ["Linhagem Feérica básica · 1º círculo","Primeira influência"],
- ["Especialista em Escola (Encantamento)","Aprimorar controle"],
+ ["Conhecimento Mágico","Aprimorar repertório mental"],
  ["Magia Pungente","Elevar a dificuldade"],
  ["Poder Mágico","Reservas para contratos"],
- ["Linhagem Aprimorada · 2º círculo","Pressão mental avançada"],
- ["Magia Acelerada","Ordens rápidas"],
- ["Conhecimento Mágico","Ampliar repertório mental"],
+ ["Fortalecimento Arcano · 2º círculo","Pressão mental avançada"],
+ ["Herança Aprimorada","Controle feérico amadurecido"],
+ ["Conhecimento Mágico (Dissipar Magia)","Preparar contramágica"],
  ["Aumento de Atributo (CAR)","Autoridade aumentada"],
- ["Fortalecimento Arcano · 3º círculo","Controle mais perigoso"],
+ ["Magia Acelerada · 3º círculo","Ordens rápidas"],
  ["Contramágica Aprimorada","Silenciar ações mágicas"],
  ["Conhecimento Mágico","Novos efeitos de influência"],
  ["Magia Ilimitada","Domínio mais intenso"]
@@ -410,7 +410,7 @@ const profiles=[
  [1,"Silêncio Obediente","Enfeitiçar","1 PM","Condição prevista pela magia com resistência; não concede servo permanente.","Uma ordem basta para tentar conquistar confiança."],
  [1,"Autoridade Inquietante","Sono","1 PM","Efeito mágico de sono; certas criaturas são imunes.","A presença faz o adversário fraquejar."],
  [3,"Controle Amplificado","Magia Pungente","Custo +1 PM","Aumenta CD de magias elegíveis, respeitando seu limite de gasto.","Ninguém escapa facilmente do olhar."],
- [5,"Manipulação Refinada","Linhagem Aprimorada","Passivo","Melhora CD de Encantamento/Ilusão e reduz custo dessas escolas.","A ordem se torna mais difícil de resistir."],
+ [6,"Manipulação Refinada","Herança Aprimorada","Passivo","Melhora CD de Encantamento/Ilusão e reduz custo dessas escolas.","A ordem se torna mais difícil de resistir."],
  [10,"Calem-se","Contramágica Aprimorada","Conforme poder","Contramágica como reação, seguindo requisitos de Dissipar Magia.","Até a magia do inimigo para."]
  ],
  notes:[
@@ -424,14 +424,14 @@ const profiles=[
  sources:[["Makima — Chainsaw Man Wiki","https://chainsaw-man.fandom.com/wiki/Makima"],["Linhagem Feérica — Tormenta20",doc.core]],
  levelHow:[
  "Escolha magias iniciais de influência dentro do repertório do Feiticeiro e a magia extra da linhagem.",
- "Especialista em Escola dá bônus de CD conforme a escola selecionada; escolha Encantamento.",
+ "Conhecimento Mágico adiciona duas magias conhecidas de círculos já disponíveis.",
  "Pague PM adicional por Magia Pungente ao lançar um controle decisivo.",
  "Poder Mágico aumenta PM totais retroativamente, sem criar uma bateria externa.",
- "A Linhagem Aprimorada reduz custos de Encantamento/Ilusão e aumenta a CD. O 2º círculo surge no 5º.",
- "Magia Acelerada troca execução e consome PM extras; não cria duas ações padrão livres.",
- "Conhecimento Mágico adiciona magias conhecidas dentro dos círculos disponíveis.",
+ "Fortalecimento Arcano aumenta a CD em +1. O 2º círculo surge no 5º.",
+ "Herança Aprimorada a partir do 6º reforça Encantamento/Ilusão da Feiticeira.",
+ "Conhecimento Mágico permite aprender Dissipar Magia para cumprir o requisito de Contramágica Aprimorada.",
  "CAR sobe de +4 para +5; atualize CD e PM, sem controlar um NPC gratuitamente.",
- "Fortalecimento Arcano soma CD e abre o 3º círculo; aprenda magias adequadas.",
+ "Magia Acelerada permite acelerar a execução, com custos. O 3º círculo fica disponível.",
  "Contramágica Aprimorada exige Dissipar Magia conhecida e respeita suas reações.",
  "Novas magias podem ampliar controle, mas cada alvo continua tendo suas resistências.",
  "Magia Ilimitada aumenta limites de aprimoramento; cuidado com consumo de PM."
@@ -443,7 +443,7 @@ const profiles=[
  race:"Golem de Ferro",className:"Paladino",origin:"Sem Origem (regra racial)",devotion:"Khalmyr / paladino do bem se permitido",role:"Tanque, proteção, apoio e dano sagrado",
  buy:{CON:2,CAR:3,SAB:1,INT:1,FOR:2,DEX:0},raceBonus:{CON:1,CAR:-1,FOR:2},
  whys:{CON:"Estrutura metálica resistente.",CAR:"Liderança e sacrifício.",SAB:"Juízo equilibrado.",INT:"Memória de séculos.",FOR:"Poder mecânico.",DEX:"Movimentos controlados."},
- stats:{pv:23,pm:3,defense:14,speed:"9 m",hpGain:8,pmGain:3},page:"82–84; raça p. 27",
+ stats:{pv:23,pm:5,defense:14,speed:"9 m",hpGain:8,pmGain:3},page:"82–84; raça p. 27",
  excerpt:"Liberdade é o direito de todos os seres sencientes. A esperança ainda se transforma.",
  summary:"Golem de Ferro Paladino: Chassi e sem origem representam corpo Autobot; Golpe Divino, Código do Herói, Aura Sagrada e Cura pelas Mãos representam a liderança e proteção de Optimus. Transformação em caminhão NÃO é habilidade racial ou de classe: apenas estética até o mestre permitir outro recurso oficial.",
  history:["Optimus Prime é um líder dos Autobots em Transformers, conhecido por seu senso de justiça, sacrifício e defesa da liberdade. O visual adotado nesta ficha é inspirado em Transformers Prime/Beast Hunters.","Como Golem Paladino, é um construto consciente equipado para defender aliados. A figura de caminhão, o blaster de íons e o tamanho colossal exigiriam outras regras, itens e autorização do mestre; não são vantagens iniciais."],
@@ -460,16 +460,16 @@ const profiles=[
  progression:[
  ["Abençoado · Código do Herói · Golpe Divino","Autobot inicial"],
  ["Cura pelas Mãos · Virtude: Compaixão","Reparar aliados"],
- ["Aura Sagrada · Encouraçado","Proteger o esquadrão"],
+ ["Aura Sagrada · Ataque Poderoso","Proteger o esquadrão"],
  ["Julgamento Divino: Iluminação","Inspirar a resistência"],
  ["Bênção da Justiça · Golpe Divino +2d8 · Aumento de Atributo (FOR)","Poder do Prime"],
  ["Cura pelas Mãos 2d8+2 · Combate Defensivo","Proteção em combate"],
  ["Aura de Cura","Força da liderança"],
- ["Virtude Paladinesca: Temperança","Resistir a excessos"],
+ ["Virtude Paladinesca: Humildade","Fortalecer a coragem"],
  ["Golpe Divino +3d8 · Foco em Arma","Energon concentrado"],
  ["Cura pelas Mãos 3d8+3 · Aumento de Atributo (CON)","Resistência de aço"],
- ["Arma Sagrada","Dever e lâmina"],
- ["Virtude Paladinesca: Justiça","O último Autobot resiste"]
+ ["Orar (Benção)","Dever e oração"],
+ ["Virtude Paladinesca: Caridade","O último Autobot resiste"]
  ],
  techniques:[
  [1,"Energon Blade","Montante","0 PM","Golpe físico normal com arma marcial de duas mãos; não causa energia gratuita.","Uma lâmina ilumina a batalha."],
@@ -496,11 +496,11 @@ const profiles=[
  "FOR aumenta para +5; Bênção da Justiça e Golpe Divino +2d8 são automáticos no 5º.",
  "A cura cresce para 2d8+2. Combate Defensivo troca acerto por proteção.",
  "Aura de Cura usa Aura Sagrada para recuperar PV de aliados no alcance.",
- "Temperança tem obrigações de virtude e não cria imunidade universal.",
+ "Humildade é uma virtude: permite obter PM temporários mediante oração e conduta.",
  "Golpe Divino +3d8 é automático; Foco em Arma exige escolha exata da arma.",
  "Cura pelas Mãos cresce para 3d8+3; CON +1 melhora PV e Fortitude.",
- "Arma Sagrada depende de suas condições de divindade e arma; converse com mestre se a devoção for livre.",
- "Escolha virtude permitida pelos pré-requisitos; use aura, defesa e cura para concluir a função de protetor."
+ "Orar ensina magia divina de 1º círculo; Benção usa SAB como atributo-chave.",
+ "Caridade reduz custos de habilidades que têm aliados como alvo; é a terceira virtude escolhida."
  ]
 }
 ];
