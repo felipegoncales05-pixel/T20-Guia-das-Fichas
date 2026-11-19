@@ -17,7 +17,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - **Makima** — Feiticeira Feérica, magia de controle com testes de resistência
 - **Optimus Prime** — Golem de Ferro Paladino, chassi, aura, defesa e liderança
 
-**Recursos:** 47 cards em ordem alfabética, pesquisa em destaque e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes e créditos. Cada card gera uma URL de hash compartilhável, por exemplo #/gyro/attributes.
+**Recursos:** 59 cards em ordem alfabética, pesquisa em destaque e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes e créditos. Cada card gera uma URL de hash compartilhável, por exemplo #/gyro/attributes.
 
 ## Estrutura
 
@@ -40,7 +40,9 @@ O catálogo agora inclui **59 dossiês**. Em JoJo, estão os oito protagonistas 
 
 A **Acheron** foi convertida de Guerreiro para **Samurai**, usando a classe opcional da **Dragão Brasil nº 199**, com Arma Ancestral, Código do Samurai, Grito de Kiai, melhorias e poderes por nível. A descrição do livro e os custos se encontram na edição mencionada; a ficha é uma adaptação não oficial, com escolhas opcionais sujeitas à mesa.
 
-**Imagens locais:** os 59 personagens têm um pôster-reserva original em `assets/portraits/{id}.svg`. Ele aparece atrás da arte externa durante o carregamento, garantindo uma imagem identificável mesmo que o servidor remoto falhe. Pôsteres-reserva são ilustrações gráficas simbólicas e não fingem ser arte oficial das obras. A ficha de D. usa `assets/portraits/d-salvage.avif`, uma nova ilustração original de sua armadura improvisada de sucata local (Scrapframe), sem cyberskeleton. Original gerado para este projeto; alguns navegadores antigos podem receber o pôster SVG reserva.
+**Imagens locais:** os 59 personagens têm um pôster-reserva original em `assets/portraits/{id}.svg`. Ele aparece atrás da arte externa durante o carregamento, garantindo uma imagem identificável mesmo que o servidor remoto falhe. Pôsteres-reserva são ilustrações gráficas simbólicas e não fingem ser arte oficial das obras. A ficha de D. mantém `assets/portraits/d-salvage.avif` na galeria de equipamentos, com uma representação de armadura improvisada (Scrapframe), sem cyberskeleton. O retrato principal, porém, utiliza a terceira imagem enviada pelo usuário, otimizada e hospedada localmente.
+
+**Artes do usuário — 19/11/2026:** foram recebidas dez imagens, associadas *exatamente* nesta ordem: Dio Brando → `jojo-dio1`, DIO → `jojo-dio3`, D. → `d`, Funny Valentine → `jojo-valentine`, Gyro Zeppeli → `gyro`, Enrico Pucci → `jojo-pucci`, Yoshikage Kira → `jojo-kira`, Tooru → `jojo-tooru`, Diavolo → `jojo-diavolo` e Zandar One Kuwabara → `em-zandar`. Os originais estão em `assets/art/*.png`, e versões WebP de menor tamanho ficam em `assets/art-optimized/*.webp`. O site carrega as versões WebP pelo script `user-gallery.js`; não utiliza URLs de terceiros para esses dez retratos. Essas imagens foram fornecidas pelo usuário e não possuem créditos autorais individuais verificados. O visual da ilustração de Funny Valentine foi mantido conforme enviado, sem substituição por arte oficial. O carregamento remoto de outros personagens continua sujeito a bloqueios de servidores externos, com fallback SVG local.
 
 **Efeitos dos cards:** `character-fx.css` mantém Steel Balls pixeladas giratórias para Gyro, unhas azuis e Spin dourado para Johnny, bandeira com 44 estrelas e 13 listras para Valentine, glitches sutis para David, sucata de rua para D., bolhas, fios, clackers, Hamon e detalhes para os outros protagonistas. Os efeitos desaparecem ou ficam estáticos na preferência de movimento reduzido.
 
@@ -79,13 +81,13 @@ Livros oficiais:
 
 ## Imagens, uso e créditos
 
-O projeto usa **URLs externas e identificadas** de imagens ilustrativas, com crédito e ligação para a página de origem. Não são arquivos hospedados no repositório, e podem ficar indisponíveis ou sofrer restrição de hotlink. Nenhuma imagem originalmente mostrada por busca dinâmica no ChatGPT possui necessariamente um arquivo reaproveitável; por isso o site usa referências equivalentes e identificadas. Os direitos das imagens e personagens são de seus titulares. Para publicação estável, substitua por ilustrações próprias ou com autorização e atualize os campos portrait, media e gear em data.js.
+O projeto agora combina **imagens locais** e **URLs externas identificadas**. Dez retratos enviados pelo usuário estão armazenados em PNG e exibidos em WebP otimizado, além dos pôsteres SVG locais de reserva. As outras referências externas podem sofrer bloqueio de hotlink; nesses casos, aparece a arte-reserva do próprio projeto. Créditos individuais das dez imagens enviadas não foram identificados e são descritos como arte fornecida pelo usuário; isso não implica cessão de direitos. Para substituir artes, modifique os registros em `user-gallery.js`, `data.js` ou `mega-data.js` conforme aplicável.
 
 **Diego — segredo:** na ficha de Diego, use o botão `Alternative` acima do retrato para alternar entre Scary Monsters (Druida) e THE WORLD (Guerreiro). As versões possuem estatísticas e progressões independentes. THE WORLD não congela literalmente o tempo: Surto Heroico simula apenas uma ação extra com PM.
 
 **Adaptações não literais:** os equipamentos de Yoru devem ser construídos pelo Inventor, e Optimus não se transforma automaticamente em caminhão. Ado usa avatar ilustrado creditado; o site não afirma mostrar uma foto pessoal da cantora. Devido a bloqueios de hotlink, imagens externas podem exibir pôsteres-reserva locais.
 
-**D. (armadura final):** a imagem enviada pelo usuário dentro da conversa não foi publicada como arquivo binário do GitHub. O dossiê descreve o traje e usa arte promocional externa até que um recurso autorizado seja hospedado.
+**D. (armadura final):** o retrato principal usa a imagem enviada pelo usuário (terceira na ordem), armazenada em `assets/art/d.png` e exibida por `assets/art-optimized/d.webp`. A ficha mantém a descrição da armadura improvisada por Capri com sucata local. A ilustração secundária `assets/portraits/d-salvage.avif` mostra o equipamento Scrapframe; não é o cyberskeleton de David Martinez.
 
 Todos os textos de observação no site são creditados a **O Sistema**.
 
