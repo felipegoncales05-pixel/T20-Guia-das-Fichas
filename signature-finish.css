@@ -128,6 +128,7 @@ body[data-lineage="emanator"] .section-cover{border-left-width:7px}
 body[data-lineage="ravager"] .section-cover{border-left-width:0;border-top:4px solid var(--art-accent);clip-path:polygon(0 0,98% 0,100% 15%,100% 100%,0 100%)}
 body[data-family="manga"] .section-cover h2{font-style:italic;text-transform:uppercase}
 body[data-art="elster"] .section-cover h2,body[data-art="elster"] .section-context{font-family:var(--mono)}
+body[data-art="elster"] .detail-hero::before{opacity:1;background:none;color:#ff896d;text-shadow:1px 1px #0a0e10}
 body[data-art="diego"][data-variant="alternative"] .section-cover{border-left-style:double;border-left-width:9px}
 body[data-art="diego"][data-variant="alternative"] .section-context::after{content:" / THE WORLD";color:#f0d49c}
 body[data-art="goku"] .section-cover{border-top:3px solid var(--art-accent)}
