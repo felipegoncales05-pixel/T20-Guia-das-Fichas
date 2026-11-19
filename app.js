@@ -16,7 +16,7 @@ const archiveCategory=(c)=>c.catalogCategory||(["gyro","diego"].includes(c.id)?"
 const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c.id==="goku"?"Dragon Ball Z GT Daima Super":""].filter(Boolean).join(" "));
 
 const charById=(id)=>id==="goku"&&window.T20_GOKU_VARIANTS?.[gokuMode]?window.T20_GOKU_VARIANTS[gokuMode]:id==="diego"&&diegoMode==="alternative"&&window.T20_ALTERNATES?.diego?.alternative?window.T20_ALTERNATES.diego.alternative:data.characters.find(c=>c.id===id);
-function image(src,alt,css=""){return '<img class="'+e(css)+'" loading="lazy" decoding="async" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
+function image(src,alt,css=""){return '<img class="'+e(css)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),3200)}
 function note(text){return '<aside class="system-note"><span class="who">O SISTEMA // OBSERVAÇÃO</span><p>'+e(text)+'</p></aside>'}
 
@@ -260,7 +260,34 @@ document.addEventListener("click",evt=>{
  const card=evt.target.closest("[data-open]");if(card){if(card.dataset.open==="diego")diegoMode="normal";if(card.dataset.open==="goku")gokuMode="z";location.hash=linkFor(charById(card.dataset.open));return}const tab=evt.target.closest("[data-tab]");if(tab){const char=getRoute().character;if(char)location.hash=linkFor(char,tab.dataset.tab);return}const copy=evt.target.closest("[data-copy]");if(copy){const c=charById(copy.dataset.copy);if(!c)return;if(!navigator.clipboard?.writeText){toast("Cópia indisponível neste navegador. Use o arquivo data.js.");return}navigator.clipboard.writeText(copySummary(c)).then(()=>toast("Resumo de "+c.name+" copiado."),()=>toast("Não foi possível copiar. Verifique permissões."))}});
 document.addEventListener("input",evt=>{if(evt.target.id==="search"){search=evt.target.value;updateCards()}if(evt.target.id==="levelSelect"||evt.target.id==="globalLevel"){updateLevel(evt.target.value)}});
 document.addEventListener("change",evt=>{if(evt.target.id==="universe"){universe=evt.target.value;updateCards()}});
-document.addEventListener("error",evt=>{const im=evt.target;if(!(im instanceof HTMLImageElement))return;const replacement=document.createElement("div");replacement.className="img-fallback";replacement.setAttribute("role","img");replacement.setAttribute("aria-label","Imagem indisponível: "+im.alt);const mark=document.createElement("b");mark.textContent="◈";const msg=document.createElement("span");msg.textContent="IMAGEM EXTERNA INDISPONÍVEL";replacement.append(mark,msg);im.replaceWith(replacement)},true);
+document.addEventListener("error",evt=>{
+ const im=evt.target;
+ if(typeof HTMLImageElement==="undefined"||!(im instanceof HTMLImageElement))return;
+ const original=im.getAttribute("src")||"";
+ const backups=window.T20_MEDIA_BACKUPS?.[original]||[];
+ const tried=(im.dataset.triedSources||"").split("|").filter(Boolean);
+ if(!tried.includes(original))tried.push(original);
+ const next=backups.find(candidate=>candidate&&!tried.includes(candidate));
+ if(next){
+  im.dataset.triedSources=tried.join("|");
+  im.src=next;
+  return;
+ }
+ const container=im.closest(".roster-card");
+ const c=container?data.characters.find(x=>x.id===container.dataset.open):getRoute().character;
+ const label=(container?.querySelector("h3")?.textContent||c?.name||im.alt.replace(/^(Retrato ilustrativo de|Imagem ilustrativa de)\s+/i,"")).trim();
+ const marker=c?.symbol||c?._mega?.identity?.charAt(0)||"◈";
+ const replacement=document.createElement("div");
+ replacement.className="img-fallback art-recovery";
+ replacement.setAttribute("role","img");
+ replacement.setAttribute("aria-label","Ilustração alternativa de "+label);
+ if(c?._mega?.color)replacement.style.color=c._mega.color;
+ const symbol=document.createElement("span");symbol.className="fallback-mark";symbol.textContent=marker;
+ const title=document.createElement("strong");title.className="fallback-title";title.textContent=label;
+ const caption=document.createElement("span");caption.className="fallback-caption";caption.textContent="ARQUIVO DE PERSONAGEM // O SISTEMA";
+ replacement.append(symbol,title,caption);
+ im.replaceWith(replacement);
+},true);
 document.addEventListener("keydown",evt=>{
  if(evt.key==="/"&&(!getRoute().character)&&!["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName||"")){
   evt.preventDefault();document.getElementById("search")?.focus();return;
