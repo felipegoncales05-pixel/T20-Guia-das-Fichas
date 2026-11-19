@@ -1,0 +1,274 @@
+/* O SISTEMA // T20 · Responsive Experience V2
+   Layer intencional sobre a HUD original: nada de esconder menus, legendas ou imagens. */
+:root { --touch-target: 44px; }
+html { text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+body { min-width: 280px; }
+#app, .container, .roster-grid, .roster-card, .detail-shell,
+.detail-hero, .hero-copy, .hero-portrait, .detail-meta, .section-grid,
+.panel, .radar-zone, .gear-grid, .skill-grid, .level-grid,
+.tech-grid, .source-list, .media-grid, .bio-grid { min-width: 0; }
+h1, h2, h3, p, small, strong, b, .chip, .source-link,
+.gear-title, .tech-card, .meta-tile, .bio-item { overflow-wrap: anywhere; }
+button, select, input, a { -webkit-tap-highlight-color: transparent; }
+button, .sys-button, .source-link, .back-link, .gear-card summary { touch-action: manipulation; }
+.back-link, .sys-button, .gear-card summary, .source-link { min-height: var(--touch-target); }
+.section-head { scroll-margin-top: 30px; }
+.stat-panel, .meta-tile, .panel { box-shadow: inset 0 1px 0 #fff1; }
+.brand, .brand-text, .top-right { min-width: 0; }
+.brand strong { white-space: normal; }
+.top-right { flex-wrap: wrap; }
+.source-link > span, .source-link small { min-width: 0; overflow-wrap: anywhere; }
+.gear-details a, .media-caption a { display: inline-block; overflow-wrap: anywhere; }
+.hero-copy h1 { overflow-wrap: normal; word-break: normal; }
+.roster-card { -webkit-appearance: none; appearance: none; }
+.roster-card .photo .img-fallback,
+.detail-hero .hero-portrait .img-fallback { width: 100%; height: 100%; }
+.attr-breakdown { table-layout: fixed; }
+.attr-breakdown th, .attr-breakdown td { overflow-wrap: normal; }
+.level-bar input { min-width: 0; accent-color: var(--accent); }
+.detail-tabs button { min-width: 0; text-align: center; min-height: 44px; line-height: 1.3; }
+.detail-tabs button[aria-selected=true] { box-shadow: inset 0 -3px 0 #06101855; }
+.detail-tabs { scroll-margin-top: 92px; }
+.stat-tiles, .attack-grid, .skill-grid, .bio-grid, .gear-grid,
+.media-grid, .tech-grid, .level-grid { min-width: 0; }
+.detail-hero, .landing-hero { isolation: isolate; }
+.hero-watermark { pointer-events: none; }
+
+/* Notebook e tablet: aproveita espaço sem esmagar cards. */
+@media (min-width: 801px) and (max-width: 1240px) {
+  .container { padding-inline: clamp(20px, 3vw, 35px); }
+  .roster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; }
+  .roster-card { height: clamp(385px, 41vw, 490px); }
+  .roster-card .photo img { object-position: center 18%; }
+  .detail-hero { grid-template-columns: minmax(0, 1fr) minmax(220px, 34%); }
+  .detail-hero .hero-copy { padding: 31px; }
+  .detail-tabs { flex-wrap: wrap; overflow: visible; }
+  .detail-tabs button { flex: 1 1 calc(25% - 7px); white-space: normal; }
+  .section-grid { grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr); }
+  .radar-zone { grid-template-columns: 1fr; }
+  .radar-svg { display: block; max-width: 350px; margin-inline: auto; }
+}
+
+/* Tablet, dobráveis e telas de tamanho intermediário. */
+@media (min-width: 681px) and (max-width: 800px) {
+  .container { padding: 28px 23px 60px; }
+  .topbar { padding-inline: 23px; }
+  .top-right .top-version { display: inline; }
+  .roster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+  .roster-card { height: 390px; }
+  .roster-card .card-body h3 { font-size: 34px; }
+  .landing-hero { grid-template-columns: minmax(0, 1fr) 110px; }
+  .landing-hero .hero-mark { display: grid; width: 105px; font-size: 45px; }
+  .detail-hero { grid-template-columns: minmax(0, 1fr) 33%; }
+  .detail-hero .hero-copy { padding: 24px 25px; }
+  .hero-copy h1 { font-size: clamp(49px, 7vw, 65px); }
+  .detail-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; position: sticky; top: 0; z-index: 18; gap: 7px; padding: 10px 0; }
+  .detail-tabs button { white-space: normal; padding: 11px 7px; }
+  .detail-tabs button span { display: block; font-size: 10px; opacity: .75; }
+  .radar-zone { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); }
+  .radar-svg { max-width: 350px; }
+  .section-grid, .section-grid.equal { grid-template-columns: 1fr; }
+  .gear-grid, .tech-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .level-grid, .skill-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Celular: conteúdo amplo, ritmo vertical, navegação visível e áreas de toque. */
+@media (max-width: 680px) {
+  :root { --touch-target: 46px; }
+  body { font-size: 15px; line-height: 1.63; }
+  .topbar {
+    height: auto; min-height: 100px; position: relative; top: auto;
+    flex-direction: column; align-items: stretch; justify-content: center;
+    gap: 10px; padding: 13px max(16px, env(safe-area-inset-left)) 12px max(16px, env(safe-area-inset-right));
+    background: #06111b;
+  }
+  .brand { gap: 11px; }
+  .brand-icon { font-size: 29px; }
+  .brand strong { font-size: 22px; letter-spacing: .06em; }
+  .brand small { display: block; font-size: 10px; line-height: 1.35; }
+  .top-right { 
+    display: flex; justify-content: space-between; width: 100%;
+    gap: 6px 14px; border-top: 1px solid var(--line); padding-top: 9px;
+    font-size: 10px; letter-spacing: .075em;
+  }
+  .top-right .top-version { display: inline; border-left: 0; padding-left: 0; }
+  .network-dot { flex: 0 0 7px; }
+  .container { width: 100%; max-width: 580px; padding: 18px 16px 58px; margin-inline: auto; }
+  .landing-hero { padding: 28px 22px 22px; min-height: 0; display: grid; grid-template-columns: 1fr; gap: 9px; border-radius: 13px; }
+  .landing-hero h1 { font-size: clamp(43px, 11.4vw, 69px); line-height: .94; margin: 13px 0 16px; }
+  .landing-hero p { font-size: 14px; line-height: 1.64; max-width: 44ch; }
+  .landing-hero .hero-mark {
+    display: grid; position: relative; justify-self: end; margin: 12px 13px 9px 0;
+    width: 81px; height: 81px; font-size: 34px; opacity: .74;
+    box-shadow: inset 0 0 0 8px #102733, 0 0 0 7px #10212c70;
+    transform: rotate(-13deg);
+  }
+  .landing-hero .hero-mark::before { inset: 8px; }
+  .landing-hero .hero-mark::after { inset: -12px; }
+  .stats-strip { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin: 16px 0 24px; }
+  .mini-stat { background: var(--panel); border: 1px solid var(--line); border-left: 2px solid #548c91; border-radius: 7px; display: grid; padding: 12px 10px; align-items: start; gap: 3px; }
+  .mini-stat strong { font-size: 28px; line-height: 1; }
+  .mini-stat span { font-size: 10px; line-height: 1.4; letter-spacing: .03em; }
+  .list-toolbar { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 17px; }
+  .list-toolbar h2 { margin: 4px 0 0; font-size: clamp(30px, 8vw, 40px); }
+  .corner-label { font-size: 10px; }
+  .filters { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .filters .filter-label { display: block; font-size: 10px; letter-spacing: .13em; color: var(--accent); margin-top: 4px; }
+  .search-input, .filter-select { width: 100%; min-width: 0; height: 48px; border-radius: 8px; padding: 0 14px; font-size: 16px; }
+  .roster-grid { grid-template-columns: 1fr; gap: 17px; }
+  .roster-card { height: clamp(400px, 111vw, 500px); border-radius: 12px; }
+  .roster-card .photo img { object-position: center 19%; }
+  .roster-card .card-body { padding: 22px 23px 22px; }
+  .roster-card .card-body h3 { font-size: clamp(36px, 10vw, 48px); }
+  .roster-card .card-body p { font-size: 13px; min-height: 0; line-height: 1.55; }
+  .card-action { padding-top: 13px; min-height: 43px; }
+  .rule-note { display: grid; gap: 7px; font-size: 12px; line-height: 1.65; }
+  .global-footer { display: grid; gap: 9px; padding: 22px 18px calc(24px + env(safe-area-inset-bottom)); font-size: 11px; }
+  .global-footer a { width: fit-content; min-height: 32px; display: inline-flex; align-items: center; }
+  .detail-shell { padding-top: 19px; }
+  .back-link { margin-bottom: 16px; min-height: 46px; font-size: 12px; line-height: 1.5; }
+  .detail-hero { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 0; border-radius: 12px; }
+  .detail-hero .hero-portrait { 
+    display: block; min-height: 0; height: clamp(220px, 70vw, 370px); grid-row: 1;
+    border-bottom: 1px solid var(--line); 
+  }
+  .detail-hero .hero-portrait img { object-position: center 16%; }
+  .detail-hero .hero-portrait::after { background: linear-gradient(0deg,var(--panel) 0%,transparent 43%); }
+  .detail-hero .hero-copy { 
+    grid-row: 2; padding: 22px 23px 25px; min-height: 0; display: block; 
+  }
+  .hero-copy .kicker { font-size: 11px; }
+  .hero-copy h1 { font-size: clamp(50px, 13vw, 75px); margin: 11px 0 17px; line-height: .94; }
+  .hero-copy p { margin-bottom: 19px; font-size: 14px; }
+  .hero-chips { gap: 7px; }
+  .chip { padding: 8px 10px; border-radius: 5px; font-size: 11px; line-height: 1.45; }
+  .hero-watermark { display: block; right: -18px; top: 215px; font-size: 250px; opacity: .027; }
+  .detail-meta { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; margin: 11px 0 20px; }
+  .meta-tile { padding: 14px; min-height: 79px; }
+  .meta-tile small { font-size: 10px; letter-spacing: .04em; line-height: 1.3; }
+  .meta-tile b { display: block; margin-top: 4px; font-size: 27px; }
+  /* Todas as sete abas visíveis. Duas colunas, sem abas fora da tela. */
+  .detail-tabs { 
+    display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 7px; padding: 12px 0 15px; position: static; top: auto; 
+    overflow: visible; border-bottom: 1px solid var(--line);
+    background: transparent; backdrop-filter: none;
+    scroll-margin-top: 12px;
+  }
+  .detail-tabs button {
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+    width: 100%; min-width: 0; padding: 10px 13px; min-height: 57px;
+    text-align: left; font-size: 12px; white-space: normal; line-height: 1.45;
+    background: var(--panel2); border: 1px solid var(--line); border-radius: 7px;
+  }
+  .detail-tabs button span { display: block; font-size: 10px; opacity: .7; letter-spacing: .12em; margin-bottom: 2px; }
+  .detail-tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent2),0 8px 18px var(--glow); }
+  .detail-tabs button:active { transform: scale(.99); }
+  .section-head { margin: 21px 0 17px; align-items: flex-start; gap: 8px; }
+  .section-head h2 { font-size: clamp(30px, 8vw, 40px); line-height: 1.04; }
+  .section-head .kicker { font-size: 10px; letter-spacing: .12em; }
+  .section-head .number { flex: 0 0 auto; font-size: 10px; text-align: right; margin-top: 4px; }
+  .section-grid,.section-grid.equal,.gear-grid,.tech-grid,.attack-grid,.level-grid,.skill-grid,.media-grid,.bio-grid { grid-template-columns: 1fr; gap: 13px; }
+  .panel { padding: 19px 18px; border-radius: 9px; }
+  .panel h3 { font-size: 27px; }
+  .panel p { font-size: 14px; line-height: 1.73; }
+  .panel-title { font-size: 11px; }
+  .bio-grid { gap: 0; }
+  .bio-item { padding: 11px 0; }
+  .bio-item strong { font-size: 14px; }
+  .media-card .media-photo { height: clamp(190px, 55vw, 270px); }
+  .media-caption { padding: 13px 15px; }
+  .media-caption a { font-size: 12px; line-height: 1.5; }
+  .radar-zone { display: grid; grid-template-columns: minmax(0,1fr); gap: 10px; }
+  .radar-svg { width: 100%; max-width: 370px; display: block; margin: 0 auto; }
+  .attr-list { gap: 0; }
+  .attr-row { grid-template-columns: 47px minmax(0,1fr) auto; gap: 9px; padding: 11px 0; }
+  .attr-row span { font-size: 12px; line-height: 1.5; }
+  .attr-breakdown { width: 100%; font-size: 12px; }
+  .attr-breakdown td,.attr-breakdown th { padding: 9px 5px; text-align: center; }
+  .attr-breakdown td:first-child, .attr-breakdown th:first-child { text-align: left; }
+  .stat-tiles { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+  .stat-panel { min-height: 85px; display: grid; place-content: center; gap: 5px; }
+  .stat-panel b { font-size: 30px; }
+  .skill-item { padding: 14px 15px; min-height: 72px; }
+  .skill-item strong { font-size: 15px; }
+  .skill-item small { font-size: 12px; }
+  .gear-card summary { grid-template-columns: 68px minmax(0,1fr) 22px; gap: 12px; min-height: 100px; padding: 13px; }
+  .gear-thumb { width: 68px; height: 68px; }
+  .gear-title strong { font-size: 23px; }
+  .gear-title small { font-size: 12px; }
+  .gear-details { font-size: 14px; line-height: 1.7; padding: 16px; }
+  .gear-details a { font-size: 12px; }
+  .attack-card { padding: 18px 16px; }
+  .attack-card h3 { font-size: 25px; }
+  .attack-numbers { gap: 12px; justify-content: space-between; }
+  .attack-numbers div { min-width: 0; }
+  .attack-numbers b { font-size: 20px; overflow-wrap: anywhere; }
+  .attack-card p { font-size: 13px; line-height: 1.7; }
+  /* Slider não aperta o número contra o controle e continua operável por toque. */
+  .level-bar { display: grid; grid-template-columns: 1fr auto; column-gap: 10px; row-gap: 4px; padding: 17px 18px; }
+  .level-bar label { font-size: 12px; line-height: 1.4; grid-column: 1; }
+  .level-bar b { grid-column: 2; grid-row: 1; text-align: right; font-size: 38px; line-height: 1; }
+  .level-bar input { grid-column: 1 / -1; grid-row: 2; width: 100%; height: 44px; margin: 0; }
+  .level-bar input::-webkit-slider-thumb { width: 24px; height: 24px; }
+  .level-bar .cap { display: block; grid-column: 1 / -1; font-size: 11px; }
+  .level-item { grid-template-columns: 45px minmax(0,1fr); gap: 12px; padding: 16px; opacity: .84; }
+  .level-item.current { opacity: 1; }
+  .level-item strong { font-size: 14px; line-height: 1.55; }
+  .level-item p { font-size: 13px; line-height: 1.55; }
+  .tech-card { padding: 20px 17px; }
+  .tech-card h3 { font-size: 29px; line-height: 1.05; }
+  .tech-card p,.tech-card em { font-size: 13px; line-height: 1.7; }
+  .tech-meta,.tech-card .mechanic { font-size: 12px; line-height: 1.65; }
+  .source-link { padding: 15px; min-height: 70px; }
+  .source-link b { font-size: 14px; line-height: 1.6; }
+  .source-link small { font-size: 11px; line-height: 1.6; }
+  .system-note { margin-top: 16px; padding: 16px; }
+  .system-note p { font-size: 13px; line-height: 1.7; }
+  .actions-row { display: grid; gap: 10px; margin-top: 20px; }
+  .actions-row > * { width: 100%; text-align: center; min-height: 48px; display: grid; place-items: center; padding: 13px; }
+  .toast { left: max(16px,env(safe-area-inset-left)); right: max(16px,env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom)); max-width: none; }
+}
+
+/* Telefones menores: não reduzir o conteúdo inteiro, apenas ajustar espaços. */
+@media (max-width: 380px) {
+  .topbar { padding-inline: 13px; }
+  .brand strong { font-size: 20px; }
+  .brand small { font-size: 9px; }
+  .top-right { font-size: 9px; }
+  .container { padding-inline: 12px; }
+  .landing-hero { padding: 23px 17px 20px; }
+  .landing-hero h1 { font-size: 43px; }
+  .mini-stat { padding: 10px 7px; }
+  .mini-stat span { font-size: 9px; }
+  .roster-card { height: 402px; }
+  .roster-card .card-body { padding: 20px 17px; }
+  .detail-hero .hero-copy { padding: 20px 18px 23px; }
+  .hero-copy h1 { font-size: 51px; }
+  .chip { font-size: 10px; }
+  .panel { padding: 16px 13px; }
+  .detail-tabs button { min-height: 59px; padding: 10px 9px; font-size: 11px; }
+  .detail-meta .meta-tile { padding: 12px; }
+  .section-head .number { font-size: 9px; }
+  .gear-card summary { grid-template-columns: 56px minmax(0,1fr) 16px; gap: 9px; }
+  .gear-thumb { width: 56px; height: 60px; }
+  .gear-title strong { font-size: 21px; }
+}
+
+/* Telefones em paisagem: preservar conteúdo sem alturas gigantescas. */
+@media (max-width: 920px) and (max-height: 480px) and (orientation: landscape) {
+  .landing-hero { min-height: 210px; }
+  .roster-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .roster-card { height: 330px; }
+  .roster-card .card-body h3 { font-size: 33px; }
+  .detail-hero .hero-portrait { height: 215px; min-height: 0; }
+  .detail-tabs { position: static; }
+}
+
+/* Zoom alto, foco por teclado e baixo movimento. */
+@media (prefers-reduced-motion: reduce) {
+  .roster-card,.roster-card img,.detail-tabs button { transition: none !important; }
+}
+@media (forced-colors: active) {
+  .detail-tabs button[aria-selected=true],.roster-card:hover { outline: 2px solid Highlight; }
+}
