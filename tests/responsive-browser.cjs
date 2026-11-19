@@ -39,21 +39,26 @@ async function assertLayout(page,label){
     await assertLayout(page,width+" "+id+" dossiê");
     if(width===375&&id==="gyro")await page.screenshot({path:"tests/screenshots/375-gyro.png"});
     await page.locator('[data-tab="attributes"]').click();
+    await page.locator(".attr-row").first().waitFor();
     assert.equal(await page.locator(".attr-row").count(),6);
     await assertLayout(page,width+" "+id+" radar");
     if(width===375&&id==="gyro")await page.screenshot({path:"tests/screenshots/375-radar.png"});
     await page.locator('[data-tab="equipment"]').click();
+    await page.locator(".gear-card").first().waitFor();
     await page.locator(".gear-card").last().locator("summary").click();
     assert.equal(await page.locator(".gear-card").last().getAttribute("open"),"");
     await assertLayout(page,width+" "+id+" inventário");
     await page.locator('[data-tab="progression"]').click();
+    await page.locator("#levelSelect").waitFor();
     await page.locator("#levelSelect").evaluate(el=>{el.value="12";el.dispatchEvent(new Event("input",{bubbles:true}))});
     assert.equal((await page.locator("#selectedLevel").textContent()).trim(),"12");
     assert.equal(await page.locator(".level-item").count(),12);
     await assertLayout(page,width+" "+id+" progressão");
     await page.locator('[data-tab="techniques"]').click();
+    await page.locator(".tech-card").first().waitFor();
     await assertLayout(page,width+" "+id+" técnicas");
     await page.locator('[data-tab="sources"]').click();
+    await page.locator(".source-link").first().waitFor();
     await assertLayout(page,width+" "+id+" fontes");
    }
    assert.deepEqual(errors,[]);
