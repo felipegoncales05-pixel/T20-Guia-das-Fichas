@@ -155,6 +155,24 @@
     "source": "https://jojowiki.com/SBR_Volume_4",
     "credit": "Hirohiko Araki · Shueisha",
     "type": "manga-cover"
+  },
+  "jojo-kars": {
+    "series": "JoJo's Bizarre Adventure — Battle Tendency",
+    "volume": "Volume 9",
+    "publisher": "Shueisha",
+    "image": "https://cdn0.fahasa.com/media/catalog/product/9/7/9784088510651.jpg",
+    "source": "https://www.shueisha.co.jp/books/items/contents.html?isbn=978-4-08-851065-1",
+    "credit": "Hirohiko Araki · Shueisha",
+    "type": "manga-cover"
+  },
+  "jojo-pucci": {
+    "series": "JoJo's Bizarre Adventure — Stone Ocean",
+    "volume": "Volume 11 (Parte 6)",
+    "publisher": "Shueisha",
+    "image": "https://dosbg3xlm0x1t.cloudfront.net/images/items/9784088732503/1200/9784088732503.jpg",
+    "source": "https://www.shueisha.co.jp/books/items/contents.html?isbn=978-4-08-873250-3",
+    "credit": "Hirohiko Araki · Shueisha",
+    "type": "manga-cover"
   }
 });
 })();
