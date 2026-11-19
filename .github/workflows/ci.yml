@@ -17,10 +17,11 @@ jobs:
         run: |
           node --check data.js
           node --check guide.js
+          node --check rentarou-guide.js
           node --check app.js
           node --check tests/site-smoke.cjs
           node --check tests/browser-lite.cjs
-      - name: Validar as quatro fichas
+      - name: Validar as cinco fichas
         run: |
           node tests/site-smoke.cjs
           node tests/browser-lite.cjs
