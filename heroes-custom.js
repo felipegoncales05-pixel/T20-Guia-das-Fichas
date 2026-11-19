@@ -47,7 +47,7 @@ for(const [id,p] of Object.entries(characters)){
    {name:"Limite da adaptação",why:p.theme,use:"Não conceder invulnerabilidade, alteração de realidade, ressuscitação irrestrita ou novas ações sem poder específico e gasto de PM.",ref:[["core","cap. 5","Ações e combate"]]}
   ]
  };
- c.sources.unshift({name:p.hero+" — JoJo / obra original",url:p.source});
+ c.sources.unshift({name:p.hero+" — fonte da obra original",url:p.source});
  c.portrait={url:"./assets/portraits/"+id+".svg",credit:"Pôster tipográfico original de O Sistema; não é arte oficial",page:p.source};
  c.media=[{name:c.name+" — representação artística",image:c.portrait.url,source:p.source,credit:c.portrait.credit}];
 }
