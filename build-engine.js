@@ -6,7 +6,8 @@
  const KEYS=["FOR","DES","CON","INT","SAB","CAR"],MAX_LEVEL=12,VERSION=1;
  const COMBAT=["style","opening","combos","resources","strengths","weaknesses","evolution"];
  const short=(v,n=500)=>String(v??"").slice(0,n);
- const emptyLevel=()=>({classId:"",variantId:"",powerId:"",powerVersion:"",why:"",usage:"",synergy:"",limits:"",sourceNote:""});
+ const emptyLevel=()=>({classId:"",variantId:"",powerId:"",powerVersion:"",why:"",usage:"",synergy:"",limits:"",sourceNote:"",
+  customPowerName:"",customPowerBook:"",customPowerPage:"",customPowerEdition:"",customPowerPrereqs:"",customPowerEffect:"",customPowerVersions:"",customPowerAmbiguity:""});
  const makeDraft=(seed={})=>({schemaVersion:VERSION,id:seed.id&&/^local-[a-z0-9-]{8,70}$/.test(seed.id)?seed.id:"local-"+(globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2)),
   catalogId:short(seed.catalogId,60),name:short(seed.name||"Nova ficha",100),work:short(seed.work,100),description:"",theme:short(seed.theme||"arquivo",30),raceId:"",raceBonuses:[],originId:"",allowedBooks:["jda-1.3"],attributes:Object.fromEntries(KEYS.map(k=>[k,0])),levels:[emptyLevel()],inventory:[],combat:Object.fromEntries(COMBAT.map(k=>[k,""])),notes:"",status:"rascunho"});
  function normalize(raw){
@@ -42,6 +43,15 @@
   let pv=0,pm=0,canCalculate=true;
   for(let i=0;i<sheet.levels.length;i++){
    const row=sheet.levels[i],cls=rules.classes[row.classId];
+   if(row.customPowerName){
+    const book=rules.books.find(b=>b.id===row.customPowerBook);
+    if(!book||!allowed.has(book.id))issues.push("Nível "+(i+1)+": suplemento da opção ""+row.customPowerName+"" não selecionado ou não cadastrado.");
+    if(!row.customPowerPage.trim()||!row.customPowerEdition.trim()||!row.customPowerPrereqs.trim()||!row.customPowerEffect.trim())
+     issues.push("Nível "+(i+1)+": opção de suplemento exige página, edição, pré-requisitos e efeito conferidos.");
+    if(!row.why.trim()||!row.usage.trim())issues.push("Nível "+(i+1)+": descreva por que escolheu e como usaria a opção do suplemento.");
+    if(row.customPowerVersions.trim()&&!row.customPowerAmbiguity.trim())issues.push("Nível "+(i+1)+": registre quais versões divergem e a interpretação adotada.");
+    issues.push("Nível "+(i+1)+": opção de suplemento em revisão editorial, sem efeito automático no cálculo: "+row.customPowerName+".");
+   }
    if(row.variantId){issues.push("Nível "+(i+1)+": variante de classe sem regra de substituição e compatibilidade cadastrada.");canCalculate=false}
    if(!cls||!allowed.has(cls?.source.book)){
     issues.push("Nível "+(i+1)+": classe ausente ou livro não permitido.");

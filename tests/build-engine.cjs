@@ -102,3 +102,23 @@ for(const id of expected){
 const sampleToji=concepts.fromPlanned({id:'toji',name:'Toji',universe:'JJK'},engine);
 assert.deepEqual(sampleToji.levels.map(x=>x.classId).reduce((o,x)=>(o[x]=(o[x]||0)+1,o),{}),{guerreiro:8,ladino:4});
 console.log('VALIDADO: dez propostas de 12 níveis, multiclasse editável e pendências explícitas.');
+
+// Suplementos podem ser documentados sem se converter em efeitos de jogo automáticos.
+const supplemental=readyBase(makeDraft());
+supplemental.allowedBooks=['jda-1.3','herois'];
+supplemental.levels=classes('guerreiro');
+supplemental.levels[0].customPowerName='Poder de Heróis (exemplo não verificado)';
+supplemental.levels[0].customPowerBook='herois';
+let sup=evaluate(supplemental);
+assert.ok(sup.issues.some(x=>x.includes('página, edição, pré-requisitos')));
+assert.ok(sup.issues.some(x=>x.includes('sem efeito automático')));
+assert.equal(sup.basePV,23,'Suplemento não pode alterar PV sem regra programada');
+supplemental.levels[0].customPowerEdition='edição a confirmar';
+supplemental.levels[0].customPowerPage='página a conferir';
+supplemental.levels[0].customPowerPrereqs='requisitos a confirmar';
+supplemental.levels[0].customPowerEffect='efeito a validar';
+supplemental.levels[0].customPowerVersions='variante A e B a conferir';
+sup=evaluate(supplemental);
+assert.ok(sup.issues.some(x=>x.includes('quais versões divergem')));
+assert.equal(importJSON(exportJSON(supplemental)).levels[0].customPowerName,supplemental.levels[0].customPowerName);
+console.log('VALIDADO: documentação de suplementos, edição, versões e bloqueio de efeitos não verificados.');
