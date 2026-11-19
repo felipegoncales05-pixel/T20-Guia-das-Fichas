@@ -25,13 +25,14 @@ c.skills=[
  ["Luta","+6","Treinada · golpes com katana ancestral"],
  ["Vontade","+4","Treinada · força de vontade da Nihilidade"],
  ["Iniciativa","+5","Treinada · Iaijutsu a partir do 3º nível"],
- ["Percepção","+4","Treinada · detectar aproximações"]
+ ["Percepção","+4","Treinada · detectar aproximações"],
+ ["Cavalgar","+5","Treino adicional humano (Versátil) · deslocamento montado"]
 ];
 c.initial=[
  "Arma Ancestral (katana com 1 melhoria até T$ 500): escolha Precisa para habilitar Corte do Vácuo mais adiante.",
  "Código do Samurai: manter a palavra, ajudar inocentes, não mentir, trapacear ou roubar; violar o código faz perder PM até o dia seguinte.",
  "Grito de Kiai: ao atacar corpo a corpo, pague 2 PM para rolar dois dados de ataque e ficar com o melhor; no acerto soma +1d4 de dano (aumenta nos níveis 5 e 9).",
- "Humana por adaptação de aparência: bônus raciais em FOR, DES e CON. Sem bênção automática de Emanadora."
+ "Humana: bônus raciais FOR, DES e CON. Versátil concede Cavalgar treinado e Foco em Arma (katana); nenhum poder automático de Emanadora."
 ];
 c.gear=[
  {name:"Katana ancestral de Acheron",rule:"DB 199 · Arma Ancestral (katana precisa)",detail:"Arma superior inicial da classe. 1 melhoria com valor total de até T$ 500. Adquire melhorias extras nos níveis 4, 6 e 8; encantamentos nos níveis 10 e 12. Não reproduz literalmente o poder cósmico da Nihilidade.",qty:"1",image:c.portrait.url,source:"https://jamboeditora.com.br/selos-literarios/dragao-brasil/",credit:"Ilustração do personagem; regras na Dragão Brasil 199"},
