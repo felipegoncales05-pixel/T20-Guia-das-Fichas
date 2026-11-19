@@ -253,7 +253,7 @@ async function assertLayout(page,label){
     assert.match(await page.locator('.lab-summary').textContent(),/PV base: 103 · PM base: 40/);
     await page.locator('[data-book-id="herois"]').check();
     assert.match(await page.locator('.lab-audit').textContent(),/Heróis de Arton.*opções mecânicas ainda não catalogadas/);
-    assert.match(await page.locator('.lab-audit').textContent(),/Origem.*não foram conferidos/);
+    assert.equal(await page.locator('[data-field="originId"]').inputValue(),"soldado","Origem de Toji ausente");
     await assertLayout(page,width+" laboratório");
     await page.screenshot({path:"tests/screenshots/"+width+"-laboratorio.png",fullPage:true});
     const downloadPromise=page.waitForEvent('download');
