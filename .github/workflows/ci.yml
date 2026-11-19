@@ -23,4 +23,3 @@ jobs:
         run: |
           node tests/site-smoke.cjs
           node tests/browser-lite.cjs
-          node tests/browser-lite.cjs
