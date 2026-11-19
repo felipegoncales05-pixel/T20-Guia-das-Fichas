@@ -184,5 +184,99 @@ window.T20_DATA = {
       media:[{name:"Cipher / visual oficial",image:"https://miyoversee.com/wp-content/uploads/2025/06/cipher.webp",source:"https://miyoversee.com/quantum/cipher/",credit:"Miyoversee"},{name:"Ataque quântico",image:"https://img.gachabase.net/conv/hsr/assets/22494680670a8acac66a9bc49d6a5e54.png?q=50&sig=ff6435b23a007c6b8e00ee57fd1d09c1012f387b02bafe8be2d80ab6fa95ffc9",source:"https://hsr.gachabase.net/characters/1406/cipher/release",credit:"Gachabase · arte de Honkai: Star Rail"}],
       sources:[{name:"Cipher — Honkai: Star Rail (site oficial)",url:"https://hsr.hoyoverse.com/en-us/character?charIndex=12&worldIndex=11"},{name:"Cipher — HSR (referência visual)",url:"https://miyoversee.com/quantum/cipher/"}]
     }
+    ,
+    {
+      id:"rentarou",number:"05",name:"Rentarou Aijou",universe:"The 100 Girlfriends Who Really, Really, Really, Really, Really Love You",label:"CORAÇÃO INABALÁVEL // APOIO",symbol:"♥",theme:"rentarou",
+      portrait:{url:"https://hyakkano.com/xUtUy1FY/wp-content/themes/hyakkano_v1/assets/images/common/character/rentaro/img_rentaro.png",credit:"Arte oficial do anime · hyakkano.com",page:"https://hyakkano.com/character/rentaro/"},
+      excerpt:"Não importa o tamanho do perigo: sua maior habilidade é nunca abandonar ninguém.",
+      info:{race:"Humano",className:"Nobre",origin:"Herói Camponês",devotion:"Sem devoção obrigatória",role:"Suporte, comando e proteção social",partner:"As namoradas são parte da história, não parceiros gratuitos"},
+      stats:{pv:19,pm:7,defense:16,speed:"9 m",hpGain:7,pmGain:4},
+      attrs:[
+        {key:"CON",value:3,buy:2,race:1,why:"Suportar sacrifícios e proteger quem ama."},
+        {key:"CAR",value:4,buy:3,race:1,why:"Empatia, dedicação e liderança emocional."},
+        {key:"SAB",value:2,buy:2,race:0,why:"Perceber necessidades e sentimentos."},
+        {key:"INT",value:1,buy:1,race:0,why:"Criatividade para resolver crises."},
+        {key:"FOR",value:0,buy:0,race:0,why:"Não depende de força bruta."},
+        {key:"DEX",value:2,buy:1,race:1,why:"Agilidade para acudir os outros."}
+      ],
+      summary:"Nobre humano de origem humilde. O suporte funciona desde o nível 1 com Comandar, Orgulho, Coração Heroico e Surto Heroico; a progressão desbloqueia Inspirar Confiança, Estrategista, Gritar Ordens e Inspirar Glória. O romance é narrativa: não concede aliados ou vantagens mecânicas gratuitas.",
+      history:[
+        "Depois de sofrer cem rejeições, Rentarou Aijou descobre que está destinado a encontrar cem almas gêmeas. A partir daí, sua vida se torna uma sucessão de encontros, situações absurdas e escolhas tomadas com dedicação extrema.",
+        "Rentarou se destaca por tratar cada pessoa importante para ele com cuidado e respeito, muitas vezes enfrentando riscos exagerados para protegê-la. Em Tormenta20, sua coragem vira Surto Heroico, sua empatia vira Diplomacia e sua habilidade de manter o grupo unido vira a classe Nobre.",
+        "A classe Nobre não exige ascendência aristocrática: o livro aceita líderes e diplomatas de várias origens. Aqui, o Espólio representa um uniforme impecável e os poderes sociais são o verdadeiro coração da build."
+      ],
+      skills:[
+        ["Diplomacia","+6","Carisma +4, treinamento +2; melhora no 4º, 5º e 11º níveis"],
+        ["Vontade","+4","Sabedoria +2 e treinamento +2"],
+        ["Intuição","+4","Ler emoções e identificar preocupações"],
+        ["Iniciativa","+4","Reagir para proteger os amigos"],
+        ["Luta","+2","Combate físico emergencial, sem ser sua especialidade"],
+        ["Fortitude","+5","Constituição +3 e treinamento +2"],
+        ["Cura","+4","Treino adicional humano: socorrer aliados"],
+        ["Percepção","+4","Perícia adicional por Inteligência +1"]
+      ],
+      initial:[
+        "Autoconfiança: use Carisma +4 na Defesa em vez de Destreza",
+        "Espólio: escolha um traje da corte (reflavor de uniforme escolar formal)",
+        "Orgulho: gaste PM para melhorar testes de perícia",
+        "Comandar (Versátil humano): ação de movimento e 1 PM; aliados em alcance médio recebem +1 em testes de perícia até o fim da cena",
+        "Coração Heroico e Surto Heroico (Herói Camponês): +3 PM; ação adicional por 5 PM, uma vez por rodada"
+      ],
+      gear:[
+        {name:"Uniforme escolar impecável",rule:"Traje da corte · Espólio do Nobre",detail:"Blazer escuro arroxeado, camisa branca e gravata vermelha. Como traje da corte, cumpre as regras de vestuário formal em ambientes apropriados; não dá bônus universal de Carisma. O Espólio permite um item de até T$ 2.000.",qty:"1",image:"https://hyakkano.com/xUtUy1FY/wp-content/themes/hyakkano_v1/assets/images/common/character/rentaro/img_rentaro.png",source:"https://hyakkano.com/character/rentaro/",credit:"Site oficial do anime"},
+        {name:"Proteção sob o blazer",rule:"Armadura de couro · Defesa +2",detail:"A armadura inicial fica por baixo das roupas. A Defesa 16 resulta de 10 + Carisma 4 (Autoconfiança) + couro 2, sem escudo empunhado.",qty:"1"},
+        {name:"Bastão de emergência",rule:"Clava · arma simples",detail:"Equipamento de origem Herói Camponês; pode ter visual de um bastão/guarda-chuva resistente, sem trocar dano ou alcance. Usar somente quando conversar não resolve.",qty:"1"},
+        {name:"Arma marcial de reserva",rule:"Espada longa (opcional entre os itens iniciais)",detail:"A classe tem proficiência marcial. Fica guardada; o visual escolar não implica uso permanente de uma arma.",qty:"1"},
+        {name:"Escudo leve guardado",rule:"Escudo leve · não incluído na Defesa 16",detail:"Recebido com os equipamentos iniciais pela proficiência, mas guardado para manter as mãos livres e o uniforme reconhecível.",qty:"1"},
+        {name:"Bolsa e estojo de recados",rule:"Mochila, saco de dormir, trajes básicos",detail:"Equipamentos de viagem; caderno de compromissos e cartas são adereços narrativos sem bônus mecânicos.",qty:"1 conjunto"},
+        {name:"Kit de medicamentos (aquisição futura)",rule:"Item geral comprado com T$",detail:"A perícia Cura é treinada desde o começo, mas o kit deve ser comprado ou recebido na aventura. Não está incluído gratuitamente.",qty:"0 no início",image:"https://hyakkano.com/xUtUy1FY/wp-content/themes/hyakkano_v1/assets/images/pc/character/rentaro/img_face_rentaro.png",source:"https://hyakkano.com/character/rentaro/",credit:"Expressões oficiais de Rentarou"}
+      ],
+      attacks:[
+        {name:"Bastão de emergência",test:"+2",damage:"1d6 impacto",cost:"0 PM",detail:"Ataque corpo a corpo com clava (FOR 0; Luta treinada +2). A preferência é defesa e apoio, não dano."},
+        {name:"Comandar — incentivo",test:"Sem teste",damage:"+1 em perícias dos aliados",cost:"1 PM",detail:"Ação de movimento. Afeta aliados em alcance médio até o fim da cena, conforme o poder oficial."},
+        {name:"Surto Heroico — socorro",test:"Ação adicional",damage:"Conforme a ação",cost:"5 PM",detail:"Uma vez por rodada, ganha ação padrão ou de movimento extra; ideal para alcançar quem está em perigo."}
+      ],
+      progression:[
+        ["1","Autoconfiança · Espólio · Orgulho · Comandar · Surto Heroico · Coração Heroico","O namorado que jamais desiste"],
+        ["2","Inspirar Confiança · Palavras Afiadas 2d6 (automático)","Oferecer segundas chances aos aliados"],
+        ["3","Estrategista · Riqueza (automático)","Organizar a equipe em torno de cada pessoa"],
+        ["4","Voz Poderosa · Gritar Ordens (automático)","Palavras que alcançam todo o grupo"],
+        ["5","Aumento de Atributo (CAR +1) · Presença Aristocrática (automático)","Convicção inabalável"],
+        ["6","Liderar pelo Exemplo · Palavras Afiadas 4d6 (automático)","Inspirar ações pela própria coragem"],
+        ["7","Jogo da Corte","Diplomacia mesmo em crises absurdas"],
+        ["8","Inspirar Glória","Conceder uma ação padrão extra a um aliado"],
+        ["9","Língua de Prata","Conseguir o impossível com palavras"],
+        ["10","Educação Privilegiada · Palavras Afiadas 6d6 (automático)","Aprender duas novas perícias"],
+        ["11","Aumento de Atributo (CAR +1)","Carisma extraordinário"],
+        ["12","General","Estrategia que fornece PM temporários aos aliados"]
+      ],
+      techniques:[
+        {level:1,name:"Apoio Incondicional",mechanic:"Comandar",cost:"1 PM + ação de movimento",effect:"+1 em testes de perícia de aliados em alcance médio até o fim da cena.",flavor:"Uma promessa basta para levantar a moral da equipe."},
+        {level:1,name:"Não Vou Abandonar Ninguém",mechanic:"Surto Heroico",cost:"5 PM",effect:"Ação padrão ou de movimento extra; só uma ativação por rodada.",flavor:"A determinação move Rentarou além do próprio cansaço."},
+        {level:2,name:"Você Consegue!",mechanic:"Inspirar Confiança",cost:"2 PM",effect:"Permite que um aliado em alcance curto role novamente um teste.",flavor:"Ele acredita no grupo mesmo nos piores momentos."},
+        {level:3,name:"Encontro Planejado",mechanic:"Estrategista",cost:"1 PM por aliado escolhido",effect:"Ação padrão para organizar aliados no alcance curto; cada um ganha uma ação de movimento no próximo turno.",flavor:"Cada pessoa recebe atenção e espaço para agir."},
+        {level:4,name:"Declaração Inabalável",mechanic:"Gritar Ordens + Voz Poderosa",cost:"PM escolhidos (até CAR)",effect:"Aumenta os testes dos aliados pelo PM investido até o início do próximo turno; Voz Poderosa amplia alcance conforme o poder.",flavor:"Uma frase sincera atravessa até o caos."},
+        {level:6,name:"Exemplo de Amor",mechanic:"Liderar pelo Exemplo",cost:"2 PM",effect:"Em certas perícias, companheiros podem aproveitar o resultado de seu teste bem-sucedido.",flavor:"Ele mostra primeiro como enfrentar o medo."},
+        {level:8,name:"O Amor Faz Milagres",mechanic:"Inspirar Glória",cost:"5 PM",effect:"Um aliado em alcance curto ganha uma ação padrão extra no próximo turno, uma vez por cena por alvo.",flavor:"Não é milagre mágico: é o poder de motivar as pessoas."},
+        {level:12,name:"Uma Família, Cem Motivos",mechanic:"General + Estrategista",cost:"1 PM por aliado em Estrategista",effect:"Aliados direcionados também ganham 1d4 PM temporários segundo as regras de General.",flavor:"Sua presença transforma um grupo em equipe."}
+      ],
+      notes:{
+        overview:"O Nobre pode ser um líder carismático que não nasceu na nobreza. Nenhum romance concede parceiros, ações gratuitas ou cem aliados em combate.",
+        attributes:"Compra de 10 pontos: FOR 0 (0), DES 1 (1), CON 2 (2), INT 1 (1), SAB 2 (2), CAR 3 (4). Humano acrescenta +1 em DES, CON e CAR.",
+        equipment:"O Espólio foi destinado ao traje da corte, reinterpretado como uniforme formal. A armadura de couro é inicial; o escudo fica guardado. O kit de medicamentos não é grátis.",
+        abilities:"Comandar dá +1 até o fim da cena e custa 1 PM, enquanto Gritar Ordens é um bônus diferente, temporário, obtido no 4º nível. Inspiração não gera ações infinitas.",
+        progression:"PV = 19 + 7 por nível extra; PM = 4 por nível +3 de Coração Heroico, com +3 nos níveis 5 e 11. Carisma sobe no 5º e no 11º níveis; confira a patente do poder e efeitos opcionais.",
+        techniques:"As técnicas têm nomes narrativos. Gritar Ordens não altera uma magia nem exige afinidade divina; Inspirar Glória e General cumprem seus custos e pré-requisitos normais."
+      },
+      media:[
+        {name:"Rentarou — traje original",image:"https://hyakkano.com/xUtUy1FY/wp-content/themes/hyakkano_v1/assets/images/common/character/rentaro/img_rentaro.png",source:"https://hyakkano.com/character/rentaro/",credit:"Arte oficial · Site do anime"},
+        {name:"Rentarou — expressões",image:"https://hyakkano.com/xUtUy1FY/wp-content/themes/hyakkano_v1/assets/images/pc/character/rentaro/img_face_rentaro.png",source:"https://hyakkano.com/character/rentaro/",credit:"Retratos oficiais · Site do anime"}
+      ],
+      sources:[
+        {name:"Rentarou Aijou — site oficial do anime",url:"https://hyakkano.com/character/rentaro/"},
+        {name:"The 100 Girlfriends — site oficial",url:"https://hyakkano.com/"}
+      ]
+    }
+
   ]
 };
