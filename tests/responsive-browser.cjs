@@ -266,6 +266,7 @@ async function assertLayout(page,label){
     assert.match(await page.locator('.lab-summary').textContent(),/Guerreiro 1 \/ Ladino 1/,"Rascunho local não persistiu");
     await page.goto(site+'#/toji/overview',{waitUntil:'load'});
     await page.locator('a[href="#/laboratorio/toji"]').click();
+    await page.locator('.lab-draft').first().waitFor({state:"visible"});
     assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
     await page.goto(site,{waitUntil:'load'});
     assert.equal(await page.locator('.roster-card').count(),69,"Ficha pessoal entrou no catálogo");

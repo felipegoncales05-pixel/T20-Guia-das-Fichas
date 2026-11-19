@@ -32,6 +32,7 @@ jobs:
           node --check review-data.js
           node --check planned-data.js
           node --check rules-catalog.js
+          node --check build-concepts.js
           node --check build-engine.js
           node --check build-lab.js
           node --check app.js

@@ -40,3 +40,9 @@ O comando valida o JSON, gera `review-drafts/local-<id>.json` sem sobrescrever a
 ## Próxima revisão de conteúdo
 
 Conferir as erratas da v1.3 e as edições dos suplementos adotadas pela mesa; catalogar cada classe e poder necessário aos dez personagens; revisar uma build completa por personagem com justificativa, exemplo e limitação de **cada** recurso antes de chamá-la jogável. O painel `#/arquivo` continua registrando decisões editoriais separadamente das fichas pessoais.
+
+## Início guiado dos dez personagens
+
+`build-concepts.js` registra um roteiro narrativo de 12 níveis para cada um dos dez dossiês. O botão de planejamento ou o acesso direto a `#/laboratorio/{id}` abre uma cópia local e preserva as escolhas anteriores. Toji, Vegitto, Gogeta, Soul of Cinder, Adão, Sekiro e Kaneki possuem **distribuições de classes provisórias** usando as classes parcialmente indexadas. Aizen, Isaac e Grimm exigem seleção mecânica posterior, pois suas hipóteses de Arcanista ou outras opções não foram catalogadas. Todas as fichas começam como rascunho, sem poderes escolhidos automaticamente e com origem, raça, perícias e equipamentos pendentes. Os comentários de cada nível explicam o motivo narrativo, o uso pretendido e as ambiguidades da obra.
+
+Na biblioteca, a seleção de suplementos registra somente a intenção de consulta e gera alertas; poderes e variantes seguem bloqueados enquanto faltarem fonte e pré-requisitos. As habilidades já catalogadas mostram patamares disponíveis por nível de **classe**, limitações e exemplos, e o editor permite registrar decisão de edição/errata e versões específicas. A ficha nunca é marcada automaticamente como aprovada.

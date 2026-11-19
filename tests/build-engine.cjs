@@ -85,3 +85,20 @@ try{
  try{fs.rmdirSync(path.dirname(reviewPath))}catch{}
 }
 console.log('VALIDADO: multiclasse 1/2/3 classes, PV/PM por avanço, pré-requisitos, fontes, JSON e pendências.');
+
+// Dez conceitos são rascunhos de 12 níveis e não concedem poderes gratuitos.
+const concepts=require('../build-concepts.js');
+const expected=['toji','aizen','vegitto','gogeta','soul-of-cinder','isaac','adao','grimm','sekiro','kaneki'];
+assert.deepEqual(concepts.ids.sort(),expected.sort());
+for(const id of expected){
+ const d=concepts.fromPlanned({id,name:id,universe:'Obra de origem',catalogCategory:'arquivo',sourcePage:'https://example.org'},engine);
+ assert.equal(d.status,'rascunho');
+ assert.equal(d.catalogId,id);
+ assert.equal(d.levels.length,12);
+ assert.equal(d.levels.every(x=>x.powerId===''),true,'Não conceder poderes sem conferência');
+ assert.ok(d.notes.includes('não'));
+ assert.ok(evaluate(d).issues.length>0,'Conceito não pode ser aprovado');
+}
+const sampleToji=concepts.fromPlanned({id:'toji',name:'Toji',universe:'JJK'},engine);
+assert.deepEqual(sampleToji.levels.map(x=>x.classId).reduce((o,x)=>(o[x]=(o[x]||0)+1,o),{}),{guerreiro:8,ladino:4});
+console.log('VALIDADO: dez propostas de 12 níveis, multiclasse editável e pendências explícitas.');
