@@ -228,7 +228,7 @@ async function assertLayout(page,label){
     await assertLayout(page,width+" "+id+" progressão pendente");
     await page.locator('[data-tab="sources"]').click();
     await page.locator('#detail-section[data-tab="sources"]').waitFor();
-    assert.match(await page.locator("#detail-section").textContent(),/Nenhuma página de livro ou suplemento/);
+    assert.match(await page.locator("#detail-section").textContent(),/Tormenta20 — Edição Jogo do Ano v1.3/);
     assert.match(await page.locator(".planned-source-link").getAttribute("href"),/^https:\/\//,id+": crédito da imagem ausente");
     await page.locator('[data-tab="review"]').click();
     await page.locator("#reviewForm").waitFor();
@@ -250,7 +250,7 @@ async function assertLayout(page,label){
     assert.equal(await page.locator('.lab-level').count(),12,"Roteiro não contém 12 níveis");
     await page.locator('[data-field="class:0"]').selectOption('lutador');
     assert.match(await page.locator('.lab-summary').textContent(),/Lutador 1 \/ Guerreiro 7 \/ Ladino 4/);
-    assert.match(await page.locator('.lab-summary').textContent(),/PV base: 67 · PM base: 40/);
+    assert.match(await page.locator('.lab-summary').textContent(),/PV base: 103 · PM base: 40/);
     await page.locator('[data-book-id="herois"]').check();
     assert.match(await page.locator('.lab-audit').textContent(),/Heróis de Arton.*opções mecânicas ainda não catalogadas/);
     assert.match(await page.locator('.lab-audit').textContent(),/Origem.*não foram conferidos/);
