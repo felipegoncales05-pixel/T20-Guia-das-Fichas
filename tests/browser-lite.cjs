@@ -53,8 +53,8 @@ for(const name of ["Jonathan Joestar","Johnny Joestar","Jolyne Cujoh","Denji","S
 assert.match(get("roster").innerHTML,/character-fx/);
 for(const id of fakeWindow.T20_USER_ART_IDS){
  const char=fakeWindow.T20_DATA.characters.find(c=>c.id===id);
- assert.equal(char.portrait.url,"./assets/art/"+id+".png",id+": arte do usuário não carregada");
- assert.match(get("roster").innerHTML,new RegExp("assets/art/"+id+"\\.png"),id+": imagem fora dos cards");
+ assert.equal(char.portrait.url,"./assets/art-optimized/"+id+".webp",id+": arte do usuário não carregada");
+ assert.match(get("roster").innerHTML,new RegExp("assets/art-optimized/"+id+"\\.webp"),id+": imagem fora dos cards");
 }
 
 hooks["document:input"]({target:{id:"search",value:"David"}});
