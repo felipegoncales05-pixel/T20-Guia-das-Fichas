@@ -1,0 +1,91 @@
+/* REN TAROU // Love Protocol — tema dedicado sobre a HUD DCX
+   Paleta: rosa-coral, lilás, creme e menta. Sem alterar os outros dossiês. */
+.roster-card.rentarou{
+ --card-accent:#ffaac8;
+ --card-glow:#ff8ea940;
+ background:radial-gradient(circle at 69% 26%,#ef93bb45 0,transparent 44%),
+ linear-gradient(145deg,#4a2c51 0%,#291b37 54%,#161924 100%);
+ border-color:#a86b91;
+}
+.roster-card.rentarou::before{
+ content:"♡  ♥  ♡";position:absolute;top:68px;left:7%;
+ font:40px/1 "Barlow Condensed",sans-serif;letter-spacing:.32em;
+ color:#ffb0cb66;transform:rotate(-13deg);z-index:0;pointer-events:none;
+}
+.roster-card.rentarou .photo{
+ background:radial-gradient(circle at 50% 31%,#e4b4e754 0,transparent 62%),
+ repeating-linear-gradient(130deg,transparent 0 38px,#ffc8d10d 40px 41px);
+}
+.roster-card.rentarou .photo img{
+ object-fit:contain;object-position:center bottom;
+ padding:18px 8px 0;filter:drop-shadow(0 15px 18px #05031376);
+ opacity:1;
+}
+.roster-card.rentarou .photo::after{
+ background:linear-gradient(180deg,transparent 42%,#24172b11 57%,#151322 93%);
+}
+.roster-card.rentarou .card-body{background:linear-gradient(transparent,#1b1629dd 60%)}
+.roster-card.rentarou .card-body h3{color:#fff1f8;text-shadow:0 2px 22px #130719;}
+.roster-card.rentarou .card-overline{color:#ffc9db}
+.roster-card.rentarou .card-action{color:#ffc0d4}
+body[data-theme="rentarou"]{
+ --bg:#160e20;--panel:#291a37;--panel2:#21172e;
+ --line:#6e4f70;--line-bright:#ac769b;
+ --ink:#ffeff8;--muted:#dbc3db;--faint:#b18eae;
+ --accent:#ffabc9;--accent2:#a8e5d0;--glow:#ff8ab036;
+ background:radial-gradient(circle at 85% 0%,#be70812e,transparent 50%),#160e20;
+}
+body[data-theme="rentarou"] .ambient-grid{
+ background:radial-gradient(circle at 77% 2%,#ff8ba81e,transparent 43%),
+ linear-gradient(transparent 29px,#f2b8ca0a 30px),
+ linear-gradient(90deg,transparent 29px,#f2b8ca0a 30px);
+ background-size:auto,30px 30px,30px 30px;
+}
+body[data-theme="rentarou"] .detail-hero{
+ background:radial-gradient(circle at 67% 30%,#ed9cc633,transparent 56%),
+ linear-gradient(115deg,#352340,#231a32 70%,#1b182a);
+}
+body[data-theme="rentarou"] .detail-hero::after{
+ content:"♡";position:absolute;left:58%;top:-40%;
+ font:700 470px/1 "Barlow Condensed",sans-serif;
+ color:#ffc1d012;transform:rotate(-12deg);pointer-events:none;z-index:0;
+}
+body[data-theme="rentarou"] .detail-hero .hero-portrait{
+ background:radial-gradient(circle at 55% 45%,#cf7da94b,transparent 66%),
+ linear-gradient(180deg,#30213d,#1c1729);
+}
+body[data-theme="rentarou"] .hero-portrait img{
+ object-fit:contain;object-position:center bottom;
+ padding:14px 8px 0;
+ filter:drop-shadow(0 22px 19px #08021391);
+}
+body[data-theme="rentarou"] .hero-watermark{
+ color:#ffa5c3;opacity:.065;transform:rotate(-20deg);
+}
+body[data-theme="rentarou"] .detail-tabs button[aria-selected="true"]{
+ background:linear-gradient(110deg,#ffaccd,#ecc4da);
+ color:#321527;
+}
+body[data-theme="rentarou"] .detail-tabs button:hover:not([aria-selected="true"]){
+ border-color:#cf9bbd;
+}
+body[data-theme="rentarou"] .chip.strong{
+ background:#ffadcc;color:#3d1b31;
+}
+body[data-theme="rentarou"] .meta-tile,
+body[data-theme="rentarou"] .panel{
+ box-shadow:inset 0 1px 0 #ffe7f711;
+}
+body[data-theme="rentarou"] .level-item.current{
+ background:linear-gradient(110deg,#3b2844,#2a1a3a);
+}
+body[data-theme="rentarou"] .stat-panel,
+body[data-theme="rentarou"] .live-metric{
+ background:linear-gradient(170deg,#352441,#24182f);
+}
+@media(max-width:680px){
+ .roster-card.rentarou .photo img{padding-top:12px}
+ .roster-card.rentarou::before{font-size:27px;top:60px}
+ body[data-theme="rentarou"] .detail-hero::after{font-size:250px;left:15%;top:9%}
+ body[data-theme="rentarou"] .hero-portrait img{padding-top:10px}
+}
