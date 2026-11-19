@@ -17,7 +17,7 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - **Makima** — Feiticeira Feérica, magia de controle com testes de resistência
 - **Optimus Prime** — Golem de Ferro Paladino, chassi, aura, defesa e liderança
 
-**Recursos:** cards clicáveis, busca e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes e créditos. Cada card gera uma URL de hash compartilhável, por exemplo #/gyro/attributes.
+**Recursos:** 47 cards em ordem alfabética, pesquisa em destaque e filtro de universo, história, radar hexagonal de CON/CAR/SAB/INT/FOR/DEX, valores de criação, PV/PM/Defesa nível 1, perícias, inventário expansível, ataques, técnicas, progressão interativa 1–12, fontes e créditos. Cada card gera uma URL de hash compartilhável, por exemplo #/gyro/attributes.
 
 ## Estrutura
 
@@ -33,6 +33,15 @@ Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visua
 - tests/site-smoke.cjs — teste mínimo de integridade de dados
 - .github/workflows/ci.yml — verificação de sintaxe e dados
 - GitHub Pages: publicação automática da branch main, pasta / (root)
+
+## Busca, ordem e imagens (atualização 2026-11-19)
+
+- Os **47 dossiês** aparecem automaticamente em ordem alfabética A–Z, independentemente da ordem de cadastramento. A ordenação respeita acentos e números.
+- A **barra de pesquisa** tem destaque no catálogo e localiza nome, universo, classe e descrição. Pode pesquisar sem acentos; use a tecla `/` quando o catálogo estiver aberto. `Esc` limpa uma busca ativa.
+- Os filtros mostram a categoria **JoJo** (partes 1 a 8), em lugar de Steel Ball Run; o filtro geral Honkai: Star Rail também inclui Herdeiros de Chrysos e Emanadores.
+- A contagem indica quantos resultados foram encontrados. O botão **LIMPAR** restaura o catálogo completo.
+- Imagens continuam externas, mas retratos problemáticos de Diego, Marin, Ado e Elster têm fontes alternativas identificadas em `catalog-media.js`. Quando um site bloqueia as tentativas, a interface apresenta uma **arte tipográfica local com nome e cor do personagem**, não o ícone quebrado do navegador. As artes tipográficas de vários dossiês adicionais são intencionais e não representam retratos oficiais.
+- `catalog.css` implementa busca, contador e arte-reserva de maneira responsiva.
 
 ## Abrir localmente
 
