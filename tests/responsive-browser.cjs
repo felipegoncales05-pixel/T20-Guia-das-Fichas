@@ -78,7 +78,10 @@ async function assertLayout(page,label){
    if([375,1440].includes(width)){
     await page.locator("#search").fill("Celenova");
     const celenova=page.locator('[data-open="em-celenova"]');
-    await celenova.locator('img:not(.portrait-underlay)').evaluate(el=>el.decode());
+    const celenovaArt=celenova.locator('img:not(.portrait-underlay)');
+    await celenovaArt.scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>document.querySelector('[data-open="em-celenova"] img:not(.portrait-underlay)')?.naturalWidth>0,null,{timeout:15000});
+    await celenovaArt.evaluate(el=>el.decode());
     assert.equal(await celenova.locator('.card-body').evaluate(el=>getComputedStyle(el).borderTopWidth),"0px","Faixa horizontal atravessou Celenova");
     await celenova.screenshot({path:"tests/screenshots/"+width+"-celenova-depois.png"});
     await page.locator("[data-clear-search]").click();
