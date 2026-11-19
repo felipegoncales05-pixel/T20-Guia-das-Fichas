@@ -8,7 +8,7 @@
  const specs={
   toji:{
    title:"Caçador sem Energia Amaldiçoada",origin:"soldado",benefits:["Guerra","Pontaria"],
-   buy:{FOR:2,DEX:3,CON:2,INT:1,SAB:1,CAR:0},bonuses:["FOR","DEX","CON"],
+   buy:{FOR:2,DES:3,CON:2,INT:1,SAB:1,CAR:0},bonuses:["FOR","DES","CON"],
    skills:["Luta","Fortitude","Furtividade","Iniciativa","Percepção","Guerra","Pontaria"],
    flow:[["guerreiro",8],["ladino",4]],
    powers:{guerreiro:["bater-correr","ataque-reflexo","especializacao-arma","golpe-pessoal","impeto","romper-resistencias","golpe-raspao"],ladino:["emboscar","sombra","velocidade-ladina"]},
@@ -17,7 +17,7 @@
    tactic:"Abrir com posicionamento e iniciativa; Ataque Especial para acerto/dano, depois Emboscar e furtividade quando obtidos. Não gastar PM acima do limite."},
   aizen:{
    title:"Ilusionista e estrategista",origin:"estudioso",benefits:["Conhecimento","Guerra"],
-   buy:{FOR:0,DEX:2,CON:1,INT:3,SAB:2,CAR:1},bonuses:["INT","SAB","CAR"],
+   buy:{FOR:0,DES:2,CON:1,INT:3,SAB:2,CAR:1},bonuses:["INT","SAB","CAR"],
    skills:["Misticismo","Vontade","Conhecimento","Guerra","Enganação","Intuição"],arcanePath:"mago",
    flow:[["arcanista",12]],
    powers:{arcanista:["envolto-misterio","magia-pungente","especialista-escola","fortalecimento-arcano","poder-magico","familiar","arcano-batalha","raio-arcano","fluxo-mana","raio-elemental","raio-poderoso"]},
@@ -34,7 +34,7 @@
    ]},
   vegitto:{
    title:"Fusão Potara — combate desarmado",origin:"gladiador",benefits:["Atuação","Luta"],
-   buy:{FOR:3,DEX:2,CON:2,INT:0,SAB:1,CAR:1},bonuses:["FOR","DEX","CON"],
+   buy:{FOR:3,DES:2,CON:2,INT:0,SAB:1,CAR:1},bonuses:["FOR","DES","CON"],
    skills:["Fortitude","Luta","Atletismo","Iniciativa","Reflexos","Atuação"],
    flow:[["lutador",9],["guerreiro",3]],
    powers:{lutador:["ate-acertar","bracos-calejados","cabecada","golpe-baixo","golpe-imprudente","trocacao","punhos-adamante","rasteira"],guerreiro:["impeto","valentao"]},
@@ -43,7 +43,7 @@
    tactic:"Usar Golpe Relâmpago com planejamento de PM; Trocação somente após Lutador 6 e quando acertar."},
   gogeta:{
    title:"Fusão Metamoru — precisão e investidas",origin:"gladiador",benefits:["Atuação","Luta"],
-   buy:{FOR:3,DEX:2,CON:2,INT:0,SAB:1,CAR:1},bonuses:["FOR","DEX","CON"],
+   buy:{FOR:3,DES:2,CON:2,INT:0,SAB:1,CAR:1},bonuses:["FOR","DES","CON"],
    skills:["Fortitude","Luta","Atletismo","Iniciativa","Reflexos","Atuação"],
    flow:[["lutador",9],["guerreiro",3]],
    powers:{lutador:["voadora","lutador-chao","cabecada","golpe-imprudente","golpe-baixo","trocacao","punhos-adamante","rasteira"],guerreiro:["bater-correr","ataque-reflexo"]},
@@ -52,7 +52,7 @@
    tactic:"Combinar investida e Voadora, depois Trocação com PM contados; armas e golpes de energia não são concedidos."},
   "soul-of-cinder":{
    title:"Guardião das cinzas — lâmina e chama",origin:"soldado",benefits:["Guerra","Pontaria"],
-   buy:{FOR:3,DEX:2,CON:2,INT:1,SAB:1,CAR:0},bonuses:["FOR","CON","INT"],
+   buy:{FOR:3,DES:2,CON:2,INT:1,SAB:1,CAR:0},bonuses:["FOR","CON","INT"],
    skills:["Luta","Fortitude","Guerra","Pontaria","Misticismo","Vontade"],arcanePath:"bruxo",
    flow:[["guerreiro",8],["arcanista",4]],
    powers:{guerreiro:["valentao","bater-correr","especializacao-arma","golpe-pessoal","impeto","romper-resistencias","golpe-raspao"],arcanista:["raio-arcano","arcano-batalha","foco-vital"]},
@@ -62,7 +62,7 @@
    spells:[["Armadura Arcana",1,1],["Explosão de Chamas",1,1],["Imagem Espelhada",1,1],["Raio do Enfraquecimento",1,2],["Seta Infalível de Talude",1,3],["Criar Ilusão",1,4]]},
   isaac:{
    title:"Lágrimas arcanas — sobrevivência",origin:"eremita",benefits:["Misticismo","Sobrevivência"],
-   buy:{FOR:0,DEX:2,CON:1,INT:3,SAB:2,CAR:1},bonuses:["INT","DEX","CON"],
+   buy:{FOR:0,DES:2,CON:1,INT:3,SAB:2,CAR:1},bonuses:["INT","DES","CON"],
    skills:["Misticismo","Vontade","Sobrevivência","Conhecimento","Reflexos","Percepção"],arcanePath:"bruxo",
    flow:[["arcanista",12]],
    powers:{arcanista:["raio-arcano","arcano-batalha","familiar","raio-elemental","fortalecimento-arcano","magia-pungente","poder-magico","raio-poderoso","fluxo-mana","envolto-misterio","foco-vital"]},
@@ -75,7 +75,7 @@
     ["Ilusão Lacerante",3,9],["Imobilizar",3,10],["Miragem",3,11],["Dissipar Magia",2,12]]},
   adao:{
    title:"Pai da humanidade — resposta marcial",origin:"gladiador",benefits:["Atuação","Luta"],
-   buy:{FOR:2,DEX:3,CON:2,INT:1,SAB:1,CAR:0},bonuses:["FOR","DEX","CON"],
+   buy:{FOR:2,DES:3,CON:2,INT:1,SAB:1,CAR:0},bonuses:["FOR","DES","CON"],
    skills:["Fortitude","Luta","Atletismo","Iniciativa","Reflexos","Atuação"],
    flow:[["lutador",8],["guerreiro",4]],
    powers:{lutador:["ate-acertar","bracos-calejados","convencido","golpe-baixo","golpe-imprudente","trocacao","punhos-adamante"],guerreiro:["valentao","ataque-reflexo","impeto"]},
@@ -84,7 +84,7 @@
    tactic:"Reagir a deslocamento, usar defesa de Lutador e administrar pressão com Golpe Relâmpago; prever limite de PM."},
   grimm:{
    title:"Espadachim amaldiçoado — jornada sombria",origin:"forasteiro",benefits:["Cavalgar","Sobrevivência"],
-   buy:{FOR:2,DEX:2,CON:2,INT:3,SAB:0,CAR:0},bonuses:["FOR","INT","CON"],
+   buy:{FOR:2,DES:2,CON:2,INT:3,SAB:0,CAR:0},bonuses:["FOR","INT","CON"],
    skills:["Luta","Fortitude","Sobrevivência","Cavalgar","Misticismo","Vontade"],arcanePath:"bruxo",
    flow:[["guerreiro",8],["arcanista",4]],
    powers:{guerreiro:["esgrimista","bater-correr","especializacao-arma","golpe-pessoal","impeto","romper-resistencias","golpe-raspao"],arcanista:["magia-pungente","raio-arcano","foco-vital"]},
@@ -94,7 +94,7 @@
    spells:[["Criar Ilusão",1,1],["Amedrontar",1,1],["Armadura Arcana",1,1],["Imagem Espelhada",1,2],["Disfarce Ilusório",1,3],["Adaga Mental",1,4]]},
   sekiro:{
    title:"Lobo de um braço — espada e infiltração",origin:"criminoso",benefits:["Furtividade","Ladinagem"],
-   buy:{FOR:2,DEX:3,CON:2,INT:1,SAB:1,CAR:0},bonuses:["DEX","CON","INT"],
+   buy:{FOR:2,DES:3,CON:2,INT:1,SAB:1,CAR:0},bonuses:["DES","CON","INT"],
    skills:["Luta","Fortitude","Furtividade","Iniciativa","Ladinagem","Reflexos","Percepção"],
    flow:[["guerreiro",8],["ladino",4]],
    powers:{guerreiro:["esgrimista","bater-correr","especializacao-arma","golpe-pessoal","impeto","romper-resistencias","golpe-raspao"],ladino:["sombra","velocidade-ladina","emboscar"]},
@@ -103,7 +103,7 @@
    tactic:"Movimente-se, cubra flancos, ataque com espada. Use Sombra e Velocidade Ladina apenas após adquirir os níveis de Ladino."},
   kaneki:{
    title:"Ghoul — agressão e resiliência",origin:"pivete",benefits:["Furtividade","Iniciativa"],
-   buy:{FOR:3,DEX:2,CON:3,INT:0,SAB:0,CAR:0},bonuses:["FOR","CON","DEX"],
+   buy:{FOR:3,DES:2,CON:3,INT:0,SAB:0,CAR:0},bonuses:["FOR","CON","DES"],
    skills:["Fortitude","Luta","Furtividade","Iniciativa","Atletismo","Reflexos"],
    flow:[["lutador",9],["ladino",3]],
    powers:{lutador:["sarado","bracos-calejados","golpe-imprudente","golpe-baixo","rasteira","trocacao","punhos-adamante","convencido"],ladino:["emboscar","sombra"]},
