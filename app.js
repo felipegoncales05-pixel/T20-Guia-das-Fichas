@@ -10,6 +10,11 @@ const e=(v)=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"
 const url=(u)=>/^https:\/\//.test(String(u||""))?e(u):"#";
 const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,")?e(u):url(u);
 const icon=(v)=>e(v||"◈");
+const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
+const normalizeSearch=(v)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").replace(/[^a-z0-9]+/g," ").trim();
+const archiveCategory=(c)=>c.catalogCategory||(["gyro","diego"].includes(c.id)?"jojo":["cipher","cyrene"].includes(c.id)?"hsr":["rentarou","marin"].includes(c.id)?"romcom":["yoru","makima"].includes(c.id)?"chainsaw":c.id==="ado"?"music":c.id==="optimus"?"transformers":"cyberpunk");
+const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c.id==="goku"?"Dragon Ball Z GT Daima Super":""].filter(Boolean).join(" "));
+
 const charById=(id)=>id==="goku"&&window.T20_GOKU_VARIANTS?.[gokuMode]?window.T20_GOKU_VARIANTS[gokuMode]:id==="diego"&&diegoMode==="alternative"&&window.T20_ALTERNATES?.diego?.alternative?window.T20_ALTERNATES.diego.alternative:data.characters.find(c=>c.id===id);
 function image(src,alt,css=""){return '<img class="'+e(css)+'" loading="lazy" decoding="async" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),3200)}
@@ -112,10 +117,26 @@ function card(c){return '<button type="button" class="roster-card '+e(c.theme)+'
 function listView(){document.body.removeAttribute("data-theme");document.body.style?.removeProperty?.("--char-color");document.title="O Sistema // T20 — Arquivo de Fichas";root.innerHTML=
 '<div class="container"><section class="landing-hero" aria-label="Arquivo de personagens"><div><div class="kicker">ARQUIVO CENTRAL // FICHAS DE COMBATE</div><h1>TODOS OS MUNDOS.<br><em>INFINITAS BUILDS.</em></h1><p>Personagens de outras histórias convertidos em fichas jogáveis de Tormenta20. Selecione um operador, compare os atributos e explore cada técnica até a evolução final.</p></div><div class="hero-mark" aria-hidden="true">T20</div></section>'+
 '<div class="stats-strip"><div class="mini-stat"><strong>'+String(data.characters.length).padStart(2,"0")+'</strong><span>DOSSIÊS<br>DISPONÍVEIS</span></div><div class="mini-stat"><strong>12</strong><span>NÍVEIS<br>POR FICHA</span></div><div class="mini-stat"><strong>06</strong><span>ATRIBUTOS<br>POR RADAR</span></div></div>'+
-'<section aria-labelledby="roster-title"><div class="list-toolbar"><div><div class="corner-label">SISTEMA DE IDENTIFICAÇÃO // SELEÇÃO</div><h2 id="roster-title">ARQUIVO DE PERSONAGENS</h2></div><div class="filters"><label class="filter-label" for="search">BUSCA</label><input class="search-input" id="search" type="search" placeholder="Buscar personagem..." autocomplete="off" value="'+e(search)+'"><label class="filter-label" for="universe">UNIVERSO</label><select class="filter-select" id="universe"><option value="all">Todos os universos</option><option value="jojo">Steel Ball Run</option><option value="cyberpunk">Cyberpunk</option><option value="hsr">Honkai: Star Rail</option><option value="romcom">Romance & Cosplay</option><option value="chainsaw">Chainsaw Man</option><option value="music">Música / Ado</option><option value="transformers">Transformers</option><option value="jjk">Jujutsu Kaisen</option><option value="dragonball">Dragon Ball</option><option value="chrysos">Herdeiros de Chrysos</option><option value="emanator">Emanadores</option><option value="signalis">SIGNALIS</option></select></div></div><div class="roster-grid" id="roster" aria-live="polite"></div></section>'+
+'<section aria-labelledby="roster-title"><div class="list-toolbar"><div><div class="corner-label">SISTEMA DE IDENTIFICAÇÃO // SELEÇÃO</div><h2 id="roster-title">ARQUIVO DE PERSONAGENS</h2></div><div class="filters"><div class="search-field"><label class="filter-label" for="search">PESQUISAR FICHAS</label><div class="search-field-inner"><span class="search-magnifier" aria-hidden="true">⌕</span><input class="search-input" id="search" type="search" placeholder="Nome, personagem, classe ou universo..." autocomplete="off" enterkeyhint="search" value="'+e(search)+'"><button type="button" class="clear-search" data-clear-search aria-label="Limpar pesquisa" title="Limpar pesquisa">LIMPAR ×</button></div></div><div class="filter-field"><label class="filter-label" for="universe">FILTRAR POR UNIVERSO</label><select class="filter-select" id="universe"><option value="all">Todos os universos</option><option value="jojo">JoJo</option><option value="cyberpunk">Cyberpunk</option><option value="hsr">Honkai: Star Rail</option><option value="romcom">Romance & Cosplay</option><option value="chainsaw">Chainsaw Man</option><option value="music">Música / Ado</option><option value="transformers">Transformers</option><option value="jjk">Jujutsu Kaisen</option><option value="dragonball">Dragon Ball</option><option value="chrysos">Herdeiros de Chrysos</option><option value="emanator">Emanadores</option><option value="signalis">SIGNALIS</option></select></div></div></div><div class="catalog-meta"><span id="resultsCount" role="status" aria-live="polite"></span><span class="catalog-sort-label">⇅ ORDEM ALFABÉTICA · A–Z</span></div><div class="roster-grid" id="roster" aria-live="polite"></div></section>'+
 '<div class="rule-note"><b>O SISTEMA //</b><span>Construções independentes, com regras oficiais e alterações apenas de aparência/narrativa. Cada ficha inclui fontes, limitações e pontos que exigem aprovação do mestre.</span></div></div>';
 const input=document.getElementById("search"),select=document.getElementById("universe");input.value=search;select.value=universe;updateCards();lastRoute="library"}
-function updateCards(){const slot=document.getElementById("roster");if(!slot)return;const matches=data.characters.filter(c=>{const cat=c.catalogCategory||(["gyro","diego"].includes(c.id)?"jojo":["cipher","cyrene"].includes(c.id)?"hsr":["rentarou","marin"].includes(c.id)?"romcom":["yoru","makima"].includes(c.id)?"chainsaw":c.id==="ado"?"music":c.id==="optimus"?"transformers":"cyberpunk");return(universe==="all"||universe===cat||(universe==="hsr"&&["chrysos","emanator"].includes(cat)))&&(!search||[c.name,c.label,c.info.className,c.universe].join(" ").toLowerCase().includes(search.toLowerCase()))});slot.innerHTML=matches.length?matches.map(card).join(""):'<div class="empty-state">Nenhum dossiê corresponde à busca. Tente outro nome ou universo.</div>'}
+function updateCards(){
+ const slot=document.getElementById("roster");if(!slot)return;
+ const words=normalizeSearch(search).split(" ").filter(Boolean);
+ const matches=data.characters.filter(c=>{
+  const cat=archiveCategory(c);
+  const categoryOK=universe==="all"||universe===cat||(universe==="hsr"&&["chrysos","emanator"].includes(cat));
+  if(!categoryOK)return false;
+  const terms=archiveTerms(c);
+  return words.every(word=>terms.includes(word));
+ }).sort((a,b)=>collator.compare(a.name,b.name)||collator.compare(a.universe,b.universe)||collator.compare(a.id,b.id));
+ slot.innerHTML=matches.length?matches.map(card).join(""):'<div class="empty-state">NENHUM DOSSIÊ ENCONTRADO // Experimente outro nome ou selecione Todos os universos.</div>';
+ const count=document.getElementById("resultsCount");
+ if(count)count.textContent=String(matches.length).padStart(2,"0")+" DE "+String(data.characters.length).padStart(2,"0")+" FICHAS EXIBIDAS";
+ const clear=document.querySelector?.("[data-clear-search]");
+ if(clear){clear.disabled=!search;clear.setAttribute("aria-hidden",search?"false":"true")}
+}
+
 function cover(c){return '<section class="detail-hero" aria-labelledby="character-title"><div class="hero-watermark" aria-hidden="true">'+icon(c.symbol)+'</div><div class="hero-copy"><div class="kicker">DOSSIÊ '+e(c.number)+' // '+e(c.label)+'</div><h1 id="character-title">'+e(c.name)+'</h1><p>'+e(c.excerpt)+'</p><div class="hero-chips"><span class="chip strong">NÍVEL INICIAL 01</span><span class="chip">'+e(c.info.race)+'</span><span class="chip">'+e(c.info.className)+'</span></div></div><div class="hero-portrait">'+image(c.portrait.url,"Referência de "+c.name)+'</div></section>'}
 function quickStats(c){
  const v=statFor(c,selectedLevel);
@@ -234,10 +255,20 @@ document.addEventListener("click",evt=>{
    toast(diegoMode==="alternative"?"REALIDADE ALTERNATIVA // THE WORLD":"REALIDADE ORIGINAL // SCARY MONSTERS");
    return;
  }
+ const clear=evt.target.closest("[data-clear-search]");
+ if(clear){search="";const input=document.getElementById("search");if(input){input.value="";input.focus()}updateCards();return}
  const card=evt.target.closest("[data-open]");if(card){if(card.dataset.open==="diego")diegoMode="normal";if(card.dataset.open==="goku")gokuMode="z";location.hash=linkFor(charById(card.dataset.open));return}const tab=evt.target.closest("[data-tab]");if(tab){const char=getRoute().character;if(char)location.hash=linkFor(char,tab.dataset.tab);return}const copy=evt.target.closest("[data-copy]");if(copy){const c=charById(copy.dataset.copy);if(!c)return;if(!navigator.clipboard?.writeText){toast("Cópia indisponível neste navegador. Use o arquivo data.js.");return}navigator.clipboard.writeText(copySummary(c)).then(()=>toast("Resumo de "+c.name+" copiado."),()=>toast("Não foi possível copiar. Verifique permissões."))}});
 document.addEventListener("input",evt=>{if(evt.target.id==="search"){search=evt.target.value;updateCards()}if(evt.target.id==="levelSelect"||evt.target.id==="globalLevel"){updateLevel(evt.target.value)}});
 document.addEventListener("change",evt=>{if(evt.target.id==="universe"){universe=evt.target.value;updateCards()}});
 document.addEventListener("error",evt=>{const im=evt.target;if(!(im instanceof HTMLImageElement))return;const replacement=document.createElement("div");replacement.className="img-fallback";replacement.setAttribute("role","img");replacement.setAttribute("aria-label","Imagem indisponível: "+im.alt);const mark=document.createElement("b");mark.textContent="◈";const msg=document.createElement("span");msg.textContent="IMAGEM EXTERNA INDISPONÍVEL";replacement.append(mark,msg);im.replaceWith(replacement)},true);
-document.addEventListener("keydown",evt=>{if(evt.key==="Escape"&&getRoute().character){location.hash="#/"}});
+document.addEventListener("keydown",evt=>{
+ if(evt.key==="/"&&(!getRoute().character)&&!["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName||"")){
+  evt.preventDefault();document.getElementById("search")?.focus();return;
+ }
+ if(evt.key==="Escape"){
+  if(!getRoute().character&&search){search="";const input=document.getElementById("search");if(input)input.value="";updateCards()}
+  else if(getRoute().character)location.hash="#/";
+ }
+});
 window.addEventListener("hashchange",render);render();
 })();
