@@ -84,6 +84,14 @@
  sekiro:["Esgrima, infiltração e equipamentos protéticos","Reviver é recurso de jogo externo e não T20 grátis","","Inovador só se a mesa aprovar arsenal superior variado"],
  kaneki:["Combate ágil de ghoul e resistência à dor","Kagune precisa de arma/ataque natural formal","","Atleta tiraria golpes relevantes do Lutador"]
  };
+ const selectedPowers={
+  // Índices 1–12. Somente poderes já cadastrados e com nível compatível.
+  cipher:["","mente-criminosa","gatuno","sombra","assassinar","escapista","emboscar","rolamento-defensivo","velocidade-ladina","","",""],
+  "jojo-diavolo":["","mente-criminosa","sombra","emboscar","assassinar","escapista","gatuno","rolamento-defensivo","velocidade-ladina","","",""],
+  "jojo-joseph":["","mente-criminosa","gatuno","emboscar","escapista","sombra","velocidade-ladina","rolamento-defensivo","","","",""],
+  "hsr-castorice":["","poder-magico","magia-pungente","conhecimento-magico","fortalecimento-arcano","familiar","arcano-batalha","raio-arcano","conhecimento-magico","fluxo-mana","raio-elemental","raio-poderoso"],
+  shigaraki:["","arcano-batalha","magia-pungente","raio-arcano","fortalecimento-arcano","poder-magico","raio-elemental","raio-poderoso","conhecimento-magico","fluxo-mana","familiar","conhecimento-magico"]
+ };
  const main=data.characters||[];
  const ids=main.map(c=>c.id),missing=ids.filter(id=>!plans[id]);
  if(main.length!==69||missing.length||Object.keys(plans).length!==69||new Set(ids).size!==69){
@@ -126,11 +134,18 @@
   const refs=variant?[["heroes",variant.source.page,"Classe variante "+variant.name]]:[];
   const newLevels=[];
   const guideLevels=[];
+  const selectedByLevel=[];
   for(let idx=0;idx<12;idx++){
    const old=originalProgress[idx],oldGuide=existing.levels[idx]||{},lv=idx+1;
    const stage=stages[idx],step=rulesForLevel(variant,lv);
    const cleanGain=step?[...step.kept,...step.gained]:[];
-   const powerSlot=variant&&lv>=2?"Poder de "+(classId==="ladino"?"Ladino":"Arcanista")+" (escolha compatível a revisar)":null;
+   const selectedPowerId=selectedPowers[c.id]?.[idx]||"";
+   const selectedPower=selectedPowerId?rules.abilities[selectedPowerId]:null;
+   if(selectedPowerId&&(selectedPower?.classId!==classId||selectedPower?.kind!=="poder"||selectedPower?.requires?.classLevel>lv))
+    throw Error("Poder de classe incompatível: "+c.id+"/"+lv+"/"+selectedPowerId);
+   selectedByLevel.push(selectedPowerId);
+   const powerSlot=variant&&lv>=2?(selectedPower?"Poder de "+(classId==="ladino"?"Ladino":"Arcanista")+": "+selectedPower.name:
+    "Poder de "+(classId==="ladino"?"Ladino":"Arcanista")+" (seleção editorial pendente)"):null;
    const title=variant?(variant.name+" "+lv+" · "+(cleanGain.join(" / ")||(powerSlot||"Poder de classe"))+(cleanGain.length&&powerSlot?" · "+powerSlot:"")):old[1];
    const priorDesc=String(old[2]||"");
    const priorWhy=String(oldGuide.why||"");
@@ -138,7 +153,7 @@
    // Não dar poderes da classe original por associação de palavras ou por narrativa.
    // Poderes selecionáveis antes existentes precisam passar nos pré-requisitos da variante.
    const why=(variant
-    ?stage+": "+identity+". "+(cleanGain.length?"A tabela da variante concede "+cleanGain.join(", ")+". ":"A tabela da variante não concede habilidade automática adicional neste patamar. ")+"Escolhas de poderes de "+(c.info.className||classId)+" exigem revisão separada."
+    ?stage+": "+identity+". "+(cleanGain.length?"A tabela da variante concede "+cleanGain.join(", ")+". ":"A tabela da variante não concede habilidade automática adicional neste patamar. ")+"Seleção de poder no nível "+lv+": "+(selectedPower?selectedPower.name+" (requisito e edição conferidos no catálogo).":"pendente de conferência, sem bônus automático.")
     :priorWhy+" Revisão de classe (Fase IV, nível "+lv+"): "+stage.toLowerCase()+" para "+identity.toLowerCase()+". A classe básica foi mantida porque "+comparison.toLowerCase()+".");
    const use=(variant
     ?"Na mesa, obtenha somente as habilidades listadas na tabela de "+assigned+" neste nível, observando custo em PM, ação, alvo e condições. "+caution+". "+(priorUse?"A proposta anterior fica como referência, não como poder extra: "+priorUse:"")
@@ -147,7 +162,7 @@
     ?"TABELA "+assigned+" · "+stage+". "+(cleanGain.length?"Automáticas: "+cleanGain.join(", ")+". ":"Sem automáticas adicionais. ")+
      "Poderes de "+classId+" e outras escolhas anteriores só permanecem se legalmente selecionados e com pré-requisitos; "+caution+"."
     :priorDesc+" | FASE IV: "+stage+" — "+identity+". "+caution+".");
-   const nextRef=[...refs,...(Array.isArray(oldGuide.ref)?oldGuide.ref:[])];
+   const nextRef=[...refs,...(selectedPower?[["core",selectedPower.source?.page||"cap. 1",selectedPower.name]]:[]),...(Array.isArray(oldGuide.ref)?oldGuide.ref:[])];
    const seen=new Set();
    const filteredRef=nextRef.filter(r=>{const key=r.join("|");if(seen.has(key))return false;seen.add(key);return true;});
    newLevels.push([old[0],title,rowDetail]);
@@ -170,7 +185,7 @@
     "Classe já existente preservada; progressão e uso reanalisados sem forçar variante.",
    comparison,
    derivedNumbers:"LEGADOS — conferência pendente (PV/PM/Defesa/ataques/equipamento)",
-   reviewStatus:"revisao-pendente",
+   reviewStatus:"revisao-pendente",selectedPowers:selectedByLevel,
    levels:newLevels.map((x,i)=>({level:i+1,title:x[1],reason:guideLevels[i].why,use:guideLevels[i].use,
     ref:guideLevels[i].ref,original:originalProgress[i][1]}))
   };
@@ -197,6 +212,7 @@
    d.levels=c.progression.map((p,i)=>({...engine.emptyLevel(),
     classId:known?rec.classId:"",
     variantId:i===0?(rec.chosenVariant||""):"",
+    powerId:rec.selectedPowers?.[i]||"",
     why:c._guide.levels[i].why.slice(0,600),
     usage:c._guide.levels[i].use.slice(0,600),
     sourceNote:rec.source?.pages?"Heróis de Arton v1.1, p. "+rec.source.pages:"Jogo do Ano v1.3; conferir poder descrito"
