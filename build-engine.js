@@ -10,7 +10,7 @@
  const emptyLevel=()=>({classId:"",variantId:"",powerId:"",powerVersion:"",why:"",usage:"",synergy:"",limits:"",sourceNote:"",
   customPowerName:"",customPowerBook:"",customPowerPage:"",customPowerEdition:"",customPowerPrereqs:"",customPowerEffect:"",customPowerVersions:"",customPowerAmbiguity:""});
  const makeDraft=(seed={})=>({schemaVersion:VERSION,id:seed.id&&/^local-[a-z0-9-]{8,70}$/.test(seed.id)?seed.id:"local-"+(globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2)),
-  catalogId:short(seed.catalogId,60),name:short(seed.name||"Nova ficha",100),work:short(seed.work,100),description:"",theme:short(seed.theme||"arquivo",30),raceId:"",raceBonuses:[],originId:"",originBenefits:[],trainedSkills:[],arcanePath:"",narrativeSubclass:"",distinctions:[],spellbook:[],allowedBooks:["jda-1.3"],attributes:Object.fromEntries(KEYS.map(k=>[k,0])),levels:[emptyLevel()],inventory:[],combat:Object.fromEntries(COMBAT.map(k=>[k,""])),notes:"",status:"rascunho"});
+  catalogId:short(seed.catalogId,60),name:short(seed.name||"Nova ficha",100),work:short(seed.work,100),description:"",theme:short(seed.theme||"arquivo",30),raceId:"",raceBonuses:[],originId:"",originBenefits:[],trainedSkills:[],arcanePath:"",narrativeSubclass:"",distinctions:[],spellbook:[],allowedBooks:["jda-1.3"],attributes:Object.fromEntries(KEYS.map(k=>[k,0])),levels:[emptyLevel()],inventory:[],combat:Object.fromEntries(COMBAT.map(k=>[k,""])),notes:"",status:"rascunho",legacyFields:{},levelLegacy:[]});
  function normalize(raw){
   if(!raw||typeof raw!=="object"||raw.schemaVersion!==VERSION||!/^local-[a-z0-9-]{8,70}$/.test(raw.id||""))throw Error("Formato de ficha local inválido.");
   if(!Array.isArray(raw.levels)||!raw.levels.length||raw.levels.length>MAX_LEVEL||!Array.isArray(raw.allowedBooks)||!Array.isArray(raw.inventory))throw Error("Progressão ou livros inválidos.");
@@ -31,6 +31,23 @@
   for(const key of KEYS){const v=raw.attributes?.[key];clean.attributes[key]=Number.isInteger(v)&&v>=-1&&v<=4?v:0}
   clean.levels=raw.levels.map(row=>Object.fromEntries(Object.keys(emptyLevel()).map(key=>[key,short(row?.[key],["classId","variantId","powerId","powerVersion"].includes(key)?60:600)])));
   clean.inventory=raw.inventory.map(item=>({name:short(item?.name,100),note:short(item?.note,300),quantity:Math.min(99,Math.max(1,Number.parseInt(item?.quantity,10)||1))})).filter(x=>x.name);
+  // Preservar campos desconhecidos em área de compatibilidade, nunca descartá-los.
+  const legacy=(obj,known)=>{
+   const extra={};
+   for(const [key,val] of Object.entries(obj||{})){
+    if(known.has(key)||key==="__proto__"||key==="constructor"||key==="prototype")continue;
+    const data=JSON.stringify(val);
+    if(data&&data.length<=10000&&Object.keys(extra).length<40)extra[key]=JSON.parse(data);
+   }
+   return extra;
+  };
+  const safeObject=x=>x&&typeof x==="object"&&!Array.isArray(x)?x:{};
+  clean.legacyFields={...legacy(safeObject(raw.legacyFields),new Set()),
+   ...legacy(raw,new Set([...Object.keys(clean),"legacyFields","levelLegacy"]))};
+  clean.levelLegacy=clean.levels.map((_,i)=>({
+   ...legacy(safeObject(raw.levelLegacy?.[i]),new Set()),
+   ...legacy(safeObject(raw.levels[i]),new Set(Object.keys(emptyLevel())))
+  }));
   return clean;
  }
  function evaluate(raw){
