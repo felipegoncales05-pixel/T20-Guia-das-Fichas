@@ -4,7 +4,7 @@ const assert=require("node:assert/strict");
 const engine=require("../build-engine.js");
 const {rules,options}=engine;
 const cases=[
- ["atleta","lutador","briga",["briga","atleta-facanha"],["briga","atleta-mobilidade"]],
+ ["atleta","lutador","golpe-relampago",["briga","atleta-facanha"],["briga","atleta-mobilidade"]],
  ["inovador","guerreiro","ataque-especial",["inovador-equipamento","inovador-sequencia"],["inovador-sequencia"]],
  ["necromante","arcanista","caminho-arcanista",["magias-arcanas","necro-caminho","necro-mortos"],["magias-circulo-2","necro-potencia"]],
  ["ventanista","ladino","ataque-furtivo",["ventanista-charme","ventanista-truques"],[]]
