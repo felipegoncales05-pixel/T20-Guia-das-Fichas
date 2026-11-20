@@ -3,13 +3,14 @@
 (()=>{
  "use strict";
  const rules=typeof module!=="undefined"&&module.exports?require("./rules-catalog.js"):window.T20_RULES;
+ const options=typeof module!=="undefined"&&module.exports?require("./class-options.js"):window.T20_CLASS_OPTIONS;
  const KEYS=["FOR","DES","CON","INT","SAB","CAR"],MAX_LEVEL=12,VERSION=1;
  const COMBAT=["style","opening","combos","resources","strengths","weaknesses","evolution"];
  const short=(v,n=500)=>String(v??"").slice(0,n);
  const emptyLevel=()=>({classId:"",variantId:"",powerId:"",powerVersion:"",why:"",usage:"",synergy:"",limits:"",sourceNote:"",
   customPowerName:"",customPowerBook:"",customPowerPage:"",customPowerEdition:"",customPowerPrereqs:"",customPowerEffect:"",customPowerVersions:"",customPowerAmbiguity:""});
  const makeDraft=(seed={})=>({schemaVersion:VERSION,id:seed.id&&/^local-[a-z0-9-]{8,70}$/.test(seed.id)?seed.id:"local-"+(globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2)),
-  catalogId:short(seed.catalogId,60),name:short(seed.name||"Nova ficha",100),work:short(seed.work,100),description:"",theme:short(seed.theme||"arquivo",30),raceId:"",raceBonuses:[],originId:"",originBenefits:[],trainedSkills:[],arcanePath:"",spellbook:[],allowedBooks:["jda-1.3"],attributes:Object.fromEntries(KEYS.map(k=>[k,0])),levels:[emptyLevel()],inventory:[],combat:Object.fromEntries(COMBAT.map(k=>[k,""])),notes:"",status:"rascunho"});
+  catalogId:short(seed.catalogId,60),name:short(seed.name||"Nova ficha",100),work:short(seed.work,100),description:"",theme:short(seed.theme||"arquivo",30),raceId:"",raceBonuses:[],originId:"",originBenefits:[],trainedSkills:[],arcanePath:"",narrativeSubclass:"",distinctions:[],spellbook:[],allowedBooks:["jda-1.3"],attributes:Object.fromEntries(KEYS.map(k=>[k,0])),levels:[emptyLevel()],inventory:[],combat:Object.fromEntries(COMBAT.map(k=>[k,""])),notes:"",status:"rascunho"});
  function normalize(raw){
   if(!raw||typeof raw!=="object"||raw.schemaVersion!==VERSION||!/^local-[a-z0-9-]{8,70}$/.test(raw.id||""))throw Error("Formato de ficha local inválido.");
   if(!Array.isArray(raw.levels)||!raw.levels.length||raw.levels.length>MAX_LEVEL||!Array.isArray(raw.allowedBooks)||!Array.isArray(raw.inventory))throw Error("Progressão ou livros inválidos.");
@@ -21,6 +22,8 @@
   clean.originBenefits=Array.isArray(raw.originBenefits)?raw.originBenefits.slice(0,2).map(x=>short(x,70)):[];
   clean.trainedSkills=Array.isArray(raw.trainedSkills)?[...new Set(raw.trainedSkills.slice(0,25).map(x=>short(x,70)))]:[];
   clean.arcanePath=["mago","bruxo","feiticeiro"].includes(raw.arcanePath)?raw.arcanePath:"";
+  clean.narrativeSubclass=short(raw.narrativeSubclass,100);
+  clean.distinctions=Array.isArray(raw.distinctions)?raw.distinctions.slice(0,8).map(options.distinctItem).filter(x=>x.id):[];
   clean.spellbook=Array.isArray(raw.spellbook)?raw.spellbook.slice(0,45).map(x=>({name:short(x?.name,80),circle:Number(x?.circle)||0,classLevel:Number(x?.classLevel)||0,why:short(x?.why,350),how:short(x?.how,400),source:short(x?.source,120)})).filter(x=>x.name):[];
   clean.raceBonuses=Array.isArray(raw.raceBonuses)?raw.raceBonuses.filter(k=>KEYS.includes(k)).slice(0,6):[];
   clean.allowedBooks=[...new Set(raw.allowedBooks.map(x=>short(x,40)))];
@@ -31,7 +34,9 @@
   return clean;
  }
  function evaluate(raw){
-  const sheet=normalize(raw),issues=[],rows=[],counts={},selected=new Set();
+  const sheet=normalize(raw),issues=[],rows=[],counts={},selected=new Set(),classVariants={};
+  const distinct=options.evaluateDistinctions(sheet.distinctions);
+  issues.push(...distinct.issues);
   const allowed=new Set(sheet.allowedBooks);
   const arcaneSpells=new Set([
     ["Criar Ilusão",1],["Hipnotismo",1],["Sono",1],["Enfeitiçar",1],["Disfarce Ilusório",1],["Imagem Espelhada",1],["Adaga Mental",1],
@@ -72,18 +77,27 @@
     if(row.customPowerVersions.trim()&&!row.customPowerAmbiguity.trim())issues.push("Nível "+(i+1)+": registre quais versões divergem e a interpretação adotada.");
     issues.push("Nível "+(i+1)+": opção de suplemento em revisão editorial, sem efeito automático no cálculo: "+row.customPowerName+".");
    }
-   if(row.variantId){issues.push("Nível "+(i+1)+": variante de classe sem regra de substituição e compatibilidade cadastrada.");canCalculate=false}
+   // Uma variante passa pelo resolvedor após contar o nível real da classe.
    if(!cls||!allowed.has(cls?.source.book)){
     issues.push("Nível "+(i+1)+": classe ausente ou livro não permitido.");
     canCalculate=false;rows.push({globalLevel:i+1,classId:row.classId,classLevel:null,pv:null,pm:null,grants:[],choice:null,firstClass:false});continue;
    }
    counts[row.classId]=(counts[row.classId]||0)+1;
    const classLevel=counts[row.classId],firstClass=i===0;
-   // A primeira entrada numa classe adicional usa o ganho subsequente de PV.
-   const hpDelta=firstClass?cls.initialPV+attrs.CON:Math.max(1,cls.gainPV+attrs.CON);
-   pv+=hpDelta;pm+=cls.gainPM;
+   if(classLevel===1)classVariants[row.classId]=row.variantId||"";
+   else if(row.variantId&&row.variantId!==classVariants[row.classId])
+    issues.push("Nível "+(i+1)+": troca retroativa de variante incompatível na classe "+cls.name+".");
+   const activeVariant=classVariants[row.classId]||"";
+   const resolved=options.resolveClassStep({classId:row.classId,classLevel,variantId:activeVariant,classRule:cls,
+    abilities:rules.abilities,allowedBooks:sheet.allowedBooks});
+   if(resolved.issues.length){issues.push(...resolved.issues.map(msg=>"Nível "+(i+1)+": "+msg));canCalculate=false}
+   if(row.variantId&&classLevel>1&&row.variantId!==activeVariant)canCalculate=false;
+   // Multiclasse não reinicia PV iniciais; as variantes usam o próprio perfil verificado.
+   const stats=resolved.stats||cls;
+   const hpDelta=firstClass?stats.initialPV+attrs.CON:Math.max(1,stats.gainPV+attrs.CON);
+   pv+=hpDelta;pm+=stats.gainPM;
    if(row.classId==="arcanista"&&classLevel===1)pm+=(sheet.arcanePath==="feiticeiro"?attrs.CAR:attrs.INT);
-   const grants=(cls.grants[classLevel]||[]).map(id=>({id,ability:rules.abilities[id]||null}));
+   const grants=resolved.grants.map(id=>({id,ability:rules.abilities[id]||null}));
    for(const grant of grants)if(!grant.ability?.manual)issues.push("Nível "+(i+1)+": manual de "+grant.id+" ainda não integrado.");
    if(grants.length&&(!row.why.trim()||!row.usage.trim()))issues.push("Nível "+(i+1)+": registre por que e como usa os ganhos automáticos desta classe.");
    if(classLevel>=cls.powerFrom){
@@ -102,7 +116,7 @@
      if(row.powerVersion){const version=ability.versions?.find(v=>v.id===row.powerVersion);if(!version||classLevel<version.minClassLevel)issues.push("Nível "+(i+1)+": versão indisponível de "+ability.name+".")}
     }
    }
-   rows.push({globalLevel:i+1,classId:row.classId,classLevel,firstClass,pv:canCalculate?pv:null,pm:canCalculate?pm:null,hpDelta,pmDelta:cls.gainPM,grants,choice:ability||null,
+   rows.push({globalLevel:i+1,classId:row.classId,classLevel,variantId:activeVariant,variant:resolved.variant,removedGrants:resolved.removed,addedGrants:resolved.added,firstClass,pv:canCalculate?pv:null,pm:canCalculate?pm:null,hpDelta,pmDelta:stats.gainPM,grants,choice:ability||null,
     newClass:classLevel===1&&!firstClass,source:cls.source,reason:row.why,usage:row.usage});
   }
   if(!sheet.name.trim())issues.push("Nome obrigatório.");
@@ -110,11 +124,11 @@
   // Poderes, magias e opções de origem não alteram automaticamente os subtotais acima.
   // O subtotal não inclui efeitos condicionais, origens, magias, distinções ou erratas.
   return {sheet,attributes:attrs,attributeCost:cost,rows,levelsByClass:counts,basePV:canCalculate?pv:null,basePM:canCalculate?pm:null,
-   issues:[...new Set(issues)],complete:false,summary:"Subtotal de PV/PM por níveis de classe, Constituição e atributo-chave de Arcanista; poderes, itens, origem e ajustes situacionais não incluídos."};
+   issues:[...new Set(issues)],distinctions:distinct.details,classVariants,complete:false,summary:"Subtotal de PV/PM por níveis de classe, Constituição e atributo-chave de Arcanista; poderes, itens, origem e ajustes situacionais não incluídos."};
  }
  function importJSON(json){if(typeof json!=="string"||json.length>250000)throw Error("Arquivo muito grande.");return normalize(JSON.parse(json))}
  function exportJSON(sheet){return JSON.stringify(normalize(sheet),null,2)}
- const api={VERSION,KEYS,MAX_LEVEL,makeDraft,emptyLevel,normalize,evaluate,importJSON,exportJSON,rules};
+ const api={VERSION,KEYS,MAX_LEVEL,makeDraft,emptyLevel,normalize,evaluate,importJSON,exportJSON,rules,options,recommend:(sheet)=>options.recommend(normalize(sheet),rules)};
  if(typeof module!=="undefined"&&module.exports)module.exports=api;
  if(typeof window!=="undefined")window.T20_BUILD_ENGINE=api;
 })();
