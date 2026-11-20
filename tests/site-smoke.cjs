@@ -51,6 +51,15 @@ for(const character of project.characters){
 
 assert.equal(project.characters.length,69);
 assert.equal(context.window.T20_CLASS_REVIEW.report.entries.length,73,"Auditoria incompleta: 69 dossiês e 4 variantes");
+assert.equal(context.window.T20_CLASS_REVIEW.report.revisedMain,69,"A auditoria deve registrar as 69 revisões");
+assert.equal(context.window.T20_CLASS_REVIEW.report.revisedSteps,828);
+assert.ok(context.window.T20_CLASS_REVIEW.report.entries.filter(x=>x.proposedChange).length>=69);
+assert.equal(context.window.T20_CLASS_REVIEW.backup.count,73);
+const priorBackup=context.window.T20_CLASS_REVIEW.backup.original.find(x=>x.id==="shigaraki");
+assert.equal(priorBackup.character.info.className,"Arcanista","O backup não pode conter a classe revista como original");
+assert.equal(priorBackup.character.progression[0][1],"Caminho do Arcanista e magias de 1º círculo");
+assert.equal(project.characters.find(x=>x.id==="shigaraki").info.className.includes("Necromante"),true);
+
 assert.equal(context.window.T20_CLASS_REVIEW.report.validation.uniqueIds,true);
 assert.equal(context.window.T20_CLASS_REVIEW.report.validation.actualVariants,4);
 assert.equal(context.window.T20_CLASS_REVIEW.report.validation.approvedCount,0,"Auditoria não pode aprovar regras sem fontes");
