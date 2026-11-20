@@ -57,7 +57,7 @@ assert.ok(f.issues.some(x=>x.includes('versão indisponível')));
 assert.equal(f.complete,false);
 forbidden.allowedBooks=['jda-1.3','livro-inexistente'];assert.throws(()=>evaluate(forbidden),/Livro não cadastrado/);
 const variant=readyBase(makeDraft());variant.levels=classes('guerreiro');variant.levels[0].variantId='variante-sem-compatibilidade';
-assert.ok(evaluate(variant).issues.some(x=>x.includes('variante de classe sem regra')));
+assert.ok(evaluate(variant).issues.some(x=>x.includes('regra de substituição')));
 assert.equal(evaluate(variant).basePV,null,"Variante não verificada não pode mostrar total de classe básica");
 const gap=readyBase(makeDraft());gap.levels=classes('','guerreiro');
 assert.equal(evaluate(gap).rows[1].pv,null,"Nível posterior não pode mostrar subtotal após classe ausente");
