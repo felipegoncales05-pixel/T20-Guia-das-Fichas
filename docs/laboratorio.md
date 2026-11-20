@@ -6,7 +6,7 @@ O laboratório (`#/laboratorio`) cria **fichas pessoais locais**, separadas dos 
 
 O catálogo inicial usa [Tormenta20 — Edição Jogo do Ano v1.3](https://jamboeditora.com.br/wp-content/uploads/2024/12/Tormenta20-Edicao-Jogo-do-Ano-v1.3.pdf), disponibilizada pela Jambô. Foram conferidos a compra de atributos (p. 17), Humano (p. 19), multiclasse (p. 35) e as tabelas de Guerreiro (p. 64–67), Ladino (p. 72–74) e Lutador (p. 75–77). As habilidades automáticas dessas três classes até o nível 12 têm manuais resumidos, condição, custo, efeito, limite, exemplo e página. O catálogo de **poderes escolhidos** é deliberadamente pequeno. O índice em `rules-catalog.js` ainda requer confronto com erratas posteriores antes de aprovar qualquer ficha.
 
-Heróis de Arton, Ameaças de Arton, Atlas de Arton, Deuses de Arton e Dragão Brasil estão no registro de livros com **opções mecânicas bloqueadas**. O nome do produto, por si só, não valida raça, classe variante, poder, magia ou equipamento. Para incorporar uma opção: conferir o texto na edição e errata adotadas, cadastrar sua fonte e página, pré-requisitos, substituições e manual, adicionar a validação necessária e obter autorização editorial da mesa. Classes variantes não são classes acumuláveis por padrão.
+Heróis de Arton passou ao estado **parcialmente catalogado** após consulta ao PDF v1.1; Atleta, Inovador, Necromante e Ventanista possuem níveis 1–12 indexados, mas cálculos finais continuam parciais. Ameaças, Atlas, Deuses e a coletânea Dragão Brasil permanecem com opções mecânicas pendentes. O nome do produto, por si só, não valida raça, classe variante, poder, magia ou equipamento. Para incorporar uma opção: conferir o texto na edição e errata adotadas, cadastrar sua fonte e página, pré-requisitos, substituições e manual, adicionar a validação necessária e obter autorização editorial da mesa. Classes variantes não são classes acumuláveis por padrão.
 
 ## O que o motor calcula
 
@@ -61,8 +61,15 @@ O arquivo \`build-presets.js\` agora pré-preenche uma proposta de 12 níveis pa
 
 ## Fase IV — Classes, caminhos de poder e auditoria
 
-O Laboratório dispõe do módulo `class-options.js` para diferenciar classe básica, variante, caminho, distinção e rótulo narrativo. O resolvedor de `build-engine.js` consegue aplicar regras de substituição **quando forem cadastradas com fonte, edição, página e pré-requisitos verificados**, sem duplicar habilidades ou reiniciar PV ao entrar em multiclasse. **Alquimista, Necromante e Duelista continuam pendentes mecanicamente**, e nenhuma distinção recebe poderes automáticos sem validação.
+O Laboratório dispõe do módulo `class-options.js` para diferenciar classe básica, variante, caminho, distinção e rótulo narrativo. O resolvedor de `build-engine.js` consegue aplicar regras de substituição **quando forem cadastradas com fonte, edição, página e pré-requisitos verificados**, sem duplicar habilidades ou reiniciar PV ao entrar em multiclasse. **Alquimista e Duelista continuam pendentes mecanicamente; Atleta, Inovador, Necromante e Ventanista já têm progressão estruturada de 1–12.** Nenhuma distinção recebe poderes automáticos sem validação.
 
 O painel **CLASSES // CAMINHOS DE PODER** registra variantes elegíveis da classe, compara substituições, armazena admissões de distinção e oferece análise conservadora. Para um livro ainda não conferido, ele informa a limitação em vez de recomendar uma adaptação fictícia. O campo de arquétipo narrativo não altera nenhuma regra. O `schemaVersion: 1` permanece compatível com os JSON antigos, enquanto informações adicionadas e campos desconhecidos são tratados separadamente para evitar perda silenciosa.
 
 Os botões **AUDITORIA 69 + 4** e **BACKUP DOSSIÊS** exportam manifestos JSON do catálogo carregado. O inventário nominal está em [fase-iv-inventario.json](fase-iv-inventario.json) e os limites concretos da expansão estão no [relatório da Fase IV](fase-iv-relatorio.md). As 69 revisões mecânicas individuais e a reconstrução dos guias **ainda não foram realizadas**; a auditoria é apenas o estado de partida para esse trabalho.
+
+
+### Consulta confirmada do suplemento Heróis de Arton v1.1
+
+A biblioteca fornecida permitiu mapear as **14** variantes e criar a progressão 1–12 de quatro variantes correspondentes às classes já parcialmente implementadas: Atleta/Lutador (p. 24–25), Inovador/Guerreiro (p. 30–31), Necromante/Arcanista (p. 34–35) e Ventanista/Ladino (p. 44–45). O suplemento é marcado como parcialmente indexado, **sem liberar automaticamente suas demais regras**. O campo de escola de magia foi adicionado para os filtros de Necromante e Ventanista. O motor preserva o total de PM adicional de Carisma do Ventanista, mas não calcula automaticamente recursos condicionais e escolhas narrativas.
+
+A classificação dos outros PDFs está em [Fontes da Fase IV](fontes-fase-iv.md). A progressão e o guia das 69 fichas não foram reconstruídos somente por existir uma nova fonte.
