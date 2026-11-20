@@ -46,6 +46,7 @@ jobs:
           node --check tests/site-smoke.cjs
           node --check tests/browser-lite.cjs
           node --check tests/responsive-browser.cjs
+          node --check tests/herois-variants.cjs
           node --check tests/class-options.cjs
           node --check tests/build-engine.cjs
           node --check tests/build-presets.cjs
@@ -53,6 +54,7 @@ jobs:
         run: |
           node tests/site-smoke.cjs
           node tests/browser-lite.cjs
+          node tests/herois-variants.cjs
           node tests/class-options.cjs
           node tests/build-engine.cjs
           node tests/build-presets.cjs
