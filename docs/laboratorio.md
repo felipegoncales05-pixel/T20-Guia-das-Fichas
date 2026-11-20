@@ -73,3 +73,7 @@ Os botões **AUDITORIA 69 + 4** e **BACKUP DOSSIÊS** exportam manifestos JSON d
 A biblioteca fornecida permitiu mapear as **14** variantes e criar a progressão 1–12 de quatro variantes correspondentes às classes já parcialmente implementadas: Atleta/Lutador (p. 24–25), Inovador/Guerreiro (p. 30–31), Necromante/Arcanista (p. 34–35) e Ventanista/Ladino (p. 44–45). O suplemento é marcado como parcialmente indexado, **sem liberar automaticamente suas demais regras**. O campo de escola de magia foi adicionado para os filtros de Necromante e Ventanista. O motor preserva o total de PM adicional de Carisma do Ventanista, mas não calcula automaticamente recursos condicionais e escolhas narrativas.
 
 A classificação dos outros PDFs está em [Fontes da Fase IV](fontes-fase-iv.md). A progressão e o guia das 69 fichas não foram reconstruídos somente por existir uma nova fonte.
+
+### Abrir qualquer ficha do arquivo (69/69)
+
+O Laboratório exibe os dez presets já existentes e, em **Ver as outras 59 fichas**, permite abrir os demais dossiês como rascunhos locais de 12 níveis. Também há link direto da aba **Progressão** de cada personagem. Os rascunhos preservam o nome, obra, objetivo, notas e progressão editorial; quando uma classe não foi integralmente indexada, seu cálculo permanece pendente — sem substituir a classe por outra sem consentimento. As cinco variantes aplicadas aparecem nos seus níveis com os poderes de classe conferidos e restrições explícitas.
