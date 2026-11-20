@@ -4,6 +4,7 @@
  "use strict";
  const rules=typeof module!=="undefined"&&module.exports?require("./rules-catalog.js"):window.T20_RULES;
  const options=typeof module!=="undefined"&&module.exports?require("./class-options.js"):window.T20_CLASS_OPTIONS;
+ if(typeof module!=="undefined"&&module.exports)require("./herois-variants.js").install(rules,options);
  const KEYS=["FOR","DES","CON","INT","SAB","CAR"],MAX_LEVEL=12,VERSION=1;
  const COMBAT=["style","opening","combos","resources","strengths","weaknesses","evolution"];
  const short=(v,n=500)=>String(v??"").slice(0,n);
@@ -21,10 +22,10 @@
   clean.raceId=short(raw.raceId,40);clean.originId=short(raw.originId,40);
   clean.originBenefits=Array.isArray(raw.originBenefits)?raw.originBenefits.slice(0,2).map(x=>short(x,70)):[];
   clean.trainedSkills=Array.isArray(raw.trainedSkills)?[...new Set(raw.trainedSkills.slice(0,25).map(x=>short(x,70)))]:[];
-  clean.arcanePath=["mago","bruxo","feiticeiro"].includes(raw.arcanePath)?raw.arcanePath:"";
+  clean.arcanePath=["mago","bruxo","feiticeiro","necromante"].includes(raw.arcanePath)?raw.arcanePath:"";
   clean.narrativeSubclass=short(raw.narrativeSubclass,100);
   clean.distinctions=Array.isArray(raw.distinctions)?raw.distinctions.slice(0,8).map(options.distinctItem).filter(x=>x.id):[];
-  clean.spellbook=Array.isArray(raw.spellbook)?raw.spellbook.slice(0,45).map(x=>({name:short(x?.name,80),circle:Number(x?.circle)||0,classLevel:Number(x?.classLevel)||0,why:short(x?.why,350),how:short(x?.how,400),source:short(x?.source,120)})).filter(x=>x.name):[];
+  clean.spellbook=Array.isArray(raw.spellbook)?raw.spellbook.slice(0,45).map(x=>({name:short(x?.name,80),circle:Number(x?.circle)||0,classLevel:Number(x?.classLevel)||0,why:short(x?.why,350),how:short(x?.how,400),school:short(x?.school,40).toLowerCase(),source:short(x?.source,120)})).filter(x=>x.name):[];
   clean.raceBonuses=Array.isArray(raw.raceBonuses)?raw.raceBonuses.filter(k=>KEYS.includes(k)).slice(0,6):[];
   clean.allowedBooks=[...new Set(raw.allowedBooks.map(x=>short(x,40)))];
   if(clean.allowedBooks.some(id=>!rules.books.some(b=>b.id===id)))throw Error("Livro não cadastrado na edição do laboratório.");
@@ -75,13 +76,37 @@
   if(!origin)issues.push("Origem não cadastrada ou pendente.");
   else if(sheet.originBenefits.length!==2||sheet.originBenefits.some(x=>!origin.choices.includes(x)))issues.push("Escolha exatamente dois benefícios de perícia válidos da origem "+origin.name+".");
   const arcanistLevels=sheet.levels.filter(x=>x.classId==="arcanista").length;
-  if(arcanistLevels&&!sheet.arcanePath)issues.push("Arcanista exige caminho definido: Bruxo, Mago ou Feiticeiro.");
+  const ladinoLevels=sheet.levels.filter(x=>x.classId==="ladino").length;
+  const arcaneVariant=sheet.levels.find(x=>x.classId==="arcanista")?.variantId||"";
+  const rogueVariant=sheet.levels.find(x=>x.classId==="ladino")?.variantId||"";
+  const necromante=arcaneVariant==="necromante";
+  const ventanista=rogueVariant==="ventanista";
+  if(arcanistLevels&&!necromante&&!sheet.arcanePath)issues.push("Arcanista exige caminho definido: Bruxo, Mago ou Feiticeiro.");
+  if(necromante&&sheet.arcanePath&&sheet.arcanePath!=="necromante")
+   issues.push("Necromante usa Caminho do Necromante; não acumule Bruxo, Mago ou Feiticeiro.");
+  if(sheet.arcanePath==="necromante"&&!necromante)issues.push("Caminho do Necromante só existe com a variante correspondente.");
   if(sheet.arcanePath==="feiticeiro"&&arcanistLevels)issues.push("Feiticeiro: linhagem e habilidades próprias ainda não cadastradas.");
+  let necroKnown=0;
   for(const spell of sheet.spellbook){
    if(!arcaneSpells.has(spell.name+"|"+spell.circle))issues.push("Magia "+spell.name+": círculo/nome não indexado neste laboratório.");
-   if(!spell.classLevel||spell.classLevel>arcanistLevels||spell.classLevel<1+4*(spell.circle-1))issues.push("Magia "+spell.name+": círculo não liberado no nível da classe Arcanista.");
+   const asVentanista=ventanista&&!arcanistLevels;
+   const casterLevel=asVentanista?ladinoLevels:arcanistLevels;
+   const minLevel=asVentanista?(spell.circle===1?1:2+4*(spell.circle-1)):1+4*(spell.circle-1);
+   if(!spell.classLevel||spell.classLevel>casterLevel||spell.classLevel<minLevel)
+    issues.push("Magia "+spell.name+": círculo não liberado no nível da classe "+(asVentanista?"Ventanista":"Arcanista")+".");
    if(!spell.why.trim()||!spell.how.trim())issues.push("Magia "+spell.name+": explique escolha e uso.");
+   if(necromante||asVentanista){
+    if(!spell.school)issues.push("Magia "+spell.name+": escola obrigatória para conferir restrições de "+(necromante?"Necromante":"Ventanista")+".");
+    if(necromante){
+     if(spell.school==="encantamento")issues.push("Necromante não pode aprender magias de Encantamento.");
+     if(spell.school==="necromancia")necroKnown++;
+    }
+    if(asVentanista&&!["encantamento","ilusao"].includes(spell.school))
+     issues.push("Ventanista: magias simuladas devem ser de Encantamento ou Ilusão.");
+   }
   }
+  if(necromante&&sheet.spellbook.length&&necroKnown<Math.ceil(sheet.spellbook.length/2))
+   issues.push("Necromante exige pelo menos metade das magias aprendidas de Necromancia.");
   const attrs=Object.fromEntries(KEYS.map(k=>[k,sheet.attributes[k]+(sheet.raceId==="humano"&&sheet.raceBonuses.includes(k)?1:0)]));
   let pv=0,pm=0,canCalculate=true;
   for(let i=0;i<sheet.levels.length;i++){
@@ -114,8 +139,11 @@
    const stats=resolved.stats||cls;
    const hpDelta=firstClass?stats.initialPV+attrs.CON:Math.max(1,stats.gainPV+attrs.CON);
    pv+=hpDelta;pm+=stats.gainPM;
-   if(row.classId==="arcanista"&&classLevel===1)pm+=(sheet.arcanePath==="feiticeiro"?attrs.CAR:attrs.INT);
+   if(row.classId==="arcanista"&&classLevel===1)pm+=(sheet.arcanePath==="feiticeiro"&&!activeVariant?attrs.CAR:attrs.INT);
+   if(row.classId==="ladino"&&classLevel===1&&activeVariant==="ventanista")pm+=attrs.CAR;
    const grants=resolved.grants.map(id=>({id,ability:rules.abilities[id]||null}));
+   if(classLevel===1&&activeVariant)
+    issues.push("Classe variante "+(resolved.variant?.name||activeVariant)+": perícias/proficiências, equipamentos e bônus condicionais exigem conferência na ficha final.");
    for(const grant of grants)if(!grant.ability?.manual)issues.push("Nível "+(i+1)+": manual de "+grant.id+" ainda não integrado.");
    if(grants.length&&(!row.why.trim()||!row.usage.trim()))issues.push("Nível "+(i+1)+": registre por que e como usa os ganhos automáticos desta classe.");
    if(classLevel>=resolved.powerFrom){
