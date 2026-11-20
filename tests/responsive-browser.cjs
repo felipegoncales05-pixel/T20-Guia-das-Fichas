@@ -262,7 +262,11 @@ async function assertLayout(page,label){
     assert.match(await page.locator('.lab-summary').textContent(),/Lutador 1 \/ Guerreiro 7 \/ Ladino 4/);
     assert.match(await page.locator('.lab-summary').textContent(),/PV base: 103 · PM base: 40/);
     await page.locator('[data-book-id="herois"]').check();
-    assert.match(await page.locator('.lab-audit').textContent(),/Heróis de Arton.*opções mecânicas ainda não catalogadas/);
+    assert.doesNotMatch(await page.locator('.lab-audit').textContent(),/Heróis de Arton.*opções mecânicas ainda não catalogadas/,"Livro parcialmente catalogado não deve bloquear variantes verificadas");
+    await page.locator('[data-field="variant:0"]').selectOption('atleta');
+    assert.match(await page.locator('.lab-level').first().textContent(),/Façanha Atlética/,"Variante Atleta não aplicada na interface");
+    assert.doesNotMatch(await page.locator('.lab-level').first().textContent(),/Golpe Relâmpago/,"Variante Atleta herdou Golpe Relâmpago indevidamente");
+    await page.locator('[data-field="variant:0"]').selectOption('');
     assert.equal(await page.locator('[data-field="originId"]').inputValue(),"soldado","Origem de Toji ausente");
     await assertLayout(page,width+" laboratório");
     await page.screenshot({path:"tests/screenshots/"+width+"-laboratorio.png",fullPage:true});
