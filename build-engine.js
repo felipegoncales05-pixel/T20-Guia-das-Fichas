@@ -118,12 +118,15 @@
    const grants=resolved.grants.map(id=>({id,ability:rules.abilities[id]||null}));
    for(const grant of grants)if(!grant.ability?.manual)issues.push("Nível "+(i+1)+": manual de "+grant.id+" ainda não integrado.");
    if(grants.length&&(!row.why.trim()||!row.usage.trim()))issues.push("Nível "+(i+1)+": registre por que e como usa os ganhos automáticos desta classe.");
-   if(classLevel>=cls.powerFrom){
+   if(classLevel>=resolved.powerFrom){
     if(!row.powerId)issues.push("Nível "+(i+1)+": escolha de poder de "+cls.name+" pendente.");
    }else if(row.powerId)issues.push("Nível "+(i+1)+": não há escolha de poder nesta entrada de classe.");
    const ability=rules.abilities[row.powerId];
    if(row.powerId){
-    if(!ability||ability.kind!=="poder"||ability.classId!==row.classId||!allowed.has(ability.source.book))issues.push("Nível "+(i+1)+": poder inexistente ou incompatível com a classe/livro.");
+    if(!ability||ability.kind!=="poder"||!allowed.has(ability.source.book)
+      || !(ability.classId===row.classId&&!resolved.removedPowers.includes(row.powerId)
+       || ability.classId===activeVariant&&resolved.exclusivePowers.includes(row.powerId)))
+      issues.push("Nível "+(i+1)+": poder inexistente ou incompatível com a classe/variante/livro.");
     else{
      if(selected.has(row.powerId)&&!ability.repeatable)issues.push("Nível "+(i+1)+": poder repetido sem regra que permita repetição.");
      for(const requiredPower of ability.requires?.powers||[])if(!selected.has(requiredPower))issues.push("Nível "+(i+1)+": "+ability.name+" requer o poder "+(rules.abilities[requiredPower]?.name||requiredPower)+".");
@@ -134,7 +137,7 @@
      if(row.powerVersion){const version=ability.versions?.find(v=>v.id===row.powerVersion);if(!version||classLevel<version.minClassLevel)issues.push("Nível "+(i+1)+": versão indisponível de "+ability.name+".")}
     }
    }
-   rows.push({globalLevel:i+1,classId:row.classId,classLevel,variantId:activeVariant,variant:resolved.variant,removedGrants:resolved.removed,addedGrants:resolved.added,firstClass,pv:canCalculate?pv:null,pm:canCalculate?pm:null,hpDelta,pmDelta:stats.gainPM,grants,choice:ability||null,
+   rows.push({globalLevel:i+1,classId:row.classId,classLevel,variantId:activeVariant,variant:resolved.variant,removedGrants:resolved.removed,addedGrants:resolved.added,removedPowers:resolved.removedPowers,exclusivePowers:resolved.exclusivePowers,powerFrom:resolved.powerFrom,firstClass,pv:canCalculate?pv:null,pm:canCalculate?pm:null,hpDelta,pmDelta:stats.gainPM,grants,choice:ability||null,
     newClass:classLevel===1&&!firstClass,source:cls.source,reason:row.why,usage:row.usage});
   }
   if(!sheet.name.trim())issues.push("Nome obrigatório.");
