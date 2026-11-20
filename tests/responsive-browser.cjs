@@ -232,11 +232,13 @@ async function assertLayout(page,label){
      if([375,1440].includes(width)&&["toji","soul-of-cinder","isaac"].includes(id))
       await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-"+id+"-dossie.png"});
      await page.locator('[data-tab="progression"]').click();
+     await page.locator(".level-item").first().waitFor();
      assert.equal(await page.locator(".level-item").count(),12,id+": doze níveis não apresentados");
      await page.locator("#levelSelect").evaluate(el=>{el.value="12";el.dispatchEvent(new Event("input",{bubbles:true}))});
      assert.equal((await page.locator("#selectedLevel").textContent()).trim(),"12",id+": nível não atualizado");
      await assertLayout(page,width+" "+id+" progressão automática");
      await page.locator('[data-tab="sources"]').click();
+     await page.locator(".source-level").first().waitFor();
      assert.equal(await page.locator(".source-level").count(),12,id+": páginas de cada nível ausentes");
      await page.locator('[data-tab="review"]').click();
      await page.locator("#reviewForm").waitFor();
