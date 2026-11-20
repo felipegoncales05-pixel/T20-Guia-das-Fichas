@@ -78,3 +78,13 @@
 @media(max-width:800px){.lab-layout{grid-template-columns:1fr}.lab-sidebar{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:5px 9px}.lab-sidebar h2,.lab-sidebar p{flex-basis:100%}.lab-draft,.lab-seed{width:auto;max-width:100%}.lab-book{grid-template-columns:1fr}.lab-book a{grid-column:1;grid-row:auto}.lab-heading{padding:26px 20px}}
 @media(max-width:560px){.lab-grid{grid-template-columns:1fr}.lab-attrs{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-book label{flex-wrap:wrap}.lab-level-title small{margin-left:0}.lab-panel{padding:18px}.lab-heading h1{font-size:clamp(43px,13vw,67px)}}
 @media(prefers-reduced-motion:reduce){.lab-shell *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Fase IV // painel compacto e responsivo */
+.lab-classes .lab-panel-head h2{font-size:clamp(25px,3vw,36px)}
+.lab-specialization{margin:12px 0;padding:14px 16px;border:1px solid #47636a;background:#0c2028}
+.lab-specialization>strong{display:block;margin-bottom:10px;color:var(--lab-accent);font:700 14px var(--mono);letter-spacing:.05em}
+.lab-specialization p,.lab-specialization small{display:block;margin:9px 0;color:var(--lab-muted);font:400 14px/1.5 var(--body)}
+.lab-specialization ul{margin:8px 0;padding-left:22px;color:var(--lab-ink)}
+.lab-specialization .lab-field{margin:7px 0}
+.lab-change{padding:10px 12px;margin:0 0 15px;background:#13343b;border-left:3px solid var(--lab-accent);font:400 13px/1.5 var(--body)}
+.lab-change strong{color:var(--lab-accent)}
