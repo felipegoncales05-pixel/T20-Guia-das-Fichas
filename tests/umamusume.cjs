@@ -23,7 +23,7 @@ assert.equal(Object.keys(w.T20_VISUAL.profiles).length,126);
 assert.equal(Object.keys(w.T20_VISUAL.finishes).length,130);
 assert.equal(uma.ids.size,57);
 assert.equal(chars.filter(c=>c.catalogCategory==="umamusume").length,57);
-assert.equal(uma.characters.filter(c=>c.portrait.url.startsWith("https://")).length,26,"Retratos oficiais ausentes");
+assert.equal(uma.characters.filter(c=>c.portrait.url.startsWith("https://")).length,55,"Retratos oficiais ausentes");
 assert.equal(uma.characters.find(x=>x.id==="uma-daitaku-helios").info.className,"Bardo");
 assert.equal(uma.characters.find(x=>x.id==="uma-matikanetannhauser").info.className,"Lutador — variante Atleta");
 assert.equal(uma.characters.find(x=>x.id==="uma-matikanetannhauser").info.race,"Moreau do Coelho");
