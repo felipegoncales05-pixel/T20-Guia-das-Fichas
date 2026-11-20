@@ -23,6 +23,12 @@ assert.equal(baseline.basePV,23);
 a.narrativeSubclass="Espadachim sobrenatural";
 assert.equal(engine.evaluate(a).basePV,baseline.basePV);
 assert.equal(engine.importJSON(engine.exportJSON(a)).narrativeSubclass,"Espadachim sobrenatural");
+a.modExtra={enabled:true,version:1};
+a.levels[0].opcaoExtra="conservar";
+const migrated=engine.importJSON(engine.exportJSON(a));
+assert.equal(migrated.legacyFields.modExtra.enabled,true);
+assert.equal(migrated.levelLegacy[0].opcaoExtra,"conservar");
+
 
 a.distinctions=[{id:"cavaleiro-corvo",admission:"admitida",approval:"Mestre aprovou a admissão",powerIds:["poder-inexistente"]}];
 const pending=engine.evaluate(a);
