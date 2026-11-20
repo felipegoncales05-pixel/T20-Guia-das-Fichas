@@ -19,8 +19,8 @@ const seeds=[
     "bookPage": "36–40",
     "path": "feiticeiro",
     "source": "https://www.crunchyroll.com/pt-br/news/guides/2024/6/26/konosuba-personagens",
-    "image": "https://image.pngaaa.com/227/4108227-middle.png",
-    "imageCredit": "KonoSuba — arte promocional republicada por PNGAAA",
+    "image": "https://konosuba.com/1st/character/img/megumin.png",
+    "imageCredit": "KonoSuba — character visual oficial do anime",
     "styles": [
       "Mago de Explosão",
       "Foco no impacto",
@@ -208,8 +208,8 @@ const seeds=[
     "weapon": "Espada de duas mãos",
     "bookPage": "64–67",
     "source": "https://wutheringwaves.kurogames.com/en/main/news/detail/3595",
-    "image": "https://arabwuwa.com/images/character-page/chisa.webp",
-    "imageCredit": "Kuro Games — sprite promocional hospedado por ArabWuWa",
+    "image": "https://idphhmvmuywfflotbvei.supabase.co/storage/v1/object/public/wutheringwaves/characters/Chisa/default.webp?format=webp&height=600&resize=cover&width=720",
+    "imageCredit": "Kuro Games — retrato de Chisa via Dennlog",
     "styles": [
       "Ruptura vermelha",
       "Cisalha de bloqueios",
