@@ -75,6 +75,25 @@
  "daitaku-helios":"https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/07320f4d49f840448c268aaa630747f2/daitakuhelios_02.png",
  "matikanetannhauser":"https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/f859d3a9353645a1a78972704657c489/matikanetannhauser_02.png"
  };
+
+ Object.assign(pictures, {
+  "nice-nature": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/fd043e415e244999bcb67856eebba62b/nicenature_02.png",
+  "twin-turbo": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/e5bc87f0f01648779e18a28033d024d1/twinturbo_02.png",
+  "ikuno-dictus": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/8d2d3b35f5aa49359739043c32015ecc/ikunodictus_02.png",
+  "mejiro-palmer": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/06cb6e64248946c3aa94a9c15564abb6/mejiropalmer_02.png",
+  "daiichi-ruby": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/f6718aec3d864be8babf91af3d6d4dde/daiichiruby_02.png",
+  "k-s-miracle": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/98a14ca3eef44cb5b039bc5c2546ddda/k-s-miracle_02.png",
+  "yamanin-zephyr": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/1c587ed73d43477ebe59b59fca5713f5/yamaninzephyr_02.png",
+  "rice-shower": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/a34a77e550084f55ae886b12386d97aa/riceshower_02.png",
+  "mihono-bourbon": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/b9baf5e39a7a4e7984f5d85dc80b538a/mihonobourbon_02.png",
+  "cheval-grand": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/7996af1196e845ee94e6d967c3ec0b2e/chevalgrand_02.png",
+  "duramente": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/704efc9c343b40da8aa9d9f238e2c89a/duramente_02.png",
+  "satono-crown": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/032fe6d6877543c7b3dfcbea59bfc937/satonocrown_02.png",
+  "vodka": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/d1fda143d78c4c9d8eaddb52d0ba1b29/vodka_02.png",
+  "daiwa-scarlet": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/df4d1573b9d14810bef6a2325d6bc28b/daiwascarlet_02.png",
+  "sounds-of-earth": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/f64f299d136940ab8413041dadc050d1/soundsofearth_02.png",
+  "narita-brian": "https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/48723e8d418642e2a8072457e94cf93c/naritabrian_02.png"
+});
  window.T20_UMA_SEEDS=p.map(([slug,name,arc,klass,variant,race,focus,title,concept,color,officialSlug])=>({
   id:"uma-"+slug,slug,name,arc,klass,variant,race,focus,title,concept,color,
   official:"https://umamusume.jp/character/"+officialSlug,
