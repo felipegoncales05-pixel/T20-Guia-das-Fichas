@@ -69,7 +69,7 @@
  function resolveClassStep({classId,classLevel,variantId="",classRule,abilities={},allowedBooks=["jda-1.3"],registry=variants}){
   const normal=(classRule?.grants?.[classLevel]||[]).slice();
   const result={grants:normal,retained:normal.slice(),removed:[],added:[],issues:[],
-   calculable:true,stats:classRule?{initialPV:classRule.initialPV,gainPV:classRule.gainPV,gainPM:classRule.gainPM}:null,variant:null};
+   calculable:true,powerFrom:classRule?.powerFrom,exclusivePowers:[],removedPowers:[],stats:classRule?{initialPV:classRule.initialPV,gainPV:classRule.gainPV,gainPM:classRule.gainPM}:null,variant:null};
   if(!variantId)return result;
   const variant=registry[variantId];
   result.variant=variant||null;
@@ -77,6 +77,20 @@
    ||!variant.source?.book||!variant.source?.edition||!variant.source?.page
    ||!allowedBooks.includes(variant.source.book)){
    result.issues.push("Variante "+(variant?.name||variantId)+": regra de substituição, filiação, página ou fonte não verificada/permitida.");
+   result.calculable=false;return result;
+  }
+  if(variant.powerFrom!==undefined){
+   if(!Number.isInteger(variant.powerFrom)||variant.powerFrom<1||variant.powerFrom>12){
+    result.issues.push("Patamar de poder inválido na variante "+variant.name);
+    result.calculable=false;return result;
+   }
+   result.powerFrom=variant.powerFrom;
+  }
+  result.exclusivePowers=(variant.powers?.exclusive||[]).slice();
+  result.removedPowers=(variant.powers?.remove||[]).slice();
+  if(result.exclusivePowers.some(id=>abilities[id]?.kind!=="poder"||abilities[id]?.classId!==variant.id||!abilities[id]?.manual)
+    ||result.removedPowers.some(id=>abilities[id]?.kind!=="poder"||abilities[id]?.classId!==classId)){
+   result.issues.push("Lista de poderes exclusivos/removidos inválida na variante "+variant.name);
    result.calculable=false;return result;
   }
   const target=variant.levels?.[classLevel]||{};
