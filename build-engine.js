@@ -37,7 +37,8 @@
    for(const [key,val] of Object.entries(obj||{})){
     if(known.has(key)||key==="__proto__"||key==="constructor"||key==="prototype")continue;
     const data=JSON.stringify(val);
-    if(data&&data.length<=10000&&Object.keys(extra).length<40)extra[key]=JSON.parse(data);
+    if(!data||data.length>10000||Object.keys(extra).length>=40)throw Error('Campo desconhecido grande demais para migração segura: '+key);
+    extra[key]=JSON.parse(data);
    }
    return extra;
   };
