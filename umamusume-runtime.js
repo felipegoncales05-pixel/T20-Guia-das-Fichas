@@ -195,7 +195,16 @@
  }
  if(made.length!==seed.length||new Set(made.map(x=>x.id)).size!==seed.length)throw Error("Elenco Umamusume divergente");
  data.characters.push(...made);
- for(const c of made)guide.people[c.id]=c._guide;
+ for(const c of made){
+  guide.people[c.id]=c._guide;
+  // Harmonizar assinatura com as famílias e acabamentos já suportados pelo site,
+  // sem mexer nas 69 assinaturas existentes.
+  if(w.T20_VISUAL){
+   w.T20_VISUAL.profiles[c.id]=["TRACEN","western","orbit","spine",
+    seed.find(x=>x.id===c.id).color,"#1e2331"];
+   w.T20_VISUAL.finishes[c.id]=c._uma.arc==="Palco e Rivais"?"velvet":"fabric";
+  }
+ }
  const ids=new Set(made.map(x=>x.id));
  function delta(c,n,k){return 0;}
  function stats(c,n){
