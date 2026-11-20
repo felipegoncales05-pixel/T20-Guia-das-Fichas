@@ -10,7 +10,7 @@ const scriptRuntime=fs.readFileSync("expansion-runtime.js","utf8");
 const scriptMega=fs.readFileSync("mega-data.js","utf8");
 const scriptMegaRuntime=fs.readFileSync("mega-runtime.js","utf8");
 const scriptCatalogMedia=fs.readFileSync("catalog-media.js","utf8");
-const addons=["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","review-data.js","visual-direction.js","planned-data.js","rules-catalog.js","build-engine.js","build-concepts.js","build-presets.js"].map(name=>[name,fs.readFileSync(name,"utf8")]);
+const addons=["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","review-data.js","visual-direction.js","planned-data.js","rules-catalog.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js"].map(name=>[name,fs.readFileSync(name,"utf8")]);
 const hooks={};
 const elements=new Map();
 function get(id){if(!elements.has(id))elements.set(id,{id,innerHTML:"",value:"",classList:{add(){},remove(){}},textContent:""});return elements.get(id);}
@@ -121,24 +121,18 @@ for(const c of fakeWindow.T20_DATA.characters){
   if(tab==="review")assert.match(get("app").innerHTML,/Conferência pendente/);
  }
 }
-console.log("VALIDADO: busca, 59 cards, nove abas por personagem, radar, equipamento e progressão.");
+console.log("VALIDADO: busca, 69 cards, nove abas por personagem, radar, equipamento e progressão.");
 
-for(const c of fakeWindow.T20_PLANNED){
- for(const tab of ["overview","attributes","equipment","abilities","progression","techniques","sources","compare","review"]){
-  location.hash="#/"+c.id+"/"+tab;
-  hooks["window:hashchange"]();
-  assert.match(get("app").innerHTML,/class="detail-hero planned-hero"/,c.id+" / "+tab+" sem capa pendente");
-  assert.match(get("app").innerHTML,/class="section-context"/,c.id+" / "+tab+" sem contexto");
-  assert.doesNotMatch(get("app").innerHTML,/global-level-picker|data-stat="PV"|radar-svg/,c.id+" gerou estatísticas inexistentes");
-  if(tab==="progression"){
-   assert.match(get("app").innerHTML,/EVOLUÇÃO DOCUMENTADA/);
-   assert.equal((get("app").innerHTML.match(/<div><span>[0-9][0-9]<[/]span><strong>/g)||[]).length,12,c.id+" / 12 níveis preenchidos");
-  }
-  if(tab==="sources")assert.match(get("app").innerHTML,/Tormenta20 — Edição Jogo do Ano v1[.]3/);
-  if(tab==="review")assert.match(get("app").innerHTML,/name="character"|id="reviewCharacter"/);
- }
+assert.equal(fakeWindow.T20_PLANNED.length,0,"Não há ficha solicitada em planejamento");
+assert.equal(fakeWindow.T20_AUTOMATIC.ids.size,10,"Dez dossiês precisam existir");
+for(const c of fakeWindow.T20_DATA.characters.filter(c=>fakeWindow.T20_AUTOMATIC.ids.has(c.id))){
+ assert.equal(c.progression.length,12,c.id+" sem progressão");
+ assert.equal(c._guide.levels.length,12,c.id+" sem manual");
+ location.hash="#/"+c.id+"/progression";hooks["window:hashchange"]();
+ assert.match(get("app").innerHTML,/level-grid/,c.id+" não abre ficha completa");
+ assert.doesNotMatch(get("app").innerHTML,/class="detail-hero planned-hero"/,c.id+" ainda em planejamento");
 }
-console.log("VALIDADO: dez builds de revisão exibidas nas nove abas e revisão local preservada.");
+console.log("VALIDADO: dez dossiês automáticos e multiclasse, sem cards pendentes.");
 location.hash="#/toji/overview";hooks["window:hashchange"]();
 hooks["document:click"]({target:{closest(selector){return selector==="[data-tab]"?{dataset:{tab:"progression"}}:null}}});
 assert.equal(location.hash,"#/toji/progression","A navegação por clique do planejamento falhou");

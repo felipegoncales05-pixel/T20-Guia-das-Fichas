@@ -79,23 +79,16 @@ async function assertLayout(page,label){
    await page.locator("#universe").selectOption("mha");
    assert.equal(await page.locator(".roster-card").count(),2,width+": filtro My Hero Academia");
    await page.locator("#universe").selectOption("all");
-   await page.locator("#search").fill("pendente");
-   assert.equal(await page.locator(".roster-card[data-pending]").count(),10,width+": dez planejamentos");
-   assert.equal(await page.locator(".planned-card img.planned-art").count(),10,width+": retratos planejados ausentes");
-   for(const id of plannedIds){
-    const art=page.locator('[data-open="'+id+'"] img.planned-art');
-    await art.scrollIntoViewIfNeeded();
-    await page.waitForFunction(key=>document.querySelector('[data-open="'+key+'"] img.planned-art')?.naturalWidth>0,id,{timeout:10000});
-    await art.evaluate(el=>el.decode());
-    assert.ok(await art.evaluate(el=>el.naturalWidth>0),width+" "+id+": imagem não carregou");
-   }
-   if([375,1440].includes(width))await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-planejados.png"});
-   if(width===375){
-    await page.locator('[data-open="toji"] img.planned-art').evaluate(el=>{el.src="./assets/planned-art/indisponivel.png"});
-    await page.locator('[data-open="toji"].art-unavailable .pending-poster').waitFor({state:"visible"});
-    assert.equal(await page.locator('[data-open="toji"] img.planned-art').count(),0,"Imagem quebrada não cedeu ao pôster reserva");
-   }
-   await page.locator("[data-clear-search]").click();
+   assert.equal(await page.locator(".roster-card[data-pending]").count(),0,width+": fichas ainda pendentes");
+    for(const id of plannedIds)assert.equal(await page.locator('[data-open="'+id+'"]').count(),1,width+": ficha automática não está no catálogo");
+    const tojiCard=page.locator('[data-open="toji"]');
+    await tojiCard.scrollIntoViewIfNeeded();
+    const art=tojiCard.locator('.photo img:not(.portrait-underlay)');
+    await page.waitForFunction(()=>document.querySelector('[data-open="toji"] .photo img:not(.portrait-underlay)')?.naturalWidth>0,null,{timeout:10000});
+    assert.ok(await art.evaluate(el=>el.naturalWidth>0),width+": retrato de Toji não carregou");
+    assert.equal(await page.locator('[data-open="shigaraki"] img[data-cover-volume*="Volume 25"]').count(),1,width+": falta capa do volume 25");
+    assert.equal(await page.locator('[data-open="jojo-dio1"] img[data-cover-volume]').count(),0,width+": Dio Brando não restaurado");
+    if([375,1440].includes(width))await page.locator('[data-open="toji"]').screenshot({path:"tests/screenshots/"+width+"-toji-ficha-ativa.png"});
    if([375,1440].includes(width)){
     await page.locator("#search").fill("Celenova");
     const celenova=page.locator('[data-open="em-celenova"]');
@@ -230,32 +223,28 @@ async function assertLayout(page,label){
     await assertLayout(page,width+" "+id+" fontes");
    }
    for(const id of (!quick&&width===375?plannedIds:["toji","soul-of-cinder","isaac"])){
-    await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
-    assert.equal(await page.locator(".detail-tabs button").count(),9,id+": navegação incompleta");
-    assert.equal(await page.locator("body").getAttribute("data-pending"),"true");
-    const art=page.locator(".pending-hero-poster img.planned-art");
-    await art.scrollIntoViewIfNeeded();
-    await page.waitForFunction(()=>document.querySelector('.pending-hero-poster img.planned-art')?.naturalWidth>0,null,{timeout:10000});
-    await art.evaluate(el=>el.decode());
-    assert.ok(await art.evaluate(el=>el.naturalWidth>0),id+": arte de referência ausente");
-    assert.equal(await page.locator(".pending-hero-poster .pending-poster").isVisible(),false,id+": pôster reserva cobriu a arte");
-    assert.equal(await page.locator("[data-stat],.global-level-picker").count(),0,id+": números presumidos");
-    await assertLayout(page,width+" "+id+" planejamento");
-    if([375,1440].includes(width)&&["toji","soul-of-cinder","isaac"].includes(id))
-     await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-"+id+"-planejado.png"});
-    await page.locator('[data-tab="progression"]').click();
-    await page.locator(".planned-levels > div").first().waitFor();
-    assert.equal(await page.locator(".planned-levels > div").count(),12,id+": doze espaços pendentes");
-    await assertLayout(page,width+" "+id+" progressão pendente");
-    await page.locator('[data-tab="sources"]').click();
-    await page.locator('#detail-section[data-tab="sources"]').waitFor();
-    assert.match(await page.locator("#detail-section").textContent(),/Tormenta20 — Edição Jogo do Ano v1.3/);
-    assert.match(await page.locator(".planned-source-link").getAttribute("href"),/^https:\/\//,id+": crédito da imagem ausente");
-    await page.locator('[data-tab="review"]').click();
-    await page.locator("#reviewForm").waitFor();
-    await assertLayout(page,width+" "+id+" revisão pendente");
-   }
-   if(width===375){
+     await page.goto(site+"#/"+id+"/overview",{waitUntil:"load"});
+     assert.equal(await page.locator(".detail-tabs button").count(),9,id+": navegação incompleta");
+     assert.equal(await page.locator("body").getAttribute("data-pending"),null,id+": ficha não deve ficar pendente");
+     assert.ok(await page.locator(".global-level-picker").isVisible(),id+": controle de nível ausente");
+     assert.ok(await page.locator("[data-stat=PV]").count()>0,id+": PV indisponível");
+     await assertLayout(page,width+" "+id+" dossiê completo");
+     if([375,1440].includes(width)&&["toji","soul-of-cinder","isaac"].includes(id))
+      await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-"+id+"-dossie.png"});
+     await page.locator('[data-tab="progression"]').click();
+     await page.locator(".level-item").first().waitFor();
+     assert.equal(await page.locator(".level-item").count(),12,id+": doze níveis não apresentados");
+     await page.locator("#levelSelect").evaluate(el=>{el.value="12";el.dispatchEvent(new Event("input",{bubbles:true}))});
+     assert.equal((await page.locator("#selectedLevel").textContent()).trim(),"12",id+": nível não atualizado");
+     await assertLayout(page,width+" "+id+" progressão automática");
+     await page.locator('[data-tab="sources"]').click();
+     await page.locator(".source-level").first().waitFor();
+     assert.equal(await page.locator(".source-level").count(),12,id+": páginas de cada nível ausentes");
+     await page.locator('[data-tab="review"]').click();
+     await page.locator("#reviewForm").waitFor();
+     await assertLayout(page,width+" "+id+" revisão");
+    }
+    if(width===375){
     await page.locator('#reviewForm [name="title"]').fill("Fonte a conferir");
     await page.locator('#reviewForm [name="body"]').fill("Verificar regras e páginas antes de montar a build.");
     await page.locator('#reviewForm button[type="submit"]').click();
@@ -298,7 +287,7 @@ async function assertLayout(page,label){
     assert.equal(await page.locator('.roster-card').count(),69,"Ficha pessoal entrou no catálogo");
    }
    assert.deepEqual(errors,[]);
-   console.log("OK viewport "+width+"x"+height+" — 59 dossiês e interações");
+   console.log("OK viewport "+width+"x"+height+" — 69 dossiês e interações");
    await page.close();
   }
   const reduced=await browser.newPage({viewport:{width:375,height:812},reducedMotion:"reduce"});
@@ -312,6 +301,6 @@ async function assertLayout(page,label){
   assert.equal(await reduced.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),"","HUD reage sob movimento reduzido");
   await reduced.close();
   console.log("Movimento reduzido validado: Capri e David sem animações.");
-  console.log("VALIDADO: 11 viewports, 59 fichas existentes e dez planejamentos sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports, 69 fichas completas e dez builds automáticas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

@@ -3,7 +3,7 @@
  "use strict";
  const engine=window.T20_BUILD_ENGINE,rules=window.T20_RULES;
  if(!engine||!rules)return;
- const KEY="t20-laboratorio-v1",planned=()=>window.T20_PLANNED||[];
+ const KEY="t20-laboratorio-v1",planned=()=>window.T20_AUTOMATIC_SEEDS||window.T20_PLANNED||[];
  const concepts=window.T20_CONCEPTS;
  const seedDraft=s=>window.T20_BUILD_PRESETS?.fromPlanned(s,engine)||concepts?.fromPlanned(s,engine)||engine.makeDraft({catalogId:s.id,name:s.name,work:s.universe,theme:s.catalogCategory});
  const esc=v=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));

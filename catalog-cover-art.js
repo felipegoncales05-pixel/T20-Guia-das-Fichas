@@ -12,15 +12,6 @@
     "credit": "Hirohiko Araki · Shueisha",
     "type": "manga-cover"
   },
-  "jojo-dio1": {
-    "series": "JoJo's Bizarre Adventure — Phantom Blood",
-    "volume": "Volume 1",
-    "image": "https://static.jojowiki.com/images/thumb/0/0e/latest/20230510204229/Volume_1.png/400px-Volume_1.png",
-    "source": "https://jojowiki.com/PB_Volume_1",
-    "publisher": "Shueisha",
-    "credit": "Hirohiko Araki · Shueisha",
-    "type": "manga-cover"
-  },
   "jojo-kira": {
     "series": "JoJo's Bizarre Adventure — Diamond is Unbreakable",
     "volume": "Volume 45",
@@ -172,6 +163,15 @@
     "image": "https://dosbg3xlm0x1t.cloudfront.net/images/items/9784088732503/1200/9784088732503.jpg",
     "source": "https://www.shueisha.co.jp/books/items/contents.html?isbn=978-4-08-873250-3",
     "credit": "Hirohiko Araki · Shueisha",
+    "type": "manga-cover"
+  },
+  "shigaraki": {
+    "series": "My Hero Academia",
+    "volume": "Volume 25 — Tomura Shigaraki: Origin",
+    "image": "https://dw9to29mmj727.cloudfront.net/products/1974717623.jpg",
+    "source": "https://www.viz.com/manga-books/manga/my-hero-academia-volume-25/product/6429",
+    "publisher": "VIZ Media / Shueisha",
+    "credit": "Kohei Horikoshi · Shueisha / VIZ Media",
     "type": "manga-cover"
   }
 });

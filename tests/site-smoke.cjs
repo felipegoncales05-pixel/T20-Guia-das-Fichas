@@ -3,7 +3,7 @@ const vm=require("node:vm");
 const assert=require("node:assert/strict");
 const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","character-art.css","card-worlds.js","card-worlds.css","visual-direction.js","visual-direction.css","signature-finish.css","planned-data.js","planned.css","assets/motifs/capri-hud.webp","assets/motifs/capri-source.json","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
 files.push("art-portraits.css","assets/planned-art/sources.json","build-concepts.js","build-presets.js");
-files.push("rules-catalog.js","build-engine.js","build-lab.js","build-lab.css","docs/laboratorio.md","catalog-cover-art.js","assets/card-art/catalog-covers.json");
+files.push("rules-catalog.js","build-engine.js","build-lab.js","build-lab.css","docs/laboratorio.md","catalog-cover-art.js","assets/card-art/catalog-covers.json","automatic-dossiers.js");
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync("data.js","utf8"),context,{filename:"data.js"});
@@ -21,35 +21,37 @@ vm.runInNewContext(fs.readFileSync("catalog-cover-art.js","utf8"),context,{filen
 vm.runInNewContext(fs.readFileSync("review-data.js","utf8"),context,{filename:"review-data.js"});
 vm.runInNewContext(fs.readFileSync("visual-direction.js","utf8"),context,{filename:"visual-direction.js"});
 vm.runInNewContext(fs.readFileSync("planned-data.js","utf8"),context,{filename:"planned-data.js"});
+for(const n of ["rules-catalog.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
 const project=context.window.T20_DATA;
 assert.ok(project&&Array.isArray(project.characters));
-assert.equal(project.characters.length,59);
+assert.equal(project.characters.length,69);
 assert.equal(Object.keys(context.window.T20_VISUAL.profiles).length,69,"Cada entrada precisa de assinatura visual");
 assert.equal(Object.keys(context.window.T20_VISUAL.variations).length,4,"Variantes visuais de Diego e Goku");
-assert.equal(Object.keys(context.window.T20_VISUAL.finishes).length,73,"59 fichas, dez planejamentos e quatro variantes");
+assert.equal(Object.keys(context.window.T20_VISUAL.finishes).length,73,"69 fichas e quatro variantes");
 const validFinishes=new Set(["dust","circuitry","signal","glass","paper","ink","velvet","frost","fabric","alloy","stone","energy","ledger","foil","organic","eclipse"]);
 for(const c of project.characters){const v=context.window.T20_VISUAL.forCharacter(c,"principal");assert.equal(v.id,c.id);assert.ok(v.motif&&v.family&&v.pattern&&v.layout&&v.accent&&v.dark,c.id+" sem identidade visual");assert.ok(validFinishes.has(v.finish),c.id+" sem material");assert.ok(["chrysos","emanator","ravager","other"].includes(v.lineage),c.id+" sem grupo editorial");}
 for(const id of ["diego:alternative","goku:gt","goku:daima","goku:super"]){const [char,variant]=id.split(":");const c=project.characters.find(x=>x.id===char);assert.equal(context.window.T20_VISUAL.forCharacter(c,variant).finish,context.window.T20_VISUAL.finishes[id],id+" sem acabamento alternativo");}
-const planned=context.window.T20_PLANNED;
-assert.equal(planned.length,10,"Dez personagens devem ficar em planejamento");
-assert.equal(new Set([...project.characters,...planned].map(c=>c.id)).size,69,"IDs duplicados");
+const planned=context.window.T20_PLANNED,automatic=context.window.T20_AUTOMATIC;
+assert.equal(planned.length,0,"Não deixar os dez novos personagens em planejamento");
+assert.equal(automatic.ids.size,10,"Faltam as dez fichas automáticas");
+assert.equal(new Set(project.characters.map(c=>c.id)).size,69,"IDs duplicados");
 const plannedSources=JSON.parse(fs.readFileSync("assets/planned-art/sources.json","utf8"));
-assert.equal(plannedSources.length,planned.length,"Cada arte planejada precisa de proveniência");
-for(const c of planned){
- assert.equal(c.status,"pendente",c.id+" sem estado editorial");
- assert.equal(typeof c.catalogCategory,"string",c.id+" sem obra categorizada");
- for(const forbidden of ["attrs","stats","skills","progression","gear","techniques","sources","media"])assert.ok(!(forbidden in c),c.id+" recebeu mecânica: "+forbidden);
- const source=plannedSources.find(x=>x.id===c.id);
- assert.ok(source&&source.asset&&source.source_url&&source.source_page&&source.credit,c.id+" sem origem de arte");
- assert.equal(c.portrait,"./"+source.asset,c.id+" com imagem diferente da fonte");
- assert.equal(c.sourcePage,source.source_page,c.id+" com página de arte diferente da fonte");
- assert.ok(c.artCredit,c.id+" sem crédito visível");
- const body=fs.readFileSync(source.asset);
- assert.ok(body.length>10000,c.id+" imagem incompleta");
- assert.ok(body.subarray(0,8).equals(Buffer.from("89504e470d0a1a0a","hex"))||body.toString("ascii",0,4)==="RIFF"||body.subarray(0,2).equals(Buffer.from("ffd8","hex")),c.id+" imagem inválida");
- assert.ok(context.window.T20_VISUAL.profiles[c.id]&&context.window.T20_VISUAL.finishes[c.id],c.id+" sem direção gráfica");
+assert.equal(plannedSources.length,10,"Manter proveniência das dez artes");
+for(const src of plannedSources){
+ const c=project.characters.find(x=>x.id===src.id);
+ assert.ok(c&&automatic.ids.has(src.id),src.id+" sem ficha automática");
+ assert.equal(c.portrait.url,"./"+src.asset,src.id+" sem imagem local original");
+ assert.equal(c.portrait.page,src.source_page,src.id+" sem proveniência");
+ assert.ok(c._auto?.draft?.levels.length===12&&c._auto?.classPath,src.id+" sem multiclasse e níveis");
+ assert.ok(c._guide.levels.every(l=>l.why&&l.use&&l.ref.length),src.id+" sem justificativas por nível");
+ assert.equal(c.info.origin,context.window.T20_RULES.origins[c._auto.draft.originId].name);
+ assert.ok(c.gear.length>=3&&c.techniques.length>=3,src.id+" sem inventário e técnicas");
+ const file=fs.readFileSync(src.asset);
+ assert.ok(file.length>10000,src.id+" arquivo de retrato pequeno");
+ assert.ok(file.subarray(0,8).equals(Buffer.from("89504e470d0a1a0a","hex"))||file.toString("ascii",0,4)==="RIFF"||file.subarray(0,2).equals(Buffer.from("ffd8","hex")),src.id+" imagem inválida");
+ for(const lvl of [1,5,9,12]){const metrics=automatic.stats(c,lvl);assert.ok(metrics.pv>0&&metrics.pm>0,src.id+" sem PV/PM");}
 }
-assert.deepEqual(Array.from(project.characters,c=>c.id),["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-johnny","jojo-gappy","denji","satoru-gojo","shigaraki","midoriya"]);
+assert.deepEqual(Array.from(project.characters,c=>c.id),["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-johnny","jojo-gappy","denji","satoru-gojo","shigaraki","midoriya","toji","aizen","vegitto","gogeta","soul-of-cinder","isaac","adao","grimm","sekiro","kaneki"]);
 
 /* Fase III: Cyrene e Cipher pertencem a Chrysos, sem modificar builds. */
 for(const id of ["cipher","cyrene"]){
@@ -67,7 +69,9 @@ for(const record of catalogCoverRows){
  assert.match(record.image,/^https:\/\//);assert.match(record.source,/^https:\/\//);
  assert.ok(record.volume&&record.publisher&&record.credit,record.id+" sem proveniência");
 }
-assert.ok(!coverIds.has("shigaraki"),"Shigaraki: volume 2 não mostra o personagem");
+assert.ok(coverIds.has("shigaraki"),"Shigaraki precisa de capa do volume 25");
+assert.match(context.window.T20_CATALOG_COVERS.shigaraki.volume,/Volume 25/);
+assert.ok(!coverIds.has("jojo-dio1"),"Dio Brando deve usar o retrato antigo");
 assert.ok(!coverIds.has("cipher"),"Cipher deve manter a arte");
 assert.equal(context.window.T20_CATALOG_COVERS.midoriya.volume,"Volume 37");
 for(const id of ["jojo-johnny","jojo-valentine","diego","gyro"])assert.ok(coverIds.has(id),"Capa SBR ausente "+id);
@@ -81,13 +85,13 @@ for(const char of project.characters){
  assert.deepEqual(Array.from(char.progression,p=>Number(p[0])),Array.from({length:12},(_,i)=>i+1),char.id+" níveis");
  assert.ok(char.skills.length>4&&char.gear.length>2&&char.techniques.length>2,char.id+" ficha incompleta");
  assert.ok(char.sources.length&&char.media.length,char.id+" fontes e mídia");
- for(const obj of [char.portrait,...char.media])assert.ok(/^(https:\/\/|data:image\/svg\+xml;charset=utf-8,|\.\/assets\/(portraits|art|art-optimized|card-art|character-art)\/[a-z0-9-]+\.(svg|webp|avif|png|jpg))/.test(obj.url||obj.image),char.id+" URL de mídia inválida");
+ for(const obj of [char.portrait,...char.media])assert.ok(/^(https:\/\/|data:image\/svg\+xml;charset=utf-8,|\.\/assets\/(portraits|art|art-optimized|card-art|character-art|planned-art)\/[a-z0-9-]+\.(svg|webp|avif|png|jpg))/.test(obj.url||obj.image),char.id+" URL de mídia inválida");
  assert.ok(char.notes.attributes&&char.notes.progression,char.id+" notas ausentes");
 }
 assert.match(fs.readFileSync("index.html","utf8"),/id="app"/);
 assert.match(fs.readFileSync("app.js","utf8"),/radar-svg/);
 assert.doesNotMatch(fs.readFileSync("app.js","utf8"),/D\.\s+recomenda/i);
-console.log("VALIDADO: 59 dossiers, 6 atributos, 10 pontos de compra, 12 níveis, fontes e scripts.");
+console.log("VALIDADO: 69 dossiers, 6 atributos, 10 pontos de compra, 12 níveis, fontes e scripts.");
 
 assert.ok(context.window.T20_ALTERNATES?.diego?.alternative,"Diego alternativo inexistente");
 assert.ok(context.window.T20_ALTERNATE_GUIDES?.diego?.levels.length===12,"guia do THE WORLD incompleto");
@@ -103,7 +107,7 @@ console.log("Expansão validada: 7 novos cards, 8 builds e troca Alternative.");
 
 for(const c of project.characters.filter(c=>context.window.T20_MEGA.ids.has(c.id))){assert.equal(c._guide.levels.length,12,c.id+" guiado");assert.ok(context.window.T20_MEGA.stats(c,12).pv>context.window.T20_MEGA.stats(c,1).pv,c.id+" PV sem evolução");}
 assert.equal(Object.keys(context.window.T20_GOKU_VARIANTS).length,4);
-console.log("Megacatálogo validado: 59 cards, quatro Gokus e manual de 12 níveis.");
+console.log("Megacatálogo validado: 69 cards, quatro Gokus e manual de 12 níveis.");
 
 assert.ok(context.window.T20_MEDIA_BACKUPS,"Fontes de recuperação de imagens ausentes");
 for(const id of ["diego","marin","ado","elster"]){const c=project.characters.find(x=>x.id===id);assert.ok(c.portrait.url.startsWith("./assets/card-art/"),id+" sem retrato local");}
@@ -128,7 +132,7 @@ for(const c of project.characters){
 }
 const flag=fs.readFileSync("assets/motifs/valentine-44.svg","utf8");
 assert.equal((flag.match(/fill="#fff4e3"/g)||[]).length,44,"Valentine precisa de 44 estrelas");
-console.log("VALIDADO: 59 fichas, Samurai, mídia local, Scrapframe e bandeira 44 estrelas.");
+console.log("VALIDADO: 69 fichas, Samurai, mídia local, Scrapframe e bandeira 44 estrelas.");
 
 const userArt=["jojo-dio1","jojo-dio3","d","jojo-valentine","gyro","jojo-pucci","jojo-kira","jojo-tooru","jojo-diavolo","em-zandar"];
 assert.equal(context.window.T20_USER_ART_IDS.length,10,"10 artes não foram registradas");
