@@ -24,6 +24,31 @@ vm.runInNewContext(fs.readFileSync("planned-data.js","utf8"),context,{filename:"
 for(const n of ["rules-catalog.js","class-options.js","herois-variants.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js","archive-revisions.js","catalog-revision.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
 const project=context.window.T20_DATA;
 assert.ok(project&&Array.isArray(project.characters));
+const archive=context.window.T20_ARCHIVE_REVISIONS;
+assert.ok(archive?.allReviewed,"Arquivo editorial das 69 fichas não foi carregado: "+archive?.error);
+assert.equal(archive.total,69);
+assert.equal(archive.steps,828);
+assert.equal(Object.keys(archive.records).length,69);
+assert.deepEqual([...archive.selection.map(x=>x.id)].sort(),["cipher","jojo-diavolo","hsr-castorice","jojo-joseph","shigaraki"].sort());
+for(const character of project.characters){
+ const review=archive.records[character.id],g=character._guide;
+ assert.ok(review&&g?.levels?.length===12,character.id+" sem revisão individual");
+ assert.equal(character.progression.length,12,character.id+" sem progressão de 12 níveis");
+ assert.ok(review.goal&&review.risk&&review.decision,character.id+" sem análise própria");
+ for(let i=0;i<12;i++){
+  assert.ok(character.progression[i][2].includes("FASE IV")||character.progression[i][2].includes("TABELA"),
+   character.id+" nível "+(i+1)+" sem progressão revisada");
+  assert.ok(g.levels[i].why.includes("Revisão de classe")||g.levels[i].why.includes("tabela da variante"),
+   character.id+" nível "+(i+1)+" sem guia revisado");
+  assert.ok(g.levels[i].use&&g.levels[i].ref?.length,character.id+" nível "+(i+1)+" sem fonte");
+ }
+ assert.deepEqual(character.portrait.url,archive.originals[character.id].info?.portrait?.url||character.portrait.url,
+  character.id+" imagem alterada indevidamente");
+ const draft=archive.draftById(character.id,context.window.T20_BUILD_ENGINE);
+ assert.equal(draft.catalogId,character.id);
+ assert.equal(draft.levels.length,12,character.id+" laboratório sem 12 níveis");
+}
+
 assert.equal(project.characters.length,69);
 assert.equal(context.window.T20_CLASS_REVIEW.report.entries.length,73,"Auditoria incompleta: 69 dossiês e 4 variantes");
 assert.equal(context.window.T20_CLASS_REVIEW.report.validation.uniqueIds,true);
