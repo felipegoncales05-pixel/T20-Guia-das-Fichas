@@ -42,11 +42,13 @@ assert.equal(engine.evaluate(a).basePV,null);
 assert.ok(engine.evaluate(a).issues.some(x=>x.includes("regra de substituição")));
 
 const fixture="__variante-de-teste__";
+const explicitFixture="__variante-lista-explicita__";
 const ability="__habilidade-de-teste__",powerFixture="__poder-variante-de-teste__";
 rules.abilities[ability]={name:"Poder unitário",kind:"automática",manual:{action:"passiva",cost:"0",effect:"teste",limit:"teste",example:"teste"}};
 rules.abilities[powerFixture]={name:"Poder exclusivo de teste",kind:"poder",classId:fixture,source:{book:"jda-1.3",page:"teste"},manual:{action:"padrão",cost:"1",effect:"teste",limit:"teste",example:"teste"}};
 options.variants[fixture]={id:fixture,name:"Variante artificial de teste",baseClassId:"guerreiro",status:"verificado",
  source:{book:"jda-1.3",edition:"v1.3",page:"teste",url:"https://example.org"},
+ grantPolicy:"substituicoes-verificadas",
  stats:{initialPV:22,gainPV:6,gainPM:4},powerFrom:2,powers:{exclusive:[powerFixture],remove:["impeto"]},
  levels:{1:{remove:["ataque-especial"],add:[ability]},3:{remove:["durao"],add:[]}}};
 try{
@@ -78,7 +80,20 @@ try{
  const sourceDenied=options.resolveClassStep({classId:"guerreiro",classLevel:1,variantId:fixture,
   classRule:rules.classes.guerreiro,abilities:rules.abilities,allowedBooks:[]});
  assert.equal(sourceDenied.calculable,false);
- const broken=structuredClone(options.variants[fixture]);
+ const explicit={...options.variants[fixture],id:explicitFixture,name:"Teste de herança explícita",
+  grantPolicy:"lista-explicita",levels:{1:{keep:[],add:[ability]},2:{keep:[],add:[]},3:{keep:[],add:[]}}};
+ const withoutInheritance=options.resolveClassStep({classId:"guerreiro",classLevel:1,variantId:explicitFixture,
+  registry:{[explicitFixture]:explicit},classRule:rules.classes.guerreiro,abilities:rules.abilities,allowedBooks:["jda-1.3"]});
+ assert.deepEqual(withoutInheritance.grants,[ability]);
+ assert.deepEqual(withoutInheritance.removed,["ataque-especial"]);
+ const missingLevel=options.resolveClassStep({classId:"guerreiro",classLevel:4,variantId:explicitFixture,
+  registry:{[explicitFixture]:explicit},classRule:rules.classes.guerreiro,abilities:rules.abilities,allowedBooks:["jda-1.3"]});
+ assert.equal(missingLevel.calculable,false);
+ const undocumented={...options.variants[fixture],grantPolicy:undefined};
+ const blocked=options.resolveClassStep({classId:"guerreiro",classLevel:1,variantId:fixture,
+  registry:{[fixture]:undocumented},classRule:rules.classes.guerreiro,abilities:rules.abilities,allowedBooks:["jda-1.3"]});
+ assert.equal(blocked.calculable,false);
+  const broken=structuredClone(options.variants[fixture]);
  broken.levels[1]={remove:["poder-que-nao-existe"],add:[ability]};
  const noDup=options.resolveClassStep({classId:"guerreiro",classLevel:1,variantId:fixture,
   registry:{[fixture]:broken},classRule:rules.classes.guerreiro,abilities:rules.abilities,allowedBooks:["jda-1.3"]});
