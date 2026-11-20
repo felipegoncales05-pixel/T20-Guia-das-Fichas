@@ -39,7 +39,7 @@ async function assertLayout(page,label){
    page.on("pageerror",err=>errors.push(String(err)));
    await page.route(/^https?:\/\//,route=>route.abort()); // Testa também fallbacks de imagens
    await page.goto(site,{waitUntil:"load"});
-   assert.equal(await page.locator(".roster-card").count(),69);
+   assert.equal(await page.locator(".roster-card").count(),126);
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
@@ -47,7 +47,13 @@ async function assertLayout(page,label){
    const names=await page.locator(".roster-card h3").allTextContents();
    const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
-   assert.match(await page.locator("#resultsCount").textContent(),/69 DE 69/);
+   assert.match(await page.locator("#resultsCount").textContent(),/126 DE 126/);
+   await page.locator("#universe").selectOption("umamusume");
+   assert.equal(await page.locator(".roster-card").count(),57,width+": faltam Umas no filtro");
+   assert.ok(await page.locator('[data-open="uma-daitaku-helios"]').count()===1,width+": Helios ausente");
+   assert.ok(await page.locator('[data-open="uma-matikanetannhauser"]').count()===1,width+": Mambo ausente");
+   await page.locator("#universe").selectOption("all");
+
    
     // Fase III: categoria Chrysos e alternadores de Diego/Goku.
     await page.locator("#universe").selectOption("chrysos");
@@ -71,7 +77,7 @@ async function assertLayout(page,label){
     }
     await page.locator("#search").fill("MAKIMA");
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
-   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 69/);
+   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 126/);
    await page.locator("[data-clear-search]").click();
    assert.equal(await page.locator(".roster-card").count(),69,width+": limpar busca");
    await page.locator("#universe").selectOption("jojo");
@@ -291,7 +297,7 @@ async function assertLayout(page,label){
     assert.equal(await page.locator('.roster-card').count(),69,"Ficha pessoal entrou no catálogo");
    }
    assert.deepEqual(errors,[]);
-   console.log("OK viewport "+width+"x"+height+" — 69 dossiês e interações");
+   console.log("OK viewport "+width+"x"+height+" — 126 dossiês e interações");
    await page.close();
   }
   const reduced=await browser.newPage({viewport:{width:375,height:812},reducedMotion:"reduce"});
@@ -305,6 +311,6 @@ async function assertLayout(page,label){
   assert.equal(await reduced.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),"","HUD reage sob movimento reduzido");
   await reduced.close();
   console.log("Movimento reduzido validado: Capri e David sem animações.");
-  console.log("VALIDADO: 11 viewports, 69 fichas completas e dez builds automáticas sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports, 126 fichas completas e dez builds automáticas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});
