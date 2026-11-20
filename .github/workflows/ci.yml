@@ -31,16 +31,25 @@ jobs:
           node --check character-art.js
           node --check review-data.js
           node --check planned-data.js
+          node --check rules-catalog.js
+          node --check build-concepts.js
+          node --check build-presets.js
+          node --check build-engine.js
+          node --check build-lab.js
           node --check app.js
           node --check card-worlds.js
           node --check visual-direction.js
           node --check tests/site-smoke.cjs
           node --check tests/browser-lite.cjs
           node --check tests/responsive-browser.cjs
+          node --check tests/build-engine.cjs
+          node --check tests/build-presets.cjs
       - name: Validar as 59 fichas
         run: |
           node tests/site-smoke.cjs
           node tests/browser-lite.cjs
+          node tests/build-engine.cjs
+          node tests/build-presets.cjs
 
   mobile:
     name: Validar celular e tablet (Chromium)

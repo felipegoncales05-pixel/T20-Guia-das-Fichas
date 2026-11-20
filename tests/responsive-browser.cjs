@@ -78,7 +78,10 @@ async function assertLayout(page,label){
    if([375,1440].includes(width)){
     await page.locator("#search").fill("Celenova");
     const celenova=page.locator('[data-open="em-celenova"]');
-    await celenova.locator('img:not(.portrait-underlay)').evaluate(el=>el.decode());
+    const celenovaArt=celenova.locator('img:not(.portrait-underlay)');
+    await celenovaArt.scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>document.querySelector('[data-open="em-celenova"] img:not(.portrait-underlay)')?.naturalWidth>0,null,{timeout:15000});
+    await celenovaArt.evaluate(el=>el.decode());
     assert.equal(await celenova.locator('.card-body').evaluate(el=>getComputedStyle(el).borderTopWidth),"0px","Faixa horizontal atravessou Celenova");
     await celenova.screenshot({path:"tests/screenshots/"+width+"-celenova-depois.png"});
     await page.locator("[data-clear-search]").click();
@@ -225,7 +228,7 @@ async function assertLayout(page,label){
     await assertLayout(page,width+" "+id+" progressão pendente");
     await page.locator('[data-tab="sources"]').click();
     await page.locator('#detail-section[data-tab="sources"]').waitFor();
-    assert.match(await page.locator("#detail-section").textContent(),/Nenhuma página de livro ou suplemento/);
+    assert.match(await page.locator("#detail-section").textContent(),/Tormenta20 — Edição Jogo do Ano v1.3/);
     assert.match(await page.locator(".planned-source-link").getAttribute("href"),/^https:\/\//,id+": crédito da imagem ausente");
     await page.locator('[data-tab="review"]').click();
     await page.locator("#reviewForm").waitFor();
@@ -237,6 +240,41 @@ async function assertLayout(page,label){
     await page.locator('#reviewForm button[type="submit"]').click();
     assert.match(await page.locator("#reviewRecords").textContent(),/Fonte a conferir/);
     assert.equal(await page.locator("#reviewRecords .review-entry").count(),1);
+   }
+   if([375,1440].includes(width)){
+    await page.goto(site+"#/laboratorio",{waitUntil:"load"});
+    await page.locator('[data-lab-seed="toji"]').click();
+    assert.match(await page.locator('.lab-editor').textContent(),/Toji/);
+    assert.equal(await page.locator('.lab-draft').count(),1);
+    assert.match(await page.locator('.lab-summary').textContent(),/Guerreiro 8 \/ Ladino 4/,"Roteiro inicial de Toji ausente");
+    assert.equal(await page.locator('.lab-level').count(),12,"Roteiro não contém 12 níveis");
+    await page.locator('[data-field="class:0"]').selectOption('lutador');
+    assert.match(await page.locator('.lab-summary').textContent(),/Lutador 1 \/ Guerreiro 7 \/ Ladino 4/);
+    assert.match(await page.locator('.lab-summary').textContent(),/PV base: 103 · PM base: 40/);
+    await page.locator('[data-book-id="herois"]').check();
+    assert.match(await page.locator('.lab-audit').textContent(),/Heróis de Arton.*opções mecânicas ainda não catalogadas/);
+    assert.equal(await page.locator('[data-field="originId"]').inputValue(),"soldado","Origem de Toji ausente");
+    await assertLayout(page,width+" laboratório");
+    await page.screenshot({path:"tests/screenshots/"+width+"-laboratorio.png",fullPage:true});
+    const downloadPromise=page.waitForEvent('download');
+    await page.locator('[data-lab-action="export"]').click();
+    const download=await downloadPromise;
+    assert.match(download.suggestedFilename(),/^o-sistema-local-.*\.json$/);
+    const exported=await download.path();
+    await page.locator('[data-lab-action="delete"]').click();
+    assert.equal(await page.locator('.lab-draft').count(),0);
+    await page.locator('#labImport').setInputFiles(exported);
+    await page.locator('.lab-draft').first().waitFor();
+    assert.match(await page.locator('.lab-summary').textContent(),/Lutador 1 \/ Guerreiro 7 \/ Ladino 4/,"Importação JSON não preservou multiclasse");
+    await page.reload();
+    await page.locator('.lab-draft').first().click();
+    assert.match(await page.locator('.lab-summary').textContent(),/Lutador 1 \/ Guerreiro 7 \/ Ladino 4/,"Rascunho local não persistiu");
+    await page.goto(site+'#/toji/overview',{waitUntil:'load'});
+    await page.getByRole('link',{name:'ABRIR CÓPIA NO LABORATÓRIO'}).click();
+    await page.locator('.lab-draft').first().waitFor({state:"visible"});
+    assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
+    await page.goto(site,{waitUntil:'load'});
+    assert.equal(await page.locator('.roster-card').count(),69,"Ficha pessoal entrou no catálogo");
    }
    assert.deepEqual(errors,[]);
    console.log("OK viewport "+width+"x"+height+" — 59 dossiês e interações");
