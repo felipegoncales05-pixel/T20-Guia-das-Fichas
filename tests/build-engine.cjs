@@ -52,7 +52,8 @@ assert.ok(evaluate(dex).issues.some(x=>x.includes('requer DES 1')));
 // Fontes ausentes e combinações de variante não verificadas não passam em silêncio.
 const forbidden=readyBase(makeDraft());forbidden.allowedBooks=['jda-1.3','herois'];forbidden.levels=classes('guerreiro','guerreiro');forbidden.levels[1].powerId='impeto';forbidden.levels[1].powerVersion='variante-nao-catalogada';
 const f=evaluate(forbidden);
-assert.ok(f.issues.some(x=>x.includes('opções mecânicas ainda não catalogadas')));
+assert.equal(rules.books.find(x=>x.id==="herois").status,"parcial");
+assert.ok(f.issues.some(x=>x.includes("versão indisponível")));
 assert.ok(f.issues.some(x=>x.includes('versão indisponível')));
 assert.equal(f.complete,false);
 forbidden.allowedBooks=['jda-1.3','livro-inexistente'];assert.throws(()=>evaluate(forbidden),/Livro não cadastrado/);
