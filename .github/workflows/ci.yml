@@ -38,6 +38,9 @@ jobs:
           node --check class-options.js
           node --check herois-variants.js
           node --check archive-revisions.js
+          node --check umamusume-data.js
+          node --check umamusume-runtime.js
+          node --check tests/umamusume.cjs
           node --check catalog-revision.js
           node --check build-engine.js
           node --check build-lab.js
@@ -51,9 +54,10 @@ jobs:
           node --check tests/class-options.cjs
           node --check tests/build-engine.cjs
           node --check tests/build-presets.cjs
-      - name: Validar as 59 fichas
+      - name: Validar 69 fichas antigas e 57 Umas
         run: |
           node tests/site-smoke.cjs
+          node tests/umamusume.cjs
           node tests/browser-lite.cjs
           node tests/herois-variants.cjs
           node tests/class-options.cjs
