@@ -15,12 +15,12 @@ const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,"
 const icon=(v)=>e(v||"◈");
 const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
 const normalizeSearch=(v)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").replace(/[^a-z0-9]+/g," ").trim();
-const archiveCategory=(c)=>c.catalogCategory||(["gyro","diego"].includes(c.id)?"jojo":["cipher","cyrene"].includes(c.id)?"hsr":["rentarou","marin"].includes(c.id)?"romcom":["yoru","makima"].includes(c.id)?"chainsaw":c.id==="ado"?"music":c.id==="optimus"?"transformers":"cyberpunk");
+const archiveCategory=(c)=>c.catalogCategory||(["gyro","diego"].includes(c.id)?"jojo":["cipher","cyrene"].includes(c.id)?"chrysos":["rentarou","marin"].includes(c.id)?"romcom":["yoru","makima"].includes(c.id)?"chainsaw":c.id==="ado"?"music":c.id==="optimus"?"transformers":"cyberpunk");
 const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c.id==="goku"?"Dragon Ball Z GT Daima Super":""].filter(Boolean).join(" "));
 const plannedById=(id)=>planned.find(c=>c.id===id);
 
 const charById=(id)=>id==="goku"&&window.T20_GOKU_VARIANTS?.[gokuMode]?window.T20_GOKU_VARIANTS[gokuMode]:id==="diego"&&diegoMode==="alternative"&&window.T20_ALTERNATES?.diego?.alternative?window.T20_ALTERNATES.diego.alternative:data.characters.find(c=>c.id===id);
-function image(src,alt,css=""){return '<img class="'+e(css)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
+function image(src,alt,css="",attrs=""){return '<img class="'+e(css)+'" '+attrs+' loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),3200)}
 function note(text){return '<aside class="system-note"><span class="who">O SISTEMA // OBSERVAÇÃO</span><p>'+e(text)+'</p></aside>'}
 
@@ -136,9 +136,12 @@ function card(c){
  const shown=mode==="principal"?c:variantByKey(c.id,mode);
  const visual=visualFor(shown,mode);
  const symbolic=shown.portrait.url.startsWith("data:image/")||shown.portrait.url.endsWith(".svg");
+ const cover=!(c.id==="diego"&&mode==="alternative")?window.T20_CATALOG_COVERS?.[c.id]:null;
+ const featuredImage=cover?.image||shown.portrait.url;
+ const featuredAttrs=cover?' data-card-fallback="'+imageUrl(shown.portrait.url)+'" data-cover-volume="'+e(cover.volume||"")+'"':"";
  const world=archiveCategory(c);
  const button='<button type="button" class="roster-card '+e(c.theme)+'" style="'+visualStyle(visual)+'" data-world="'+e(world)+'"'+visualAttrs(visual)+' data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+(alternate?' · versão '+mode:'')+'">'+
-  '<div class="photo"><img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">'+image(shown.portrait.url,"Retrato ilustrativo de "+shown.name)+'</div>'+
+  '<div class="photo"><img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">'+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs)+'</div>'+
   '<div class="art-insignia" aria-hidden="true"><span>'+e(visual.motif)+'</span><i></i></div><span class="art-series" aria-hidden="true">'+e(visual.series)+'</span>'+
   '<div class="character-fx" aria-hidden="true"><i class="fx-a"></i><i class="fx-b"></i><i class="fx-c"></i></div>'+cardEffect(c.id)+
   '<span class="card-no">DOSSIÊ // '+e(c.number)+'</span><span class="world-mark" aria-hidden="true">'+e(worldMarks[world]||"O SISTEMA")+'</span><span class="card-topline" aria-hidden="true"></span>'+
@@ -146,8 +149,8 @@ function card(c){
   (alternate?'<span class="card-versions">'+alternate+'</span>':'')+(symbolic?'<span class="card-versions symbolic">RETRATO PENDENTE · ARTE SIMBÓLICA</span>':'')+
   '<p>'+e(shown.info.race)+' · '+e(shown.info.className)+'<br>'+e(shown.universe)+'</p><div class="card-action"><span>ACESSAR FICHA</span><b aria-hidden="true">↗</b></div></div></button>';
  if(!alternate)return button;
- const options=c.id==="diego"?[["normal","SCARY"],["alternative","THE WORLD"]]:[["z","DBZ"],["gt","GT"],["daima","DAIMA"],["super","SUPER"]];
- return '<div class="roster-entry">'+button+'<div class="card-variant-switch" role="group" aria-label="Versões de '+e(c.name)+'">'+options.map(([key,label])=>'<button type="button" data-card-switch="'+e(c.id)+'" data-card-mode="'+e(key)+'" aria-pressed="'+(mode===key)+'" aria-label="Visualizar '+e(c.name)+' · '+e(label)+'">'+e(label)+'</button>').join("")+'</div></div>';
+ const options=c.id==="diego"?[["normal","SM"],["alternative","TW"]]:[["z","DBZ"],["gt","GT"],["daima","DAIMA"],["super","SUPER"]];
+ return '<div class="roster-entry">'+button+'<div class="card-variant-switch" role="group" aria-label="Versões de '+e(c.name)+'">'+options.map(([key,label])=>'<button type="button" data-card-switch="'+e(c.id)+'" data-card-mode="'+e(key)+'" aria-pressed="'+(mode===key)+'" aria-label="Visualizar '+e(c.name)+' · '+e(c.id==="diego"?(key==="normal"?"Scary Monsters":"The World"):label)+'">'+e(label)+'</button>').join("")+'</div></div>';
 }
 function plannedCard(c){
  const v=visualFor(c,"principal");
@@ -426,7 +429,7 @@ document.addEventListener("error",evt=>{
   im.remove();return;
  }
  const original=im.getAttribute("src")||"";
- const backups=window.T20_MEDIA_BACKUPS?.[original]||[];
+ const backups=[...(window.T20_MEDIA_BACKUPS?.[original]||[]),im.dataset.cardFallback].filter(Boolean);
  const tried=(im.dataset.triedSources||"").split("|").filter(Boolean);
  if(!tried.includes(original))tried.push(original);
  const local=im.closest(".roster-card")?.dataset.open||getRoute().character?.id;

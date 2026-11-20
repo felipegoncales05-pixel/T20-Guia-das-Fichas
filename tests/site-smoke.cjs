@@ -3,7 +3,7 @@ const vm=require("node:vm");
 const assert=require("node:assert/strict");
 const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","character-art.css","card-worlds.js","card-worlds.css","visual-direction.js","visual-direction.css","signature-finish.css","planned-data.js","planned.css","assets/motifs/capri-hud.webp","assets/motifs/capri-source.json","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
 files.push("art-portraits.css","assets/planned-art/sources.json","build-concepts.js","build-presets.js");
-files.push("rules-catalog.js","build-engine.js","build-lab.js","build-lab.css","docs/laboratorio.md");
+files.push("rules-catalog.js","build-engine.js","build-lab.js","build-lab.css","docs/laboratorio.md","catalog-cover-art.js","assets/card-art/catalog-covers.json");
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync("data.js","utf8"),context,{filename:"data.js"});
@@ -17,6 +17,7 @@ vm.runInNewContext(fs.readFileSync("catalog-media.js","utf8"),context,{filename:
 for(const n of ["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
 vm.runInNewContext(fs.readFileSync("local-media.js","utf8"),context,{filename:"local-media.js"});
 vm.runInNewContext(fs.readFileSync("character-art.js","utf8"),context,{filename:"character-art.js"});
+vm.runInNewContext(fs.readFileSync("catalog-cover-art.js","utf8"),context,{filename:"catalog-cover-art.js"});
 vm.runInNewContext(fs.readFileSync("review-data.js","utf8"),context,{filename:"review-data.js"});
 vm.runInNewContext(fs.readFileSync("visual-direction.js","utf8"),context,{filename:"visual-direction.js"});
 vm.runInNewContext(fs.readFileSync("planned-data.js","utf8"),context,{filename:"planned-data.js"});
@@ -49,6 +50,27 @@ for(const c of planned){
  assert.ok(context.window.T20_VISUAL.profiles[c.id]&&context.window.T20_VISUAL.finishes[c.id],c.id+" sem direção gráfica");
 }
 assert.deepEqual(Array.from(project.characters,c=>c.id),["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-johnny","jojo-gappy","denji","satoru-gojo","shigaraki","midoriya"]);
+
+/* Fase III: Cyrene e Cipher pertencem a Chrysos, sem modificar builds. */
+for(const id of ["cipher","cyrene"]){
+ const c=project.characters.find(c=>c.id===id);
+ assert.equal(c.catalogCategory,"chrysos",id+" fora de Chrysos");
+ assert.equal(context.window.T20_VISUAL.forCharacter(c,"principal").lineage,"chrysos",id+" sem assinatura de Chrysos");
+}
+const catalogCoverRows=JSON.parse(fs.readFileSync("assets/card-art/catalog-covers.json","utf8"));
+assert.equal(catalogCoverRows.length,Object.keys(context.window.T20_CATALOG_COVERS).length);
+const coverIds=new Set();
+for(const record of catalogCoverRows){
+ assert.ok(!coverIds.has(record.id),"Capa duplicada "+record.id);coverIds.add(record.id);
+ assert.ok(project.characters.some(c=>c.id===record.id),"Capa sem ficha "+record.id);
+ assert.equal(context.window.T20_CATALOG_COVERS[record.id].image,record.image);
+ assert.match(record.image,/^https:\/\//);assert.match(record.source,/^https:\/\//);
+ assert.ok(record.volume&&record.publisher&&record.credit,record.id+" sem proveniência");
+}
+assert.ok(!coverIds.has("shigaraki"),"Shigaraki: volume 2 não mostra o personagem");
+assert.ok(!coverIds.has("cipher"),"Cipher deve manter a arte");
+assert.equal(context.window.T20_CATALOG_COVERS.midoriya.volume,"Volume 37");
+for(const id of ["jojo-johnny","jojo-valentine","diego","gyro"])assert.ok(coverIds.has(id),"Capa SBR ausente "+id);
 const price={0:0,1:1,2:2,3:4,4:7};
 for(const char of project.characters){
  assert.equal(char.attrs.length,6,char.id+" sem 6 atributos");

@@ -106,7 +106,7 @@
  function forCharacter(c,key){
   const [motif,family,pattern,layout,accent,dark]=variations[c.id+":"+key]||profiles[c.id]||["ARQUIVO","cosmic","grid","spine","#9bd9d5","#253546"];
   const finish=finishes[c.id+":"+key]||finishes[c.id]||"paper";
-  const lineage=c.universe.includes("Lord Ravager")?"ravager":c.universe.includes("Emanador")?"emanator":c.universe.includes("Chrysos")?"chrysos":"other";
+  const lineage=c.universe.includes("Lord Ravager")?"ravager":c.universe.includes("Emanador")?"emanator":c.catalogCategory==="chrysos"||c.universe.includes("Chrysos")?"chrysos":"other";
   const series={ravager:"LORD RAVAGER",emanator:"EMANADORES",chrysos:"HERDEIROS / CHRYSOS"}[lineage]||families[family];
   return {motif,family,pattern,layout,accent,dark,finish,lineage,series,id:c.id,variant:key||"principal"};
  }

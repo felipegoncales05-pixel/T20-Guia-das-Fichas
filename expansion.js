@@ -35,7 +35,7 @@ const make=(x)=>{
  const values=Object.fromEntries(attrs.map(a=>[a.key,a.value]));
  const skills=x.skills.map(s=>{let name=Array.isArray(s)?s[0]:s;const desc=Array.isArray(s)?s[1]:"Perícia treinada";const attr=skillAttr[name]||"INT";return [name,(values[attr]+2>=0?"+":"")+(values[attr]+2),desc]});
  return {
-  id:x.id,number:x.number,name:x.name,universe:x.universe,label:x.label,symbol:x.symbol,theme:x.theme,
+  id:x.id,number:x.number,name:x.name,universe:x.universe,catalogCategory:x.catalogCategory,label:x.label,symbol:x.symbol,theme:x.theme,
   portrait:{url:x.image,credit:x.credit,page:x.source},
   excerpt:x.excerpt,info:{race:x.race,className:x.className,origin:x.origin,devotion:x.devotion,role:x.role,partner:x.partner||"Nenhum parceiro automático"},
   stats:x.stats,attrs,summary:x.summary,history:x.history,skills,initial:x.initial,
@@ -245,7 +245,7 @@ const profiles=[
  ]
 },
 {
- id:"cyrene",number:"09",name:"Cyrene",universe:"Honkai: Star Rail · Amphoreus",label:"REMEMBRANCE // GELO",symbol:"❋",theme:"cyrene",image:art.cyrene,
+ id:"cyrene",number:"09",name:"Cyrene",universe:"Honkai: Star Rail · Amphoreus",catalogCategory:"chrysos",label:"REMEMBRANCE // GELO",symbol:"❋",theme:"cyrene",image:art.cyrene,
  credit:"Arte promocional da HoYoverse, reproduzida em Zerochan",source:"https://www.hoyoverse.com/en-us/news/160640",
  race:"Humana (visual de Amphoreus)",className:"Arcanista — Feiticeira Feérica",origin:"Herdeira (reflavor narrativo)",devotion:"Nenhuma obrigatória",role:"Magias de controle, gelo e suporte",
  buy:{CON:1,CAR:3,SAB:1,INT:2,FOR:0,DEX:2},raceBonus:{CON:1,CAR:1,DEX:1},
