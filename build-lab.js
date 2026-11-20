@@ -122,13 +122,13 @@
   if(remove&&d){d.inventory.splice(Number(remove.dataset.labRemoveItem),1);save();draw();return true}
   if(removeSpell&&d){d.spellbook.splice(Number(removeSpell.dataset.labRemoveSpell),1);save();draw();return true}
   if(act?.dataset.labAction==='new'){if(drafts.length>=40){message='Limite de 40 rascunhos locais; exporte e remova um antes de continuar.';draw();return true}const n=engine.makeDraft();drafts.unshift(n);active=n.id;save();draw();return true}
+  if(act?.dataset.labAction==='audit-export'){window.T20_CLASS_REVIEW?.exportReport();return true}
+  if(act?.dataset.labAction==='backup-export'){window.T20_CLASS_REVIEW?.exportBackup();return true}
   if(!d)return true;
   if(act.dataset.labAction==='add-level'&&d.levels.length<12)d.levels.push(engine.emptyLevel());
   if(act.dataset.labAction==='remove-level'&&d.levels.length>1)d.levels.pop();
   if(act.dataset.labAction==='delete'){drafts=drafts.filter(x=>x.id!==d.id);active='';save()}
-  if(act.dataset.labAction==='audit-export'){window.T20_CLASS_REVIEW?.exportReport();return true}
-   if(act.dataset.labAction==='backup-export'){window.T20_CLASS_REVIEW?.exportBackup();return true}
-   if(act.dataset.labAction==='export'){const blob=new Blob([engine.exportJSON(d)],{type:'application/json'}),link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='o-sistema-'+d.id+'.json';link.click();setTimeout(()=>URL.revokeObjectURL(link.href),2000);return true}
+  if(act.dataset.labAction==='export'){const blob=new Blob([engine.exportJSON(d)],{type:'application/json'}),link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='o-sistema-'+d.id+'.json';link.click();setTimeout(()=>URL.revokeObjectURL(link.href),2000);return true}
   save();draw();return true
  }
  function handleInput(evt){if(!owns(evt.target))return false;const d=current();if(!d)return false;const t=evt.target;
