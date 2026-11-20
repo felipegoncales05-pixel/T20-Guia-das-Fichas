@@ -145,7 +145,7 @@ function card(c){
  const featuredAttrs=cover?' data-card-fallback="'+imageUrl(shown.portrait.url)+'" data-cover-volume="'+e(cover.volume||"")+'"':"";
  const world=archiveCategory(c);
  const button='<button type="button" class="roster-card '+e(c.theme)+'" style="'+visualStyle(visual)+'" data-world="'+e(world)+'"'+visualAttrs(visual)+' data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+(alternate?' · versão '+mode:'')+'">'+
-  '<div class="photo"><img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">'+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs)+'</div>'+
+  '<div class="photo">'+(world==="umamusume"?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">')+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs)+'</div>'+
   '<div class="art-insignia" aria-hidden="true"><span>'+e(visual.motif)+'</span><i></i></div><span class="art-series" aria-hidden="true">'+e(visual.series)+'</span>'+
   '<div class="character-fx" aria-hidden="true"><i class="fx-a"></i><i class="fx-b"></i><i class="fx-c"></i></div>'+cardEffect(c.id)+
   '<span class="card-no">DOSSIÊ // '+e(c.number)+'</span><span class="world-mark" aria-hidden="true">'+e(worldMarks[world]||"O SISTEMA")+'</span><span class="card-topline" aria-hidden="true"></span>'+
