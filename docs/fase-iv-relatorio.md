@@ -67,3 +67,17 @@ As suites são chamadas pelo workflow `.github/workflows/ci.yml` quando um pull 
 ## Atualização: biblioteca compartilhada em novembro de 2026
 
 A análise de dez PDFs fornecidos pelo usuário identificou cinco obras principais de consulta (Jogo do Ano, Heróis de Arton, Deuses de Arton oficial, Atlas e Ameaças), uma coletânea de Dragão Brasil, uma compilação de Deuses menores não oficial e três PDFs de homebrew/crossover. Ver [matriz de fontes](fontes-fase-iv.md). Quatro variantes agora têm progressões 1–12 registradas no motor; as demais continuam bloqueadas. Esse avanço não altera as 69 fichas automaticamente nem reescreve guias sem evidência de adequação.
+
+## Atualização efetiva das 69 fichas — Fase IV / revisão de classes
+
+O arquivo `archive-revisions.js`, carregado depois dos dez dossiês automáticos e antes da auditoria, gera e aplica **69 revisões individualizadas**, modificando as progressões visíveis e os guias de **828 níveis**. Ele preserva os IDs, imagens, categorias, mídia, inventário e a progressão anterior no export de backup.
+
+- **5 propostas de variante indexada**: Cipher → Ventanista; Diavolo → Ventanista; Joseph Joestar → Ventanista; Castorice → Necromante; Tomura Shigaraki → Necromante.
+- **64 classes mantidas**, após análise de adequação aos conceitos e das possíveis perdas mecânicas; cada ficha recebe objetivo e risco próprios, e orientações específicas para os níveis 1–12.
+- Acesso no **Laboratório** a **69 cópias editáveis**: os dez presets existentes continuam intactos e os outros 59 são construídos conservadoramente a partir do catálogo. Classes ainda não indexadas não recebem PV/PM fictícios.
+- A página de **Progressão** inclui painel de classe, justificativa, limitação, indicação da fonte e link direto à edição local.
+- O relatório de auditoria `catalog-revision.js` registra `revisedMain:69` e `revisedSteps:828` e o backup recupera a versão anterior dos guias.
+- Os poderes de classe que foram verificados no catálogo são preenchidos nas cinco propostas de variante quando compatíveis; opções desconhecidas permanecem pendentes.
+- **Limitação:** PV, PM, perícias, itens, escolhas de todas as classes e habilidades condicionais não foram integralmente recalculados para 69 fichas. Todas as revisões permanecem **editorialmente pendentes**, sem carimbo de aprovação mecânica.
+
+O objetivo aqui é disponibilizar todas as fichas atualizadas com rastreabilidade e advertências em vez de alegar, incorretamente, que o cálculo integral de 69 personagens foi concluído. As versões extras (Diego THE WORLD e três modos alternativos de Goku) continuam preservadas.
