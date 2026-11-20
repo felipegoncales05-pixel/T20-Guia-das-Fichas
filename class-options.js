@@ -93,14 +93,31 @@
    result.issues.push("Lista de poderes exclusivos/removidos inválida na variante "+variant.name);
    result.calculable=false;return result;
   }
-  const target=variant.levels?.[classLevel]||{};
-  const remove=target.remove||[],add=target.add||[];
-  if(remove.some(id=>!normal.includes(id))||add.some(id=>!abilities[id]?.manual)
-   ||new Set(add).size!==add.length||add.some(id=>normal.includes(id)&&!remove.includes(id))){
+  // Uma variante é uma progressão própria. Sem política registrada, não
+  // presumir herança automática das habilidades da classe original.
+  if(!["lista-explicita","substituicoes-verificadas"].includes(variant.grantPolicy)){
+   result.issues.push("Variante "+variant.name+": política de preservação ausente; não herdar habilidades implicitamente.");
+   result.calculable=false;return result;
+  }
+  const target=variant.levels?.[classLevel];
+  if(variant.grantPolicy==="lista-explicita"&&!target){
+   result.issues.push("Variante "+variant.name+": tabela explícita ausente no nível de classe "+classLevel+".");
+   result.calculable=false;return result;
+  }
+  const remove=target?.remove||[],add=target?.add||[];
+  const keep=variant.grantPolicy==="lista-explicita"?(target?.keep||[]):normal.filter(id=>!remove.includes(id));
+  if(remove.some(id=>!normal.includes(id))
+   ||keep.some(id=>!normal.includes(id))
+   ||new Set(keep).size!==keep.length
+   ||add.some(id=>!abilities[id]?.manual)
+   ||new Set(add).size!==add.length
+   ||add.some(id=>keep.includes(id))
+   ||(variant.grantPolicy==="lista-explicita"&&remove.some(id=>keep.includes(id)))){
    result.issues.push("Variante "+variant.name+": substituições inconsistentes no nível de classe "+classLevel+".");
    result.calculable=false;return result;
   }
-  result.removed=remove.slice();result.retained=normal.filter(id=>!remove.includes(id));
+  result.retained=keep.slice();
+  result.removed=normal.filter(id=>!keep.includes(id));
   result.added=add.slice();result.grants=[...result.retained,...result.added];
   if(variant.stats)for(const key of ["initialPV","gainPV","gainPM"]){
    if(Object.prototype.hasOwnProperty.call(variant.stats,key)){
