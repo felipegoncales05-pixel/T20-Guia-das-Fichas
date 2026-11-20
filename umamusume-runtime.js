@@ -103,8 +103,13 @@
   const label=s.title.toUpperCase();
   const levelGuide=[],progression=[];
   for(let i=0;i<12;i++){
-   const n=i+1,automatics=auto(s,n),proposal=POWER[s.klass][i],srcPower=(s.variant?"heroes":"core");
-   const title=(s.variant?"Atleta "+n+": ":"")+proposal+(automatics.length?" · "+automatics.join(" / "):"");
+   const n=i+1,automatics=auto(s,n),srcPower=(s.variant?"heroes":"core");
+   const proposal=s.variant?"Poder de Lutador — opção a escolher e validar":POWER[s.klass][i];
+   // Variantes substituem a tabela de automáticas; não mostrar Golpe
+   // Relâmpago de Lutador como poder adquirido por uma Atleta.
+   const title=s.variant?"Atleta "+n+": "+(automatics.join(" / ")||"Evolução da classe")+
+    (n>=2?" · poder opcional de Lutador a confirmar":""):
+    proposal+(automatics.length?" · "+automatics.join(" / "):"");
    const growth=["fundamentos","consistência","defesa","especialização","primeiro salto","adaptação","maturidade","controle técnico","segundo salto","combinação","refinamento","síntese"][i];
    const why="Nível "+n+": "+growth+" de "+s.title.toLowerCase()+". "+s.concept+
     (automatics.length?" Habilidades concedidas pela tabela: "+automatics.join(", ")+".":" Sem habilidade adicional gratuita neste passo.");
