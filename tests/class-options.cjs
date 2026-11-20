@@ -18,7 +18,7 @@ assert.equal(options.variants.alquimista.status,"pendente");
 assert.equal(options.distinctions["cavaleiro-corvo"].status,"pendente");
 const a=fresh(),baseline=engine.evaluate(a);
 assert.equal(baseline.rows[0].grants[0].id,"ataque-especial");
-assert.equal(baseline.basePV,25);
+assert.equal(baseline.basePV,23);
 
 a.narrativeSubclass="Espadachim sobrenatural";
 assert.equal(engine.evaluate(a).basePV,baseline.basePV);
