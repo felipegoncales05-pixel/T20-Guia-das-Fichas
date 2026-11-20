@@ -166,7 +166,7 @@
     }
    }
    rows.push({globalLevel:i+1,classId:row.classId,classLevel,variantId:activeVariant,variant:resolved.variant,removedGrants:resolved.removed,addedGrants:resolved.added,removedPowers:resolved.removedPowers,exclusivePowers:resolved.exclusivePowers,powerFrom:resolved.powerFrom,firstClass,pv:canCalculate?pv:null,pm:canCalculate?pm:null,hpDelta,pmDelta:stats.gainPM,grants,choice:ability||null,
-    newClass:classLevel===1&&!firstClass,source:cls.source,reason:row.why,usage:row.usage});
+    newClass:classLevel===1&&!firstClass,source:resolved.variant?.source||cls.source,reason:row.why,usage:row.usage});
   }
   if(!sheet.name.trim())issues.push("Nome obrigatório.");
   if(sheet.raceId==="humano"&&!sheet.trainedSkills.length)issues.push("Humano: identifique perícias treinadas e o benefício Versátil escolhido.");
