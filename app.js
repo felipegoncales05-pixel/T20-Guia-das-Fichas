@@ -211,11 +211,24 @@ function abilities(c){
  '<div class="skill-grid" id="skillGrid">'+c.skills.map((entry,i)=>'<div class="skill-item"><strong>'+e(entry[0])+'</strong><b data-skill="'+i+'">'+skillFor(c,entry,selectedLevel)+'</b><small>'+e(entry[2])+'</small></div>').join("")+'</div><div id="skillsAdditional"></div>',
  c.notes.abilities);
 }
+function classReview(c){
+ const r=c._classRevision;
+ if(!r)return "";
+ const origin=r.chosenVariant?"Heróis de Arton v1.1 — variante "+r.chosenVariant:"Jogo do Ano v1.3 — classe original";
+ const link=r.chosenVariant?"https://jamboeditora.com.br/produto/tormenta20-herois-de-arton/":"https://jamboeditora.com.br/produto/tormenta20-edicao-jogo-do-ano/";
+ const audit=r.chosenVariant?"As habilidades automáticas seguem a tabela da variante; poderes selecionáveis do plano anterior precisam ser revalidados.":"Classe original mantida e reavaliada. Nenhuma variante foi forçada nesta ficha.";
+ return '<section class="panel archive-class-audit"><div class="panel-title">FASE IV // CLASSE, SUBCLASSE E VERIFICAÇÃO</div>'+
+  '<h3>'+e(r.currentClass)+'</h3><p>'+e(r.goal)+'. '+e(r.decision)+'</p>'+
+  '<p><b>Regra de referência:</b> <a href="'+url(link)+'" target="_blank" rel="noopener noreferrer">'+e(origin)+(r.source?.pages?' · p. '+e(r.source.pages):"")+'</a></p>'+
+  '<p><b>Limite:</b> '+e(r.risk)+'. '+e(audit)+'</p>'+
+  '<p class="derived-note">PV, PM, Defesa, ataque e equipamentos exibidos continuam valores legados até conferência mecânica individual. O guia foi revisto, mas a ficha não está aprovada para mesa automaticamente.</p>'+
+  '<a class="ref-link" href="#/laboratorio/'+encodeURIComponent(c.id)+'">ABRIR ESTA BUILD NO LABORATÓRIO // REVISAR OS 12 NÍVEIS</a></section>';
+}
 function progression(c){
  const lvl=selectedLevel;
  return shell("Progressão real","05 / EVOLUÇÃO",
  '<div class="level-bar"><label for="levelSelect">NÍVEL<br>DA FICHA</label><b id="selectedLevel">'+String(lvl).padStart(2,"0")+'</b><input aria-label="Selecionar nível do personagem" id="levelSelect" type="range" min="1" max="12" step="1" value="'+lvl+'"><span class="cap">01 ↔ 12</span></div>'+
- '<div id="progressStats">'+selectedMetrics(c,lvl)+'</div>'+
+ '<div id="progressStats">'+selectedMetrics(c,lvl)+'</div>'+classReview(c)+
  '<div class="section-head"><div><div class="kicker">NÍVEL SELECIONADO</div><h2>Como jogar agora</h2></div></div>'+
  '<article id="levelReadout" class="selected-guide" aria-live="polite">'+levelPanel(c,lvl)+'</article>'+
  '<div class="section-head"><div><div class="kicker">DESBLOQUEIOS POR NÍVEL</div><h2>Árvore de evolução</h2></div></div>'+
