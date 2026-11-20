@@ -107,6 +107,18 @@
   }
   if(necromante&&sheet.spellbook.length&&necroKnown<Math.ceil(sheet.spellbook.length/2))
    issues.push("Necromante exige pelo menos metade das magias aprendidas de Necromancia.");
+  if(ventanista&&arcanistLevels&&sheet.spellbook.length)
+   issues.push("Multiclasse Ventanista/Arcanista: a ficha deve identificar de qual classe veio cada magia; seleção ainda não atribuída.");
+  if(ventanista&&!arcanistLevels){
+   for(let level=1;level<=ladinoLevels;level++){
+    const chosen=sheet.spellbook.filter(sp=>sp.classLevel<=level).length;
+    const max=2+Math.floor(level/2);
+    if(chosen>max){
+     issues.push("Ventanista nível "+level+": "+chosen+" magias registradas, limite "+max+" pela progressão de Truques do Ofício.");
+     break;
+    }
+   }
+  }
   const attrs=Object.fromEntries(KEYS.map(k=>[k,sheet.attributes[k]+(sheet.raceId==="humano"&&sheet.raceBonuses.includes(k)?1:0)]));
   let pv=0,pm=0,canCalculate=true;
   for(let i=0;i<sheet.levels.length;i++){
