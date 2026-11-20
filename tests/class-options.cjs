@@ -81,9 +81,10 @@ try{
   classRule:rules.classes.guerreiro,abilities:rules.abilities,allowedBooks:[]});
  assert.equal(sourceDenied.calculable,false);
  const explicit={...options.variants[fixture],id:explicitFixture,name:"Teste de herança explícita",
-  grantPolicy:"lista-explicita",levels:{1:{keep:[],add:[ability]},2:{keep:[],add:[]},3:{keep:[],add:[]}}};
+  grantPolicy:"lista-explicita",powers:{exclusive:[],remove:[]},levels:{1:{keep:[],add:[ability]},2:{keep:[],add:[]},3:{keep:[],add:[]}}};
  const withoutInheritance=options.resolveClassStep({classId:"guerreiro",classLevel:1,variantId:explicitFixture,
   registry:{[explicitFixture]:explicit},classRule:rules.classes.guerreiro,abilities:rules.abilities,allowedBooks:["jda-1.3"]});
+ assert.equal(withoutInheritance.calculable,true);
  assert.deepEqual(withoutInheritance.grants,[ability]);
  assert.deepEqual(withoutInheritance.removed,["ataque-especial"]);
  const missingLevel=options.resolveClassStep({classId:"guerreiro",classLevel:4,variantId:explicitFixture,
