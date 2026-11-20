@@ -357,6 +357,7 @@ function detail(c,tab){
  '<div class="global-level-picker"><div><span class="panel-title">FICHA ATIVA // NÍVEL</span><strong>NÍVEL <span id="globalLevelText">'+String(selectedLevel).padStart(2,"0")+'</span></strong><p>Altere aqui para recalcular PV, PM, Defesa e evolução em todas as abas.</p></div><input id="globalLevel" aria-label="Nível atual da ficha" type="range" min="1" max="12" value="'+selectedLevel+'"><a href="'+linkFor(c,"progression")+'">VER EVOLUÇÃO ↗</a></div>'+
  '<nav class="detail-tabs" role="tablist" aria-label="Seções da ficha">'+nav+'</nav><section id="detail-section" role="tabpanel" data-tab="'+e(tab)+'" aria-labelledby="tab-'+e(tab)+'">'+content+'</section>'+
  '<div class="actions-row"><button type="button" class="sys-button primary" data-copy="'+e(c.id)+'">COPIAR FICHA DO NÍVEL ATUAL ↗</button><a class="sys-button" href="#/">VOLTAR AOS DOSSIÊS</a></div></div>';
+ if(c._auto)root.querySelector?.(".actions-row")?.insertAdjacentHTML("beforeend",'<a class="sys-button" href="#/laboratorio/'+encodeURIComponent(c.id)+'">ABRIR CÓPIA NO LABORATÓRIO</a>');
  updateLevel(selectedLevel);
  lastRoute=c.id+"/"+activeVariant(c.id)+"/"+tab;
 }
