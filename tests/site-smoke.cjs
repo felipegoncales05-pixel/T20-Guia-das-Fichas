@@ -3,7 +3,7 @@ const vm=require("node:vm");
 const assert=require("node:assert/strict");
 const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","character-art.css","card-worlds.js","card-worlds.css","visual-direction.js","visual-direction.css","signature-finish.css","planned-data.js","planned.css","assets/motifs/capri-hud.webp","assets/motifs/capri-source.json","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
 files.push("art-portraits.css","assets/planned-art/sources.json","build-concepts.js","build-presets.js");
-files.push("rules-catalog.js","build-engine.js","build-lab.js","build-lab.css","docs/laboratorio.md","catalog-cover-art.js","assets/card-art/catalog-covers.json","automatic-dossiers.js");
+files.push("rules-catalog.js","class-options.js","herois-variants.js","archive-revisions.js","build-engine.js","build-lab.js","build-lab.css","docs/laboratorio.md","catalog-cover-art.js","assets/card-art/catalog-covers.json","automatic-dossiers.js","catalog-revision.js");
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync("data.js","utf8"),context,{filename:"data.js"});
@@ -21,10 +21,48 @@ vm.runInNewContext(fs.readFileSync("catalog-cover-art.js","utf8"),context,{filen
 vm.runInNewContext(fs.readFileSync("review-data.js","utf8"),context,{filename:"review-data.js"});
 vm.runInNewContext(fs.readFileSync("visual-direction.js","utf8"),context,{filename:"visual-direction.js"});
 vm.runInNewContext(fs.readFileSync("planned-data.js","utf8"),context,{filename:"planned-data.js"});
-for(const n of ["rules-catalog.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
+for(const n of ["rules-catalog.js","class-options.js","herois-variants.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js","archive-revisions.js","catalog-revision.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
 const project=context.window.T20_DATA;
 assert.ok(project&&Array.isArray(project.characters));
+const archive=context.window.T20_ARCHIVE_REVISIONS;
+assert.ok(archive?.allReviewed,"Arquivo editorial das 69 fichas não foi carregado: "+archive?.error);
+assert.equal(archive.total,69);
+assert.equal(archive.steps,828);
+assert.equal(Object.keys(archive.records).length,69);
+assert.deepEqual([...archive.selection.map(x=>x.id)].sort(),["cipher","jojo-diavolo","hsr-castorice","jojo-joseph","shigaraki"].sort());
+for(const character of project.characters){
+ const review=archive.records[character.id],g=character._guide;
+ assert.ok(review&&g?.levels?.length===12,character.id+" sem revisão individual");
+ assert.equal(character.progression.length,12,character.id+" sem progressão de 12 níveis");
+ assert.ok(review.goal&&review.risk&&review.decision,character.id+" sem análise própria");
+ for(let i=0;i<12;i++){
+  assert.ok(character.progression[i][2].includes("FASE IV")||character.progression[i][2].includes("TABELA"),
+   character.id+" nível "+(i+1)+" sem progressão revisada");
+  assert.ok(g.levels[i].why.includes("Revisão de classe")||g.levels[i].why.includes("tabela da variante"),
+   character.id+" nível "+(i+1)+" sem guia revisado");
+  assert.ok(g.levels[i].use&&g.levels[i].ref?.length,character.id+" nível "+(i+1)+" sem fonte");
+ }
+ assert.deepEqual(character.portrait.url,archive.originals[character.id].info?.portrait?.url||character.portrait.url,
+  character.id+" imagem alterada indevidamente");
+ const draft=archive.draftById(character.id,context.window.T20_BUILD_ENGINE);
+ assert.equal(draft.catalogId,character.id);
+ assert.equal(draft.levels.length,12,character.id+" laboratório sem 12 níveis");
+}
+
 assert.equal(project.characters.length,69);
+assert.equal(context.window.T20_CLASS_REVIEW.report.entries.length,73,"Auditoria incompleta: 69 dossiês e 4 variantes");
+assert.equal(context.window.T20_CLASS_REVIEW.report.revisedMain,69,"A auditoria deve registrar as 69 revisões");
+assert.equal(context.window.T20_CLASS_REVIEW.report.revisedSteps,828);
+assert.ok(context.window.T20_CLASS_REVIEW.report.entries.filter(x=>x.proposedChange).length>=69);
+assert.equal(context.window.T20_CLASS_REVIEW.backup.count,73);
+const priorBackup=context.window.T20_CLASS_REVIEW.backup.original.find(x=>x.id==="shigaraki");
+assert.equal(priorBackup.character.info.className,"Arcanista","O backup não pode conter a classe revista como original");
+assert.equal(priorBackup.character.progression[0][1],"Caminho do Arcanista e magias de 1º círculo");
+assert.equal(project.characters.find(x=>x.id==="shigaraki").info.className.includes("Necromante"),true);
+
+assert.equal(context.window.T20_CLASS_REVIEW.report.validation.uniqueIds,true);
+assert.equal(context.window.T20_CLASS_REVIEW.report.validation.actualVariants,4);
+assert.equal(context.window.T20_CLASS_REVIEW.report.validation.approvedCount,0,"Auditoria não pode aprovar regras sem fontes");
 assert.equal(Object.keys(context.window.T20_VISUAL.profiles).length,69,"Cada entrada precisa de assinatura visual");
 assert.equal(Object.keys(context.window.T20_VISUAL.variations).length,4,"Variantes visuais de Diego e Goku");
 assert.equal(Object.keys(context.window.T20_VISUAL.finishes).length,73,"69 fichas e quatro variantes");

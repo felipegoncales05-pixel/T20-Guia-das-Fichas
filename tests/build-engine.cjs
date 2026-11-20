@@ -52,12 +52,13 @@ assert.ok(evaluate(dex).issues.some(x=>x.includes('requer DES 1')));
 // Fontes ausentes e combinações de variante não verificadas não passam em silêncio.
 const forbidden=readyBase(makeDraft());forbidden.allowedBooks=['jda-1.3','herois'];forbidden.levels=classes('guerreiro','guerreiro');forbidden.levels[1].powerId='impeto';forbidden.levels[1].powerVersion='variante-nao-catalogada';
 const f=evaluate(forbidden);
-assert.ok(f.issues.some(x=>x.includes('opções mecânicas ainda não catalogadas')));
+assert.equal(rules.books.find(x=>x.id==="herois").status,"parcial");
+assert.ok(f.issues.some(x=>x.includes("versão indisponível")));
 assert.ok(f.issues.some(x=>x.includes('versão indisponível')));
 assert.equal(f.complete,false);
 forbidden.allowedBooks=['jda-1.3','livro-inexistente'];assert.throws(()=>evaluate(forbidden),/Livro não cadastrado/);
 const variant=readyBase(makeDraft());variant.levels=classes('guerreiro');variant.levels[0].variantId='variante-sem-compatibilidade';
-assert.ok(evaluate(variant).issues.some(x=>x.includes('variante de classe sem regra')));
+assert.ok(evaluate(variant).issues.some(x=>x.includes('regra de substituição')));
 assert.equal(evaluate(variant).basePV,null,"Variante não verificada não pode mostrar total de classe básica");
 const gap=readyBase(makeDraft());gap.levels=classes('','guerreiro');
 assert.equal(evaluate(gap).rows[1].pv,null,"Nível posterior não pode mostrar subtotal após classe ausente");
