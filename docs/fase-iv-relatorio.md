@@ -11,7 +11,7 @@
 
 ## O que já está implementado
 
-1. `class-options.js`: índice explícito das classes básicas tradicionais e do Treinador, identificando quais só têm nome catalogado e quais contam com regras parcialmente estruturadas. Índice de variantes oficialmente anunciadas (Alquimista, Necromante, Duelista), caminhos do Arcanista e distinções em revisão.
+1. `class-options.js` + `herois-variants.js`: índice explícito das classes básicas tradicionais e do Treinador, identificando quais só têm nome catalogado e quais contam com regras parcialmente estruturadas. Índice das 14 variantes com filiação e páginas verificadas, incluindo quatro tabelas de progressão integradas, caminhos do Arcanista e distinções em revisão.
 2. Resolvedor mecânico de variante **somente quando a definição individual estiver verificada**: substituições, remoções, preservação de habilidades, perfil de PV/PM, fonte e compatibilidade em cada nível de classe. Detecta variante incompatível, mudança retroativa e regras incompletas.
 3. `build-engine.js`: integração sem reiniciar ganhos da classe inicial; armazena classe variante no primeiro nível daquela classe, propagando-a nos avanços seguintes. Mantém rascunhos antigos no `schemaVersion: 1` e salva os campos adicionais, sem forçar variantes nos arquivos antigos.
 4. Registro independente de distinções: admissão narrativa, aprovação da mesa, notas e bloqueio de poderes não verificados. Campo de arquétipo narrativo sem efeito numérico.
@@ -21,7 +21,7 @@
 
 ## Limite importante sobre os suplementos
 
-A descrição pública da Jambô confirma a existência de variantes em **Heróis de Arton**, mas não fornece a tabela completa de substituições, pré-requisitos, PV, PM, progressão e erratas individuais. Os nomes estão catalogados como **PENDENTES** e não são liberados para cálculos. Uma classe ou variante só deve passar a `status:"verificado"` após uma revisão **legítima** da edição, página e condições da mesa.
+O usuário forneceu acesso ao PDF de **Heróis de Arton v1.1**, que contém as tabelas completas de classes variantes. A Tabela 1-2 vincula as 14 variantes às suas classes básicas. As variantes **Atleta, Inovador, Necromante e Ventanista** possuem agora níveis 1–12 e habilidades indexadas com páginas; as outras dez ainda carecem de classes básicas completas, poderes e conversão para o motor. Não confundir essa implementação parcial com cálculo integral de itens, proficiências, magias e condições.
 
 Fonte de referência: https://jamboeditora.com.br/produto/tormenta20-herois-de-arton/
 
@@ -63,3 +63,7 @@ As suites são chamadas pelo workflow `.github/workflows/ci.yml` quando um pull 
 - O gerador não aplica automaticamente uma variante em rascunhos antigos.
 - O catálogo não é modificado por edições no Laboratório: as escolhas ficam no navegador e podem ser exportadas.
 - Backups são gerados por exportação, e a branch de backup preserva integralmente o estado anterior.
+
+## Atualização: biblioteca compartilhada em novembro de 2026
+
+A análise de dez PDFs fornecidos pelo usuário identificou cinco obras principais de consulta (Jogo do Ano, Heróis de Arton, Deuses de Arton oficial, Atlas e Ameaças), uma coletânea de Dragão Brasil, uma compilação de Deuses menores não oficial e três PDFs de homebrew/crossover. Ver [matriz de fontes](fontes-fase-iv.md). Quatro variantes agora têm progressões 1–12 registradas no motor; as demais continuam bloqueadas. Esse avanço não altera as 69 fichas automaticamente nem reescreve guias sem evidência de adequação.
