@@ -89,7 +89,6 @@ async function assertLayout(page,label){
     assert.equal(await page.locator('[data-open="shigaraki"] img[data-cover-volume*="Volume 25"]').count(),1,width+": falta capa do volume 25");
     assert.equal(await page.locator('[data-open="jojo-dio1"] img[data-cover-volume]').count(),0,width+": Dio Brando não restaurado");
     if([375,1440].includes(width))await page.locator('[data-open="toji"]').screenshot({path:"tests/screenshots/"+width+"-toji-ficha-ativa.png"});
-    await page.locator("[data-clear-search]").click();
    if([375,1440].includes(width)){
     await page.locator("#search").fill("Celenova");
     const celenova=page.locator('[data-open="em-celenova"]');
