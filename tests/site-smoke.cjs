@@ -21,10 +21,14 @@ vm.runInNewContext(fs.readFileSync("catalog-cover-art.js","utf8"),context,{filen
 vm.runInNewContext(fs.readFileSync("review-data.js","utf8"),context,{filename:"review-data.js"});
 vm.runInNewContext(fs.readFileSync("visual-direction.js","utf8"),context,{filename:"visual-direction.js"});
 vm.runInNewContext(fs.readFileSync("planned-data.js","utf8"),context,{filename:"planned-data.js"});
-for(const n of ["rules-catalog.js","class-options.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
+for(const n of ["rules-catalog.js","class-options.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js","catalog-revision.js"])vm.runInNewContext(fs.readFileSync(n,"utf8"),context,{filename:n});
 const project=context.window.T20_DATA;
 assert.ok(project&&Array.isArray(project.characters));
 assert.equal(project.characters.length,69);
+assert.equal(context.window.T20_CLASS_REVIEW.report.entries.length,73,"Auditoria incompleta: 69 dossiês e 4 variantes");
+assert.equal(context.window.T20_CLASS_REVIEW.report.validation.uniqueIds,true);
+assert.equal(context.window.T20_CLASS_REVIEW.report.validation.actualVariants,4);
+assert.equal(context.window.T20_CLASS_REVIEW.report.validation.approvedCount,0,"Auditoria não pode aprovar regras sem fontes");
 assert.equal(Object.keys(context.window.T20_VISUAL.profiles).length,69,"Cada entrada precisa de assinatura visual");
 assert.equal(Object.keys(context.window.T20_VISUAL.variations).length,4,"Variantes visuais de Diego e Goku");
 assert.equal(Object.keys(context.window.T20_VISUAL.finishes).length,73,"69 fichas e quatro variantes");
