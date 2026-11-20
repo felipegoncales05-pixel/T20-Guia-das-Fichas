@@ -15,17 +15,31 @@
   [id,{id,name,source:{book:"jda-1.3",edition:"v1.3",url:jda},
    status:["arcanista","guerreiro","ladino","lutador"].includes(id)?"parcial":"pendente",
    note:"Acesso a PV, PM, poderes, perícias e progressão depende de cadastro mecânico conferido."}]));
- basics.treinador={id:"treinador",name:"Treinador",source:{book:"herois",url:herois},
+ basics.treinador={id:"treinador",name:"Treinador",source:{book:"herois",edition:"v1.1 — maio/2025",page:"16–21",url:herois},
   status:"pendente",note:"Classe básica de Heróis de Arton; mecânica não verificada."};
- // A página da editora confirma os NOMES, não o parent/efeito de cada variante.
- const variants={
-  alquimista:{id:"alquimista",name:"Alquimista",baseClassId:null,source:{book:"herois",url:herois},
-   status:"pendente",note:"A filiação de classe, substituições e números precisam da edição adquirida."},
-  necromante:{id:"necromante",name:"Necromante",baseClassId:null,source:{book:"herois",url:herois},
-   status:"pendente",note:"É uma variante publicada; poderes e substituições não foram conferidos."},
-  duelista:{id:"duelista",name:"Duelista",baseClassId:null,source:{book:"herois",url:herois},
-   status:"pendente",note:"Não presumir classe base ou poderes por semelhança narrativa."}
- };
+ // Tabela 1-2 de Heróis de Arton v1.1 (maio/2025), p. 22:
+ // filiação de cada variante identificada diretamente no PDF fornecido.
+ // Somente variantes com progressões/manuais estruturados tornam-se elegíveis.
+ const variantRows=[
+  ["necromante","Necromante","arcanista","34–35"],
+  ["machado-de-pedra","Machado de Pedra","barbaro","32–33"],
+  ["magimarcialista","Magimarcialista","bardo","33–34"],
+  ["duelista","Duelista","bucaneiro","27–28"],
+  ["seteiro","Seteiro","cacador","38–39"],
+  ["vassalo","Vassalo","cavaleiro","41–43"],
+  ["usurpador","Usurpador","clerigo","40–41"],
+  ["ermitao","Ermitão","druida","29–30"],
+  ["inovador","Inovador","guerreiro","30–31"],
+  ["alquimista","Alquimista","inventor","22–24"],
+  ["ventanista","Ventanista","ladino","44–45"],
+  ["atleta","Atleta","lutador","24–25"],
+  ["burgues","Burguês","nobre","25–27"],
+  ["santo","Santo","paladino","37–38"]
+ ];
+ const variants=Object.fromEntries(variantRows.map(([id,name,baseClassId,page])=>[
+  id,{id,name,baseClassId,source:{book:"herois",edition:"v1.1 — maio/2025",page,url:herois},
+   status:"pendente",note:"Filiação e localização conferidas na Tabela 1-2; progressão e efeitos ainda não integrados ao motor."}
+ ]));
  const paths={
   arcanista:{
    bruxo:{id:"bruxo",name:"Bruxo",source:{book:"jda-1.3",page:"37",url:jda},status:"parcial"},
@@ -35,9 +49,9 @@
   }
  };
  const distinctions={
-  "cavaleiro-corvo":{id:"cavaleiro-corvo",name:"Cavaleiro do Corvo",source:{book:"herois",url:herois},status:"pendente"},
-  "guerreiro-magico":{id:"guerreiro-magico",name:"Guerreiro Mágico",source:{book:"herois",url:herois},status:"pendente"},
-  "medico-salistick":{id:"medico-salistick",name:"Médico de Salistick",source:{book:"herois",url:herois},status:"pendente"}
+  "cavaleiro-corvo":{id:"cavaleiro-corvo",name:"Cavaleiro do Corvo",source:{book:"herois",edition:"v1.1",page:"139–141",url:herois},status:"pendente"},
+  "guerreiro-magico":{id:"guerreiro-magico",name:"Guerreiro Mágico",source:{book:"herois",edition:"v1.1",page:"169–171",url:herois},status:"pendente"},
+  "medico-salistick":{id:"medico-salistick",name:"Médico de Salistick",source:{book:"herois",edition:"v1.1",page:"181–183",url:herois},status:"pendente"}
  };
  const ADMISSIONS=["pretendida","admissao-pendente","admitida","incompativel"];
  const distinctItem=(raw={})=>({
