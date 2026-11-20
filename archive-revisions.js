@@ -121,7 +121,7 @@
   const existing=c._guide||guide.people[c.id]||{levels:[],basics:[]};
   const originalProgress=clone(c.progression||[]),originalGuide=clone(existing);
   if(originalProgress.length!==12||existing.levels?.length!==12)throw Error("Original sem doze níveis: "+c.id);
-  origById[c.id]={progression:originalProgress,guide:originalGuide,info:clone(c.info),notes:clone(c.notes)};
+  origById[c.id]={progression:originalProgress,guide:originalGuide,info:clone(c.info),notes:clone(c.notes),hadOwnGuide:!!c._guide};
   const assigned=variant?variant.name:null;
   const refs=variant?[["heroes",variant.source.page,"Classe variante "+variant.name]]:[];
   const newLevels=[];
