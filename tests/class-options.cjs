@@ -42,15 +42,16 @@ assert.equal(engine.evaluate(a).basePV,null);
 assert.ok(engine.evaluate(a).issues.some(x=>x.includes("regra de substituição")));
 
 const fixture="__variante-de-teste__";
-const ability="__habilidade-de-teste__";
+const ability="__habilidade-de-teste__",powerFixture="__poder-variante-de-teste__";
 rules.abilities[ability]={name:"Poder unitário",kind:"automática",manual:{action:"passiva",cost:"0",effect:"teste",limit:"teste",example:"teste"}};
+rules.abilities[powerFixture]={name:"Poder exclusivo de teste",kind:"poder",classId:fixture,source:{book:"jda-1.3",page:"teste"},manual:{action:"padrão",cost:"1",effect:"teste",limit:"teste",example:"teste"}};
 options.variants[fixture]={id:fixture,name:"Variante artificial de teste",baseClassId:"guerreiro",status:"verificado",
  source:{book:"jda-1.3",edition:"v1.3",page:"teste",url:"https://example.org"},
- stats:{initialPV:22,gainPV:6,gainPM:4},
+ stats:{initialPV:22,gainPV:6,gainPM:4},powerFrom:2,powers:{exclusive:[powerFixture],remove:["impeto"]},
  levels:{1:{remove:["ataque-especial"],add:[ability]},3:{remove:["durao"],add:[]}}};
 try{
  const d=fresh();d.levels[0].variantId=fixture;
- d.levels.push({...engine.emptyLevel(),classId:"guerreiro",powerId:"impeto",why:"Treino",usage:"Mover-se"});
+ d.levels.push({...engine.emptyLevel(),classId:"guerreiro",powerId:powerFixture,why:"Treino",usage:"Mover-se"});
  d.levels.push({...engine.emptyLevel(),classId:"guerreiro",powerId:"valentao",why:"Combate",usage:"Contra alvos vulneráveis"});
  const result=engine.evaluate(d);
  assert.deepEqual(result.rows[0].grants.map(x=>x.id),[ability]);
@@ -62,6 +63,10 @@ try{
  assert.equal(result.basePV,22+3+2*(6+3));
  assert.equal(result.basePM,12);
  assert.equal(result.classVariants.guerreiro,fixture);
+ assert.equal(result.rows[1].choice.name,"Poder exclusivo de teste");
+ assert.deepEqual(result.rows[1].removedPowers,["impeto"]);
+ const prohibited=structuredClone(d);prohibited.levels[1].powerId="impeto";
+ assert.ok(engine.evaluate(prohibited).issues.some(x=>x.includes("incompatível com a classe/variante")));
  assert.equal(engine.importJSON(engine.exportJSON(d)).levels[0].variantId,fixture);
  assert.equal(engine.recommend(d).status,"comparar");
  const changed=structuredClone(d);changed.levels[2].variantId="necromante";
@@ -80,5 +85,5 @@ try{
  assert.equal(noDup.calculable,false);
  console.log("VALIDADO: arquitetura de variantes, substituições, progressão, distinções e JSON.");
 }finally{
- delete rules.abilities[ability];delete options.variants[fixture];
+ delete rules.abilities[ability];delete rules.abilities[powerFixture];delete options.variants[fixture];
 }
