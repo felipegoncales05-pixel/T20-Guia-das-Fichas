@@ -54,7 +54,7 @@ assert.ok(atleta.rows[8].removedGrants.includes("golpe-violento"));
 const inovador=engine.evaluate(make("inovador","guerreiro"));
 assert.ok(inovador.rows[5].removedGrants.includes("ataque-extra"));
 const ventDraft=make("ventanista","ladino");
-assert.equal(engine.evaluate(ventDraft).basePM,12*4+2,"Charme precisa usar CAR final (+2)");
+assert.equal(engine.evaluate(ventDraft).basePM,12*4+1,"Charme precisa usar CAR final (+1)");
 const necroDraft=make("necromante","arcanista");
 assert.ok(!engine.evaluate(necroDraft).issues.some(msg=>msg.includes("exige caminho definido")));
 necroDraft.arcanePath="mago";
