@@ -13,7 +13,8 @@ const fresh=()=>{
  return d;
 };
 assert.equal(Object.keys(options.basics).length,15);
-assert.equal(Object.keys(options.variants).length,3);
+assert.equal(Object.keys(options.variants).length,14);
+for(const id of ["atleta","inovador","necromante","ventanista"])assert.equal(options.variants[id].status,"verificado",id+" sem tabela estruturada");
 assert.equal(options.variants.alquimista.status,"pendente");
 assert.equal(options.distinctions["cavaleiro-corvo"].status,"pendente");
 const a=fresh(),baseline=engine.evaluate(a);
