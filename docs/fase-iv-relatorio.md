@@ -25,7 +25,7 @@ A descrição pública da Jambô confirma a existência de variantes em **Herói
 
 Fonte de referência: https://jamboeditora.com.br/produto/tormenta20-herois-de-arton/
 
-A infraestrutura aceita futuramente uma definição de variante com: `baseClassId`, `status`, `source`, `stats` (se mudarem) e `levels[nível].remove/add`. Os IDs devem existir no catálogo de habilidades e ter manual. **Não use o exemplo artificial de testes como regra oficial.**
+A infraestrutura aceita futuramente uma definição de variante com: `baseClassId`, `status`, `source`, `stats` (se mudarem) e `levels[nível]`. **`grantPolicy` é obrigatório** em uma variante verificada: `lista-explicita` exige que cada nível declare `keep/add`, sem herança implícita, enquanto `substituicoes-verificadas` aceita os grants da classe original exceto os explicitamente substituídos **somente quando a fonte autorizar esse comportamento**. `powers.remove` e `powers.exclusive` controlam a lista de poderes disponíveis. Os IDs devem existir no catálogo de habilidades e ter manual. **Não use o exemplo artificial de testes como regra oficial.**
 
 ## Revisão das 69 fichas: situação efetiva
 
