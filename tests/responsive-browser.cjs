@@ -79,7 +79,7 @@ async function assertLayout(page,label){
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
    assert.match(await page.locator("#resultsCount").textContent(),/01 DE 126/);
    await page.locator("[data-clear-search]").click();
-   assert.equal(await page.locator(".roster-card").count(),69,width+": limpar busca");
+   assert.equal(await page.locator(".roster-card").count(),126,width+": limpar busca");
    await page.locator("#universe").selectOption("jojo");
    assert.ok(await page.locator(".roster-card").count()>=8,width+": filtro JoJo");
    await page.locator("#universe").selectOption("mha");
@@ -294,7 +294,7 @@ async function assertLayout(page,label){
     await page.locator('.lab-draft').first().waitFor({state:"visible"});
     assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
     await page.goto(site,{waitUntil:'load'});
-    assert.equal(await page.locator('.roster-card').count(),69,"Ficha pessoal entrou no catálogo");
+    assert.equal(await page.locator('.roster-card').count(),126,"Ficha pessoal entrou no catálogo");
    }
    assert.deepEqual(errors,[]);
    console.log("OK viewport "+width+"x"+height+" — 126 dossiês e interações");
