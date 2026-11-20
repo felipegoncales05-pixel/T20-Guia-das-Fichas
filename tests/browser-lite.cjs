@@ -10,7 +10,7 @@ const scriptRuntime=fs.readFileSync("expansion-runtime.js","utf8");
 const scriptMega=fs.readFileSync("mega-data.js","utf8");
 const scriptMegaRuntime=fs.readFileSync("mega-runtime.js","utf8");
 const scriptCatalogMedia=fs.readFileSync("catalog-media.js","utf8");
-const addons=["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","review-data.js","visual-direction.js","planned-data.js","rules-catalog.js","class-options.js","herois-variants.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js","catalog-revision.js"].map(name=>[name,fs.readFileSync(name,"utf8")]);
+const addons=["acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","review-data.js","visual-direction.js","planned-data.js","rules-catalog.js","class-options.js","herois-variants.js","build-engine.js","build-concepts.js","build-presets.js","automatic-dossiers.js","archive-revisions.js","catalog-revision.js"].map(name=>[name,fs.readFileSync(name,"utf8")]);
 const hooks={};
 const elements=new Map();
 function get(id){if(!elements.has(id))elements.set(id,{id,innerHTML:"",value:"",classList:{add(){},remove(){}},textContent:""});return elements.get(id);}
