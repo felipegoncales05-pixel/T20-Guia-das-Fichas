@@ -36,6 +36,7 @@ jobs:
           node --check build-concepts.js
           node --check build-presets.js
           node --check class-options.js
+          node --check herois-variants.js
           node --check catalog-revision.js
           node --check build-engine.js
           node --check build-lab.js
