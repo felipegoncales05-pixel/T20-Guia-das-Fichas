@@ -53,3 +53,19 @@
  .roster-card .photo .fallback-title{font-size:23px}
 }
 @media(forced-colors:active){.search-field-inner:focus-within{outline:2px solid Highlight}}
+
+/* TRACEN // Os portraits verticais oficiais são PNGs transparentes.
+ * Fundo cromático próprio; sem forçar recortes ou carregar SVGs inexistentes. */
+.roster-card[data-world="umamusume"]{
+ background:radial-gradient(ellipse 78% 64% at 55% 25%,color-mix(in srgb,var(--card-accent,#8fc7da),transparent 64%),transparent 86%),linear-gradient(160deg,#243041,#0e1927 79%);
+ border-color:color-mix(in srgb,var(--card-accent,#8fc7da),transparent 69%)
+}
+.roster-card[data-world="umamusume"] .photo img:not(.portrait-underlay){
+ object-fit:contain;object-position:center 30%;filter:saturate(1.08) contrast(1.04);opacity:1;
+ transform:scale(1.02)
+}
+.roster-card[data-world="umamusume"]:hover .photo img:not(.portrait-underlay){transform:scale(1.065)}
+.roster-card[data-world="umamusume"] .photo:after{
+ background:linear-gradient(180deg,#08121b00 0%,#08121b0d 42%,#07121ce8 85%,#07121cff 100%)
+}
+.roster-card[data-world="umamusume"] .world-mark{color:var(--card-accent,#8fc7da)}
