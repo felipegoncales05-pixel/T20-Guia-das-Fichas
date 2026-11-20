@@ -40,6 +40,9 @@ jobs:
           node --check archive-revisions.js
           node --check umamusume-data.js
           node --check umamusume-runtime.js
+          node --check crossovers-data.js
+          node --check crossovers-runtime.js
+          node --check tests/crossovers.cjs
           node --check tests/umamusume.cjs
           node --check catalog-revision.js
           node --check build-engine.js
@@ -58,6 +61,7 @@ jobs:
         run: |
           node tests/site-smoke.cjs
           node tests/umamusume.cjs
+          node tests/crossovers.cjs
           node tests/browser-lite.cjs
           node tests/herois-variants.cjs
           node tests/class-options.cjs

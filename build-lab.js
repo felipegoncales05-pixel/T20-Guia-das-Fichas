@@ -3,9 +3,9 @@
  "use strict";
  const engine=window.T20_BUILD_ENGINE,rules=window.T20_RULES;
  if(!engine||!rules)return;
- const KEY="t20-laboratorio-v1",planned=()=>[...(window.T20_ARCHIVE_REVISIONS?.seeds||window.T20_AUTOMATIC_SEEDS||window.T20_PLANNED||[]),...(window.T20_UMA?.seeds||[])];
+ const KEY="t20-laboratorio-v1",planned=()=>[...(window.T20_ARCHIVE_REVISIONS?.seeds||window.T20_AUTOMATIC_SEEDS||window.T20_PLANNED||[]),...(window.T20_UMA?.seeds||[]),...(window.T20_CROSSOVERS?.seeds||[])];
  const concepts=window.T20_CONCEPTS;
- const seedDraft=s=>window.T20_UMA?.ids.has(s.id)?window.T20_UMA.draftById(s.id,engine):window.T20_ARCHIVE_REVISIONS?.draftById(s.id,engine)||window.T20_BUILD_PRESETS?.fromPlanned(s,engine)||concepts?.fromPlanned(s,engine)||engine.makeDraft({catalogId:s.id,name:s.name,work:s.universe,theme:s.catalogCategory});
+ const seedDraft=s=>window.T20_CROSSOVERS?.ids.has(s.id)?window.T20_CROSSOVERS.draftById(s.id,engine):window.T20_UMA?.ids.has(s.id)?window.T20_UMA.draftById(s.id,engine):window.T20_ARCHIVE_REVISIONS?.draftById(s.id,engine)||window.T20_BUILD_PRESETS?.fromPlanned(s,engine)||concepts?.fromPlanned(s,engine)||engine.makeDraft({catalogId:s.id,name:s.name,work:s.universe,theme:s.catalogCategory});
  const esc=v=>String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
  let drafts=[],active="",host=null,message="";
  try{const raw=JSON.parse(localStorage.getItem(KEY)||"[]");if(Array.isArray(raw))drafts=raw.slice(0,40).map(x=>{try{return engine.normalize(x)}catch{return null}}).filter(Boolean)}catch{}
@@ -20,13 +20,14 @@
  function sidebar(){
   const all=planned(),ready=all.filter(p=>window.T20_AUTOMATIC?.ids?.has(p.id)),
    uma=all.filter(p=>window.T20_UMA?.ids?.has(p.id)),
-   archive=all.filter(p=>!window.T20_AUTOMATIC?.ids?.has(p.id)&&!window.T20_UMA?.ids?.has(p.id));
+   crossover=all.filter(p=>window.T20_CROSSOVERS?.ids?.has(p.id)),
+   archive=all.filter(p=>!window.T20_AUTOMATIC?.ids?.has(p.id)&&!window.T20_UMA?.ids?.has(p.id)&&!window.T20_CROSSOVERS?.ids?.has(p.id));
   const show=p=>'<button type="button" class="lab-seed" data-lab-seed="'+esc(p.id)+'">'+esc(p.name)+'</button>';
   return '<aside class="lab-sidebar"><h2>Meus rascunhos</h2>'+
    (drafts.length?drafts.map(d=>'<button type="button" class="lab-draft'+(d.id===active?' active':'')+'" data-lab-open="'+esc(d.id)+'"><strong>'+esc(d.name)+'</strong><small>'+esc(d.work||'Criação original')+' · '+d.levels.length+' nível(is)</small></button>').join(""):'<p>Nenhuma ficha pessoal ainda.</p>')+
    '<h2>Abrir dossiês do arquivo</h2><p>'+all.length+' fichas com progressões 1–12. O Laboratório abre cópias locais sem alterar o original; raça, custos e poderes condicionais ainda exigem conferência.</p>'+
    ready.map(show).join("")+
-   '<details class="lab-archive-picker"><summary>UMAMUSUME · '+uma.length+' NOVAS FICHAS</summary><div>'+uma.map(show).join("")+'</div></details>'+
+   '<details class="lab-archive-picker"><summary>FASE VI · '+crossover.length+' NOVOS CROSSOVERS</summary><div>'+crossover.map(show).join("")+'</div></details>'+ '<details class="lab-archive-picker"><summary>UMAMUSUME · '+uma.length+' FICHAS</summary><div>'+uma.map(show).join("")+'</div></details>'+
    '<details class="lab-archive-picker"><summary>OUTRAS '+archive.length+' FICHAS HISTÓRICAS</summary><div>'+archive.map(show).join("")+'</div></details></aside>';
  }
  function identity(d){return '<section class="lab-panel"><div class="lab-panel-head"><span>01 / IDENTIDADE</span><h2>'+esc(d.name)+'</h2></div><div class="lab-grid">'+input('name','NOME',d.name)+input('work','OBRA / CONTEXTO',d.work)+choice('theme','IDENTIDADE VISUAL',d.theme,[['arquivo','Arquivo'],['jojo','Mangá'],['cyberpunk','Cyberpunk'],['signal','HUD'],['cinza','Cinza'],['dourado','Dourado']])+textarea('description','CONCEITO NARRATIVO',d.description,'Descreva a adaptação, sem atribuir mecânicas não conferidas.')+'</div><p class="lab-hint">'+(d.catalogId?'Vinculado ao dossiê '+esc(d.catalogId)+'; o original permanece intacto.':'Ficha criada localmente.')+'</p></section>'}
@@ -133,7 +134,7 @@
  function combat(d){const fields=[['style','ESTILO DE COMBATE'],['opening','INÍCIO DE COMBATE'],['combos','COMBINAÇÕES A CONFERIR'],['resources','GESTÃO DE RECURSOS'],['strengths','PONTOS FORTES'],['weaknesses','PONTOS FRACOS'],['evolution','EVOLUÇÃO DO NÍVEL 1 AO 12']];return '<section class="lab-panel"><div class="lab-panel-head"><span>06 / MESA</span><h2>Guia de combate</h2></div><p class="lab-hint">Registre a estratégia da adaptação. Uma sequência só deve ser tratada como legal após conferir ações, custos, duração e pré-requisitos na fonte.</p><div class="lab-grid">'+fields.map(([id,label])=>textarea('combat:'+id,label,d.combat[id],'Pendente de decisão e conferência.')).join('')+'</div></section>'}
  function audit(d,report){return '<section class="lab-panel lab-audit"><div class="lab-panel-head"><span>07 / CONFERÊNCIA</span><h2>'+report.issues.length+' pendência(s)</h2></div><p>Este rascunho não está aprovado para jogar. A lista mostra o que falta antes de fazer cálculos completos ou publicar uma adaptação.</p><ul>'+report.issues.map(v=>'<li>'+esc(v)+'</li>').join("")+'</ul>'+textarea('notes','DECISÕES E CORREÇÕES',d.notes,'Registre as decisões pendentes da mesa.')+'<p><a href="./docs/laboratorio.md">Como revisar e versionar uma ficha local</a></p></section>'}
  function editor(d){const report=engine.evaluate(d);return '<div class="lab-editor">'+identity(d)+sources(d)+specializations(d,report)+attributes(d,report)+progression(d,report)+spellbook(d)+inventory(d)+combat(d)+audit(d,report)+'<button type="button" class="lab-delete" data-lab-action="delete">EXCLUIR ESTE RASCUNHO LOCAL</button></div>'}
- function draw(){if(!host)return;const d=current();host.innerHTML='<div class="container lab-shell">'+toolbar()+(message?'<p class="lab-message" role="status">'+esc(message)+'</p>':'')+'<div class="lab-layout">'+sidebar()+(d?editor(d):'<div class="lab-empty"><h2>Comece uma ficha</h2><p>Crie uma ficha pessoal ou abra uma das 126 fichas do catálogo, incluindo todas as Umas, como cópia local. As entradas publicadas não são modificadas.</p></div>')+'</div></div>';document.title='Laboratório de Builds // O Sistema T20'}
+ function draw(){if(!host)return;const d=current();host.innerHTML='<div class="container lab-shell">'+toolbar()+(message?'<p class="lab-message" role="status">'+esc(message)+'</p>':'')+'<div class="lab-layout">'+sidebar()+(d?editor(d):'<div class="lab-empty"><h2>Comece uma ficha</h2><p>Crie uma ficha pessoal ou abra uma das 142 fichas do catálogo, incluindo os 16 crossovers e as 57 Umas, como cópia local. As entradas publicadas não são modificadas.</p></div>')+'</div></div>';document.title='Laboratório de Builds // O Sistema T20'}
  function render(root,seedId){host=root;document.body.removeAttribute('data-theme');document.body.removeAttribute('data-art');document.body.removeAttribute('data-world');document.body.removeAttribute('data-family');document.body.removeAttribute('data-pattern');document.body.removeAttribute('data-finish');document.body.removeAttribute('data-lineage');document.body.removeAttribute('data-variant');document.body.style?.removeProperty?.('--char-color');document.body.dataset.lab='true';
   if(seedId){const seed=planned().find(x=>x.id===seedId);if(seed){let d=drafts.find(x=>x.catalogId===seedId);if(!d){d=seedDraft(seed);drafts.unshift(d);save()}active=d.id}}
   draw()}
