@@ -5,7 +5,7 @@ const scripts=["data.js","guide.js","rentarou-guide.js","expansion.js","expansio
 "planned-data.js","build-concepts.js","rules-catalog.js","class-options.js","herois-variants.js","build-engine.js",
 "build-presets.js","automatic-dossiers.js","archive-revisions.js","catalog-revision.js",
 "umamusume-data.js","umamusume-runtime.js","crossovers-data.js","crossovers-runtime.js",
-"wave7-data.js","wave7-fate.js","wave7-forms.js","wave7-runtime.js"];
+"wave7-data.js","wave7-fate.js","wave7-forms.js","wave7-art.js","wave7-runtime.js"];
 const ctx={window:{}};
 for(const f of scripts)vm.runInNewContext(fs.readFileSync(f,"utf8"),ctx,{filename:f});
 const w=ctx.window,v=w.T20_WAVE7,all=w.T20_DATA.characters;
