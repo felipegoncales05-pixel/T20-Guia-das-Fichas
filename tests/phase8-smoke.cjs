@@ -44,4 +44,4 @@ const index=fs.readFileSync(path.join(root,"index.html"),"utf8");
 assert.match(index,/site-expansion\.bundle\.js/);
 assert.doesNotMatch(index,/card-worlds\.js/);
 assert.doesNotMatch(index,/character-fx\.css/);
-console.log("OK: 21 novas fichas, diversidade mecânica, imagens-reserva, bundles e remoção dos efeitos.");
+console.log("OK: 21 novas fichas, imagens-reserva, bundles e efeitos sob interação.");
