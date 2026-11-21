@@ -23,6 +23,19 @@ for(let i=0;i<recent.length;i++){
 }
 assert.ok(new Set(recent.map(c=>c.info.race)).size>=12,"Diversidade racial insuficiente");
 assert.ok(new Set(recent.map(c=>c.info.className)).size>=9,"Diversidade de classes insuficiente");
+const oldHonkai=all.find(c=>c.id==="hsr-aglaea");
+assert.equal(w.T20_VISUAL.forCharacter(oldHonkai,"principal").family,"astral",
+ "Identidade original de Honkai alterada");
+for(const c of recent.filter(c=>c.catalogCategory==="hsr")){
+ assert.equal(w.T20_VISUAL.forCharacter(c,"principal").family,"astral",
+  c.id+" não usa a mesma tipografia astral dos Honkai antigos");
+}
+const styles=fs.readFileSync(path.join(root,"site.min.css"),"utf8");
+assert.doesNotMatch(styles,/content-visibility\s*:\s*auto/,
+ "Não esconder cards com content-visibility e lazy images");
+assert.match(styles,/\.roster-card\[data-world="hsr"\] \.card-body h3/,
+ "Ausente o estilo dos títulos Honkai");
+
 assert.ok(all.some(c=>c.id==="boys-starlight"),"A Starlight já existente deve permanecer");
 for(const file of ["index.html","site.min.css","site-core.bundle.js","site-engine.bundle.js","site-expansion.bundle.js"]){
  assert.ok(fs.statSync(path.join(root,file)).size>2000,file+" não gerado");
