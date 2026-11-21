@@ -2015,6 +2015,39 @@ const charById=(id)=>id==="goku"&&window.T20_GOKU_VARIANTS?.[gokuMode]?window.T2
  window.T20_FATE_VARIANTS?.[id]?variantByKey(id,catalogModes[id]||"principal"):
  data.characters.find(c=>c.id===id);
 function image(src,alt,css="",attrs="",priority="lazy"){return '<img class="'+e(css)+'" '+attrs+' loading="'+(priority==="eager"?"eager":"lazy")+'" fetchpriority="'+(priority==="eager"?"high":"low")+'" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
+const isPoster=src=>/^(?:data:image\/svg\+xml|\.\/assets\/portraits\/)/.test(src||"");
+const isLocalArt=src=>String(src||"").startsWith("./assets/")&&!isPoster(src);
+const isRemoteImage=src=>/^https:\/\//.test(src||"");
+function portraitBackup(c){
+ if(c?.portrait?.fallback)return c.portrait.fallback;
+ const id=c?.id;
+ if(!id||window.T20_UMA?.ids.has(id)||window.T20_CROSSOVERS?.ids.has(id)||window.T20_WAVE7?.ids.has(id))return "";
+ return "./assets/portraits/"+id+".svg";
+}
+function portraitUnderlay(c){
+ const backup=portraitBackup(c);
+ return backup&&backup!==c.portrait.url?image(backup,"","portrait-underlay",'aria-hidden="true"'):"";
+}
+function mediaBackup(c,primary,isPortrait,tried,poster){
+ const art=c?.portrait?.url;
+ const original=primary?.replace(/^\.\/assets\/art-optimized\/([a-z0-9-]+)\.webp$/,"./assets/art/$1.png");
+ const candidates=[original,isPortrait||isLocalArt(art)?art:null,
+  ...(window.T20_MEDIA_BACKUPS?.[primary]||[]),poster,portraitBackup(c),window.T20_MEDIA_POSTERS?.[primary]]
+  .filter(src=>src&&src!==primary&&!tried?.has(src)&&!failedImageSources.has(src));
+ return candidates.find(isLocalArt)||candidates.find(isRemoteImage)||candidates.find(isPoster);
+}
+function mediaNotice(src,recovered){
+ return isPoster(src)?"Pôster de reserva":recovered?"Imagem de reserva":"";
+}
+const mediaAlt=(notice,alt)=>notice?notice+" · "+alt:alt;
+function displayedMedia(c,src,alt,{portrait=false,attrs="",priority="lazy"}={}){
+ const shown=failedImageSources.has(src)?mediaBackup(c,src,portrait)||src:src;
+ const recovered=shown!==src;
+ const notice=mediaNotice(shown,recovered);
+ const metadata=' data-media-alt="'+e(alt)+'"'+(recovered?' data-recovered="true" data-media-original="'+imageUrl(src)+'"':"");
+ return image(shown,mediaAlt(notice,alt),"",attrs+metadata,priority)+
+  '<span class="media-reserve" aria-hidden="true"'+(notice?"":" hidden")+'>'+notice+'</span>';
+}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),3200)}
 function note(text){return '<aside class="system-note"><span class="who">O SISTEMA // OBSERVAÇÃO</span><p>'+e(text)+'</p></aside>'}
 
@@ -2139,23 +2172,17 @@ function card(c,priority="lazy"){
  const mode=catalogModes[c.id]||"principal";
  const shown=mode==="principal"?c:variantByKey(c.id,mode);
  const visual=visualFor(shown,mode);
- const symbolic=shown.portrait.url.startsWith("data:image/")||shown.portrait.url.endsWith(".svg");
  const cover=!(c.id==="diego"&&mode==="alternative")?window.T20_CATALOG_COVERS?.[c.id]:null;
- const safePortrait=failedImageSources.has(shown.portrait.url)?shown.portrait.fallback||shown.portrait.url:shown.portrait.url;
- const featuredImage=cover&&!failedImageSources.has(cover.image)?cover.image:safePortrait;
- const featuredAttrs=(cover?' data-card-fallback="'+imageUrl(safePortrait)+'" data-cover-volume="'+e(cover.volume||"")+'"':"")+
-  (shown.portrait.fallback?' data-poster-fallback="'+imageUrl(shown.portrait.fallback)+'"':"");
  const world=archiveCategory(c);
- const underlay=shown.portrait.fallback?
-  '<img class="portrait-underlay" src="'+imageUrl(shown.portrait.fallback)+'" alt="" aria-hidden="true" loading="lazy" decoding="async">':
-  (["umamusume","konosuba","mushoku","wuwa","dmc","fma","genshin","witcher","overwatch","fate","the-boys","blue-lock","one-punch-man","kamen-rider","manhwa","zenless","marvel"].includes(world)||c.id.startsWith("cx-")||c.id.startsWith("jb-")||c.id.startsWith("nova-")?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">');
+ const featured=displayedMedia(shown,cover?.image||shown.portrait.url,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,
+  {portrait:true,attrs:cover?' data-cover-volume="'+e(cover.volume||"")+'"':"",priority});
  const button='<button type="button" class="roster-card '+e(c.theme)+'" style="'+visualStyle(visual)+'" data-world="'+e(world)+'"'+visualAttrs(visual)+' data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+(alternate?' · versão '+mode:'')+'">'+
-  '<div class="photo">'+underlay+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs,priority)+'</div>'+
+  '<div class="photo">'+portraitUnderlay(shown)+featured+'</div>'+
   '<div class="art-insignia" aria-hidden="true"><span>'+e(visual.motif)+'</span><i></i></div><span class="art-series" aria-hidden="true">'+e(visual.series)+'</span>'+
   (FX_CARD_IDS.has(c.id)?'<div class="character-fx" aria-hidden="true"><i class="fx-a"></i><i class="fx-b"></i><i class="fx-c"></i></div>':"")+cardEffect(c.id)+
   '<span class="card-no">DOSSIÊ // '+e(c.number)+'</span><span class="world-mark" aria-hidden="true">'+e(worldMarks[world]||"O SISTEMA")+'</span><span class="card-topline" aria-hidden="true"></span>'+
   '<div class="card-body"><span class="card-overline">'+e(shown.label)+'</span><h3>'+e(c.name)+'</h3>'+
-  (alternate?'<span class="card-versions">'+alternate+'</span>':'')+(symbolic?'<span class="card-versions symbolic">RETRATO PENDENTE · ARTE SIMBÓLICA</span>':'')+
+  (alternate?'<span class="card-versions">'+alternate+'</span>':'')+
   '<p>'+e(shown.info.race)+' · '+e(shown.info.className)+'<br>'+e(shown.universe)+'</p><div class="card-action"><span>ACESSAR FICHA</span><b aria-hidden="true">↗</b></div></div></button>';
  if(!alternate)return button;
  const options=c.id==="diego"?[["normal","SM"],["alternative","TW"]]:c.id==="goku"?[["z","DBZ"],["gt","GT"],["daima","DAIMA"],["super","SUPER"]]:variants(c.id).map(([key,label])=>[key,label]);
@@ -2217,18 +2244,18 @@ function updateCards(){
  pagination();
 }
 
-function cover(c){const v=visualFor(c,activeVariant(c.id));return '<section class="detail-hero" aria-labelledby="character-title"><div class="hero-watermark" aria-hidden="true">'+icon(c.symbol)+'</div><div class="dossier-ornament" aria-hidden="true">'+e(v.motif)+'</div><div class="hero-copy"><div class="kicker">DOSSIÊ '+e(c.number)+' // '+e(c.label)+'</div><span class="dossier-series">'+e(v.series)+' <b>◆</b> '+e(c.universe)+'</span><h1 id="character-title">'+e(c.name)+'</h1><p>'+e(c.excerpt)+'</p><div class="hero-chips"><span class="chip strong">NÍVEL INICIAL 01</span><span class="chip">'+e(c.info.race)+'</span><span class="chip">'+e(c.info.className)+'</span></div></div><div class="hero-portrait">'+(window.T20_WAVE7?.ids.has(c.id)?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true">')+image(c.portrait.url,"Referência de "+c.name)+'</div><div class="dossier-foot" aria-hidden="true"><span>O SISTEMA / '+e(c.number)+'</span><span>'+e(v.motif)+' // '+e(activeVariant(c.id).toUpperCase())+'</span></div></section>'}
+function cover(c){const v=visualFor(c,activeVariant(c.id));return '<section class="detail-hero" aria-labelledby="character-title"><div class="hero-watermark" aria-hidden="true">'+icon(c.symbol)+'</div><div class="dossier-ornament" aria-hidden="true">'+e(v.motif)+'</div><div class="hero-copy"><div class="kicker">DOSSIÊ '+e(c.number)+' // '+e(c.label)+'</div><span class="dossier-series">'+e(v.series)+' <b>◆</b> '+e(c.universe)+'</span><h1 id="character-title">'+e(c.name)+'</h1><p>'+e(c.excerpt)+'</p><div class="hero-chips"><span class="chip strong">NÍVEL INICIAL 01</span><span class="chip">'+e(c.info.race)+'</span><span class="chip">'+e(c.info.className)+'</span></div></div><div class="hero-portrait">'+portraitUnderlay(c)+displayedMedia(c,c.portrait.url,"Referência de "+c.name,{portrait:true})+'</div><div class="dossier-foot" aria-hidden="true"><span>O SISTEMA / '+e(c.number)+'</span><span>'+e(v.motif)+' // '+e(activeVariant(c.id).toUpperCase())+'</span></div></section>'}
 function quickStats(c){
  const v=statFor(c,selectedLevel);
  return '<div class="detail-meta" aria-label="Estatísticas do nível selecionado">'+[
  ["PV",v.pv],["PM",v.pm],["DEFESA",v.defense],["MOVIMENTO",v.move]
  ].map(([k,n])=>'<div class="meta-tile"><small>'+e(k)+' // NÍVEL <span data-stat-level>'+String(selectedLevel).padStart(2,"0")+'</span></small><b data-stat="'+e(k)+'">'+e(n)+'</b></div>').join("")+'</div>';
 }
-function mediaGallery(c){return '<div class="media-grid">'+c.media.map(m=>'<article class="media-card"><div class="media-photo">'+image(m.image,m.name)+'</div><div class="media-caption"><strong>'+e(m.name)+'</strong><small>'+e(m.credit)+'</small><a href="'+url(m.source)+'" target="_blank" rel="noopener noreferrer">VER ORIGEM DA IMAGEM ↗</a></div></article>').join("")+'</div>'}
+function mediaGallery(c){return '<div class="media-grid">'+c.media.map(m=>'<article class="media-card"><div class="media-photo">'+displayedMedia(c,m.image,m.name)+'</div><div class="media-caption"><strong>'+e(m.name)+'</strong><small>'+e(m.credit)+'</small><a href="'+url(m.source)+'" target="_blank" rel="noopener noreferrer">VER ORIGEM DA IMAGEM ↗</a></div></article>').join("")+'</div>'}
 function overview(c){const info=[["Raça",c.info.race],["Classe",c.info.className],["Origem",c.info.origin],["Divindade",c.info.devotion],["Função",c.info.role],["Companheiro",c.info.partner]];return shell("Identidade e história","01 / DOSSIÊ",'<div class="section-grid"><article class="panel prose"><div class="panel-title">REGISTRO DE PERSONAGEM</div><h3>'+e(c.name)+'</h3>'+c.history.map(p=>"<p>"+e(p)+"</p>").join("")+'<div class="panel-title" style="margin-top:23px">PROPOSTA DE ADAPTAÇÃO</div><p>'+e(c.summary)+'</p></article><aside class="panel"><div class="panel-title">IDENTIFICAÇÃO DE SISTEMA</div><div class="bio-grid">'+info.map(([k,v])=>'<div class="bio-item"><small>'+e(k.toUpperCase())+'</small><strong>'+e(v)+'</strong></div>').join("")+'</div></aside></div><div class="section-head"><div><div class="kicker">ARQUIVO FOTOGRÁFICO</div><h2>Referências visuais</h2></div></div>'+mediaGallery(c),c.notes.overview)}
 function radar(c){const cx=180,cy=165,maxR=112,keys=c.attrs.map(a=>({...a,value:a.value+attrDelta(c,selectedLevel,a.key)}));const pos=(i,r)=>{const theta=(-90+i*60)*Math.PI/180;return [cx+Math.cos(theta)*r,cy+Math.sin(theta)*r]};const pts=(r)=>keys.map((a,i)=>pos(i,r)).map(p=>p.map(n=>n.toFixed(1)).join(",")).join(" ");const grid=[1,2,3,4,5].map(n=>'<polygon class="radar-grid" points="'+pts(n*maxR/5)+'"/>').join("");const axes=keys.map((a,i)=>{const [x,y]=pos(i,maxR);return '<line class="radar-axis" x1="'+cx+'" y1="'+cy+'" x2="'+x+'" y2="'+y+'"/>'}).join("");const dataPoints=keys.map((a,i)=>pos(i,Math.min(5,Math.max(0,a.value))*maxR/5));const poly=dataPoints.map(p=>p.map(n=>n.toFixed(1)).join(",")).join(" ");const dots=dataPoints.map(p=>'<circle class="radar-node" cx="'+p[0]+'" cy="'+p[1]+'" r="4"/>').join("");const labels=keys.map((a,i)=>{const [x,y]=pos(i,141);return '<text class="radar-label" x="'+x+'" y="'+(y-4)+'" text-anchor="middle">'+e(a.key)+'</text><text class="radar-value" x="'+x+'" y="'+(y+13)+'" text-anchor="middle">+'+a.value+'</text>'}).join("");return '<svg class="radar-svg" viewBox="0 0 360 335" role="img" aria-label="Radar de atributos CON, CAR, SAB, INT, FOR e DEX"><g>'+grid+axes+'<polygon class="radar-data" points="'+poly+'"/>'+dots+labels+'</g></svg>'}
 function attributes(c){const total=c.attrs.reduce((sum,a)=>sum+(a.buy===3?4:a.buy===2?2:a.buy===1?1:a.buy===0?0:0),0);return shell("Atributos iniciais","02 / CONFIGURAÇÃO",'<div class="section-grid"><div class="panel"><div class="panel-title">ANÁLISE HEXAGONAL // '+e(visualFor(c,activeVariant(c.id)).motif)+'</div><div class="radar-zone"><div id="attrRadar">'+radar(c)+'</div><div class="attr-list">'+c.attrs.map(a=>'<div class="attr-row"><strong>'+e(a.key)+'</strong><span>'+e(a.why)+'</span><b data-current-attr="'+e(a.key)+'">+'+(a.value+attrDelta(c,selectedLevel,a.key))+'</b></div>').join("")+'</div></div><p style="font-size:12px;color:var(--faint);margin:4px 0 0">Gráfico ilustrativo de modificadores, escala de 0 a +5; não representa uma nova regra de Tormenta20.</p></div><div class="panel"><div class="panel-title">COMPRA DE ATRIBUTOS // NÍVEL 01</div><table class="attr-breakdown"><thead><tr><th>ATR.</th><th>COMPRA</th><th>RAÇA</th><th>FINAL</th></tr></thead><tbody>'+c.attrs.map(a=>'<tr><td>'+e(a.key)+'</td><td>+'+a.buy+'</td><td>'+(a.race?'+'+a.race:'—')+'</td><td class="highlight">+'+a.value+'</td></tr>').join("")+'</tbody></table><p style="font:12px var(--mono);color:var(--muted);margin:14px 0">Pontos investidos na compra: '+total+'/10. Bônus raciais já incorporados.</p><div class="panel-title" style="margin-top:17px">ATRIBUTOS DERIVADOS // INÍCIO</div><div class="stat-tiles">'+[["PV",c.stats.pv],["PM",c.stats.pm],["DEF",c.stats.defense],["MOV",c.stats.speed]].map(([k,v])=>'<div class="stat-panel"><small>'+k+'</small><b>'+e(v)+'</b></div>').join("")+'</div></div></div>',c.notes.attributes)}
-function equipment(c){return shell("Equipamentos","03 / INVENTÁRIO",'<div class="gear-grid">'+c.gear.map((g,i)=>'<details class="gear-card" '+(i===0?"open":"")+'><summary><div class="gear-thumb">'+(g.image?image(g.image,g.name):e(String(i+1).padStart(2,"0")))+'</div><div class="gear-title"><strong>'+e(g.name)+'</strong><small>'+e(g.rule)+'</small></div><span class="gear-chevron" aria-hidden="true">›</span></summary><div class="gear-details"><span class="gear-quantity">QTD // '+e(g.qty)+'</span><p>'+e(g.detail)+'</p>'+(g.source?'<a href="'+url(g.source)+'" target="_blank" rel="noopener noreferrer">REFERÊNCIA VISUAL: '+e(g.credit||g.source)+' ↗</a>':"")+'</div></details>').join("")+'</div><div class="section-head"><div><div class="kicker">ARMAMENTO</div><h2>Ataques iniciais</h2></div></div><div class="attack-grid">'+c.attacks.map(a=>'<article class="attack-card"><h3>'+e(a.name)+'</h3><div class="attack-numbers"><div><small>ATAQUE / TESTE</small><b>'+e(a.test)+'</b></div><div><small>DANO</small><b>'+e(a.damage)+'</b></div><div><small>GASTO</small><b>'+e(a.cost)+'</b></div></div><p>'+e(a.detail)+'</p></article>').join("")+'</div>',c.notes.equipment)}
+function equipment(c){return shell("Equipamentos","03 / INVENTÁRIO",'<div class="gear-grid">'+c.gear.map((g,i)=>'<details class="gear-card" '+(i===0?"open":"")+'><summary><div class="gear-thumb">'+(g.image?displayedMedia(c,g.image,g.name):e(String(i+1).padStart(2,"0")))+'</div><div class="gear-title"><strong>'+e(g.name)+'</strong><small>'+e(g.rule)+'</small></div><span class="gear-chevron" aria-hidden="true">›</span></summary><div class="gear-details"><span class="gear-quantity">QTD // '+e(g.qty)+'</span><p>'+e(g.detail)+'</p>'+(g.source?'<a href="'+url(g.source)+'" target="_blank" rel="noopener noreferrer">REFERÊNCIA VISUAL: '+e(g.credit||g.source)+' ↗</a>':"")+'</div></details>').join("")+'</div><div class="section-head"><div><div class="kicker">ARMAMENTO</div><h2>Ataques iniciais</h2></div></div><div class="attack-grid">'+c.attacks.map(a=>'<article class="attack-card"><h3>'+e(a.name)+'</h3><div class="attack-numbers"><div><small>ATAQUE / TESTE</small><b>'+e(a.test)+'</b></div><div><small>DANO</small><b>'+e(a.damage)+'</b></div><div><small>GASTO</small><b>'+e(a.cost)+'</b></div></div><p>'+e(a.detail)+'</p></article>').join("")+'</div>',c.notes.equipment)}
 function abilities(c){
  const basics=guideFor(c).basics||[];
  return shell("Habilidades e perícias","04 / REPERTÓRIO",
@@ -2492,41 +2519,41 @@ document.addEventListener("error",evt=>{
  const original=im.getAttribute("src")||"";
  rememberFailedImage(original);
  const card=im.closest(".roster-card");
- const id=card?.dataset.open||getRoute().character?.id||"";
- const c=card?data.characters.find(x=>x.id===id):getRoute().character;
- const tried=imageAttempts.get(im)||new Set();
- tried.add(original);imageAttempts.set(im,tried);
- // Imagens locais e pôsteres verificados devem vir antes de outra tentativa externa.
- // Evita dependência e latência do proxy público de terceiros.
- const fallback=c?.portrait?.fallback;
- const isDynamic=window.T20_WAVE7?.ids.has(id)||window.T20_CROSSOVERS?.ids.has(id)||window.T20_UMA?.ids.has(id)||window.T20_WAVE8_IDS?.includes?.(id)||id.startsWith("nova-")||id.startsWith("cx-")||id.startsWith("jb-");
- const localPath=id&&!isDynamic?"./assets/portraits/"+id+".svg":null;
- const choices=[im.dataset.cardFallback,im.dataset.posterFallback,
-  window.T20_MEDIA_POSTERS?.[original],fallback,localPath,
-  ...(window.T20_MEDIA_BACKUPS?.[original]||[])].filter(Boolean);
- const next=choices.find(candidate=>!tried.has(candidate)&&candidate!==original&&!failedImageSources.has(candidate));
- if(imageFailures.length<150)imageFailures.push({id,failed:original,backup:next||null});
+ const id=card?.dataset.open;
+ const c=id?variantByKey(id,catalogModes[id]||"principal"):getRoute().character;
+ const attempt=imageAttempts.get(im)||{primary:im.dataset.mediaOriginal||original,tried:new Set()};
+ attempt.tried.add(original);imageAttempts.set(im,attempt);
+ const next=mediaBackup(c,attempt.primary,!!(card||im.closest(".hero-portrait")),attempt.tried,im.dataset.posterFallback);
+ if(imageFailures.length<150)imageFailures.push({id:id||c?.id||"",failed:original,backup:next||null});
  if(next){
   im.dataset.recovered="true";
   im.dataset.recoveryType=/^https:\/\//.test(next)?"external":"local";
   im.src=next;return;
  }
- const label=(card?.querySelector("h3")?.textContent||c?.name||im.alt.replace(/^(Retrato ilustrativo de|Imagem ilustrativa de)\s+/i,"")).trim();
+ const label=im.dataset.mediaAlt||c?.name||im.alt;
  const marker=c?.symbol||c?._mega?.identity?.charAt(0)||"◈";
  const replacement=document.createElement("div");
  replacement.className="img-fallback art-recovery";
  replacement.setAttribute("role","img");
- replacement.setAttribute("aria-label","Ilustração de reserva de "+label);
+ replacement.setAttribute("aria-label","Imagem indisponível para "+label);
  if(c?._mega?.color)replacement.style.color=c._mega.color;
  const symbol=document.createElement("span");symbol.className="fallback-mark";symbol.textContent=marker;
  const title=document.createElement("strong");title.className="fallback-title";title.textContent=label;
- const caption=document.createElement("span");caption.className="fallback-caption";caption.textContent="ARQUIVO DE PERSONAGEM // O SISTEMA";
+ const caption=document.createElement("span");caption.className="fallback-caption";caption.textContent="IMAGEM INDISPONÍVEL";
  replacement.append(symbol,title,caption);
+ if(im.nextElementSibling?.classList.contains("media-reserve"))im.nextElementSibling.remove();
  im.replaceWith(replacement);
 },true);
 document.addEventListener("load",evt=>{
  const im=evt.target;
  if(typeof HTMLImageElement!=="undefined"&&im instanceof HTMLImageElement&&!im.classList.contains("portrait-underlay")){
+  const label=im.nextElementSibling;
+  if(label?.classList.contains("media-reserve")){
+   const notice=mediaNotice(im.getAttribute("src"),im.dataset.recovered==="true");
+   label.textContent=notice;
+   label.hidden=!notice;
+   im.alt=mediaAlt(notice,im.dataset.mediaAlt);
+  }
   im.closest(".hero-portrait")?.classList.add("portrait-ready");
  }
 },true);
