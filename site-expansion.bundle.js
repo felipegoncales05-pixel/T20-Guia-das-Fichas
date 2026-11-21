@@ -307,7 +307,8 @@
   const att=Object.fromEntries(["FOR","DES","CON","INT","SAB","CAR"].map(k=>[k,buy[k]+(race.bonus[k]||0)]));
   const attrs=["CON","CAR","SAB","INT","FOR","DES"].map(k=>({key:k,buy:buy[k],race:race.bonus[k]||0,value:att[k],
    why:k===C0.key?"Atributo da especialidade e do estilo "+s.title+".":k==="CON"?"Vigor de provas longas e PV.":k==="DES"?"Iniciativa, deslocamento tático e Reflexos.":"Valor real: compra + bônus ou penalidade racial oficial."}));
-  const pic=s.image||originalIcon(s),pm0=C0.pm+(C0.pmAttr?att[C0.key]:0)+(race.extraPMPerLevel||race.extraPMOdd?1:0);
+  const localPoster=originalIcon(s);
+  const pic=s.image||localPoster,pm0=C0.pm+(C0.pmAttr?att[C0.key]:0)+(race.extraPMPerLevel||race.extraPMOdd?1:0);
   const note="Conversão independente. "+s.race+" reproduz a proposta em Arton e não altera a identidade canônica da Uma. "+race.caveat;
   const mainClass=s.klass+(s.variant?" — variante "+s.variant:"");
   const label=s.title.toUpperCase();
@@ -350,7 +351,7 @@
   const c={
    id:s.id,number:String(70+idx).padStart(2,"0"),name:s.name,universe:"Umamusume: Pretty Derby · "+s.arc,
    label,symbol:"♞",theme:"uma-"+s.slug,catalogCategory:"umamusume",
-   portrait:{url:pic,credit:s.image?"Cygames — arte oficial (site Umamusume)":"Símbolo tipográfico original O Sistema",page:s.official},
+   portrait:{url:pic,fallback:localPoster,credit:s.image?"Cygames — arte oficial (site Umamusume)":"Símbolo tipográfico original O Sistema",page:s.official},
    excerpt:s.concept,
    info:{race:s.race,className:mainClass,origin:"Atleta (origem temática; benefícios a definir)",devotion:"Livre — sem benefício automático",role:s.title,partner:"Equipe e treinadora são vínculos narrativos; nenhum aliado adicional gratuito"},
    stats:{pv:hp0,pm:pm0,defense:10+att.DES,speed:race.speed+" m",hpGain:C0.gain+att.CON,pmGain:C0.pm},
@@ -1182,8 +1183,9 @@ window.T20_CROSSOVERS_SEEDS=seeds.map(s=>({...s,number:127+seeds.indexOf(s)}));
    ]);
    guides.push({why,use,automatic:automatic.join(" · "),ref:refs});
   }
-  const img=s.image||base.origIcon?.({name:s.name,color:s.color,group:"manga"})||
+  const localPoster=base.origIcon?.({name:s.name,color:s.color,group:"manga"})||
    "data:image/svg+xml;charset=utf-8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='500' height='700'><rect width='100%' height='100%' fill='#112031'/></svg>");
+  const img=s.image||localPoster;
   const skillNames=[...new Set([...(cl.skill||[]),...(s.className==="Inventor"?["Ofício (engenhoqueiro)"]:[]),
    ...(s.className==="Caçador"?["Sobrevivência"]:[])])];
   const skills=skillNames.map(name=>[name,fmt(attrs0[skillAttr[name]||"INT"]+2),
@@ -1191,7 +1193,7 @@ window.T20_CROSSOVERS_SEEDS=seeds.map(s=>({...s,number:127+seeds.indexOf(s)}));
   const c={
    id:s.id,number:String(s.number).padStart(2,"0"),name:s.name,universe:s.universe,
    label:s.identity,theme:s.id,catalogCategory:s.group,symbol:"✦",
-   portrait:{url:img,credit:s.imageCredit||"Insígnia editorial original",page:s.source},
+   portrait:{url:img,fallback:localPoster,credit:s.imageCredit||"Insígnia editorial original",page:s.source},
    excerpt:s.concept,
    info:{
     race:s.race,className:classLabel,
