@@ -291,7 +291,7 @@
  for(const c of primary){
   guide.people[c.id]=c._guide;
   if(w.T20_VISUAL){
-   const palettes={jojo:"manga",fate:"astral","the-boys":"brutal",
+   const palettes={jojo:"manga",fate:"astral",hsr:"astral","the-boys":"brutal",
     dmc:"brutal","one-punch-man":"heroic","blue-lock":"heroic","kamen-rider":"machine"};
    w.T20_VISUAL.profiles[c.id]=[c._crossover.styles[0].toUpperCase().slice(0,14),
     palettes[c.catalogCategory]==="fantasy"?"gothic":palettes[c.catalogCategory]||"manga",
