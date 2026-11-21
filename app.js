@@ -466,12 +466,20 @@ document.addEventListener("error",evt=>{
   frame?.querySelector(".pending-poster")?.setAttribute("aria-hidden","false");
   im.remove();return;
  }
+ // Elementos decorativos não devem substituir a ilustração principal por um bloco de erro.
+ if(im.classList.contains("portrait-underlay")||im.closest(".capri-hud")){im.remove();return}
  const original=im.getAttribute("src")||"";
- const backups=[...(window.T20_MEDIA_BACKUPS?.[original]||[]),im.dataset.cardFallback].filter(Boolean);
+ // Recuperação: fontes alternativas, proxy de imagens e pôster do personagem.
+ const proxy=/^https:\/\/(?!wsrv\.nl\/)/i.test(original)?
+  "https://wsrv.nl/?url="+encodeURIComponent(original)+"&output=webp&w=1000":null;
+ const backups=[...(window.T20_MEDIA_BACKUPS?.[original]||[]),
+  im.dataset.cardFallback,proxy,im.dataset.posterFallback,
+  window.T20_MEDIA_POSTERS?.[original]].filter(Boolean);
  const tried=(im.dataset.triedSources||"").split("|").filter(Boolean);
  if(!tried.includes(original))tried.push(original);
  const local=im.closest(".roster-card")?.dataset.open||getRoute().character?.id;
- const localPath=local?"./assets/portraits/"+local+".svg":null;
+ const dynamic=window.T20_WAVE7?.ids.has(local)||window.T20_CROSSOVERS?.ids.has(local)||window.T20_UMA?.ids.has(local);
+ const localPath=local&&!dynamic?"./assets/portraits/"+local+".svg":null;
  const next=backups.find(candidate=>candidate&&!tried.includes(candidate))||(localPath&&!tried.includes(localPath)?localPath:null);
  if(next){
   im.dataset.triedSources=tried.join("|");
