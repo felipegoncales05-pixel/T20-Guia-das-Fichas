@@ -219,7 +219,7 @@ assert.equal(capriSource.asset,"assets/motifs/capri-hud.webp");
 assert.ok(capriSource.source_page.startsWith("https://www.cyberpunk.net/"));
 assert.equal(fs.readFileSync(capriSource.asset).toString("ascii",0,4),"RIFF","Imagem de Capri inválida");
 assert.ok(require("../scripts/build-site.cjs").css.includes("card-worlds.css"),"CSS de identidade ausente do bundle");
-assert.ok(require("../scripts/build-site.cjs").js.includes("card-worlds.js")===false,"O script já é substituído pela versão leve do catálogo");
+assert.ok(require("../scripts/build-site.cjs").js.includes("card-worlds.js"),"O acompanhamento dos olhos de Capri deve estar no bundle de produção");
 assert.equal(context.window.T20_REVIEW.list().length,0,"Uma decisão não pode vir aprovada de fábrica");
 const review=context.window.T20_REVIEW;
 const sample=review.add({type:"regra",character:"diego",variant:"alternative",title:"Conferir custo",body:"Verificar livro antes de aprovar",page:""});
