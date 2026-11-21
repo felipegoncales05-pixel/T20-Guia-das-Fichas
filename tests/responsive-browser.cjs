@@ -172,6 +172,9 @@ async function assertLayout(page,label){
     await page.waitForFunction(()=>!!document.querySelector('[data-open="d"]')?.style.getPropertyValue("--capri-x"));
     assert.ok(Math.abs(Number.parseInt(await page.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),10))<=2);
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk.png"});
+    // A captura pode rolar a página e desfazer o hover: reativar antes do frame.
+    await page.locator('[data-open="d"]').hover();
+    await page.waitForFunction(()=>document.querySelector(".capri-laugh")?.getAnimations()?.length>0,null,{timeout:5000});
     const laugh=await page.locator(".capri-laugh").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=14100;return Number(getComputedStyle(el).opacity)});
     const mouth=await page.locator(".capri-mouth").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=14100;return {opacity:Number(getComputedStyle(el).opacity),transform:getComputedStyle(el).transform,loaded:el.naturalWidth>0}});
     assert.ok(laugh>.9&&mouth.opacity>.9&&mouth.transform!=="none"&&mouth.loaded,"Boca e risada da Capri fora de sincronia");
