@@ -24,7 +24,7 @@ assert.equal(v.characters.filter(c=>["blue-lock","one-punch-man","kamen-rider","
 assert.equal(Object.values(v.variantMap).filter(x=>x.length>1).length,32);
 assert.equal(Object.values(v.variantMap).reduce((n,x)=>n+x.length-1,0),50);
 assert.equal(Object.keys(w.T20_VISUAL.profiles).length,298);
-assert.equal(Object.keys(w.T20_VISUAL.finishes).length,348);
+assert.equal(Object.keys(w.T20_VISUAL.finishes).length,352,"298 fichas + 4 visuais históricos + 50 formas Fate");
 assert.equal(v.characters.filter(c=>c.info.race==="Humano").length,0);
 assert.ok(new Set(v.characters.map(c=>c.info.race)).size>=15,"Diversidade racial insuficiente");
 assert.equal(v.characters.find(c=>c.id==="dmc-dante").info.className.includes("Inovador"),true);
