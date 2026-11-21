@@ -103,6 +103,6 @@ function scan(){
   if(observer)observer.observe(card);else enrich(card);
  }
 }
-new MutationObserver(scan).observe(root,{childList:true,subtree:true});
+if(typeof MutationObserver==="function")new MutationObserver(scan).observe(root,{childList:true,subtree:true});
 scan();
 })();
