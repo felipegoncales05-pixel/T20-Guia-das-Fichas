@@ -2127,7 +2127,7 @@ const worldMarks={zenless:"NEW ERIDU",manhwa:"MANHWA",marvel:"MARVEL / MCU",fate
 const visualFor=(c,key)=>window.T20_VISUAL.forCharacter(c,key);
 function visualStyle(v){return '--char-color:'+e(v.accent)+';--art-accent:'+e(v.accent)+';--art-dark:'+e(v.dark)}
 function visualAttrs(v){return ' data-art="'+e(v.id)+'" data-layout="'+e(v.layout)+'" data-pattern="'+e(v.pattern)+'" data-family="'+e(v.family)+'" data-finish="'+e(v.finish)+'" data-lineage="'+e(v.lineage)+'" data-variant="'+e(v.variant)+'"'}
-const FX_CARD_IDS=new Set(["gyro","jojo-johnny","jojo-valentine","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-gappy","david","d","denji","satoru-gojo","shigaraki","midoriya"]);
+const FX_CARD_IDS=new Set(["gyro","jojo-johnny","jojo-valentine","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-gappy","david","d","denji","satoru-gojo","shigaraki","midoriya","em-acheron"]);
 function cardEffect(id){
  if(id==="d")return '<div class="capri-hud" aria-hidden="true"><span class="capri-signal">CAPRI // LINK ATIVO</span><span class="capri-screen"><img src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"><img class="capri-gaze" src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"><img class="capri-mouth" src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"></span><span class="capri-laugh">hahaha</span><span class="capri-caption">OLHOS EM VOCÊ</span></div>';
  if(id==="david")return '<div class="psycho-hud" aria-hidden="true"><span class="psycho-echo"></span><span class="psycho-status">NEURAL LINK // INSTÁVEL</span><span class="psycho-error">ERRO DE SINAL</span></div>';
