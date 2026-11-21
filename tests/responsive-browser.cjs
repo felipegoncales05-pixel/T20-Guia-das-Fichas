@@ -7,6 +7,14 @@ const assert=require("node:assert/strict");
 const quick=process.env.T20_QUICK==="1";
 const sizes=quick?[[375,812],[768,1024],[1440,900]]:[[320,700],[360,740],[375,812],[390,844],[430,932],[600,900],[768,1024],[820,1180],[1024,768],[1440,900],[844,390]];
 const site=pathToFileURL(path.resolve("index.html")).href;
+async function revealAllCards(page){
+ for(let i=0;i<22;i++){
+  const load=page.locator("[data-load-more]");
+  if(!await load.count())break;
+  await load.click({force:true});
+ }
+ assert.equal(await page.locator("[data-load-more]").count(),0,"Paginação não terminou.");
+}
 const allIds=["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-johnny","jojo-gappy","denji","satoru-gojo","shigaraki","midoriya"];
 const plannedIds=["toji","aizen","vegitto","gogeta","soul-of-cinder","isaac","adao","grimm","sekiro","kaneki"];
 const representativeIds=["gyro","d","david","diego","jojo-johnny","jojo-valentine","jojo-jolyne","jojo-jonathan","em-acheron","satoru-gojo","midoriya","goku","elster"];
@@ -39,7 +47,7 @@ async function assertLayout(page,label){
    page.on("pageerror",err=>errors.push(String(err)));
    await page.route(/^https?:\/\//,route=>route.abort()); // Testa também fallbacks de imagens
    await page.goto(site,{waitUntil:"load"});
-   assert.equal(await page.locator(".roster-card").count(),298);
+   assert.equal(await page.locator(".roster-card").count(),24,"Catálogo deve iniciar com 24 cards");
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
@@ -49,6 +57,9 @@ async function assertLayout(page,label){
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
    assert.match(await page.locator("#resultsCount").textContent(),/298 DE 298/);
    await page.locator("#universe").selectOption("fate");
+   assert.equal(await page.locator(".roster-card").count(),24,width+": primeiro lote Fate");
+   assert.match(await page.locator("#resultsCount").textContent(),/98 DE 298/);
+   await revealAllCards(page);
    assert.equal(await page.locator(".roster-card").count(),98,width+": 98 Espíritos Heroicos de Fate");
    assert.equal(await page.locator('[data-open="fate-artoria"]').count(),1,width+": Artoria não deve duplicar cards");
    assert.equal(await page.locator('[data-card-switch="fate-artoria"]').count(),7,width+": faltam formas de Artoria");
@@ -67,12 +78,13 @@ async function assertLayout(page,label){
    assert.equal(await page.locator(".roster-card").count(),1,width+": D.Va não aparece");
    await page.locator("#universe").selectOption("all");
    await page.locator("#universe").selectOption("umamusume");
+   assert.equal(await page.locator(".roster-card").count(),24,width+": primeiro lote de Umas");
+   await revealAllCards(page);
    assert.equal(await page.locator(".roster-card").count(),57,width+": faltam Umas no filtro");
    assert.ok(await page.locator('[data-open="uma-daitaku-helios"]').count()===1,width+": Helios ausente");
    assert.ok(await page.locator('[data-open="uma-matikanetannhauser"]').count()===1,width+": Mambo ausente");
    await page.locator("#universe").selectOption("all");
-
-   
+    await revealAllCards(page);
     if([375,1440].includes(width)){
       await page.locator('[data-card-switch="fate-artoria"][data-card-mode="alter"]').click();
       assert.equal(await page.locator('[data-card-switch="fate-artoria"][data-card-mode="alter"]').getAttribute('aria-pressed'),'true',width+': Artoria Alter selecionada');
@@ -83,6 +95,7 @@ async function assertLayout(page,label){
       assert.match(await page.locator('#character-title').textContent(),/Caster/i,width+': mudou para Caster Artoria');
       assert.ok(page.url().includes('/fate-artoria/caster'),width+': URL da Caster');
       await page.goto(site,{waitUntil:'load'});
+      await revealAllCards(page);
     }
     // Fase III: categoria Chrysos e alternadores de Diego/Goku.
     await page.locator("#universe").selectOption("chrysos");
@@ -108,6 +121,7 @@ async function assertLayout(page,label){
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
    assert.match(await page.locator("#resultsCount").textContent(),/01 DE 298/);
    await page.locator("[data-clear-search]").click();
+   await revealAllCards(page);
    assert.equal(await page.locator(".roster-card").count(),298,width+": limpar busca");
    await page.locator("#universe").selectOption("jojo");
    assert.ok(await page.locator(".roster-card").count()>=8,width+": filtro JoJo");
@@ -323,7 +337,8 @@ async function assertLayout(page,label){
     await page.locator('.lab-draft').first().waitFor({state:"visible"});
     assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
     await page.goto(site,{waitUntil:'load'});
-    assert.equal(await page.locator('.roster-card').count(),298,"Ficha pessoal entrou no catálogo");
+    assert.equal(await page.locator('.roster-card').count(),24,"Ficha pessoal alterou o lote inicial");
+    assert.match(await page.locator("#resultsCount").textContent(),/298 DE 298/);
    }
    assert.deepEqual(errors,[]);
    console.log("OK viewport "+width+"x"+height+" — 298 dossiês e interações");
