@@ -69,3 +69,39 @@
  background:linear-gradient(180deg,#08121b00 0%,#08121b0d 42%,#07121ce8 85%,#07121cff 100%)
 }
 .roster-card[data-world="umamusume"] .world-mark{color:var(--card-accent,#8fc7da)}
+
+/* FASE VII: seleção de formas Fate dentro do card, sem cards duplicados.
+   Retratos em SVG originais são posters editoriais, não artes oficiais. */
+.roster-card[data-world="fate"],.roster-card[data-world="the-boys"],
+.roster-card[data-world="blue-lock"],.roster-card[data-world="kamen-rider"],
+.roster-card[data-world="one-punch-man"]{
+ background:radial-gradient(ellipse at 50% 24%,color-mix(in srgb,var(--card-accent,#ab9bc4),transparent 78%),transparent 80%),#111928;
+ border-color:color-mix(in srgb,var(--card-accent,#ab9bc4),transparent 72%);
+}
+.roster-card[data-world="fate"] .photo img:not(.portrait-underlay),
+.roster-card[data-world="the-boys"] .photo img:not(.portrait-underlay),
+.roster-card[data-world="blue-lock"] .photo img:not(.portrait-underlay),
+.roster-card[data-world="one-punch-man"] .photo img:not(.portrait-underlay),
+.roster-card[data-world="kamen-rider"] .photo img:not(.portrait-underlay){
+ object-fit:contain;object-position:center 15%;filter:saturate(1.05);opacity:1
+}
+.fate-entry .card-variant-switch{
+ left:9px;right:9px;top:54px;transform:none;width:calc(100% - 18px);max-width:none;
+ justify-content:flex-start;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;
+ -webkit-overflow-scrolling:touch
+}
+.fate-entry .card-variant-switch button{padding:6px 9px;min-height:35px;font-size:10px}
+.fate-entry .card-versions{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+.fate-switch{border-left-color:#c3a2d9;background:linear-gradient(100deg,#262037,#151e29)}
+.fate-switch>div{min-width:0;max-width:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;overscroll-behavior-x:contain;scroll-padding:12px}
+.fate-switch button{flex:0 0 auto;min-height:44px;min-width:60px;padding:10px 12px}
+.fate-switch button[aria-pressed=true]{background:#d9c2f1;color:#172031;border-color:#d9c2f1;box-shadow:none}
+body[data-art^="fate-"] .hero-portrait img:not(.portrait-underlay),
+body[data-art^="jb-"] .hero-portrait img:not(.portrait-underlay){
+ object-fit:contain;object-position:center center;filter:none;
+}
+@media(max-width:800px){
+ .fate-switch{display:block}
+ .fate-switch>div{margin-top:10px;max-width:100%}
+ .fate-switch button{font-size:11px}
+}
