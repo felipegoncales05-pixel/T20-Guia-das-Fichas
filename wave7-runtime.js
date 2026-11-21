@@ -52,7 +52,8 @@
   }
   seed.number=seed.isAlt?(indexed.get(seed.parentId)?.number||0):143+i;
   if(!seed.isAlt)indexed.set(seed.id,seed);
-  seed.levels=createLevels(seed);
+  seed.levels=seed.levels?.length===12?seed.levels.map((step,n)=>
+   (classPlans[seed.className]?.[n]||"Escolha de classe sujeita a regra")+". "+step):createLevels(seed);
  }
 
  if(!data||!guide||!rules||!opts||!seeds||!base)return;
