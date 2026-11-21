@@ -54,6 +54,17 @@ async function assertReserve(page,frame,source,label){
  assert.match(await img.getAttribute("src"),source);
  assert.ok((await img.getAttribute("alt")).startsWith(label));
 }
+async function assertPortraitInFrame(frame,label){
+ await frame.scrollIntoViewIfNeeded();
+ const image=frame.locator("img:not(.portrait-underlay)");
+ await image.evaluate(img=>img.decode());
+ const visible=await image.evaluate(img=>{
+  const photo=img.parentElement.getBoundingClientRect();
+  const art=img.getBoundingClientRect();
+  return art.top<photo.bottom&&art.bottom>photo.top&&art.left<photo.right&&art.right>photo.left;
+ });
+ assert.ok(visible,label+": retrato carregado fora do quadro");
+}
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:["--no-sandbox"]});
  try{
@@ -71,6 +82,9 @@ async function assertReserve(page,frame,source,label){
    const names=await page.locator(".roster-card h3").allTextContents();
    const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
+   const [allUniverses,...universes]=await page.locator("#universe option").allTextContents();
+   assert.equal(allUniverses,"Todos os universos");
+   assert.deepEqual(universes,[...universes].sort(collator.compare),width+": filtro de universos fora da ordem alfabética");
    assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
    await page.locator("#universe").selectOption("fate");
    assert.ok([24,48,72,96,98].includes(await page.locator(".roster-card").count()),width+": Fate deve carregar em lotes");
@@ -161,10 +175,7 @@ async function assertReserve(page,frame,source,label){
     await page.locator("#search").fill("Celenova");
     await page.waitForFunction(()=>document.querySelector('[data-open="em-celenova"]')&&document.querySelectorAll(".roster-card").length===1,null,{timeout:5000});
     const celenova=page.locator('[data-open="em-celenova"]');
-    const celenovaArt=celenova.locator('img:not(.portrait-underlay)');
-    await celenovaArt.scrollIntoViewIfNeeded();
-    await page.waitForFunction(()=>document.querySelector('[data-open="em-celenova"] img:not(.portrait-underlay)')?.naturalWidth>0,null,{timeout:15000});
-    await celenovaArt.evaluate(el=>el.decode());
+    await assertPortraitInFrame(celenova.locator(".photo"),"Card da Celenova");
     assert.equal(await celenova.locator('.card-body').evaluate(el=>getComputedStyle(el).borderTopWidth),"0px","Faixa horizontal atravessou Celenova");
     await celenova.screenshot({path:"tests/screenshots/"+width+"-celenova-depois.png"});
     await page.locator("[data-clear-search]").click();
@@ -230,6 +241,7 @@ async function assertReserve(page,frame,source,label){
     assert.equal(await page.locator(".detail-tabs button").count(),9);
     assert.ok(await page.locator("body").getAttribute("data-finish"),id+": acabamento ausente");
     assert.ok(await page.locator(".section-context").isVisible(),id+": assinatura interna ausente");
+    if(width===375&&id==="em-celenova")await assertPortraitInFrame(page.locator(".hero-portrait"),"Dossiê da Celenova");
     if([375,1440].includes(width)&&["d","david","jojo-jolyne","em-acheron","elster","goku"].includes(id))
      await page.locator(".detail-hero").screenshot({path:"tests/screenshots/"+width+"-"+id+"-capa.png"});
     if(id==="em-acheron")assert.match(await page.locator("#detail-section").textContent(),/Samurai|katana/i);
@@ -369,6 +381,13 @@ async function assertReserve(page,frame,source,label){
     assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
    }
    if(width===1440){
+    await page.locator("#universe").selectOption("hsr");
+    await revealAllCards(page);
+    assert.equal(await page.locator(".roster-card").count(),36,"O filtro Honkai deve incluir Chrysos e Emanadores");
+    const kafka=page.locator('[data-open="hunter-kafka"] .photo');
+    await assertPortraitInFrame(kafka,"Card da Kafka");
+    assert.equal(await kafka.locator("img:not(.portrait-underlay)").getAttribute("src"),"./assets/character-art/hunter-kafka.webp");
+    await page.locator("#universe").selectOption("all");
     await page.locator("#search").fill("Josuke Higashikata JoJolion");
     await assertReserve(page,'[data-open="jojo-gappy"] .photo',/jojo-gappy\.webp$/,"Imagem de reserva");
 

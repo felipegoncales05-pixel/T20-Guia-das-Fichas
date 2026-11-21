@@ -1395,6 +1395,13 @@ window.T20_WAVE8_IDS=seeds.map(s=>s.id);
    Quando não há retrato verificado, mantém-se insígnia editorial original.
    Artistas e editoras conservam os direitos das ilustrações. */
 (()=>{"use strict";const portraits={"jb-speedwagon":["https://static.jojowiki.com/images/a/a8/latest/20210421181820/Speedwagon_jojoeoh.png","JoJo's Bizarre Adventure · arte de jogo (via JoJo Wiki)","https://jojowiki.com/Robert_E._O._Speedwagon"],"jb-bucciarati":["https://mail.fightersgeneration.com/nf8/char3/bruno-bucciarati-jojo-anime-artwork.png","JoJo · arte de anime (via Fighters Generation)","https://jojowiki.com/Bruno_Bucciarati"],"dmc-dante":["https://www.fightersgeneration.com/nf8/char3/dante-dmc5-super.jpg","Devil May Cry 5 · render promocional (via Fighters Generation)","https://www.devilmaycry.com/5/"],"opm-saitama":["https://onepunchman-anime.net/news/wp-content/uploads/2025/09/88523dd80eed09ab8779fc5c517fb0ea-566x800.jpg","One Punch Man · site oficial do anime (2025)","https://onepunchman-anime.net/news/archives/6279"],"bl-rin":["https://static.zerochan.net/Itoshi.Rin.1024.4510263.webp","Blue Lock · 8-bit Studio, reprodução Zerochan","https://bluelock-anime-en.com/"],"bl-isagi":["https://static.zerochan.net/Isagi.Yoichi.1024.4480246.webp","Blue Lock · 8-bit Studio, reprodução Zerochan","https://bluelock-anime-en.com/"],"boys-butcher":["https://image.tmdb.org/t/p/original/w8PPAJypy0ukcwfLxTWwecI1Up5.jpg","The Boys · retrato promocional (via TMDb)","https://www.aboutamazon.com/news/entertainment/the-boys-season-4-cast-guide-prime-video"],"fate-gilgamesh":["https://fate-go.us/ctlb6/assets/img/part/1/babylonia/character/ph_gilgamesh_thumb.png","Fate/Grand Order · imagem oficial Babylonia","https://fate-go.us/ctlb6/part/1/babylonia/"],"fate-jeanne":["https://livedoor.blogimg.jp/ff_lightningsan-chaldeas/imgs/d/f/df18eb60.jpg","Fate/Grand Order · ilustração republicada","https://fate-apocryphausa.com/character/"],"fate-nero":["https://i.pinimg.com/originals/f6/df/f8/f6dff8634c2892c0c3de08f20424e1e3.jpg","Fate/Grand Order · ilustração republicada","https://fate-go.us/servant/"]},alt={"fate-artoria--lalter":["https://i3.gamebiz.jp/images/original/4499377465e71b86b17e340034.jpg","Fate/Grand Order Arcade · arte de lançamento 2020","https://gamebiz.jp/news/262499"]};
+ const localHonkai=[
+  "hsr-aha","hsr-feixiao","hsr-himeko-nova","hsr-silver-wolf","hsr-stelle",
+  "hsr-welt","hunter-blade","hunter-firefly","hunter-kafka"
+ ];
+ for(const id of localHonkai){
+  portraits[id]=["./assets/character-art/"+id+".webp","Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"];
+ }
  const all=[...(window.T20_WAVE7_SEEDS||[]),...(window.T20_WAVE7_FATE_SEEDS||[])];
  for(const item of all){const data=portraits[item.id];if(data){item.image=data[0];item.imageCredit=data[1];item.imageSource=data[2]}}
  for(const spec of window.T20_WAVE7_ALT_SPECS||[]){
@@ -1993,6 +2000,45 @@ const url=(u)=>/^https:\/\//.test(String(u||""))?e(u):"#";
 const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,")||/^\.\/assets\/(?:portraits|art|art-optimized|card-art|character-art|planned-art)\/[a-z0-9-]+\.(?:svg|webp|avif|png|jpg)$/.test(String(u||""))?e(u):url(u);
 const icon=(v)=>e(v||"◈");
 const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
+const universeOptions=[
+ ["fate","Fate · Servos"],
+ ["the-boys","The Boys"],
+ ["one-punch-man","One Punch Man"],
+ ["blue-lock","Blue Lock"],
+ ["kamen-rider","Kamen Rider"],
+ ["konosuba","KonoSuba"],
+ ["mushoku","Mushoku Tensei"],
+ ["wuwa","Wuthering Waves"],
+ ["dmc","Devil May Cry"],
+ ["fma","Fullmetal Alchemist"],
+ ["genshin","Genshin Impact"],
+ ["witcher","The Witcher"],
+ ["overwatch","Overwatch"],
+ ["umamusume","Umamusume · Pretty Derby"],
+ ["manhwa","Manhwa · Fantasia"],
+ ["zenless","Zenless Zone Zero"],
+ ["marvel","Marvel / MCU"],
+ ["jojo","JoJo"],
+ ["cyberpunk","Cyberpunk"],
+ ["hsr","Honkai: Star Rail"],
+ ["romcom","Romance & Cosplay"],
+ ["chainsaw","Chainsaw Man"],
+ ["music","Música / Ado"],
+ ["transformers","Transformers"],
+ ["jjk","Jujutsu Kaisen"],
+ ["dragonball","Dragon Ball"],
+ ["chrysos","Herdeiros de Chrysos"],
+ ["emanator","Emanadores"],
+ ["signalis","SIGNALIS"],
+ ["mha","My Hero Academia"],
+ ["bleach","Bleach"],
+ ["dark-souls","Dark Souls III"],
+ ["binding-of-isaac","The Binding of Isaac"],
+ ["shuumatsu","Shuumatsu no Valkyrie"],
+ ["black-souls","Black Souls"],
+ ["sekiro","Sekiro"],
+ ["tokyo-ghoul","Tokyo Ghoul"],
+].sort((a,b)=>collator.compare(a[1],b[1]));
 const brokenImageKey="t20-broken-images-session";
 const imageAttempts=new WeakMap();
 const imageFailures=[];
@@ -2199,7 +2245,7 @@ function plannedCard(c){
 function listView(){document.body.removeAttribute("data-theme");document.body.removeAttribute("data-world");document.body.removeAttribute("data-art");document.body.removeAttribute("data-family");document.body.removeAttribute("data-pattern");document.body.removeAttribute("data-finish");document.body.removeAttribute("data-lineage");document.body.removeAttribute("data-variant");document.body.style?.removeProperty?.("--char-color");document.body.style?.removeProperty?.("--art-accent");document.body.style?.removeProperty?.("--art-dark");document.title="O Sistema // T20 — Arquivo de Fichas";root.innerHTML=
 '<div class="container"><section class="landing-hero" aria-label="Arquivo de personagens"><div class="hero-copy-main"><div class="kicker">O SISTEMA / VOLUME 01 / ACERVO MULTIVERSAL</div><h1><span>'+String(catalog.length)+' HISTÓRIAS.</span><br><em>UM ARQUIVO.</em></h1><p>Explore ' +String(catalog.length)+ ' fichas T20, com JoBros de 1–8, The Boys e 98 Servos de Fate, além de 57 Umas e 16 crossovers: multiclasse, atributos, poderes escolhidos, equipamentos, explicações e progressão 1–12. Sujeitas à edição adotada e revisão da mesa.</p><div class="hero-ctas"><button type="button" class="hero-enter" data-scroll-roster>EXPLORAR OS '+String(catalog.length)+' DOSSIÊS <span aria-hidden="true"></span></button><a href="#/arquivo" class="hero-review">FONTES & DECISÕES ↗</a></div></div><div class="hero-mark" aria-hidden="true"><span class="hero-mark-number">01 / '+String(catalog.length).padStart(2,"0")+'</span><strong>OS<span>∕</span>T20</strong><span class="hero-mark-strip">FATE · JOJO · THE BOYS<br>KAMEN RIDER · BLUE LOCK · UMAMUSUME</span></div><div class="hero-bottomline" aria-hidden="true">ARQUIVO // REGRAS EM REVISÃO <span>◇ ◆ ◇ ◆ ◇</span> NÍVEIS 01—12</div></section>'+
 '<div class="stats-strip"><div class="mini-stat"><strong>'+String(catalog.length).padStart(2,"0")+'</strong><span>DOSSIÊS<br>NO ARQUIVO</span></div><div class="mini-stat"><strong>'+String(data.characters.reduce((n,c)=>n+variants(c.id).length,0)).padStart(2,"0")+'</strong><span>VERSÕES T20<br>EXISTENTES</span></div><div class="mini-stat"><strong>'+String((window.T20_AUTOMATIC?.ids.size||planned.length)+(window.T20_UMA?.count||0)+(window.T20_CROSSOVERS?.count||0)+(window.T20_WAVE7?.count||0)).padStart(2,"0")+'</strong><span>FICHAS<br>AUTOMÁTICAS</span></div><div class="mini-stat"><strong>12</strong><span>NÍVEIS<br>NAS BUILDS</span></div></div><div class="review-callout"><div><span class="kicker">CONTROLE EDITORIAL // SEM APROVAÇÕES AUTOMÁTICAS</span><h2>Regras em revisão</h2><p>As adaptações do repositório são rascunhos até que páginas, custos e pré-requisitos sejam conferidos. Registre fontes e decisões para manter o histórico da mesa.</p></div><a class="sys-button primary" href="#/arquivo">ABRIR PAINEL DE REVISÃO</a></div>'+
-'<section aria-labelledby="roster-title" id="catalogo"><div class="list-toolbar"><div><div class="corner-label">SISTEMA DE IDENTIFICAÇÃO // SELEÇÃO</div><h2 id="roster-title">ARQUIVO DE PERSONAGENS</h2></div><div class="filters"><div class="search-field"><label class="filter-label" for="search">PESQUISAR FICHAS</label><div class="search-field-inner"><span class="search-magnifier" aria-hidden="true">⌕</span><input class="search-input" id="search" type="search" placeholder="Nome, personagem, classe ou universo..." autocomplete="off" enterkeyhint="search" value="'+e(search)+'"><button type="button" class="clear-search" data-clear-search aria-label="Limpar pesquisa" title="Limpar pesquisa">LIMPAR ×</button></div></div><div class="filter-field"><label class="filter-label" for="universe">FILTRAR POR UNIVERSO</label><select class="filter-select" id="universe"><option value="all">Todos os universos</option><option value="fate">Fate · Servos</option><option value="the-boys">The Boys</option><option value="one-punch-man">One Punch Man</option><option value="blue-lock">Blue Lock</option><option value="kamen-rider">Kamen Rider</option><option value="konosuba">KonoSuba</option><option value="mushoku">Mushoku Tensei</option><option value="wuwa">Wuthering Waves</option><option value="dmc">Devil May Cry</option><option value="fma">Fullmetal Alchemist</option><option value="genshin">Genshin Impact</option><option value="witcher">The Witcher</option><option value="overwatch">Overwatch</option><option value="umamusume">Umamusume · Pretty Derby</option><option value="manhwa">Manhwa · Fantasia</option><option value="zenless">Zenless Zone Zero</option><option value="marvel">Marvel / MCU</option><option value="jojo">JoJo</option><option value="cyberpunk">Cyberpunk</option><option value="hsr">Honkai: Star Rail</option><option value="romcom">Romance & Cosplay</option><option value="chainsaw">Chainsaw Man</option><option value="music">Música / Ado</option><option value="transformers">Transformers</option><option value="jjk">Jujutsu Kaisen</option><option value="dragonball">Dragon Ball</option><option value="chrysos">Herdeiros de Chrysos</option><option value="emanator">Emanadores</option><option value="signalis">SIGNALIS</option><option value="mha">My Hero Academia</option><option value="bleach">Bleach</option><option value="dark-souls">Dark Souls III</option><option value="binding-of-isaac">The Binding of Isaac</option><option value="shuumatsu">Shuumatsu no Valkyrie</option><option value="black-souls">Black Souls</option><option value="sekiro">Sekiro</option><option value="tokyo-ghoul">Tokyo Ghoul</option></select></div></div></div><div class="catalog-meta"><span id="resultsCount" role="status" aria-live="polite"></span><span class="catalog-sort-label">⇅ ORDEM ALFABÉTICA · A–Z</span></div><div class="roster-grid" id="roster" aria-live="polite"></div><div class="archive-pagination" id="archivePagination"></div></section>'+
+'<section aria-labelledby="roster-title" id="catalogo"><div class="list-toolbar"><div><div class="corner-label">SISTEMA DE IDENTIFICAÇÃO // SELEÇÃO</div><h2 id="roster-title">ARQUIVO DE PERSONAGENS</h2></div><div class="filters"><div class="search-field"><label class="filter-label" for="search">PESQUISAR FICHAS</label><div class="search-field-inner"><span class="search-magnifier" aria-hidden="true">⌕</span><input class="search-input" id="search" type="search" placeholder="Nome, personagem, classe ou universo..." autocomplete="off" enterkeyhint="search" value="'+e(search)+'"><button type="button" class="clear-search" data-clear-search aria-label="Limpar pesquisa" title="Limpar pesquisa">LIMPAR ×</button></div></div><div class="filter-field"><label class="filter-label" for="universe">FILTRAR POR UNIVERSO</label><select class="filter-select" id="universe"><option value="all">Todos os universos</option>'+universeOptions.map(([value,label])=>'<option value="'+e(value)+'">'+e(label)+'</option>').join("")+'</select></div></div></div><div class="catalog-meta"><span id="resultsCount" role="status" aria-live="polite"></span><span class="catalog-sort-label">⇅ ORDEM ALFABÉTICA · A–Z</span></div><div class="roster-grid" id="roster" aria-live="polite"></div><div class="archive-pagination" id="archivePagination"></div></section>'+
 '<div class="rule-note"><b>O SISTEMA //</b><span>O acervo reúne os JoBros, o núcleo de The Boys e 98 Servos principais de Fate com 50 formas alternativas, além de 16 crossovers, 57 Umas e 69 fichas históricas. Dez builds geradas automaticamente a partir de presets auditáveis, inclusive multiclasses. PV/PM são subtotais das regras cadastradas; equipamentos, magias e decisões da mesa devem ser conferidos.</span></div></div>';
 root.querySelector?.(".hero-ctas")?.insertAdjacentHTML("beforeend",'<a class="hero-review" href="#/laboratorio">LABORATÓRIO DE BUILDS</a>');
 const input=document.getElementById("search"),select=document.getElementById("universe");input.value=search;select.value=universe;updateCards();lastRoute="library"}
@@ -2554,7 +2600,7 @@ document.addEventListener("load",evt=>{
    label.hidden=!notice;
    im.alt=mediaAlt(notice,im.dataset.mediaAlt);
   }
-  im.closest(".hero-portrait")?.classList.add("portrait-ready");
+  im.closest(".roster-card .photo,.hero-portrait")?.classList.add("portrait-ready");
  }
 },true);
 document.addEventListener("keydown",evt=>{

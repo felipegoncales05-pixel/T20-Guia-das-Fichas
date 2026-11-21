@@ -16,6 +16,45 @@ const url=(u)=>/^https:\/\//.test(String(u||""))?e(u):"#";
 const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,")||/^\.\/assets\/(?:portraits|art|art-optimized|card-art|character-art|planned-art)\/[a-z0-9-]+\.(?:svg|webp|avif|png|jpg)$/.test(String(u||""))?e(u):url(u);
 const icon=(v)=>e(v||"◈");
 const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
+const universeOptions=[
+ ["fate","Fate · Servos"],
+ ["the-boys","The Boys"],
+ ["one-punch-man","One Punch Man"],
+ ["blue-lock","Blue Lock"],
+ ["kamen-rider","Kamen Rider"],
+ ["konosuba","KonoSuba"],
+ ["mushoku","Mushoku Tensei"],
+ ["wuwa","Wuthering Waves"],
+ ["dmc","Devil May Cry"],
+ ["fma","Fullmetal Alchemist"],
+ ["genshin","Genshin Impact"],
+ ["witcher","The Witcher"],
+ ["overwatch","Overwatch"],
+ ["umamusume","Umamusume · Pretty Derby"],
+ ["manhwa","Manhwa · Fantasia"],
+ ["zenless","Zenless Zone Zero"],
+ ["marvel","Marvel / MCU"],
+ ["jojo","JoJo"],
+ ["cyberpunk","Cyberpunk"],
+ ["hsr","Honkai: Star Rail"],
+ ["romcom","Romance & Cosplay"],
+ ["chainsaw","Chainsaw Man"],
+ ["music","Música / Ado"],
+ ["transformers","Transformers"],
+ ["jjk","Jujutsu Kaisen"],
+ ["dragonball","Dragon Ball"],
+ ["chrysos","Herdeiros de Chrysos"],
+ ["emanator","Emanadores"],
+ ["signalis","SIGNALIS"],
+ ["mha","My Hero Academia"],
+ ["bleach","Bleach"],
+ ["dark-souls","Dark Souls III"],
+ ["binding-of-isaac","The Binding of Isaac"],
+ ["shuumatsu","Shuumatsu no Valkyrie"],
+ ["black-souls","Black Souls"],
+ ["sekiro","Sekiro"],
+ ["tokyo-ghoul","Tokyo Ghoul"],
+].sort((a,b)=>collator.compare(a[1],b[1]));
 const brokenImageKey="t20-broken-images-session";
 const imageAttempts=new WeakMap();
 const imageFailures=[];
@@ -222,7 +261,7 @@ function plannedCard(c){
 function listView(){document.body.removeAttribute("data-theme");document.body.removeAttribute("data-world");document.body.removeAttribute("data-art");document.body.removeAttribute("data-family");document.body.removeAttribute("data-pattern");document.body.removeAttribute("data-finish");document.body.removeAttribute("data-lineage");document.body.removeAttribute("data-variant");document.body.style?.removeProperty?.("--char-color");document.body.style?.removeProperty?.("--art-accent");document.body.style?.removeProperty?.("--art-dark");document.title="O Sistema // T20 — Arquivo de Fichas";root.innerHTML=
 '<div class="container"><section class="landing-hero" aria-label="Arquivo de personagens"><div class="hero-copy-main"><div class="kicker">O SISTEMA / VOLUME 01 / ACERVO MULTIVERSAL</div><h1><span>'+String(catalog.length)+' HISTÓRIAS.</span><br><em>UM ARQUIVO.</em></h1><p>Explore ' +String(catalog.length)+ ' fichas T20, com JoBros de 1–8, The Boys e 98 Servos de Fate, além de 57 Umas e 16 crossovers: multiclasse, atributos, poderes escolhidos, equipamentos, explicações e progressão 1–12. Sujeitas à edição adotada e revisão da mesa.</p><div class="hero-ctas"><button type="button" class="hero-enter" data-scroll-roster>EXPLORAR OS '+String(catalog.length)+' DOSSIÊS <span aria-hidden="true"></span></button><a href="#/arquivo" class="hero-review">FONTES & DECISÕES ↗</a></div></div><div class="hero-mark" aria-hidden="true"><span class="hero-mark-number">01 / '+String(catalog.length).padStart(2,"0")+'</span><strong>OS<span>∕</span>T20</strong><span class="hero-mark-strip">FATE · JOJO · THE BOYS<br>KAMEN RIDER · BLUE LOCK · UMAMUSUME</span></div><div class="hero-bottomline" aria-hidden="true">ARQUIVO // REGRAS EM REVISÃO <span>◇ ◆ ◇ ◆ ◇</span> NÍVEIS 01—12</div></section>'+
 '<div class="stats-strip"><div class="mini-stat"><strong>'+String(catalog.length).padStart(2,"0")+'</strong><span>DOSSIÊS<br>NO ARQUIVO</span></div><div class="mini-stat"><strong>'+String(data.characters.reduce((n,c)=>n+variants(c.id).length,0)).padStart(2,"0")+'</strong><span>VERSÕES T20<br>EXISTENTES</span></div><div class="mini-stat"><strong>'+String((window.T20_AUTOMATIC?.ids.size||planned.length)+(window.T20_UMA?.count||0)+(window.T20_CROSSOVERS?.count||0)+(window.T20_WAVE7?.count||0)).padStart(2,"0")+'</strong><span>FICHAS<br>AUTOMÁTICAS</span></div><div class="mini-stat"><strong>12</strong><span>NÍVEIS<br>NAS BUILDS</span></div></div><div class="review-callout"><div><span class="kicker">CONTROLE EDITORIAL // SEM APROVAÇÕES AUTOMÁTICAS</span><h2>Regras em revisão</h2><p>As adaptações do repositório são rascunhos até que páginas, custos e pré-requisitos sejam conferidos. Registre fontes e decisões para manter o histórico da mesa.</p></div><a class="sys-button primary" href="#/arquivo">ABRIR PAINEL DE REVISÃO</a></div>'+
-'<section aria-labelledby="roster-title" id="catalogo"><div class="list-toolbar"><div><div class="corner-label">SISTEMA DE IDENTIFICAÇÃO // SELEÇÃO</div><h2 id="roster-title">ARQUIVO DE PERSONAGENS</h2></div><div class="filters"><div class="search-field"><label class="filter-label" for="search">PESQUISAR FICHAS</label><div class="search-field-inner"><span class="search-magnifier" aria-hidden="true">⌕</span><input class="search-input" id="search" type="search" placeholder="Nome, personagem, classe ou universo..." autocomplete="off" enterkeyhint="search" value="'+e(search)+'"><button type="button" class="clear-search" data-clear-search aria-label="Limpar pesquisa" title="Limpar pesquisa">LIMPAR ×</button></div></div><div class="filter-field"><label class="filter-label" for="universe">FILTRAR POR UNIVERSO</label><select class="filter-select" id="universe"><option value="all">Todos os universos</option><option value="fate">Fate · Servos</option><option value="the-boys">The Boys</option><option value="one-punch-man">One Punch Man</option><option value="blue-lock">Blue Lock</option><option value="kamen-rider">Kamen Rider</option><option value="konosuba">KonoSuba</option><option value="mushoku">Mushoku Tensei</option><option value="wuwa">Wuthering Waves</option><option value="dmc">Devil May Cry</option><option value="fma">Fullmetal Alchemist</option><option value="genshin">Genshin Impact</option><option value="witcher">The Witcher</option><option value="overwatch">Overwatch</option><option value="umamusume">Umamusume · Pretty Derby</option><option value="manhwa">Manhwa · Fantasia</option><option value="zenless">Zenless Zone Zero</option><option value="marvel">Marvel / MCU</option><option value="jojo">JoJo</option><option value="cyberpunk">Cyberpunk</option><option value="hsr">Honkai: Star Rail</option><option value="romcom">Romance & Cosplay</option><option value="chainsaw">Chainsaw Man</option><option value="music">Música / Ado</option><option value="transformers">Transformers</option><option value="jjk">Jujutsu Kaisen</option><option value="dragonball">Dragon Ball</option><option value="chrysos">Herdeiros de Chrysos</option><option value="emanator">Emanadores</option><option value="signalis">SIGNALIS</option><option value="mha">My Hero Academia</option><option value="bleach">Bleach</option><option value="dark-souls">Dark Souls III</option><option value="binding-of-isaac">The Binding of Isaac</option><option value="shuumatsu">Shuumatsu no Valkyrie</option><option value="black-souls">Black Souls</option><option value="sekiro">Sekiro</option><option value="tokyo-ghoul">Tokyo Ghoul</option></select></div></div></div><div class="catalog-meta"><span id="resultsCount" role="status" aria-live="polite"></span><span class="catalog-sort-label">⇅ ORDEM ALFABÉTICA · A–Z</span></div><div class="roster-grid" id="roster" aria-live="polite"></div><div class="archive-pagination" id="archivePagination"></div></section>'+
+'<section aria-labelledby="roster-title" id="catalogo"><div class="list-toolbar"><div><div class="corner-label">SISTEMA DE IDENTIFICAÇÃO // SELEÇÃO</div><h2 id="roster-title">ARQUIVO DE PERSONAGENS</h2></div><div class="filters"><div class="search-field"><label class="filter-label" for="search">PESQUISAR FICHAS</label><div class="search-field-inner"><span class="search-magnifier" aria-hidden="true">⌕</span><input class="search-input" id="search" type="search" placeholder="Nome, personagem, classe ou universo..." autocomplete="off" enterkeyhint="search" value="'+e(search)+'"><button type="button" class="clear-search" data-clear-search aria-label="Limpar pesquisa" title="Limpar pesquisa">LIMPAR ×</button></div></div><div class="filter-field"><label class="filter-label" for="universe">FILTRAR POR UNIVERSO</label><select class="filter-select" id="universe"><option value="all">Todos os universos</option>'+universeOptions.map(([value,label])=>'<option value="'+e(value)+'">'+e(label)+'</option>').join("")+'</select></div></div></div><div class="catalog-meta"><span id="resultsCount" role="status" aria-live="polite"></span><span class="catalog-sort-label">⇅ ORDEM ALFABÉTICA · A–Z</span></div><div class="roster-grid" id="roster" aria-live="polite"></div><div class="archive-pagination" id="archivePagination"></div></section>'+
 '<div class="rule-note"><b>O SISTEMA //</b><span>O acervo reúne os JoBros, o núcleo de The Boys e 98 Servos principais de Fate com 50 formas alternativas, além de 16 crossovers, 57 Umas e 69 fichas históricas. Dez builds geradas automaticamente a partir de presets auditáveis, inclusive multiclasses. PV/PM são subtotais das regras cadastradas; equipamentos, magias e decisões da mesa devem ser conferidos.</span></div></div>';
 root.querySelector?.(".hero-ctas")?.insertAdjacentHTML("beforeend",'<a class="hero-review" href="#/laboratorio">LABORATÓRIO DE BUILDS</a>');
 const input=document.getElementById("search"),select=document.getElementById("universe");input.value=search;select.value=universe;updateCards();lastRoute="library"}
@@ -577,7 +616,7 @@ document.addEventListener("load",evt=>{
    label.hidden=!notice;
    im.alt=mediaAlt(notice,im.dataset.mediaAlt);
   }
-  im.closest(".hero-portrait")?.classList.add("portrait-ready");
+  im.closest(".roster-card .photo,.hero-portrait")?.classList.add("portrait-ready");
  }
 },true);
 document.addEventListener("keydown",evt=>{

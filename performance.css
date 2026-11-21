@@ -23,7 +23,20 @@
 /* Sem descarte automático de pintura: evita conflito com retratos lazy no Chromium. */
 .roster-card,.roster-entry,.planned-card{content-visibility:visible!important}
 .roster-card .photo{overflow:hidden}
+.roster-card .photo img.portrait-underlay,.hero-portrait img.portrait-underlay{
+ position:absolute;inset:0;z-index:0;width:100%;height:100%;padding:0;
+ object-fit:cover;pointer-events:none;
+}
+.hero-portrait img:not(.portrait-underlay){position:relative;z-index:1}
+.roster-card .photo.portrait-ready img.portrait-underlay{opacity:0}
 .roster-card .photo img:not(.portrait-underlay){display:block;visibility:visible;opacity:1}
+.roster-card[data-world="hsr"] .photo img[src^="./assets/character-art/"]{
+ object-fit:contain;object-position:center 18%;padding:28px 12px 105px;
+}
+body[data-world="hsr"] .hero-portrait img[src^="./assets/character-art/"],
+body[data-world="hsr"] .media-photo img[src^="./assets/character-art/"]{
+ object-fit:contain;object-position:center;
+}
 .media-photo,.gear-thumb{position:relative}
 .media-reserve{
  position:absolute;z-index:4;right:8px;bottom:8px;
