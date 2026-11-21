@@ -109,6 +109,7 @@ async function assertLayout(page,label){
     assert.ok(!heirs.includes("em-acheron"),width+": Emanador no filtro Chrysos");
     if([375,1440].includes(width))await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-chrysos-fase3.png"});
     await page.locator("#universe").selectOption("all");
+    await revealAllCards(page);
     for(const [id,labels] of [["diego",["SM","TW"]],["goku",["DBZ","GT","DAIMA","SUPER"]]]){
       const buttons=page.locator('[data-card-switch="'+id+'"]');
       assert.deepEqual(await buttons.allTextContents(),labels,width+": siglas incorretas em "+id);
