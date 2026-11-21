@@ -5,6 +5,10 @@
 const root=document.getElementById("app"),characters=window.T20_DATA?.characters||[];
 if(!root)return;
 const pending=new Map(),posters=window.T20_MEDIA_POSTERS||(window.T20_MEDIA_POSTERS={});
+const cacheKey="t20-verified-portrait-cache-v1";
+let cache={};
+try{cache=JSON.parse(localStorage.getItem(cacheKey)||"{}")||{}}catch{cache={}}
+const saveArt=(key,art)=>{if(!art)return art;cache[key]={...art,stored:Date.now()};try{localStorage.setItem(cacheKey,JSON.stringify(cache))}catch{}return art};
 const normalize=value=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
  .replace(/[’']/g,"").replace(/\(fate\)|\(strange fake\)/g,"").replace(/[^a-z0-9]+/g," ").trim();
 const sameTokens=(a,b)=>normalize(a).split(" ").filter(Boolean).sort().join(" ")===normalize(b).split(" ").filter(Boolean).sort().join(" ");
@@ -88,7 +92,11 @@ async function enrich(card){
  const c=getCurrent(card);
  if(!c||!String(c.portrait?.url||"").startsWith("data:image/svg+xml"))return;
  const original=c.portrait.url,key=c.id+"|"+normalize(c.name)+"|"+normalize(c._wave7?.fateClass||"");
- if(!pending.has(key))pending.set(key,(c.id.startsWith("fate-")?fatePortrait(c):jojoPortrait(c)).catch(()=>null));
+ if(!pending.has(key)){
+  const hit=cache[key],fresh=hit&&Date.now()-hit.stored<30*24*60*60*1000&&safeImage(hit.url);
+  pending.set(key,fresh?Promise.resolve(hit):
+   (c.id.startsWith("fate-")?fatePortrait(c):jojoPortrait(c)).then(art=>saveArt(key,art)).catch(()=>null));
+ }
  const art=await pending.get(key);
  if(art&&c.portrait.url===original)apply(c,art,original);
 }
