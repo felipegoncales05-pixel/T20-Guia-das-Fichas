@@ -133,6 +133,7 @@ async function assertLayout(page,label){
    await page.locator("#universe").selectOption("mha");
    assert.equal(await page.locator(".roster-card").count(),2,width+": filtro My Hero Academia");
    await page.locator("#universe").selectOption("all");
+    await revealAllCards(page);
    assert.equal(await page.locator(".roster-card[data-pending]").count(),0,width+": fichas ainda pendentes");
     for(const id of plannedIds)assert.equal(await page.locator('[data-open="'+id+'"]').count(),1,width+": ficha automática não está no catálogo");
     const tojiCard=page.locator('[data-open="toji"]');
@@ -180,6 +181,7 @@ async function assertLayout(page,label){
     assert.ok(opacity>0&&opacity<=.18,"Glitch de David intenso ou ausente: "+opacity);
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk-pulso.png"});
     await page.locator("#universe").selectOption("all");
+    await revealAllCards(page);
    }
    if([375,768,1440].includes(width)){
     await page.locator('[data-card-switch="diego"][data-card-mode="alternative"]').click();
@@ -190,6 +192,7 @@ async function assertLayout(page,label){
     assert.equal(await page.locator('.hero-portrait img:not(.portrait-underlay)').getAttribute("src"),'./assets/card-art/diego-alternative.webp');
     await assertLayout(page,width+" Diego alternativo a partir do card");
     await page.locator('.back-link').click();
+    await revealAllCards(page);
     await page.locator('[data-card-switch="goku"][data-card-mode="super"]').click();
     assert.equal(await page.locator('[data-open="goku"]').getAttribute("data-variant"),"super");
     assert.match(await page.locator('[data-open="goku"]').textContent(),/Dragon Ball Super/);
