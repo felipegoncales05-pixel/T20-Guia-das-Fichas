@@ -176,7 +176,8 @@
    "<text x='300' y='660' fill='#f6f7ff' text-anchor='middle' font-family='sans-serif' font-size='32' font-weight='800'>"+short+"</text>"+
    "<text x='300' y='703' fill='"+color+"' text-anchor='middle' font-family='sans-serif' font-size='19'>O SISTEMA / T20</text>"+
    "<path d='M62 72H538 M62 775H538' stroke='"+color+"' stroke-width='2' opacity='.7'/></svg>";
-  const img=s.image||"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(poster);
+  const localPoster="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(poster);
+  const img=s.image||localPoster;
   const skillNames=[...new Set([...(cl.skill||[]),...(s.className==="Inventor"?["Ofício (engenhoqueiro)"]:[]),
    ...(s.className==="Caçador"?["Sobrevivência"]:[])])];
   const skills=skillNames.map(name=>[name,fmt(attrs0[skillAttr[name]||"INT"]+2),
@@ -184,7 +185,7 @@
   const c={
    id:s.id,number:String(s.number).padStart(2,"0"),name:s.name,universe:s.universe,
    label:s.identity,theme:s.id,catalogCategory:s.group,symbol:"✦",
-   portrait:{url:img,credit:s.imageCredit||"Insígnia editorial original",page:s.imageSource||s.source},
+   portrait:{url:img,fallback:localPoster,credit:s.imageCredit||"Insígnia editorial original",page:s.imageSource||s.source},
    excerpt:s.concept,
    info:{
     race:s.race,className:classLabel,
