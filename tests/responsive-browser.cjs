@@ -42,6 +42,18 @@ async function assertLayout(page,label){
  assert.ok(p.scroll<=p.width+2,label+" overflow "+JSON.stringify(p));
  for(const t of p.tabs)assert.ok(t[0]>=-2&&t[1]<=p.width+2&&t[2]>=40&&t[3]!=="none",label+" aba inacessível "+t[4]);
 }
+async function assertReserve(page,frame,source,label){
+ const img=page.locator(frame+" img:not(.portrait-underlay)");
+ await img.scrollIntoViewIfNeeded();
+ await page.waitForFunction(({frame,label})=>{
+  const holder=document.querySelector(frame);
+  const image=holder?.querySelector("img:not(.portrait-underlay)");
+  const notice=holder?.querySelector(".media-reserve");
+  return image?.naturalWidth>0&&notice&&!notice.hidden&&notice.textContent===label;
+ },{frame,label},{timeout:10000});
+ assert.match(await img.getAttribute("src"),source);
+ assert.ok((await img.getAttribute("alt")).startsWith(label));
+}
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:["--no-sandbox"]});
  try{
@@ -355,6 +367,27 @@ async function assertLayout(page,label){
     await page.goto(site,{waitUntil:'load'});
     assert.equal(await page.locator('.roster-card').count(),24,"Ficha pessoal alterou o lote inicial");
     assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
+   }
+   if(width===1440){
+    await page.locator("#search").fill("Josuke Higashikata JoJolion");
+    await assertReserve(page,'[data-open="jojo-gappy"] .photo',/jojo-gappy\.webp$/,"Imagem de reserva");
+
+    const poster=/^data:image\/svg\+xml/;
+    const cartethyia=site+"#/cx-wuwa-cartethyia/";
+    await page.goto(cartethyia+"overview",{waitUntil:"load"});
+    assert.equal(await page.locator('.hero-portrait img[src*="/portraits/cx-wuwa-cartethyia.svg"]').count(),0);
+    await assertReserve(page,".hero-portrait",poster,"Pôster de reserva");
+    await assertReserve(page,".media-card:first-child .media-photo",poster,"Pôster de reserva");
+    await page.locator('[data-tab="equipment"]').click();
+    await assertReserve(page,".gear-card:first-child .gear-thumb",poster,"Pôster de reserva");
+    await page.locator('[data-tab="overview"]').click();
+    await page.locator('#detail-section[data-tab="overview"]').waitFor();
+    await assertReserve(page,".hero-portrait",poster,"Pôster de reserva");
+
+    await page.goto(site+"#/cipher/overview",{waitUntil:"load"});
+    const attack='.media-card:has(img[data-media-alt="Ataque quântico"])';
+    await assertReserve(page,attack+" .media-photo",/cipher\.webp$/,"Imagem de reserva");
+    assert.match(await page.locator(attack+" a").getAttribute("href"),/gachabase/i);
    }
    assert.deepEqual(errors,[]);
    console.log("OK viewport "+width+"x"+height+" — 319 dossiês e interações");

@@ -24,6 +24,14 @@
 .roster-card,.roster-entry,.planned-card{content-visibility:visible!important}
 .roster-card .photo{overflow:hidden}
 .roster-card .photo img:not(.portrait-underlay){display:block;visibility:visible;opacity:1}
+.media-photo,.gear-thumb{position:relative}
+.media-reserve{
+ position:absolute;z-index:4;right:8px;bottom:8px;
+ padding:3px 5px;border:1px solid var(--line);border-radius:3px;
+ background:#08121be8;color:#fff;font:10px/1.2 var(--mono);text-transform:uppercase;
+}
+.roster-card .media-reserve{top:48px;right:auto;bottom:auto;left:15px}
+.gear-thumb .media-reserve{inset:auto 0 0;text-align:center;font-size:8px;padding:2px}
 .roster-card[data-world="hsr"] .card-body h3,
 .roster-card[data-world="chrysos"] .card-body h3,
 .roster-card[data-world="emanator"] .card-body h3{
