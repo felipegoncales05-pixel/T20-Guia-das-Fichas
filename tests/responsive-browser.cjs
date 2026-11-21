@@ -191,7 +191,8 @@ async function assertPortraitInFrame(frame,label){
     assert.equal(await page.locator(".roster-card").count(),90,"Catálogo dos Cavaleiros de Ouro");
     await page.locator("#search").fill("Milo de Escorpião");
     const milo=page.locator('[data-open="cdz-classico-milo"]');
-    await milo.waitFor({state:"visible"});
+    await page.waitForFunction(()=>document.querySelectorAll(".roster-card").length===1&&
+     document.querySelector('[data-open="cdz-classico-milo"]'));
     await assertReserve(page,'[data-open="cdz-classico-milo"] .photo',/^data:image\/svg\+xml/,"Pôster de reserva");
     await page.locator('[data-card-switch="cdz-classico-milo"][data-card-mode="lenda"]').click();
     await milo.click();
