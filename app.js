@@ -27,7 +27,7 @@ function rememberFailedImage(src){
 }
 const normalizeSearch=(v)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").replace(/[^a-z0-9]+/g," ").trim();
 const archiveCategory=(c)=>c.catalogCategory||(["gyro","diego"].includes(c.id)?"jojo":["cipher","cyrene"].includes(c.id)?"chrysos":["rentarou","marin"].includes(c.id)?"romcom":["yoru","makima"].includes(c.id)?"chainsaw":c.id==="ado"?"music":c.id==="optimus"?"transformers":"cyberpunk");
-const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c.id==="goku"?"Dragon Ball Z GT Daima Super":"",window.T20_FATE_VARIANTS?.[c.id]?.map(x=>[x[1],x[2].name,x[2].info?.className,x[2]._wave7?.fateClass].join(" ")).join(" ")||""].filter(Boolean).join(" "));
+const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c.id==="goku"?"Dragon Ball Z GT Daima Super":"",c.id==="boys-starlight"?"Os Sete The Boys":"",window.T20_FATE_VARIANTS?.[c.id]?.map(x=>[x[1],x[2].name,x[2].info?.className,x[2]._wave7?.fateClass].join(" ")).join(" ")||""].filter(Boolean).join(" "));
 const plannedById=(id)=>planned.find(c=>c.id===id);
 
 const charById=(id)=>id==="goku"&&window.T20_GOKU_VARIANTS?.[gokuMode]?window.T20_GOKU_VARIANTS[gokuMode]:
