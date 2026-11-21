@@ -64,7 +64,7 @@ async function assertLayout(page,label){
    assert.equal(await page.locator('[data-open="fate-artoria"]').count(),1,width+": Artoria não deve duplicar cards");
    assert.equal(await page.locator('[data-card-switch="fate-artoria"]').count(),7,width+": faltam formas de Artoria");
    await page.locator("#universe").selectOption("the-boys");
-   assert.equal(await page.locator(".roster-card").count(),6,width+": grupo principal de The Boys");
+   assert.equal(await page.locator(".roster-card").count(),12,width+": Os Sete e grupo The Boys da expansão VIII");
    await page.locator("#universe").selectOption("blue-lock");
    assert.equal(await page.locator(".roster-card").count(),2,width+": Isagi e Rin");
    await page.locator("#universe").selectOption("one-punch-man");
