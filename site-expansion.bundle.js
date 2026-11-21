@@ -1994,6 +1994,9 @@ const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,"
 const icon=(v)=>e(v||"◈");
 const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
 const brokenImageKey="t20-broken-images-session";
+const imageAttempts=new WeakMap();
+const imageFailures=[];
+window.T20_IMAGE_DIAGNOSTICS={report:()=>imageFailures.slice(-150)};
 let failedFromSession=[];
 try{failedFromSession=JSON.parse(sessionStorage.getItem(brokenImageKey)||"[]")}catch{}
 const failedImageSources=new Set(Array.isArray(failedFromSession)?failedFromSession:[]);
@@ -2011,7 +2014,7 @@ const charById=(id)=>id==="goku"&&window.T20_GOKU_VARIANTS?.[gokuMode]?window.T2
  id==="diego"&&diegoMode==="alternative"&&window.T20_ALTERNATES?.diego?.alternative?window.T20_ALTERNATES.diego.alternative:
  window.T20_FATE_VARIANTS?.[id]?variantByKey(id,catalogModes[id]||"principal"):
  data.characters.find(c=>c.id===id);
-function image(src,alt,css="",attrs="",priority="lazy"){return '<img class="'+e(css)+'" '+attrs+' loading="'+(priority==="eager"?"eager":"lazy")+'" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
+function image(src,alt,css="",attrs="",priority="lazy"){return '<img class="'+e(css)+'" '+attrs+' loading="'+(priority==="eager"?"eager":"lazy")+'" fetchpriority="'+(priority==="eager"?"high":"low")+'" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),3200)}
 function note(text){return '<aside class="system-note"><span class="who">O SISTEMA // OBSERVAÇÃO</span><p>'+e(text)+'</p></aside>'}
 
@@ -2124,7 +2127,13 @@ const worldMarks={zenless:"NEW ERIDU",manhwa:"MANHWA",marvel:"MARVEL / MCU",fate
 const visualFor=(c,key)=>window.T20_VISUAL.forCharacter(c,key);
 function visualStyle(v){return '--char-color:'+e(v.accent)+';--art-accent:'+e(v.accent)+';--art-dark:'+e(v.dark)}
 function visualAttrs(v){return ' data-art="'+e(v.id)+'" data-layout="'+e(v.layout)+'" data-pattern="'+e(v.pattern)+'" data-family="'+e(v.family)+'" data-finish="'+e(v.finish)+'" data-lineage="'+e(v.lineage)+'" data-variant="'+e(v.variant)+'"'}
-function card(c){
+const FX_CARD_IDS=new Set(["gyro","jojo-johnny","jojo-valentine","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-gappy","david","d","denji","satoru-gojo","shigaraki","midoriya"]);
+function cardEffect(id){
+ if(id==="d")return '<div class="capri-hud" aria-hidden="true"><span class="capri-signal">CAPRI // LINK ATIVO</span><span class="capri-screen"><img src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"><img class="capri-gaze" src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"><img class="capri-mouth" src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"></span><span class="capri-laugh">hahaha</span><span class="capri-caption">OLHOS EM VOCÊ</span></div>';
+ if(id==="david")return '<div class="psycho-hud" aria-hidden="true"><span class="psycho-echo"></span><span class="psycho-status">NEURAL LINK // INSTÁVEL</span><span class="psycho-error">ERRO DE SINAL</span></div>';
+ return "";
+}
+function card(c,priority="lazy"){
  const nForms=window.T20_FATE_VARIANTS?.[c.id]?.length||0;
  const alternate=c.id==="diego"?"2 VERSÕES · SCARY MONSTERS / THE WORLD":c.id==="goku"?"4 VERSÕES · DBZ / GT / DAIMA / SUPER":nForms>1?nForms+" VERSÕES · "+window.T20_FATE_VARIANTS[c.id].map(x=>x[1]).join(" / "):"";
  const mode=catalogModes[c.id]||"principal";
@@ -2134,15 +2143,16 @@ function card(c){
  const cover=!(c.id==="diego"&&mode==="alternative")?window.T20_CATALOG_COVERS?.[c.id]:null;
  const safePortrait=failedImageSources.has(shown.portrait.url)?shown.portrait.fallback||shown.portrait.url:shown.portrait.url;
  const featuredImage=cover&&!failedImageSources.has(cover.image)?cover.image:safePortrait;
- const featuredAttrs=cover?' data-card-fallback="'+imageUrl(safePortrait)+'" data-cover-volume="'+e(cover.volume||"")+'"':"";
+ const featuredAttrs=(cover?' data-card-fallback="'+imageUrl(safePortrait)+'" data-cover-volume="'+e(cover.volume||"")+'"':"")+
+  (shown.portrait.fallback?' data-poster-fallback="'+imageUrl(shown.portrait.fallback)+'"':"");
  const world=archiveCategory(c);
- const underlay=window.T20_WAVE7?.ids.has(c.id)?
-  (shown.portrait.fallback?'<img class="portrait-underlay" src="'+imageUrl(shown.portrait.fallback)+'" alt="" aria-hidden="true" loading="eager" decoding="async">':""):
-  (["umamusume","konosuba","mushoku","wuwa","dmc","fma","genshin","witcher","overwatch","fate","the-boys","blue-lock","one-punch-man","kamen-rider"].includes(world)||c.id.startsWith("cx-")||c.id.startsWith("jb-")?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">');
+ const underlay=shown.portrait.fallback?
+  '<img class="portrait-underlay" src="'+imageUrl(shown.portrait.fallback)+'" alt="" aria-hidden="true" loading="lazy" decoding="async">':
+  (["umamusume","konosuba","mushoku","wuwa","dmc","fma","genshin","witcher","overwatch","fate","the-boys","blue-lock","one-punch-man","kamen-rider","manhwa","zenless","marvel"].includes(world)||c.id.startsWith("cx-")||c.id.startsWith("jb-")||c.id.startsWith("nova-")?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">');
  const button='<button type="button" class="roster-card '+e(c.theme)+'" style="'+visualStyle(visual)+'" data-world="'+e(world)+'"'+visualAttrs(visual)+' data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+(alternate?' · versão '+mode:'')+'">'+
-  '<div class="photo">'+underlay+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs,"eager")+'</div>'+
+  '<div class="photo">'+underlay+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs,priority)+'</div>'+
   '<div class="art-insignia" aria-hidden="true"><span>'+e(visual.motif)+'</span><i></i></div><span class="art-series" aria-hidden="true">'+e(visual.series)+'</span>'+
-  ''+
+  (FX_CARD_IDS.has(c.id)?'<div class="character-fx" aria-hidden="true"><i class="fx-a"></i><i class="fx-b"></i><i class="fx-c"></i></div>':"")+cardEffect(c.id)+
   '<span class="card-no">DOSSIÊ // '+e(c.number)+'</span><span class="world-mark" aria-hidden="true">'+e(worldMarks[world]||"O SISTEMA")+'</span><span class="card-topline" aria-hidden="true"></span>'+
   '<div class="card-body"><span class="card-overline">'+e(shown.label)+'</span><h3>'+e(c.name)+'</h3>'+
   (alternate?'<span class="card-versions">'+alternate+'</span>':'')+(symbolic?'<span class="card-versions symbolic">RETRATO PENDENTE · ARTE SIMBÓLICA</span>':'')+
@@ -2182,7 +2192,7 @@ function appendNextCards(){
  const slot=document.getElementById("roster");
  if(!slot||visibleCount>=matchingCards.length)return;
  const next=matchingCards.slice(visibleCount,visibleCount+PAGE_SIZE);
- const html=next.map(c=>c.status==="pendente"?plannedCard(c):card(c)).join("");
+ const html=next.map(c=>c.status==="pendente"?plannedCard(c):card(c,"lazy")).join("");
  if(typeof slot.insertAdjacentHTML==="function")slot.insertAdjacentHTML("beforeend",html);
  else slot.innerHTML+=html;
  visibleCount+=next.length;pagination();
@@ -2199,7 +2209,7 @@ function updateCards(){
  }).sort((a,b)=>collator.compare(a.name,b.name)||collator.compare(a.universe,b.universe)||collator.compare(a.id,b.id));
  matchingCards=matches;
  visibleCount=Math.min(visibleCount,matches.length);
- slot.innerHTML=matches.length?matches.slice(0,visibleCount).map(c=>c.status==="pendente"?plannedCard(c):card(c)).join(""):'<div class="empty-state">NENHUM DOSSIÊ ENCONTRADO // Experimente outro nome ou selecione Todos os universos.</div>';
+ slot.innerHTML=matches.length?matches.slice(0,visibleCount).map((c,i)=>c.status==="pendente"?plannedCard(c):card(c,i<4?"eager":"lazy")).join(""):'<div class="empty-state">NENHUM DOSSIÊ ENCONTRADO // Experimente outro nome ou selecione Todos os universos.</div>';
  const count=document.getElementById("resultsCount");
  if(count)count.textContent=String(matches.length).padStart(2,"0")+" DE "+String(catalog.length).padStart(2,"0")+" DOSSIÊS EXIBIDOS";
  const clear=document.querySelector?.("[data-clear-search]");
@@ -2478,36 +2488,35 @@ document.addEventListener("error",evt=>{
   frame?.querySelector(".pending-poster")?.setAttribute("aria-hidden","false");
   im.remove();return;
  }
- // Elementos decorativos não devem substituir a ilustração principal por um bloco de erro.
  if(im.classList.contains("portrait-underlay")||im.closest(".capri-hud")){im.remove();return}
  const original=im.getAttribute("src")||"";
  rememberFailedImage(original);
- // Recuperação: fontes alternativas, proxy de imagens e pôster do personagem.
- const proxy=/^https:\/\/(?!wsrv\.nl\/)/i.test(original)?
-  "https://wsrv.nl/?url="+encodeURIComponent(original)+"&output=webp&w=720":null;
- const backups=[...(window.T20_MEDIA_BACKUPS?.[original]||[]),
-  im.dataset.cardFallback,proxy,im.dataset.posterFallback,
-  window.T20_MEDIA_POSTERS?.[original],
-  data.characters.find(x=>x.id===(im.closest(".roster-card")?.dataset.open||getRoute().character?.id))?.portrait?.fallback].filter(Boolean);
- const tried=(im.dataset.triedSources||"").split("|").filter(Boolean);
- if(!tried.includes(original))tried.push(original);
- const local=im.closest(".roster-card")?.dataset.open||getRoute().character?.id;
- const dynamic=window.T20_WAVE7?.ids.has(local)||window.T20_CROSSOVERS?.ids.has(local)||window.T20_UMA?.ids.has(local);
- const localPath=local&&!dynamic?"./assets/portraits/"+local+".svg":null;
- const next=backups.find(candidate=>candidate&&!tried.includes(candidate))||(localPath&&!tried.includes(localPath)?localPath:null);
+ const card=im.closest(".roster-card");
+ const id=card?.dataset.open||getRoute().character?.id||"";
+ const c=card?data.characters.find(x=>x.id===id):getRoute().character;
+ const tried=imageAttempts.get(im)||new Set();
+ tried.add(original);imageAttempts.set(im,tried);
+ // Imagens locais e pôsteres verificados devem vir antes de outra tentativa externa.
+ // Evita dependência e latência do proxy público de terceiros.
+ const fallback=c?.portrait?.fallback;
+ const isDynamic=window.T20_WAVE7?.ids.has(id)||window.T20_CROSSOVERS?.ids.has(id)||window.T20_UMA?.ids.has(id)||window.T20_WAVE8_IDS?.includes?.(id)||id.startsWith("nova-")||id.startsWith("cx-")||id.startsWith("jb-");
+ const localPath=id&&!isDynamic?"./assets/portraits/"+id+".svg":null;
+ const choices=[im.dataset.cardFallback,im.dataset.posterFallback,
+  window.T20_MEDIA_POSTERS?.[original],fallback,localPath,
+  ...(window.T20_MEDIA_BACKUPS?.[original]||[])].filter(Boolean);
+ const next=choices.find(candidate=>!tried.has(candidate)&&candidate!==original&&!failedImageSources.has(candidate));
+ if(imageFailures.length<150)imageFailures.push({id,failed:original,backup:next||null});
  if(next){
-  im.dataset.triedSources=tried.join("|");
-  im.src=next;
-  return;
+  im.dataset.recovered="true";
+  im.dataset.recoveryType=/^https:\/\//.test(next)?"external":"local";
+  im.src=next;return;
  }
- const container=im.closest(".roster-card");
- const c=container?data.characters.find(x=>x.id===container.dataset.open):getRoute().character;
- const label=(container?.querySelector("h3")?.textContent||c?.name||im.alt.replace(/^(Retrato ilustrativo de|Imagem ilustrativa de)\s+/i,"")).trim();
+ const label=(card?.querySelector("h3")?.textContent||c?.name||im.alt.replace(/^(Retrato ilustrativo de|Imagem ilustrativa de)\s+/i,"")).trim();
  const marker=c?.symbol||c?._mega?.identity?.charAt(0)||"◈";
  const replacement=document.createElement("div");
  replacement.className="img-fallback art-recovery";
  replacement.setAttribute("role","img");
- replacement.setAttribute("aria-label","Ilustração alternativa de "+label);
+ replacement.setAttribute("aria-label","Ilustração de reserva de "+label);
  if(c?._mega?.color)replacement.style.color=c._mega.color;
  const symbol=document.createElement("span");symbol.className="fallback-mark";symbol.textContent=marker;
  const title=document.createElement("strong");title.className="fallback-title";title.textContent=label;
