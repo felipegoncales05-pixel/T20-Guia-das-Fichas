@@ -350,7 +350,7 @@
    ...engine.emptyLevel(),classId:engine.rules.classes[cls]?cls:"",
    variantId:i===0?c._crossover.variant.toLowerCase():"",
    arcanePath:i===0&&c._crossover.className==="Arcanista"?
-    (seeds.find(s=>s.id===id).path||""):"",
+    (allSeeds.find(s=>s.id===id)?.path||""):"",
    why:c._guide.levels[i].why.slice(0,500),
    usage:c._guide.levels[i].use.slice(0,500),
    sourceNote:"Jogo do Ano v1.3 p. "+c._crossover.classBookPage+
