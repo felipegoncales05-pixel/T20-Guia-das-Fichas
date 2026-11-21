@@ -57,6 +57,7 @@ jobs:
           node --check card-worlds.js
           node --check visual-direction.js
           node --check tests/site-smoke.cjs
+          node --check tests/media-integrity.cjs
           node --check tests/browser-lite.cjs
           node --check tests/responsive-browser.cjs
           node --check tests/herois-variants.cjs
@@ -66,6 +67,7 @@ jobs:
       - name: Validar 69 fichas antigas e 57 Umas
         run: |
           node tests/site-smoke.cjs
+          node tests/media-integrity.cjs
           node tests/umamusume.cjs
           node tests/crossovers.cjs
           node tests/wave7.cjs

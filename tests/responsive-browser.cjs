@@ -7,6 +7,18 @@ const assert=require("node:assert/strict");
 const quick=process.env.T20_QUICK==="1";
 const sizes=quick?[[375,812],[768,1024],[1440,900]]:[[320,700],[360,740],[375,812],[390,844],[430,932],[600,900],[768,1024],[820,1180],[1024,768],[1440,900],[844,390]];
 const site=pathToFileURL(path.resolve("index.html")).href;
+async function revealAllCards(page){
+ // A interseção acrescenta lotes automaticamente; clicar via DOM em uma única
+ // transação evita a corrida entre contagem do botão e seu desaparecimento.
+ await page.evaluate(()=>{
+  for(let i=0;i<22;i++){
+   const load=document.querySelector("[data-load-more]");
+   if(!load)break;
+   load.click();
+  }
+ });
+ assert.equal(await page.locator("[data-load-more]").count(),0,"Paginação não terminou.");
+}
 const allIds=["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-johnny","jojo-gappy","denji","satoru-gojo","shigaraki","midoriya"];
 const plannedIds=["toji","aizen","vegitto","gogeta","soul-of-cinder","isaac","adao","grimm","sekiro","kaneki"];
 const representativeIds=["gyro","d","david","diego","jojo-johnny","jojo-valentine","jojo-jolyne","jojo-jonathan","em-acheron","satoru-gojo","midoriya","goku","elster"];
@@ -39,7 +51,7 @@ async function assertLayout(page,label){
    page.on("pageerror",err=>errors.push(String(err)));
    await page.route(/^https?:\/\//,route=>route.abort()); // Testa também fallbacks de imagens
    await page.goto(site,{waitUntil:"load"});
-   assert.equal(await page.locator(".roster-card").count(),298);
+   assert.equal(await page.locator(".roster-card").count(),24,"Catálogo deve iniciar com 24 cards");
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
@@ -47,13 +59,16 @@ async function assertLayout(page,label){
    const names=await page.locator(".roster-card h3").allTextContents();
    const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
-   assert.match(await page.locator("#resultsCount").textContent(),/298 DE 298/);
+   assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
    await page.locator("#universe").selectOption("fate");
+   assert.ok([24,48,72,96,98].includes(await page.locator(".roster-card").count()),width+": Fate deve carregar em lotes");
+   assert.match(await page.locator("#resultsCount").textContent(),/98 DE 319/);
+   await revealAllCards(page);
    assert.equal(await page.locator(".roster-card").count(),98,width+": 98 Espíritos Heroicos de Fate");
    assert.equal(await page.locator('[data-open="fate-artoria"]').count(),1,width+": Artoria não deve duplicar cards");
    assert.equal(await page.locator('[data-card-switch="fate-artoria"]').count(),7,width+": faltam formas de Artoria");
    await page.locator("#universe").selectOption("the-boys");
-   assert.equal(await page.locator(".roster-card").count(),6,width+": grupo principal de The Boys");
+   assert.equal(await page.locator(".roster-card").count(),12,width+": Os Sete e grupo The Boys da expansão VIII");
    await page.locator("#universe").selectOption("blue-lock");
    assert.equal(await page.locator(".roster-card").count(),2,width+": Isagi e Rin");
    await page.locator("#universe").selectOption("one-punch-man");
@@ -67,12 +82,13 @@ async function assertLayout(page,label){
    assert.equal(await page.locator(".roster-card").count(),1,width+": D.Va não aparece");
    await page.locator("#universe").selectOption("all");
    await page.locator("#universe").selectOption("umamusume");
+   assert.ok([24,48,57].includes(await page.locator(".roster-card").count()),width+": Uma deve carregar em lotes e a interseção pode antecipar um lote");
+   await revealAllCards(page);
    assert.equal(await page.locator(".roster-card").count(),57,width+": faltam Umas no filtro");
    assert.ok(await page.locator('[data-open="uma-daitaku-helios"]').count()===1,width+": Helios ausente");
    assert.ok(await page.locator('[data-open="uma-matikanetannhauser"]').count()===1,width+": Mambo ausente");
    await page.locator("#universe").selectOption("all");
-
-   
+    await revealAllCards(page);
     if([375,1440].includes(width)){
       await page.locator('[data-card-switch="fate-artoria"][data-card-mode="alter"]').click();
       assert.equal(await page.locator('[data-card-switch="fate-artoria"][data-card-mode="alter"]').getAttribute('aria-pressed'),'true',width+': Artoria Alter selecionada');
@@ -83,6 +99,7 @@ async function assertLayout(page,label){
       assert.match(await page.locator('#character-title').textContent(),/Caster/i,width+': mudou para Caster Artoria');
       assert.ok(page.url().includes('/fate-artoria/caster'),width+': URL da Caster');
       await page.goto(site,{waitUntil:'load'});
+      await revealAllCards(page);
     }
     // Fase III: categoria Chrysos e alternadores de Diego/Goku.
     await page.locator("#universe").selectOption("chrysos");
@@ -92,6 +109,7 @@ async function assertLayout(page,label){
     assert.ok(!heirs.includes("em-acheron"),width+": Emanador no filtro Chrysos");
     if([375,1440].includes(width))await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-chrysos-fase3.png"});
     await page.locator("#universe").selectOption("all");
+    await revealAllCards(page);
     for(const [id,labels] of [["diego",["SM","TW"]],["goku",["DBZ","GT","DAIMA","SUPER"]]]){
       const buttons=page.locator('[data-card-switch="'+id+'"]');
       assert.deepEqual(await buttons.allTextContents(),labels,width+": siglas incorretas em "+id);
@@ -105,15 +123,18 @@ async function assertLayout(page,label){
       if([375,1440].includes(width))await page.locator('[data-open="'+id+'"]').screenshot({path:"tests/screenshots/"+width+"-"+id+"-fase3-depois.png"});
     }
     await page.locator("#search").fill("MAKIMA");
+   await page.waitForFunction(()=>document.querySelectorAll(".roster-card").length===1,null,{timeout:5000});
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
-   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 298/);
+   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 319/);
    await page.locator("[data-clear-search]").click();
-   assert.equal(await page.locator(".roster-card").count(),298,width+": limpar busca");
+   await revealAllCards(page);
+   assert.equal(await page.locator(".roster-card").count(),319,width+": limpar busca");
    await page.locator("#universe").selectOption("jojo");
    assert.ok(await page.locator(".roster-card").count()>=8,width+": filtro JoJo");
    await page.locator("#universe").selectOption("mha");
    assert.equal(await page.locator(".roster-card").count(),2,width+": filtro My Hero Academia");
    await page.locator("#universe").selectOption("all");
+    await revealAllCards(page);
    assert.equal(await page.locator(".roster-card[data-pending]").count(),0,width+": fichas ainda pendentes");
     for(const id of plannedIds)assert.equal(await page.locator('[data-open="'+id+'"]').count(),1,width+": ficha automática não está no catálogo");
     const tojiCard=page.locator('[data-open="toji"]');
@@ -126,6 +147,7 @@ async function assertLayout(page,label){
     if([375,1440].includes(width))await page.locator('[data-open="toji"]').screenshot({path:"tests/screenshots/"+width+"-toji-ficha-ativa.png"});
    if([375,1440].includes(width)){
     await page.locator("#search").fill("Celenova");
+    await page.waitForFunction(()=>document.querySelector('[data-open="em-celenova"]')&&document.querySelectorAll(".roster-card").length===1,null,{timeout:5000});
     const celenova=page.locator('[data-open="em-celenova"]');
     const celenovaArt=celenova.locator('img:not(.portrait-underlay)');
     await celenovaArt.scrollIntoViewIfNeeded();
@@ -139,6 +161,8 @@ async function assertLayout(page,label){
     await page.locator("#universe").selectOption("cyberpunk");
     assert.equal(await page.locator(".roster-card").count(),2);
     const capri=page.locator('[data-open="d"] .capri-gaze');
+    // A HUD fica ativa somente enquanto o card recebe interação.
+    await page.locator('[data-open="d"]').hover();
     await capri.scrollIntoViewIfNeeded();
     await page.waitForFunction(()=>document.querySelector('[data-open="d"] .capri-gaze')?.naturalWidth>0);
     assert.ok(await capri.evaluate(el=>el.naturalWidth>0),"Retrato local da Capri não carregou");
@@ -148,16 +172,21 @@ async function assertLayout(page,label){
     await page.waitForFunction(()=>!!document.querySelector('[data-open="d"]')?.style.getPropertyValue("--capri-x"));
     assert.ok(Math.abs(Number.parseInt(await page.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),10))<=2);
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk.png"});
+    // A captura pode rolar a página e desfazer o hover: reativar antes do frame.
+    await page.locator('[data-open="d"]').hover();
+    await page.waitForFunction(()=>document.querySelector(".capri-laugh")?.getAnimations()?.length>0,null,{timeout:5000});
     const laugh=await page.locator(".capri-laugh").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=14100;return Number(getComputedStyle(el).opacity)});
     const mouth=await page.locator(".capri-mouth").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=14100;return {opacity:Number(getComputedStyle(el).opacity),transform:getComputedStyle(el).transform,loaded:el.naturalWidth>0}});
     assert.ok(laugh>.9&&mouth.opacity>.9&&mouth.transform!=="none"&&mouth.loaded,"Boca e risada da Capri fora de sincronia");
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-capri-risada.png"});
     for(const selector of [".capri-laugh",".capri-mouth"])await page.locator(selector).evaluate(el=>el.getAnimations()[0].currentTime=0);
+    await page.locator('[data-open="david"]').hover();
     const opacity=await page.locator(".psycho-echo").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13620;return Number(getComputedStyle(el).opacity)});
     await page.locator(".psycho-error").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13620});
     assert.ok(opacity>0&&opacity<=.18,"Glitch de David intenso ou ausente: "+opacity);
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-cyberpunk-pulso.png"});
     await page.locator("#universe").selectOption("all");
+    await revealAllCards(page);
    }
    if([375,768,1440].includes(width)){
     await page.locator('[data-card-switch="diego"][data-card-mode="alternative"]').click();
@@ -168,6 +197,7 @@ async function assertLayout(page,label){
     assert.equal(await page.locator('.hero-portrait img:not(.portrait-underlay)').getAttribute("src"),'./assets/card-art/diego-alternative.webp');
     await assertLayout(page,width+" Diego alternativo a partir do card");
     await page.locator('.back-link').click();
+    await revealAllCards(page);
     await page.locator('[data-card-switch="goku"][data-card-mode="super"]').click();
     assert.equal(await page.locator('[data-open="goku"]').getAttribute("data-variant"),"super");
     assert.match(await page.locator('[data-open="goku"]').textContent(),/Dragon Ball Super/);
@@ -323,10 +353,11 @@ async function assertLayout(page,label){
     await page.locator('.lab-draft').first().waitFor({state:"visible"});
     assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
     await page.goto(site,{waitUntil:'load'});
-    assert.equal(await page.locator('.roster-card').count(),298,"Ficha pessoal entrou no catálogo");
+    assert.equal(await page.locator('.roster-card').count(),24,"Ficha pessoal alterou o lote inicial");
+    assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
    }
    assert.deepEqual(errors,[]);
-   console.log("OK viewport "+width+"x"+height+" — 298 dossiês e interações");
+   console.log("OK viewport "+width+"x"+height+" — 319 dossiês e interações");
    await page.close();
   }
   const reduced=await browser.newPage({viewport:{width:375,height:812},reducedMotion:"reduce"});
@@ -340,6 +371,6 @@ async function assertLayout(page,label){
   assert.equal(await reduced.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),"","HUD reage sob movimento reduzido");
   await reduced.close();
   console.log("Movimento reduzido validado: Capri e David sem animações.");
-  console.log("VALIDADO: 11 viewports, 298 fichas completas e dez builds automáticas sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports, 319 fichas completas e dez builds automáticas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});
