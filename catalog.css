@@ -106,15 +106,5 @@ body[data-art^="jb-"] .hero-portrait img:not(.portrait-underlay){
  .fate-switch button{font-size:11px}
 }
 
-/* PERFORMANCE // evita pintar centenas de cards que estão fora da tela.
-   O DOM, a busca e as fichas continuam intactos. Não altera animações ou cores. */
-@supports (content-visibility:auto){
-  .roster-grid > .roster-card,
-  .roster-grid > .roster-entry,
-  .roster-grid > .planned-card{
-    content-visibility:auto;
-    contain-intrinsic-size:auto 480px;
-  }
-  .roster-grid > .roster-card,
-  .roster-grid > .planned-card{contain-intrinsic-size:auto 432px}
-}
+/* A paginação já limita os cards. Não aplicar content-visibility nos cards:
+ * a combinação com imagens lazy provocou retratos invisíveis em navegadores Chromium. */
