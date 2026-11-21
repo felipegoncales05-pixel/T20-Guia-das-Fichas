@@ -99,8 +99,9 @@
    ]);
    guides.push({why,use,automatic:automatic.join(" · "),ref:refs});
   }
-  const img=s.image||base.origIcon?.({name:s.name,color:s.color,group:"manga"})||
+  const localPoster=base.origIcon?.({name:s.name,color:s.color,group:"manga"})||
    "data:image/svg+xml;charset=utf-8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='500' height='700'><rect width='100%' height='100%' fill='#112031'/></svg>");
+  const img=s.image||localPoster;
   const skillNames=[...new Set([...(cl.skill||[]),...(s.className==="Inventor"?["Ofício (engenhoqueiro)"]:[]),
    ...(s.className==="Caçador"?["Sobrevivência"]:[])])];
   const skills=skillNames.map(name=>[name,fmt(attrs0[skillAttr[name]||"INT"]+2),
@@ -108,7 +109,7 @@
   const c={
    id:s.id,number:String(s.number).padStart(2,"0"),name:s.name,universe:s.universe,
    label:s.identity,theme:s.id,catalogCategory:s.group,symbol:"✦",
-   portrait:{url:img,credit:s.imageCredit||"Insígnia editorial original",page:s.source},
+   portrait:{url:img,fallback:localPoster,credit:s.imageCredit||"Insígnia editorial original",page:s.source},
    excerpt:s.concept,
    info:{
     race:s.race,className:classLabel,
