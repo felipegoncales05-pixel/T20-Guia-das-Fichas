@@ -9,7 +9,7 @@ const css=["styles.css","responsive.css","rentarou.css","expansion.css","mega.cs
 const js=["data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","mega-data.js","mega-runtime.js","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","catalog-cover-art.js","review-data.js","visual-direction.js","planned-data.js","build-concepts.js","rules-catalog.js","class-options.js","herois-variants.js","build-engine.js","build-presets.js","automatic-dossiers.js","archive-revisions.js","catalog-revision.js","umamusume-data.js","umamusume-runtime.js","crossovers-data.js","crossovers-runtime.js","wave7-data.js","wave7-fate.js","wave8-data.js","wave7-forms.js","wave7-art.js","wave7-runtime.js","build-lab.js","app.js","remote-portraits.js"];
 function read(p){return fs.readFileSync(path.join(root,p),"utf8")}
 function assemble(){
- const cssOutput=css.map(p=>"/* "+p+" */\n"+read(p).replace(/\/\*[\s\S]*?\*\//g,"").replace(/\r?\n\s*/g,"").replace(/\s*([{};])\s*/g,"$1")).join("\n");
+ const cssOutput=css.map(p=>"/* "+p+" */\n"+read(p)+"\n").join("");
  const chunks=[[0,13,"site-core.bundle.js"],[13,26,"site-engine.bundle.js"],[26,40,"site-expansion.bundle.js"]];
  const output=[["site.min.css",cssOutput]];
  for(const [from,to,name] of chunks){
