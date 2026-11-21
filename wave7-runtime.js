@@ -44,6 +44,12 @@
  });
  for(let i=0;i<allSeeds.length;i++){
   const seed=allSeeds[i];
+  const selectedVariants={"dmc-dante":"Inovador","fate-emiya":"Inovador",
+   "fate-gilles":"Necromante","fate-medusa--gorgon":"Necromante","fate-zealot":"Ventanista"};
+  if(selectedVariants[seed.id]){
+   seed.variant=selectedVariants[seed.id];
+   if(seed.className==="Arcanista")seed.path=null;
+  }
   seed.number=seed.isAlt?(indexed.get(seed.parentId)?.number||0):143+i;
   if(!seed.isAlt)indexed.set(seed.id,seed);
   seed.levels=createLevels(seed);
