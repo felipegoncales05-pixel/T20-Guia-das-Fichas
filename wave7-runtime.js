@@ -183,7 +183,7 @@
   const c={
    id:s.id,number:String(s.number).padStart(2,"0"),name:s.name,universe:s.universe,
    label:s.identity,theme:s.id,catalogCategory:s.group,symbol:"✦",
-   portrait:{url:img,credit:s.imageCredit||"Insígnia editorial original",page:s.source},
+   portrait:{url:img,credit:s.imageCredit||"Insígnia editorial original",page:s.imageSource||s.source},
    excerpt:s.concept,
    info:{
     race:s.race,className:classLabel,
@@ -216,7 +216,7 @@
    gear:[
     {name:s.weapon,rule:"Equipamento de classe ou representação visual",qty:"1",
      detail:"Ajustar arma oficial, proficiência, custo, dano e disponibilidade; não há arma mágica externa gratuita.",
-     image:img,source:s.source,credit:s.imageCredit},
+     image:img,source:s.imageSource||s.source,credit:s.imageCredit},
     {name:"Traje de "+s.name,rule:"Traje de viajante (cosmético)",qty:"1",
      detail:"Veste o visual da obra sem aumentar Defesa, atributos ou velocidade."},
     {name:s.className==="Inventor"?"Ferramentas de Ofício":
