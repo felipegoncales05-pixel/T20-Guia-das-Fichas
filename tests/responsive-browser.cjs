@@ -8,11 +8,15 @@ const quick=process.env.T20_QUICK==="1";
 const sizes=quick?[[375,812],[768,1024],[1440,900]]:[[320,700],[360,740],[375,812],[390,844],[430,932],[600,900],[768,1024],[820,1180],[1024,768],[1440,900],[844,390]];
 const site=pathToFileURL(path.resolve("index.html")).href;
 async function revealAllCards(page){
- for(let i=0;i<22;i++){
-  const load=page.locator("[data-load-more]");
-  if(!await load.count())break;
-  await load.click({force:true});
- }
+ // A interseção acrescenta lotes automaticamente; clicar via DOM em uma única
+ // transação evita a corrida entre contagem do botão e seu desaparecimento.
+ await page.evaluate(()=>{
+  for(let i=0;i<22;i++){
+   const load=document.querySelector("[data-load-more]");
+   if(!load)break;
+   load.click();
+  }
+ });
  assert.equal(await page.locator("[data-load-more]").count(),0,"Paginação não terminou.");
 }
 const allIds=["gyro","d","david","cipher","rentarou","yoru","diego","ado","cyrene","marin","makima","optimus","jojo-dio1","jojo-kars","jojo-dio3","jojo-kira","jojo-diavolo","jojo-pucci","jojo-valentine","jojo-tooru","yuta","goku","hsr-aglaea","hsr-tribbie","hsr-mydei","hsr-castorice","hsr-anaxa","hsr-hyacine","hsr-phainon","hsr-hysilens","hsr-cerydra","hsr-evernight","hsr-terrae","em-herta","em-acheron","em-phantylia","em-diamond","em-taravan","em-zandar","em-shuhu","em-zephyro","em-celenova","em-irontomb","em-archforger","em-asat","em-luxbane","elster","jojo-jonathan","jojo-joseph","jojo-jotaro","jojo-josuke4","jojo-giorno","jojo-jolyne","jojo-johnny","jojo-gappy","denji","satoru-gojo","shigaraki","midoriya"];
