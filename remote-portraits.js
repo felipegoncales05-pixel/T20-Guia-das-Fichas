@@ -9,6 +9,17 @@ const cacheKey="t20-verified-portrait-cache-v1";
 let cache={};
 try{cache=JSON.parse(localStorage.getItem(cacheKey)||"{}")||{}}catch{cache={}}
 const saveArt=(key,art)=>{if(!art)return art;cache[key]={...art,stored:Date.now()};try{localStorage.setItem(cacheKey,JSON.stringify(cache))}catch{}return art};
+// Nunca iniciar dezenas de pedidos de imagem ao mesmo tempo. Evita saturar APIs e navegador.
+const MAX_REMOTE_REQUESTS=2,workQueue=[];let activeRequests=0;
+function drain(){
+ while(activeRequests<MAX_REMOTE_REQUESTS&&workQueue.length){
+  const job=workQueue.shift();activeRequests++;
+  Promise.resolve().then(job.task).then(job.resolve,()=>job.resolve(null)).finally(()=>{
+   activeRequests--;drain();
+  });
+ }
+}
+function limited(task){return new Promise(resolve=>{workQueue.push({task,resolve});drain()})}
 const normalize=value=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
  .replace(/[’']/g,"").replace(/\(fate\)|\(strange fake\)/g,"").replace(/[^a-z0-9]+/g," ").trim();
 const sameTokens=(a,b)=>normalize(a).split(" ").filter(Boolean).sort().join(" ")===normalize(b).split(" ").filter(Boolean).sort().join(" ");
@@ -76,13 +87,17 @@ function getCurrent(card){
   .find(button=>button.dataset.cardSwitch===id&&button.getAttribute("aria-pressed")==="true")?.dataset.cardMode;
  return window.T20_FATE_VARIANTS?.[id]?.find(entry=>entry[0]===key)?.[2]||base;
 }
-function apply(c,art,original){
+function apply(c,art,original,card){
  if(!art||!c?.portrait||!original.startsWith("data:image/svg+xml"))return;
  posters[art.url]=original;
  c.portrait={...c.portrait,url:art.url,credit:art.credit,page:art.source};
  for(const m of c.media||[])if(m.image===original){m.image=art.url;m.credit=art.credit;m.source=art.source}
  for(const g of c.gear||[])if(g.image===original){g.image=art.url;g.credit=art.credit;g.source=art.source}
- for(const img of root.querySelectorAll(".photo img, .hero-portrait img, .media-photo img, .gear-thumb img")){
+ // Atualiza só o card em questão; não pesquisa o catálogo completo para cada retrato.
+ const targets=[...(card?.querySelectorAll?.(".photo img")||[])];
+ // Detalhe individual pode ter sido aberto enquanto o retrato estava carregando.
+ if(!root.querySelector("#roster"))targets.push(...root.querySelectorAll(".hero-portrait img,.media-photo img,.gear-thumb img"));
+ for(const img of targets){
   if(img.classList.contains("portrait-underlay")||img.getAttribute("src")!==original)continue;
   img.dataset.posterFallback=original;
   img.src=art.url;
@@ -95,22 +110,34 @@ async function enrich(card){
  if(!pending.has(key)){
   const hit=cache[key],fresh=hit&&Date.now()-hit.stored<30*24*60*60*1000&&safeImage(hit.url);
   pending.set(key,fresh?Promise.resolve(hit):
-   (c.id.startsWith("fate-")?fatePortrait(c):jojoPortrait(c)).then(art=>saveArt(key,art)).catch(()=>null));
+   limited(()=>c.id.startsWith("fate-")?fatePortrait(c):jojoPortrait(c))
+    .then(art=>saveArt(key,art)).catch(()=>null));
  }
  const art=await pending.get(key);
- if(art&&c.portrait.url===original)apply(c,art,original);
+ if(art&&c.portrait.url===original)apply(c,art,original,card);
 }
 const observer=typeof IntersectionObserver==="function"?new IntersectionObserver(entries=>{
  for(const entry of entries)if(entry.isIntersecting){observer.unobserve(entry.target);enrich(entry.target)}
-},{rootMargin:"360px"}):null;
+},{rootMargin:"120px"}):null;
+let watchedRoster=null;
+const rosterObserver=typeof MutationObserver==="function"?new MutationObserver(scan):null;
 function scan(){
- for(const card of root.querySelectorAll(".roster-card[data-open]")){
+ const roster=root.querySelector("#roster");
+ if(roster!==watchedRoster){
+  rosterObserver?.disconnect();
+  watchedRoster=roster;
+  if(roster)rosterObserver?.observe(roster,{childList:true});
+ }
+ if(!roster)return;
+ for(const card of roster.querySelectorAll(".roster-card[data-open]")){
   const id=card.dataset.open;
-  if(!/^(fate-|jb-)/.test(id)||card.dataset.portraitLookup)return;
+  if(!/^(fate-|jb-)/.test(id)||card.dataset.portraitLookup)continue;
   card.dataset.portraitLookup="1";
   if(observer)observer.observe(card);else enrich(card);
  }
 }
-if(typeof MutationObserver==="function")new MutationObserver(scan).observe(root,{childList:true,subtree:true});
+// Observa somente trocas de tela e reconstruções do catálogo;
+// alterações internas dos retratos não acionam revarreduras completas.
+if(typeof MutationObserver==="function")new MutationObserver(scan).observe(root,{childList:true});
 scan();
 })();
