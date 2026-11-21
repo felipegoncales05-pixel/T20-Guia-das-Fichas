@@ -30,6 +30,11 @@ const universeOptions=[
  ["genshin","Genshin Impact"],
  ["witcher","The Witcher"],
  ["overwatch","Overwatch"],
+ ["cdz","Cavaleiros do Zodíaco"],
+ ["dungeon-meshi","Dungeon Meshi"],
+ ["digital-circus","Digital Circus"],
+ ["murder-drones","Murder Drones"],
+ ["undertale","Undertale"],
  ["umamusume","Umamusume · Pretty Derby"],
  ["manhwa","Manhwa · Fantasia"],
  ["zenless","Zenless Zone Zero"],
@@ -69,12 +74,14 @@ function rememberFailedImage(src){
 }
 const normalizeSearch=(v)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").replace(/[^a-z0-9]+/g," ").trim();
 const archiveCategory=(c)=>c.catalogCategory||(["gyro","diego"].includes(c.id)?"jojo":["cipher","cyrene"].includes(c.id)?"chrysos":["rentarou","marin"].includes(c.id)?"romcom":["yoru","makima"].includes(c.id)?"chainsaw":c.id==="ado"?"music":c.id==="optimus"?"transformers":"cyberpunk");
-const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c.id==="goku"?"Dragon Ball Z GT Daima Super":"",c.id==="boys-starlight"?"Os Sete The Boys":"",window.T20_FATE_VARIANTS?.[c.id]?.map(x=>[x[1],x[2].name,x[2].info?.className,x[2]._wave7?.fateClass].join(" ")).join(" ")||""].filter(Boolean).join(" "));
+const dossierForms=id=>window.T20_DOSSIER_VARIANTS?.[id]||window.T20_FATE_VARIANTS?.[id]||[];
+const defaultForm=id=>dossierForms(id)[0]?.[0]||"principal";
+const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c._cosmos?.aliases,c.id==="goku"?"Dragon Ball Z GT Daima Super":"",c.id==="boys-starlight"?"Os Sete The Boys":"",...dossierForms(c.id).map(([key,label,form])=>[label,form.name,form.universe,form.info?.className,form._wave7?.fateClass].join(" "))].filter(Boolean).join(" "));
 const plannedById=(id)=>planned.find(c=>c.id===id);
 
 const charById=(id)=>id==="goku"&&window.T20_GOKU_VARIANTS?.[gokuMode]?window.T20_GOKU_VARIANTS[gokuMode]:
  id==="diego"&&diegoMode==="alternative"&&window.T20_ALTERNATES?.diego?.alternative?window.T20_ALTERNATES.diego.alternative:
- window.T20_FATE_VARIANTS?.[id]?variantByKey(id,catalogModes[id]||"principal"):
+ dossierForms(id).length?variantByKey(id,catalogModes[id]||defaultForm(id)):
  data.characters.find(c=>c.id===id);
 function image(src,alt,css="",attrs="",priority="lazy"){return '<img class="'+e(css)+'" '+attrs+' loading="'+(priority==="eager"?"eager":"lazy")+'" fetchpriority="'+(priority==="eager"?"high":"low")+'" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
 const isPoster=src=>/^(?:data:image\/svg\+xml|\.\/assets\/portraits\/)/.test(src||"");
@@ -115,8 +122,8 @@ function note(text){return '<aside class="system-note"><span class="who">O SISTE
 
 const guides=window.T20_GUIDE||{books:{},people:{}};
 const guideFor=(c)=>c._guide||(c.id==="diego"&&c.theme==="diego-alt"&&window.T20_ALTERNATE_GUIDES?.diego?window.T20_ALTERNATE_GUIDES.diego:guides.people[c.id]||{levels:[],basics:[]});
-const variants=(id)=>id==="diego"?[["normal","Scary Monsters",data.characters.find(c=>c.id==="diego")],["alternative","THE WORLD",window.T20_ALTERNATES?.diego?.alternative]].filter(x=>x[2]):id==="goku"?[["z","DBZ",window.T20_GOKU_VARIANTS?.z],["gt","GT",window.T20_GOKU_VARIANTS?.gt],["daima","Daima",window.T20_GOKU_VARIANTS?.daima],["super","Super",window.T20_GOKU_VARIANTS?.super]].filter(x=>x[2]):window.T20_FATE_VARIANTS?.[id]||[["principal",plannedById(id)?"Pendente":"Principal",data.characters.find(c=>c.id===id)||plannedById(id)]];
-const activeVariant=(id)=>id==="diego"?diegoMode:id==="goku"?gokuMode:window.T20_FATE_VARIANTS?.[id]?(catalogModes[id]||"principal"):"principal";
+const variants=(id)=>id==="diego"?[["normal","Scary Monsters",data.characters.find(c=>c.id==="diego")],["alternative","THE WORLD",window.T20_ALTERNATES?.diego?.alternative]].filter(x=>x[2]):id==="goku"?[["z","DBZ",window.T20_GOKU_VARIANTS?.z],["gt","GT",window.T20_GOKU_VARIANTS?.gt],["daima","Daima",window.T20_GOKU_VARIANTS?.daima],["super","Super",window.T20_GOKU_VARIANTS?.super]].filter(x=>x[2]):dossierForms(id).length?dossierForms(id):[["principal",plannedById(id)?"Pendente":"Principal",data.characters.find(c=>c.id===id)||plannedById(id)]];
+const activeVariant=(id)=>id==="diego"?diegoMode:id==="goku"?gokuMode:catalogModes[id]||defaultForm(id);
 const variantByKey=(id,key)=>variants(id).find(v=>v[0]===key)?.[2]||variants(id)[0]?.[2];
 const attrDelta=(c,n,k)=>window.T20_WAVE7?.ids.has(c.id)?window.T20_WAVE7.delta(c,n,k):window.T20_CROSSOVERS?.ids.has(c.id)?window.T20_CROSSOVERS.delta(c,n,k):window.T20_UMA?.ids.has(c.id)?window.T20_UMA.delta(c,n,k):window.T20_MEGA?.ids.has(c.id)?window.T20_MEGA.delta(c,n,k):window.T20_EXPANSION.delta(c,n,k);
 const levelClamp=(v)=>Math.min(12,Math.max(1,Number(v)||1));
@@ -214,11 +221,35 @@ function selectedMetrics(c,n){const v=statFor(c,n);
  ].map(([k,val])=>'<div class="live-metric"><span>'+e(k)+'</span><b>'+e(val)+'</b></div>').join("")+'</div><p class="derived-note">'+e(v.explanation)+'</p>';
 }
 
-function getRoute(){const parts=decodeURIComponent(location.hash.replace(/^#\/?/,"")).split("/").filter(Boolean);if(parts[0]==="laboratorio")return{character:null,board:false,lab:true,seedId:parts[1]||"",tab:"overview"};if(parts[0]==="arquivo")return{character:null,board:true,tab:"review"};const pending=plannedById(parts[0]);if(pending)return{character:null,planned:pending,board:false,tab:tabs.some(t=>t[0]===parts[1])?parts[1]:"overview"};if(!data.characters.some(c=>c.id===parts[0]))return{character:null,board:false,tab:"overview"};let tab=parts[1];if(parts[0]==="diego"){diegoMode=["normal","alternative"].includes(parts[1])?parts[1]:"normal";if(tab===diegoMode)tab=parts[2]}if(parts[0]==="goku"){gokuMode=["z","gt","daima","super"].includes(parts[1])?parts[1]:"z";if(tab===gokuMode)tab=parts[2]}if(window.T20_FATE_VARIANTS?.[parts[0]]){const options=variants(parts[0]).map(v=>v[0]);const next=options.includes(parts[1])?parts[1]:(catalogModes[parts[0]]||"principal");catalogModes[parts[0]]=next;if(tab===next)tab=parts[2]}return{character:charById(parts[0]),board:false,tab:tabs.some(t=>t[0]===tab)?tab:"overview"}}
-function linkFor(c,tab="overview"){return "#/"+encodeURIComponent(c.id)+"/"+(c.id==="diego"||c.id==="goku"||window.T20_FATE_VARIANTS?.[c.id]?.length>1?activeVariant(c.id)+"/":"")+tab}
+function getRoute(){
+ const parts=decodeURIComponent(location.hash.replace(/^#\/?/,"")).split("/").filter(Boolean);
+ const [id,version]=parts;
+ if(id==="laboratorio")return{character:null,board:false,lab:true,seedId:version||"",tab:"overview"};
+ if(id==="arquivo")return{character:null,board:true,tab:"review"};
+ const pending=plannedById(id);
+ if(pending)return{character:null,planned:pending,board:false,tab:tabs.some(t=>t[0]===version)?version:"overview"};
+ if(!data.characters.some(c=>c.id===id))return{character:null,board:false,tab:"overview"};
+ let tab=version;
+ if(id==="diego"){
+  diegoMode=["normal","alternative"].includes(version)?version:"normal";
+  if(version===diegoMode)tab=parts[2];
+ }else if(id==="goku"){
+  gokuMode=["z","gt","daima","super"].includes(version)?version:"z";
+  if(version===gokuMode)tab=parts[2];
+ }else if(dossierForms(id).length){
+  const selected=dossierForms(id).find(([key])=>key===version);
+  catalogModes[id]=selected?.[0]||catalogModes[id]||defaultForm(id);
+  if(selected)tab=parts[2];
+ }
+ return{character:charById(id),board:false,tab:tabs.some(t=>t[0]===tab)?tab:"overview"};
+}
+function linkFor(c,tab="overview"){
+ const version=c.id==="diego"||c.id==="goku"||dossierForms(c.id).length>1?activeVariant(c.id)+"/":"";
+ return "#/"+encodeURIComponent(c.id)+"/"+version+tab;
+}
 function shell(title,number,content,comment){const c=getRoute().character,v=visualFor(c,activeVariant(c.id));return '<header class="section-head section-cover"><div><div class="kicker">O SISTEMA // DOSSIÊ ATIVO</div><h2>'+e(title)+'</h2><span class="section-context">'+e(v.series)+' / '+e(v.motif)+'</span></div><span class="number">'+e(number)+'</span></header>'+content+(comment?note(comment):"")}
 function sourceLink(entry,category){return '<a class="source-link" href="'+url(entry.url)+'" target="_blank" rel="noopener noreferrer"><span><b>'+e(entry.name)+'</b><small>'+e(category||entry.detail||"Referência externa")+'</small></span><i aria-hidden="true">↗</i></a>'}
-const worldMarks={zenless:"NEW ERIDU",manhwa:"MANHWA",marvel:"MARVEL / MCU",fate:"FATE / SPIRIT ORIGIN","the-boys":"THE BOYS","one-punch-man":"ONE PUNCH","blue-lock":"BLUE LOCK","kamen-rider":"KAMEN RIDER",konosuba:"KONOSUBA",mushoku:"MUSHOKU TENSEI",wuwa:"WUTHERING WAVES",dmc:"DEVIL MAY CRY",fma:"FULLMETAL",genshin:"GENSHIN IMPACT",witcher:"THE WITCHER",overwatch:"OVERWATCH",umamusume:"TRACEN // UMA",jojo:"JOJO ★",cyberpunk:"NIGHT CITY",hsr:"STAR RAIL",chrysos:"AMPHOREUS",emanator:"STAR RAIL",romcom:"ROMANCE",chainsaw:"CHAINSAW",music:"VOZ // ADO",transformers:"AUTOBOT",jjk:"JUJUTSU",dragonball:"DRAGON BALL",signalis:"SIGNALIS",mha:"HERO ACADEMIA",bleach:"BLEACH","dark-souls":"DARK SOULS III","binding-of-isaac":"ISAAC",shuumatsu:"SHUUMATSU","black-souls":"BLACK SOULS",sekiro:"SEKIRO","tokyo-ghoul":"TOKYO GHOUL"};
+const worldMarks={cdz:"SANTUÁRIO",undertale:"SUBSOLO","murder-drones":"COPPER 9","digital-circus":"CIRCO DIGITAL","dungeon-meshi":"MASMORRA",zenless:"NEW ERIDU",manhwa:"MANHWA",marvel:"MARVEL / MCU",fate:"FATE / SPIRIT ORIGIN","the-boys":"THE BOYS","one-punch-man":"ONE PUNCH","blue-lock":"BLUE LOCK","kamen-rider":"KAMEN RIDER",konosuba:"KONOSUBA",mushoku:"MUSHOKU TENSEI",wuwa:"WUTHERING WAVES",dmc:"DEVIL MAY CRY",fma:"FULLMETAL",genshin:"GENSHIN IMPACT",witcher:"THE WITCHER",overwatch:"OVERWATCH",umamusume:"TRACEN // UMA",jojo:"JOJO ★",cyberpunk:"NIGHT CITY",hsr:"STAR RAIL",chrysos:"AMPHOREUS",emanator:"STAR RAIL",romcom:"ROMANCE",chainsaw:"CHAINSAW",music:"VOZ // ADO",transformers:"AUTOBOT",jjk:"JUJUTSU",dragonball:"DRAGON BALL",signalis:"SIGNALIS",mha:"HERO ACADEMIA",bleach:"BLEACH","dark-souls":"DARK SOULS III","binding-of-isaac":"ISAAC",shuumatsu:"SHUUMATSU","black-souls":"BLACK SOULS",sekiro:"SEKIRO","tokyo-ghoul":"TOKYO GHOUL"};
 const visualFor=(c,key)=>window.T20_VISUAL.forCharacter(c,key);
 function visualStyle(v){return '--char-color:'+e(v.accent)+';--art-accent:'+e(v.accent)+';--art-dark:'+e(v.dark)}
 function visualAttrs(v){return ' data-art="'+e(v.id)+'" data-layout="'+e(v.layout)+'" data-pattern="'+e(v.pattern)+'" data-family="'+e(v.family)+'" data-finish="'+e(v.finish)+'" data-lineage="'+e(v.lineage)+'" data-variant="'+e(v.variant)+'"'}
@@ -230,10 +261,11 @@ function cardEffect(id){
 }
 const cardPortraits={"zzz-remielle":"./assets/card-art/zzz-remielle.webp"};
 function card(c,priority="lazy"){
- const nForms=window.T20_FATE_VARIANTS?.[c.id]?.length||0;
- const alternate=c.id==="diego"?"2 VERSÕES · SCARY MONSTERS / THE WORLD":c.id==="goku"?"4 VERSÕES · DBZ / GT / DAIMA / SUPER":nForms>1?nForms+" VERSÕES · "+window.T20_FATE_VARIANTS[c.id].map(x=>x[1]).join(" / "):"";
- const mode=catalogModes[c.id]||"principal";
- const shown=mode==="principal"?c:variantByKey(c.id,mode);
+ const forms=dossierForms(c.id);
+ const nForms=forms.length;
+ const alternate=c.id==="diego"?"2 VERSÕES · SCARY MONSTERS / THE WORLD":c.id==="goku"?"4 VERSÕES · DBZ / GT / DAIMA / SUPER":nForms>1?nForms+" VERSÕES"+(c._cosmos?"":" · "+forms.map(x=>x[1]).join(" / ")):"";
+ const mode=catalogModes[c.id]||defaultForm(c.id);
+ const shown=mode===defaultForm(c.id)?c:variantByKey(c.id,mode);
  const visual=visualFor(shown,mode);
  const cover=!(c.id==="diego"&&mode==="alternative")?window.T20_CATALOG_COVERS?.[c.id]:null;
  const world=archiveCategory(c);
@@ -248,8 +280,9 @@ function card(c,priority="lazy"){
   (alternate?'<span class="card-versions">'+alternate+'</span>':'')+
   '<p>'+e(shown.info.race)+' · '+e(shown.info.className)+'<br>'+e(shown.universe)+'</p><div class="card-action"><span>ACESSAR FICHA</span><b aria-hidden="true">↗</b></div></div></button>';
  if(!alternate)return button;
+ const shortLabels={"principal":"Base","alma-de-ouro":"SoG","episodio-g":"Ep.G","lenda":"Lenda","saintia-sho":"Shô","lost-world":"LW","time-odyssey":"TO","grande-mestre":"Mestre","armadura-classica":"Clássico","assassin":"GA","requiem":"GR"};
  const options=c.id==="diego"?[["normal","SM"],["alternative","TW"]]:c.id==="goku"?[["z","DBZ"],["gt","GT"],["daima","DAIMA"],["super","SUPER"]]:variants(c.id).map(([key,label])=>[key,label]);
- return '<div class="roster-entry'+(world==="fate"?" fate-entry":"")+'">'+button+'<div class="card-variant-switch" role="group" aria-label="Versões de '+e(c.name)+'">'+options.map(([key,label])=>'<button type="button" data-card-switch="'+e(c.id)+'" data-card-mode="'+e(key)+'" aria-pressed="'+(mode===key)+'" aria-label="Visualizar '+e(c.name)+' · '+e(c.id==="diego"?(key==="normal"?"Scary Monsters":"The World"):label)+'">'+e(label)+'</button>').join("")+'</div></div>';
+ return '<div class="roster-entry'+(world==="fate"?" fate-entry":"")+'">'+button+'<div class="card-variant-switch" role="group" aria-label="Versões de '+e(c.name)+'">'+options.map(([key,label])=>'<button type="button" data-card-switch="'+e(c.id)+'" data-card-mode="'+e(key)+'" aria-pressed="'+(mode===key)+'" aria-label="Visualizar '+e(c.name)+' · '+e(c.id==="diego"?(key==="normal"?"Scary Monsters":"The World"):label)+'">'+e(c._cosmos?shortLabels[key]||label:label)+'</button>').join("")+'</div></div>';
 }
 function plannedCard(c){
  const v=visualFor(c,"principal");
@@ -386,9 +419,12 @@ function review(c){const refs=(guideFor(c).levels||[]).filter(x=>x.ref?.length).
 function reviewBoard(){document.body.removeAttribute("data-theme");document.body.removeAttribute("data-world");document.body.removeAttribute("data-art");document.body.removeAttribute("data-family");document.body.removeAttribute("data-pattern");document.body.removeAttribute("data-finish");document.body.removeAttribute("data-lineage");document.body.removeAttribute("data-variant");document.body.style?.removeProperty?.("--char-color");document.body.style?.removeProperty?.("--art-accent");document.body.style?.removeProperty?.("--art-dark");document.title="Revisão // O Sistema · T20";const queue=catalog.slice().sort((a,b)=>collator.compare(a.name,b.name));root.innerHTML='<div class="container review-board"><a class="back-link" href="#/">← VOLTAR AO CATÁLOGO</a><header class="review-heading"><span class="kicker">O SISTEMA // ARQUIVO DE REVISÃO</span><h1>REGRAS SOB CONTROLE.</h1><p>Registre a fonte, o verbete e a decisão de cada adaptação. Todas as fichas existentes entram como pendentes; a aprovação exige uma conferência explícita da mesa.</p><div class="review-heading-actions"><button type="button" class="sys-button" data-review-export>EXPORTAR JSON</button><label class="sys-button review-import">IMPORTAR JSON<input id="reviewImport" type="file" accept="application/json,.json" hidden></label></div><small>Registros armazenados neste navegador. A exportação é o backup transferível.</small></header><div class="review-columns"><section><div class="section-head"><div><div class="kicker">FILA DE CONFERÊNCIA</div><h2>Fichas e variantes</h2></div></div><div class="review-queue">'+queue.map(c=>'<a href="'+linkFor(c,'review')+'"><span><strong>'+e(c.name)+'</strong><small>'+e(c.universe)+' · '+(c.status==='pendente'?'PLANEJAMENTO':variants(c.id).length+' versão'+(variants(c.id).length>1?'ões':''))+'</small></span><b>'+e(c.status==='pendente'?'PLANEJADO':'PENDENTE')+'</b></a>').join("")+'</div></section><section><div class="section-head"><div><div class="kicker">HISTÓRICO DE TRABALHO</div><h2>Fontes e decisões</h2></div></div><p class="derived-note">Registre fontes, regras, decisões, pendências e correções. Cada anotação nasce pendente e só muda para aprovada por ação explícita.</p>'+reviewForm(null)+'<div id="reviewRecords" class="review-records">'+reviewItems(null)+'</div></section></div></div>';lastRoute="board"}
 function updateReviewVariants(){const id=document.getElementById('reviewCharacter')?.value;const select=document.getElementById('reviewVariant');if(select)select.innerHTML=id==='geral'?'<option value="principal">Projeto inteiro</option>':variantOptions(id,activeVariant(id))}
 function specialHUD(c){
- if(window.T20_FATE_VARIANTS?.[c.id]?.length>1){
-  const forms=window.T20_FATE_VARIANTS[c.id],current=activeVariant(c.id);
-  return '<nav class="goku-switch fate-switch" aria-label="Selecionar forma de '+e(c.name)+'"><span>FATE // CLASSE DO SERVO · FORMA ATIVA</span><div>'+forms.map(([key,label])=>'<button type="button" data-fate-mode="'+e(key)+'" data-fate-character="'+e(c.id)+'" aria-pressed="'+(current===key)+'">'+e(label)+'</button>').join("")+'</div></nav>';
+ const forms=dossierForms(c.id);
+ if(forms.length>1){
+  const current=activeVariant(c.id),fate=c.catalogCategory==="fate";
+  const marker=fate?"fate":"form";
+  const title=fate?"FATE // CLASSE DO SERVO · FORMA ATIVA":c.id==="vegeta"?"REALIDADE // DRAGON BALL":"CONTINUIDADE // EDIÇÃO DO DOSSIÊ";
+  return '<nav class="goku-switch fate-switch" aria-label="Selecionar forma de '+e(c.name)+'"><span>'+e(title)+'</span><div>'+forms.map(([key,label])=>'<button type="button" data-'+marker+'-mode="'+e(key)+'" data-'+marker+'-character="'+e(c.id)+'" aria-pressed="'+(current===key)+'">'+e(label)+'</button>').join("")+'</div></nav>';
  }
  if(c.id==="goku"){
   const modes=[["z","DBZ"],["gt","GT"],["daima","DAIMA"],["super","SUPER"]];
@@ -495,7 +531,10 @@ function detail(c,tab){
  '<div class="global-level-picker"><div><span class="panel-title">FICHA ATIVA // NÍVEL</span><strong>NÍVEL <span id="globalLevelText">'+String(selectedLevel).padStart(2,"0")+'</span></strong><p>Altere aqui para recalcular PV, PM, Defesa e evolução em todas as abas.</p></div><input id="globalLevel" aria-label="Nível atual da ficha" type="range" min="1" max="12" value="'+selectedLevel+'"><a href="'+linkFor(c,"progression")+'">VER EVOLUÇÃO ↗</a></div>'+
  '<nav class="detail-tabs" role="tablist" aria-label="Seções da ficha">'+nav+'</nav><section id="detail-section" role="tabpanel" data-tab="'+e(tab)+'" aria-labelledby="tab-'+e(tab)+'">'+content+'</section>'+
  '<div class="actions-row"><button type="button" class="sys-button primary" data-copy="'+e(c.id)+'">COPIAR FICHA DO NÍVEL ATUAL ↗</button><a class="sys-button" href="#/">VOLTAR AOS DOSSIÊS</a></div></div>';
- if(c._auto)root.querySelector?.(".actions-row")?.insertAdjacentHTML("beforeend",'<a class="sys-button" href="#/laboratorio/'+encodeURIComponent(c.id)+'">ABRIR CÓPIA NO LABORATÓRIO</a>');
+ if(c._auto||c._cosmos){
+  const seedId=c._wave7?.parentId?c.id+"--"+c._wave7.key:c.id;
+  root.querySelector?.(".actions-row")?.insertAdjacentHTML("beforeend",'<a class="sys-button" href="#/laboratorio/'+encodeURIComponent(seedId)+'">ABRIR CÓPIA NO LABORATÓRIO</a>');
+ }
  updateLevel(selectedLevel);
  lastRoute=c.id+"/"+activeVariant(c.id)+"/"+tab;
 }
@@ -536,13 +575,14 @@ document.addEventListener("click",evt=>{
  if(evt.target.closest("[data-review-export]")){const blob=new Blob([window.T20_REVIEW.exportRecords()],{type:'application/json'}),link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='t20-guia-revisao.json';link.click();setTimeout(()=>URL.revokeObjectURL(link.href),1000);return}
  const cardMode=evt.target.closest("[data-card-switch]");
  if(cardMode){const id=cardMode.dataset.cardSwitch;catalogModes[id]=cardMode.dataset.cardMode;updateCards();document.querySelector?.('[data-card-switch="'+id+'"][data-card-mode="'+catalogModes[id]+'"]')?.focus?.({preventScroll:true});return}
- const chosenFate=evt.target.closest("[data-fate-mode]");
- if(chosenFate){
-  const id=chosenFate.dataset.fateCharacter,key=chosenFate.dataset.fateMode;
+ const variantButton=evt.target.closest("[data-fate-mode],[data-form-mode]");
+ if(variantButton){
+  const {fateCharacter,formCharacter,fateMode,formMode}=variantButton.dataset;
+  const id=fateCharacter||formCharacter,key=fateMode||formMode;
   if(!variants(id).some(v=>v[0]===key))return;
   const tab=getRoute().tab;catalogModes[id]=key;
   location.hash=linkFor(variantByKey(id,key),tab);
-  render();toast("FATE // "+key.toUpperCase());return;
+  render();toast(variants(id).find(v=>v[0]===key)[1]);return;
  }
  const mode=evt.target.closest("[data-goku-mode]");
  if(mode){
@@ -583,7 +623,7 @@ document.addEventListener("error",evt=>{
  rememberFailedImage(original);
  const card=im.closest(".roster-card");
  const id=card?.dataset.open;
- const c=id?variantByKey(id,catalogModes[id]||"principal"):getRoute().character;
+ const c=id?variantByKey(id,catalogModes[id]||defaultForm(id)):getRoute().character;
  const attempt=imageAttempts.get(im)||{primary:im.dataset.mediaOriginal||original,tried:new Set()};
  attempt.tried.add(original);imageAttempts.set(im,attempt);
  const next=mediaBackup(c,attempt.primary,!!(card||im.closest(".hero-portrait")),attempt.tried,im.dataset.posterFallback);

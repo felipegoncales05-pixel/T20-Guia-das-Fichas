@@ -22,4 +22,6 @@ jobs:
       - name: Navegação e cards
         run: node tests/browser-lite.cjs
       - name: Expansão VIII
-        run: node tests/phase8-smoke.cjs
+        run: |
+          node tests/phase8-smoke.cjs
+          node tests/phase9-smoke.cjs

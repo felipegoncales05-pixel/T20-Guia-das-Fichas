@@ -85,10 +85,10 @@ async function assertPortraitInFrame(frame,label){
    const [allUniverses,...universes]=await page.locator("#universe option").allTextContents();
    assert.equal(allUniverses,"Todos os universos");
    assert.deepEqual(universes,[...universes].sort(collator.compare),width+": filtro de universos fora da ordem alfabética");
-   assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
+   assert.match(await page.locator("#resultsCount").textContent(),/421 DE 421/);
    await page.locator("#universe").selectOption("fate");
    assert.ok([24,48,72,96,98].includes(await page.locator(".roster-card").count()),width+": Fate deve carregar em lotes");
-   assert.match(await page.locator("#resultsCount").textContent(),/98 DE 319/);
+   assert.match(await page.locator("#resultsCount").textContent(),/98 DE 421/);
    await revealAllCards(page);
    assert.equal(await page.locator(".roster-card").count(),98,width+": 98 Espíritos Heroicos de Fate");
    assert.equal(await page.locator('[data-open="fate-artoria"]').count(),1,width+": Artoria não deve duplicar cards");
@@ -151,10 +151,10 @@ async function assertPortraitInFrame(frame,label){
     await page.locator("#search").fill("MAKIMA");
    await page.waitForFunction(()=>document.querySelectorAll(".roster-card").length===1,null,{timeout:5000});
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
-   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 319/);
+   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 421/);
    await page.locator("[data-clear-search]").click();
    await revealAllCards(page);
-   assert.equal(await page.locator(".roster-card").count(),319,width+": limpar busca");
+   assert.equal(await page.locator(".roster-card").count(),421,width+": limpar busca");
    await page.locator("#universe").selectOption("jojo");
    assert.ok(await page.locator(".roster-card").count()>=8,width+": filtro JoJo");
    await page.locator("#universe").selectOption("mha");
@@ -186,8 +186,45 @@ async function assertPortraitInFrame(frame,label){
     await page.locator("[data-clear-search]").click();
    }
    if([375,1440].includes(width)){
+    await page.locator("#universe").selectOption("cdz");
+    await revealAllCards(page);
+    assert.equal(await page.locator(".roster-card").count(),90,"Catálogo dos Cavaleiros de Ouro");
+    await page.locator("#search").fill("Milo de Escorpião");
+    const milo=page.locator('[data-open="cdz-classico-milo"]');
+    await milo.waitFor({state:"visible"});
+    await assertReserve(page,'[data-open="cdz-classico-milo"] .photo',/^data:image\/svg\+xml/,"Pôster de reserva");
+    await page.locator('[data-card-switch="cdz-classico-milo"][data-card-mode="lenda"]').click();
+    await milo.click();
+    assert.ok(page.url().endsWith("#/cdz-classico-milo/lenda/overview"));
+    await page.goto(site,{waitUntil:"load"});
+    await page.locator("#search").fill("Vegeta");
+    const vegeta=page.locator('[data-open="vegeta"]');
+    await vegeta.waitFor({state:"visible"});
+    for(const form of ["z","gt","daima","super"]){
+     assert.equal(await page.locator('[data-card-switch="vegeta"][data-card-mode="'+form+'"]').count(),1);
+    }
+    await page.locator('[data-card-switch="vegeta"][data-card-mode="gt"]').click();
+    await vegeta.click();
+    assert.ok(page.url().endsWith("#/vegeta/gt/overview"));
+    await page.locator('[data-form-mode="super"]').click();
+    assert.ok(page.url().endsWith("#/vegeta/super/overview"));
+    await page.locator('[data-tab="progression"]').click();
+    await page.locator('.level-item[data-level="12"]').waitFor({state:"visible"});
+    assert.equal(await page.locator(".level-item").count(),12);
+    assert.match(await page.locator('.level-item[data-level="12"]').textContent(),/Arcanista 4/);
+    await page.getByRole("link",{name:"ABRIR CÓPIA NO LABORATÓRIO"}).click();
+    assert.ok(page.url().endsWith("#/laboratorio/vegeta--super"));
+    assert.equal(await page.locator('select[data-field="raceId"]').inputValue(),"moreau-leao");
+    await page.locator(".lab-level").last().waitFor({state:"visible"});
+    assert.equal(await page.locator(".lab-level").count(),12);
+    await assertLayout(page,width+" Laboratório da Fase IX");
+    await page.locator('[data-lab-action="delete"]').click();
+    await page.locator(".lab-draft").waitFor({state:"detached"});
+    await page.goto(site,{waitUntil:"load"});
+   }
+   if([375,1440].includes(width)){
     await page.locator("#universe").selectOption("cyberpunk");
-    assert.equal(await page.locator(".roster-card").count(),2);
+    assert.equal(await page.locator(".roster-card").count(),7);
     const capri=page.locator('[data-open="d"] .capri-gaze');
     // A HUD fica ativa somente enquanto o card recebe interação.
     await page.locator('[data-open="d"]').hover();
@@ -383,7 +420,7 @@ async function assertPortraitInFrame(frame,label){
     assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
     await page.goto(site,{waitUntil:'load'});
     assert.equal(await page.locator('.roster-card').count(),24,"Ficha pessoal alterou o lote inicial");
-    assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
+    assert.match(await page.locator("#resultsCount").textContent(),/421 DE 421/);
    }
    if(width===1440){
     await page.locator("#universe").selectOption("hsr");
@@ -414,7 +451,7 @@ async function assertPortraitInFrame(frame,label){
     assert.match(await page.locator(attack+" a").getAttribute("href"),/gachabase/i);
    }
    assert.deepEqual(errors,[]);
-   console.log("OK viewport "+width+"x"+height+" — 319 dossiês e interações");
+   console.log("OK viewport "+width+"x"+height+" — 421 dossiês e interações");
    await page.close();
   }
   const reduced=await browser.newPage({viewport:{width:375,height:812},reducedMotion:"reduce"});
@@ -428,6 +465,6 @@ async function assertPortraitInFrame(frame,label){
   assert.equal(await reduced.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),"","HUD reage sob movimento reduzido");
   await reduced.close();
   console.log("Movimento reduzido validado: Capri e David sem animações.");
-  console.log("VALIDADO: 11 viewports, 319 fichas completas e dez builds automáticas sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports, 421 fichas completas e dez builds automáticas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

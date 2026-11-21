@@ -22,13 +22,15 @@
    uma=all.filter(p=>window.T20_UMA?.ids?.has(p.id)),
    crossover=all.filter(p=>window.T20_CROSSOVERS?.ids?.has(p.id)),
    wave=all.filter(p=>window.T20_WAVE7?.seeds.some(s=>s.id===p.id)),
-   waveMain=wave.filter(p=>!p.isAlt),waveAlt=wave.filter(p=>p.isAlt),
+   waveMain=wave.filter(p=>!p.isAlt&&!p.build),waveAlt=wave.filter(p=>p.isAlt&&!p.build),
+   cosmos=wave.filter(p=>p.build),
    archive=all.filter(p=>!ready.includes(p)&&!uma.includes(p)&&!crossover.includes(p)&&!wave.includes(p));
   const show=p=>'<button type="button" class="lab-seed" data-lab-seed="'+esc(p.id)+'">'+esc(p.name)+'</button>';
   return '<aside class="lab-sidebar"><h2>Meus rascunhos</h2>'+
    (drafts.length?drafts.map(d=>'<button type="button" class="lab-draft'+(d.id===active?' active':'')+'" data-lab-open="'+esc(d.id)+'"><strong>'+esc(d.name)+'</strong><small>'+esc(d.work||'Criação original')+' · '+d.levels.length+' nível(is)</small></button>').join(""):'<p>Nenhuma ficha pessoal ainda.</p>')+
    '<h2>Abrir dossiês do arquivo</h2><p>'+all.length+' builds-base e formas com progressão 1–12. O Laboratório abre uma cópia local: raça, magias e requisitos opcionais devem ser verificados.</p>'+
    ready.map(show).join("")+
+   (cosmos.length?'<details class="lab-archive-picker"><summary>FASE IX · '+cosmos.length+' BUILDS E FORMAS</summary><div>'+cosmos.map(show).join("")+'</div></details>':'')+
    '<details class="lab-archive-picker"><summary>FASE VII · '+waveMain.length+' NOVOS PERSONAGENS</summary><div>'+waveMain.map(show).join("")+'</div></details>'+
    '<details class="lab-archive-picker"><summary>FATE · '+waveAlt.length+' FORMAS ALTERNATIVAS</summary><div>'+waveAlt.map(show).join("")+'</div></details>'+
    '<details class="lab-archive-picker"><summary>FASE VI · '+crossover.length+' CROSSOVERS</summary><div>'+crossover.map(show).join("")+'</div></details>'+
@@ -79,13 +81,14 @@
   }
  
  function attributes(d,report){
-  const orig=rules.origins?.[d.originId],opts=Object.entries(rules.origins||{});
+  const race=rules.races[d.raceId],orig=rules.origins?.[d.originId],opts=Object.entries(rules.origins||{});
+  const purposes=Object.entries(rules.abilities).filter(([,ability])=>ability.classId==="geral"&&!ability.requires?.powers?.length&&!ability.requires?.caster);
   const benefits=orig?'<div class="lab-grid">'+[0,1].map(i=>choice('originBenefit:'+i,'BENEFÍCIO '+(i+1),d.originBenefits[i]||'',[['','Escolha pendente'],...orig.choices.map(name=>[name,name])])).join('')+'</div>':'';
   return '<section class="lab-panel"><div class="lab-panel-head"><span>03 / CRIAÇÃO</span><h2>Atributos e origem</h2></div><div class="lab-grid">'+
-   choice('raceId','RAÇA',d.raceId,[['','Pendente'],['humano','Humano · JdA p. 19']])+
-   choice('originId','ORIGEM',d.originId,[['','Escolha a origem'],...opts.map(([id,o])=>[id,o.name])])+
+   choice('raceId','RAÇA',d.raceId,[['','Pendente'],...Object.entries(rules.races).map(([id,entry])=>[id,entry.name])])+
+   (race?.noOrigin?choice('purposePower','PROPÓSITO DE CRIAÇÃO',d.purposePower,[['','Escolha um poder geral'],...purposes.map(([id,entry])=>[id,entry.name])]):choice('originId','ORIGEM',d.originId,[['','Escolha a origem'],...opts.map(([id,o])=>[id,o.name])]))+
    choice('arcanePath','CAMINHO DE ARCANISTA',d.arcanePath,[['','Sem Arcanista'],['mago','Mago · grimório'],['bruxo','Bruxo · foco'],['feiticeiro','Feiticeiro · linhagem a conferir'],['necromante','Necromante · variante de Heróis de Arton']])+
-   '</div>'+benefits+
+   '</div>'+benefits+(race?.note?'<p class="lab-hint">'+esc(race.note)+' · '+sourceLink(race.source)+'</p>':'')+
    '<p class="lab-hint">Compra: '+report.attributeCost+' / 10 pontos. A origem concede escolhas de benefícios; itens e demais efeitos exigem conferência. '+sourceLink({book:'jda-1.3',page:'17',section:'Atributos',url:rules.multiclass.url})+'</p>'+
    '<div class="lab-attrs">'+engine.KEYS.map(k=>'<label>'+k+'<select data-attr="'+k+'">'+Object.keys(rules.pointBuy).map(v=>option(v,v+' · custo '+rules.pointBuy[v],d.attributes[k]===Number(v))).join('')+'</select><span>Final '+(report.attributes[k]>=0?'+':'')+report.attributes[k]+'</span></label>').join('')+'</div>'+
    (d.raceId==='humano'?'<fieldset class="lab-bonuses"><legend>HUMANO // +1 EM TRÊS ATRIBUTOS DIFERENTES</legend>'+engine.KEYS.map(k=>'<label><input type="checkbox" data-race-bonus="'+k+'"'+(d.raceBonuses.includes(k)?' checked':'')+'>'+k+'</label>').join('')+'</fieldset>':'')+
@@ -120,7 +123,7 @@
    const prohibited=new Set(variant?.powers?.remove||[]);
    const exclusive=new Set(variant?.powers?.exclusive||[]);
    const powers=Object.entries(rules.abilities).filter(([id,a])=>a.kind==='poder'&&
-    (a.classId===saved.classId&&!prohibited.has(id)||a.classId===variant?.id&&exclusive.has(id)))
+    (a.classId==="geral"||a.classId===saved.classId&&!prohibited.has(id)||a.classId===variant?.id&&exclusive.has(id)))
     .map(([id,a])=>[id,a.name+(a.requires?.classLevel?' · classe '+a.requires.classLevel:'')]);
   return '<article class="lab-level"><div class="lab-level-title"><span>NÍVEL GLOBAL '+String(i+1).padStart(2,'0')+'</span><strong>'+(cls?esc(cls.name)+' '+row.classLevel:'Classe pendente')+'</strong>'+(row.pv!==null?'<small>PV base '+row.pv+' · PM base '+row.pm+'</small>':'')+'</div>'+(row.removedGrants?.length||row.addedGrants?.length?'<div class="lab-change"><strong>CLASSE ORIGINAL VS VARIANTE</strong> · removidas: '+esc(row.removedGrants.map(id=>rules.abilities[id]?.name||id).join(', ')||'nenhuma')+' · novas: '+esc(row.addedGrants.map(id=>rules.abilities[id]?.name||id).join(', ')||'nenhuma')+'</div>':'')+'<div class="lab-grid">'+choice('class:'+i,'CLASSE DESTE AVANÇO',saved.classId,[['','Escolha a classe'],...Object.entries(rules.classes).map(([id,c])=>[id,c.name])])+(cls&&row.classLevel>=row.powerFrom?choice('power:'+i,'PODER DE CLASSE',saved.powerId,[['','Escolha pendente'],...powers]):'')+'</div>'+(row.newClass?'<p class="lab-hint">Entrada em outra classe: ganha habilidades de classe de 1º nível e PV subsequentes; não recebe novamente perícias ou proficiências iniciais.</p>':'')+(row.grants.length?'<div class="lab-grants"><b>GANHOS AUTOMÁTICOS CONFERIDOS NA TABELA</b>'+row.grants.map(g=>abilityCard(g.ability,row.classLevel,saved.why,saved.usage)).join("")+'</div>':'')+(saved.powerId&&rules.abilities[saved.powerId]?abilityCard(rules.abilities[saved.powerId],row.classLevel,saved.why,saved.usage,saved.powerVersion):'')+
   '<details class="lab-ability lab-supplement"><summary>OPÇÃO DE SUPLEMENTO / REGISTRO EM REVISÃO'+(saved.customPowerName?' — '+esc(saved.customPowerName):'')+'</summary><div class="lab-grid">'+
@@ -139,7 +142,7 @@
  function combat(d){const fields=[['style','ESTILO DE COMBATE'],['opening','INÍCIO DE COMBATE'],['combos','COMBINAÇÕES A CONFERIR'],['resources','GESTÃO DE RECURSOS'],['strengths','PONTOS FORTES'],['weaknesses','PONTOS FRACOS'],['evolution','EVOLUÇÃO DO NÍVEL 1 AO 12']];return '<section class="lab-panel"><div class="lab-panel-head"><span>06 / MESA</span><h2>Guia de combate</h2></div><p class="lab-hint">Registre a estratégia da adaptação. Uma sequência só deve ser tratada como legal após conferir ações, custos, duração e pré-requisitos na fonte.</p><div class="lab-grid">'+fields.map(([id,label])=>textarea('combat:'+id,label,d.combat[id],'Pendente de decisão e conferência.')).join('')+'</div></section>'}
  function audit(d,report){return '<section class="lab-panel lab-audit"><div class="lab-panel-head"><span>07 / CONFERÊNCIA</span><h2>'+report.issues.length+' pendência(s)</h2></div><p>Este rascunho não está aprovado para jogar. A lista mostra o que falta antes de fazer cálculos completos ou publicar uma adaptação.</p><ul>'+report.issues.map(v=>'<li>'+esc(v)+'</li>').join("")+'</ul>'+textarea('notes','DECISÕES E CORREÇÕES',d.notes,'Registre as decisões pendentes da mesa.')+'<p><a href="./docs/laboratorio.md">Como revisar e versionar uma ficha local</a></p></section>'}
  function editor(d){const report=engine.evaluate(d);return '<div class="lab-editor">'+identity(d)+sources(d)+specializations(d,report)+attributes(d,report)+progression(d,report)+spellbook(d)+inventory(d)+combat(d)+audit(d,report)+'<button type="button" class="lab-delete" data-lab-action="delete">EXCLUIR ESTE RASCUNHO LOCAL</button></div>'}
- function draw(){if(!host)return;const d=current();host.innerHTML='<div class="container lab-shell">'+toolbar()+(message?'<p class="lab-message" role="status">'+esc(message)+'</p>':'')+'<div class="lab-layout">'+sidebar()+(d?editor(d):'<div class="lab-empty"><h2>Comece uma ficha</h2><p>Crie uma ficha pessoal ou abra uma das 298 fichas principais ou uma das 50 formas de Fate, incluindo os 16 crossovers e as 57 Umas, como cópia local. As entradas publicadas não são modificadas.</p></div>')+'</div></div>';document.title='Laboratório de Builds // O Sistema T20'}
+ function draw(){if(!host)return;const d=current();host.innerHTML='<div class="container lab-shell">'+toolbar()+(message?'<p class="lab-message" role="status">'+esc(message)+'</p>':'')+'<div class="lab-layout">'+sidebar()+(d?editor(d):'<div class="lab-empty"><h2>Comece uma ficha</h2><p>Crie uma ficha pessoal ou abra uma das fichas ou formas listadas no arquivo, como cópia local. As entradas publicadas não são modificadas.</p></div>')+'</div></div>';document.title='Laboratório de Builds // O Sistema T20'}
  function render(root,seedId){host=root;document.body.removeAttribute('data-theme');document.body.removeAttribute('data-art');document.body.removeAttribute('data-world');document.body.removeAttribute('data-family');document.body.removeAttribute('data-pattern');document.body.removeAttribute('data-finish');document.body.removeAttribute('data-lineage');document.body.removeAttribute('data-variant');document.body.style?.removeProperty?.('--char-color');document.body.dataset.lab='true';
   if(seedId){const seed=planned().find(x=>x.id===seedId);if(seed){let d=drafts.find(x=>x.catalogId===seedId);if(!d){d=seedDraft(seed);drafts.unshift(d);save()}active=d.id}}
   draw()}
@@ -174,6 +177,7 @@
     else if(field==='distinctionNotes'&&d.distinctions[Number(index)])d.distinctions[Number(index)].notes=t.value;
     else if(field==='power'){d.levels[Number(index)].powerId=t.value;d.levels[Number(index)].powerVersion=''}else if(field==='combat'&&d.combat[index]!==undefined)d.combat[index]=t.value;else if(d.levels[Number(index)])d.levels[Number(index)][field]=t.value}
   else if(field==='trainedSkills')d.trainedSkills=t.value.split(',').map(x=>x.trim()).filter(Boolean);
+  else if(field==='raceId'){d.raceId=t.value;d.raceBonuses=[];d.purposePower='';if(rules.races[d.raceId]?.noOrigin){d.originId='';d.originBenefits=[]}}
   else if(field==='originId'){d.originId=t.value;d.originBenefits=[]}
    else if(field==='distinctionAdd'){if(t.value&&!d.distinctions.some(x=>x.id===t.value))d.distinctions.push(engine.options.distinctItem({id:t.value}));draw();}
   else d[field]=t.value;
