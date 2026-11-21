@@ -129,3 +129,13 @@ Todos os textos de observação no site são creditados a **O Sistema**.
 - Páginas explícitas já presentes nos guias são mostradas. Referências a capítulos/verbete são identificadas como tal; ausências aparecem como pendências, sem completar números por adivinhação.
 
 Projeto pessoal, gratuito, sem vínculo com Jambô Editora, CD PROJEKT RED, Netflix, Shueisha ou HoYoverse.
+
+
+## Fase VIII — novas fichas e desempenho (21/11/2026)
+
+- **21 novos dossiês** carregados pelo motor de progressão de 12 níveis: Lloyd Frontera, Jin Runcandel, Homelander, Queen Maeve, A-Train, The Deep, Black Noir, Translucent, Remielle Dan, Hoshimi Miyabi, Sentry (MCU), Silver Wolf, Aeon Aha (Nihilux), Himeko Nova, Welt Yang, Stelle, Kafka, Blade, Firefly/SAM, Elio e Feixiao. A **Starlight já cadastrada** completa a busca pelo grupo Os Sete. A busca por Stellaron Hunters retorna Silver Wolf e os quatro outros membros adicionados.
+- O catálogo exibe **24 cards inicialmente**, com carregamento progressivo ao rolar ou pelo botão, e a pesquisa continua procurando em todas as fichas. Filtros incluídos: Manhwa, Zenless Zone Zero e Marvel/MCU.
+- Os efeitos animados dos cards e a HUD da Capri no card de D. foram removidos. As assinaturas estáticas, cores e informações de cada obra permanecem.
+- Retratos de fontes externas possuem fallback para pôsteres locais/embutidos; URLs que falham ficam anotadas na sessão do navegador. Isto evita imagens quebradas, **mas pôsteres editoriais não equivalem a retratos oficiais**. A atribuição de novas artes locais depende de arquivos com origem confirmada e permissão de uso.
+- **Builds:** as classes, raças, atributos, PV/PM, perícias, equipamentos, progressão e guia de 12 níveis usam o motor de adaptação existente. As escolhas propostas não concedem poderes adicionais automaticamente. Raças Moreau, Golem, Osteon, Qareen, Kliren, Eiradaan etc. são equivalências mecânicas de Tormenta20, não a biologia canônica das franquias.
+- Produção usa `site.min.css` e três bundles JS para diminuir requisições. **Sempre que alterar fontes CSS/JS, executar `node scripts/build-site.cjs`** e versionar os quatro artefatos gerados. Para auditar: `node scripts/build-site.cjs --check`, `node tests/site-smoke.cjs`, `node tests/browser-lite.cjs` e `node tests/phase8-smoke.cjs`.
