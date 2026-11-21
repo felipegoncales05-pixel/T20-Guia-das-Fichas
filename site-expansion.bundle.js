@@ -1987,6 +1987,7 @@ const url=(u)=>/^https:\/\//.test(String(u||""))?e(u):"#";
 const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,")||/^\.\/assets\/(?:portraits|art|art-optimized|card-art|character-art|planned-art)\/[a-z0-9-]+\.(?:svg|webp|avif|png|jpg)$/.test(String(u||""))?e(u):url(u);
 const icon=(v)=>e(v||"◈");
 const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
+const failedImageSources=new Set();
 const normalizeSearch=(v)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").replace(/[^a-z0-9]+/g," ").trim();
 const archiveCategory=(c)=>c.catalogCategory||(["gyro","diego"].includes(c.id)?"jojo":["cipher","cyrene"].includes(c.id)?"chrysos":["rentarou","marin"].includes(c.id)?"romcom":["yoru","makima"].includes(c.id)?"chainsaw":c.id==="ado"?"music":c.id==="optimus"?"transformers":"cyberpunk");
 const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c.id==="goku"?"Dragon Ball Z GT Daima Super":"",window.T20_FATE_VARIANTS?.[c.id]?.map(x=>[x[1],x[2].name,x[2].info?.className,x[2]._wave7?.fateClass].join(" ")).join(" ")||""].filter(Boolean).join(" "));
@@ -2109,13 +2110,6 @@ const worldMarks={zenless:"NEW ERIDU",manhwa:"MANHWA",marvel:"MARVEL / MCU",fate
 const visualFor=(c,key)=>window.T20_VISUAL.forCharacter(c,key);
 function visualStyle(v){return '--char-color:'+e(v.accent)+';--art-accent:'+e(v.accent)+';--art-dark:'+e(v.dark)}
 function visualAttrs(v){return ' data-art="'+e(v.id)+'" data-layout="'+e(v.layout)+'" data-pattern="'+e(v.pattern)+'" data-family="'+e(v.family)+'" data-finish="'+e(v.finish)+'" data-lineage="'+e(v.lineage)+'" data-variant="'+e(v.variant)+'"'}
-function cardEffect(id){return "";
-/* Efeitos removidos dos cards para reduzir camadas animadas e liberar espaço para retratos. */
-
- if(id==="d")return '<div class="capri-hud" aria-hidden="true"><span class="capri-signal">CAPRI // LINK ATIVO</span><span class="capri-screen"><img src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"><img class="capri-gaze" src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"><img class="capri-mouth" src="./assets/motifs/capri-hud.webp" alt="" loading="lazy" decoding="async"></span><span class="capri-laugh">hahaha</span><span class="capri-caption">OLHOS EM VOCÊ</span></div>';
- if(id==="david")return '<div class="psycho-hud" aria-hidden="true"><span class="psycho-echo"></span><span class="psycho-status">NEURAL LINK // INSTÁVEL</span><span class="psycho-error">ERRO DE SINAL</span></div>';
- return "";
-}
 function card(c){
  const nForms=window.T20_FATE_VARIANTS?.[c.id]?.length||0;
  const alternate=c.id==="diego"?"2 VERSÕES · SCARY MONSTERS / THE WORLD":c.id==="goku"?"4 VERSÕES · DBZ / GT / DAIMA / SUPER":nForms>1?nForms+" VERSÕES · "+window.T20_FATE_VARIANTS[c.id].map(x=>x[1]).join(" / "):"";
@@ -2124,11 +2118,15 @@ function card(c){
  const visual=visualFor(shown,mode);
  const symbolic=shown.portrait.url.startsWith("data:image/")||shown.portrait.url.endsWith(".svg");
  const cover=!(c.id==="diego"&&mode==="alternative")?window.T20_CATALOG_COVERS?.[c.id]:null;
- const featuredImage=cover?.image||shown.portrait.url;
- const featuredAttrs=cover?' data-card-fallback="'+imageUrl(shown.portrait.url)+'" data-cover-volume="'+e(cover.volume||"")+'"':"";
+ const safePortrait=failedImageSources.has(shown.portrait.url)?shown.portrait.fallback||shown.portrait.url:shown.portrait.url;
+ const featuredImage=cover&&!failedImageSources.has(cover.image)?cover.image:safePortrait;
+ const featuredAttrs=cover?' data-card-fallback="'+imageUrl(safePortrait)+'" data-cover-volume="'+e(cover.volume||"")+'"':"";
  const world=archiveCategory(c);
+ const underlay=window.T20_WAVE7?.ids.has(c.id)?
+  (shown.portrait.fallback?'<img class="portrait-underlay" src="'+imageUrl(shown.portrait.fallback)+'" alt="" aria-hidden="true" loading="lazy" decoding="async">':""):
+  (["umamusume","konosuba","mushoku","wuwa","dmc","fma","genshin","witcher","overwatch","fate","the-boys","blue-lock","one-punch-man","kamen-rider"].includes(world)||c.id.startsWith("cx-")||c.id.startsWith("jb-")?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">');
  const button='<button type="button" class="roster-card '+e(c.theme)+'" style="'+visualStyle(visual)+'" data-world="'+e(world)+'"'+visualAttrs(visual)+' data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+(alternate?' · versão '+mode:'')+'">'+
-  '<div class="photo">'+(["umamusume","konosuba","mushoku","wuwa","dmc","fma","genshin","witcher","overwatch","fate","the-boys","blue-lock","one-punch-man","kamen-rider"].includes(world)||c.id.startsWith("cx-")||c.id.startsWith("jb-")||window.T20_WAVE7?.ids.has(c.id)?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">')+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs)+'</div>'+
+  '<div class="photo">'+underlay+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs)+'</div>'+
   '<div class="art-insignia" aria-hidden="true"><span>'+e(visual.motif)+'</span><i></i></div><span class="art-series" aria-hidden="true">'+e(visual.series)+'</span>'+
   ''+
   '<span class="card-no">DOSSIÊ // '+e(c.number)+'</span><span class="world-mark" aria-hidden="true">'+e(worldMarks[world]||"O SISTEMA")+'</span><span class="card-topline" aria-hidden="true"></span>'+
@@ -2469,6 +2467,7 @@ document.addEventListener("error",evt=>{
  // Elementos decorativos não devem substituir a ilustração principal por um bloco de erro.
  if(im.classList.contains("portrait-underlay")||im.closest(".capri-hud")){im.remove();return}
  const original=im.getAttribute("src")||"";
+ if(/^https:\/\//.test(original))failedImageSources.add(original);
  // Recuperação: fontes alternativas, proxy de imagens e pôster do personagem.
  const proxy=/^https:\/\/(?!wsrv\.nl\/)/i.test(original)?
   "https://wsrv.nl/?url="+encodeURIComponent(original)+"&output=webp&w=1000":null;
