@@ -2,11 +2,13 @@
    anima enquanto o visitante interage. Fora da viewport não há animação ativa. */
 .roster-card .character-fx,.roster-card .psycho-hud,.roster-card .capri-hud{display:none}
 .roster-card .photo img{transition:none}
+.roster-card[data-open="david"] .photo img:not(.portrait-underlay){animation:none}
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
  .roster-card:hover .character-fx,.roster-card:focus-visible .character-fx,
  .roster-card:hover .psycho-hud,.roster-card:focus-visible .psycho-hud,
  .roster-card:hover .capri-hud,.roster-card:focus-visible .capri-hud{display:block}
  .roster-card:hover .photo img:not(.portrait-underlay){transition:transform .18s ease-out}
+ .roster-card[data-open="david"]:hover .photo img:not(.portrait-underlay){animation:fx-cyber 5.6s steps(1,end) infinite}
 }
 @media (hover:none),(prefers-reduced-motion:reduce){
  .roster-card,.roster-card *,.roster-card::before,.roster-card::after,
@@ -18,7 +20,7 @@
  padding:27px 10px 12px;flex-wrap:wrap}
 .archive-pagination small{color:var(--muted);font:12px var(--mono)}
 .archive-pagination .sys-button{min-width:210px}
-/* Sem content-visibility:auto nos cards: evita conflito com imagens lazy no Chromium. */
+/* Sem descarte automático de pintura: evita conflito com retratos lazy no Chromium. */
 .roster-card,.roster-entry,.planned-card{content-visibility:visible!important}
 .roster-card .photo{overflow:hidden}
 .roster-card .photo img:not(.portrait-underlay){display:block;visibility:visible;opacity:1}
