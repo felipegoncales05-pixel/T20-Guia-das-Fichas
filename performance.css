@@ -16,10 +16,16 @@
  padding:27px 10px 12px;flex-wrap:wrap}
 .archive-pagination small{color:var(--muted);font:12px var(--mono)}
 .archive-pagination .sys-button{min-width:210px}
-@supports (content-visibility:auto){
- .roster-grid>.roster-card,.roster-grid>.roster-entry,.roster-grid>.planned-card{
-  content-visibility:auto;contain-intrinsic-size:auto 470px;
- }
+/* A renderização progressiva controla o custo do catálogo, sem ocultar retratos. */
+.roster-card,.roster-entry,.planned-card{content-visibility:visible!important}
+.roster-card .photo{overflow:hidden}
+.roster-card .photo img:not(.portrait-underlay){display:block;visibility:visible;opacity:1}
+.roster-card[data-world="hsr"] .card-body h3,
+.roster-card[data-world="chrysos"] .card-body h3,
+.roster-card[data-world="emanator"] .card-body h3{
+ font-family:Georgia,serif;font-size:clamp(25px,2.45vw,36px);
+ font-weight:700;font-style:normal;text-transform:none;
+ letter-spacing:-.04em;transform:none
 }
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important}
