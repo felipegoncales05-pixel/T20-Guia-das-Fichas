@@ -55,10 +55,10 @@ async function assertLayout(page,label){
    const names=await page.locator(".roster-card h3").allTextContents();
    const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
-   assert.match(await page.locator("#resultsCount").textContent(),/298 DE 298/);
+   assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
    await page.locator("#universe").selectOption("fate");
    assert.equal(await page.locator(".roster-card").count(),24,width+": primeiro lote Fate");
-   assert.match(await page.locator("#resultsCount").textContent(),/98 DE 298/);
+   assert.match(await page.locator("#resultsCount").textContent(),/98 DE 319/);
    await revealAllCards(page);
    assert.equal(await page.locator(".roster-card").count(),98,width+": 98 Espíritos Heroicos de Fate");
    assert.equal(await page.locator('[data-open="fate-artoria"]').count(),1,width+": Artoria não deve duplicar cards");
@@ -119,10 +119,10 @@ async function assertLayout(page,label){
     }
     await page.locator("#search").fill("MAKIMA");
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
-   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 298/);
+   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 319/);
    await page.locator("[data-clear-search]").click();
    await revealAllCards(page);
-   assert.equal(await page.locator(".roster-card").count(),298,width+": limpar busca");
+   assert.equal(await page.locator(".roster-card").count(),319,width+": limpar busca");
    await page.locator("#universe").selectOption("jojo");
    assert.ok(await page.locator(".roster-card").count()>=8,width+": filtro JoJo");
    await page.locator("#universe").selectOption("mha");
@@ -338,10 +338,10 @@ async function assertLayout(page,label){
     assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
     await page.goto(site,{waitUntil:'load'});
     assert.equal(await page.locator('.roster-card').count(),24,"Ficha pessoal alterou o lote inicial");
-    assert.match(await page.locator("#resultsCount").textContent(),/298 DE 298/);
+    assert.match(await page.locator("#resultsCount").textContent(),/319 DE 319/);
    }
    assert.deepEqual(errors,[]);
-   console.log("OK viewport "+width+"x"+height+" — 298 dossiês e interações");
+   console.log("OK viewport "+width+"x"+height+" — 319 dossiês e interações");
    await page.close();
   }
   const reduced=await browser.newPage({viewport:{width:375,height:812},reducedMotion:"reduce"});
@@ -355,6 +355,6 @@ async function assertLayout(page,label){
   assert.equal(await reduced.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),"","HUD reage sob movimento reduzido");
   await reduced.close();
   console.log("Movimento reduzido validado: Capri e David sem animações.");
-  console.log("VALIDADO: 11 viewports, 298 fichas completas e dez builds automáticas sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports, 319 fichas completas e dez builds automáticas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});
