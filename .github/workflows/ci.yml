@@ -45,6 +45,7 @@ jobs:
           node --check wave7-data.js
           node --check wave7-fate.js
           node --check wave7-forms.js
+          node --check wave7-art.js
           node --check wave7-runtime.js
           node --check tests/wave7.cjs
           node --check tests/crossovers.cjs
