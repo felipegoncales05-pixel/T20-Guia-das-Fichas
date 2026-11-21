@@ -1,22 +1,24 @@
-/* O SISTEMA // MODO DE PERFORMANCE (2026-11-21)
- * As identidades visuais continuam; camadas de efeitos e animações permanentes
- * foram desativadas para reduzir repaint e composição de GPU nos cards. */
-.roster-card .character-fx,.roster-card .psycho-hud,.roster-card .capri-hud,
-.roster-card .psycho-echo,.roster-card .psycho-error,.roster-card .capri-laugh{
- display:none!important;
+/* O SISTEMA // Performance equilibrada: a beleza permanece, o efeito só
+   anima enquanto o visitante interage. Fora da viewport não há animação ativa. */
+.roster-card .character-fx,.roster-card .psycho-hud,.roster-card .capri-hud{display:none}
+.roster-card .photo img{transition:none}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ .roster-card:hover .character-fx,.roster-card:focus-visible .character-fx,
+ .roster-card:hover .psycho-hud,.roster-card:focus-visible .psycho-hud,
+ .roster-card:hover .capri-hud,.roster-card:focus-visible .capri-hud{display:block}
+ .roster-card:hover .photo img:not(.portrait-underlay){transition:transform .18s ease-out}
 }
-.roster-card,.roster-card *,.roster-card::before,.roster-card::after,
-.roster-card *::before,.roster-card *::after{
- animation:none!important;
+@media (hover:none),(prefers-reduced-motion:reduce){
+ .roster-card,.roster-card *,.roster-card::before,.roster-card::after,
+ .roster-card *::before,.roster-card *::after{animation:none!important;transition:none!important}
+ .roster-card:hover .photo img{transform:none!important}
+ .roster-card:hover,.roster-card:focus-visible{transform:none!important}
 }
-.roster-card .photo img{transition:none!important}
-.roster-card:hover .photo img{transform:none!important}
-.roster-card:hover,.roster-card:focus-visible{transform:none!important}
 .archive-pagination{display:flex;align-items:center;justify-content:center;gap:15px;
  padding:27px 10px 12px;flex-wrap:wrap}
 .archive-pagination small{color:var(--muted);font:12px var(--mono)}
 .archive-pagination .sys-button{min-width:210px}
-/* A renderização progressiva controla o custo do catálogo, sem ocultar retratos. */
+/* Sem content-visibility:auto nos cards: evita conflito com imagens lazy no Chromium. */
 .roster-card,.roster-entry,.planned-card{content-visibility:visible!important}
 .roster-card .photo{overflow:hidden}
 .roster-card .photo img:not(.portrait-underlay){display:block;visibility:visible;opacity:1}
