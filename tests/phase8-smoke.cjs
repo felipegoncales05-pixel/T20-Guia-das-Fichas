@@ -30,6 +30,16 @@ for(const c of recent.filter(c=>c.catalogCategory==="hsr")){
  assert.equal(w.T20_VISUAL.forCharacter(c,"principal").family,"astral",
   c.id+" não usa a mesma tipografia astral dos Honkai antigos");
 }
+const honkaiArt=JSON.parse(fs.readFileSync(path.join(root,"assets/character-art/honkai-sources.json"),"utf8"));
+assert.equal(honkaiArt.length,9,"Retratos de Honkai associados ao acervo HSR");
+for(const entry of honkaiArt){
+ const c=recent.find(character=>character.id===entry.id);
+ assert.equal(c?.portrait.url,"./"+entry.asset,entry.id+" sem retrato local");
+ assert.ok(c.media.some(m=>m.image===c.portrait.url),entry.id+" sem arte correspondente na galeria");
+ const image=fs.readFileSync(path.join(root,entry.asset));
+ assert.equal(image.toString("ascii",8,12),"WEBP",entry.id+" WebP inválido");
+ assert.ok(entry.source_file&&entry.credit,entry.id+" sem procedência");
+}
 const styles=fs.readFileSync(path.join(root,"site.min.css"),"utf8");
 assert.doesNotMatch(styles,/content-visibility\s*:\s*auto/,
  "Não esconder cards com content-visibility e lazy images");

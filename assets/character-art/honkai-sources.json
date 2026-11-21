@@ -1,0 +1,56 @@
+[
+  {
+    "id": "hsr-aha",
+    "asset": "assets/character-art/hsr-aha.webp",
+    "source_file": "Nihilux_Render18_Hoyo-transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  },
+  {
+    "id": "hsr-feixiao",
+    "asset": "assets/character-art/hsr-feixiao.webp",
+    "source_file": "Feixiao_Render11_Hoyo-transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  },
+  {
+    "id": "hsr-himeko-nova",
+    "asset": "assets/character-art/hsr-himeko-nova.webp",
+    "source_file": "Himeko_Render20_Hoyo-transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  },
+  {
+    "id": "hsr-silver-wolf",
+    "asset": "assets/character-art/hsr-silver-wolf.webp",
+    "source_file": "Silverwolf_Render4_Hoyo-transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  },
+  {
+    "id": "hsr-stelle",
+    "asset": "assets/character-art/hsr-stelle.webp",
+    "source_file": "Trailblazer_Render17_Hoyo-transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  },
+  {
+    "id": "hsr-welt",
+    "asset": "assets/character-art/hsr-welt.webp",
+    "source_file": "Welt_Render3_Hoyo-transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  },
+  {
+    "id": "hunter-blade",
+    "asset": "assets/character-art/hunter-blade.webp",
+    "source_file": "Blade_Render4_Hoyo-transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  },
+  {
+    "id": "hunter-firefly",
+    "asset": "assets/character-art/hunter-firefly.webp",
+    "source_file": "firefly_Render13_Hoyo-Transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  },
+  {
+    "id": "hunter-kafka",
+    "asset": "assets/character-art/hunter-kafka.webp",
+    "source_file": "Kafka_Render8_Hoyo-transparents.png",
+    "credit": "Honkai: Star Rail · HoYoverse / recorte HoYo Transparents, acervo enviado pelo usuário"
+  }
+]
