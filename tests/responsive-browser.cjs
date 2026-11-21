@@ -381,6 +381,7 @@ async function assertReserve(page,frame,source,label){
     await page.locator('[data-tab="equipment"]').click();
     await assertReserve(page,".gear-card:first-child .gear-thumb",poster,"Pôster de reserva");
     await page.locator('[data-tab="overview"]').click();
+    await page.locator('#detail-section[data-tab="overview"]').waitFor();
     await assertReserve(page,".hero-portrait",poster,"Pôster de reserva");
 
     await page.goto(site+"#/cipher/overview",{waitUntil:"load"});
