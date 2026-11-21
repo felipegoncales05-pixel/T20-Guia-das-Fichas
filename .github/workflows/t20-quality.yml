@@ -1,0 +1,23 @@
+name: Verificação T20
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter repositório
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar bundles de produção
+        run: node scripts/build-site.cjs --check
+      - name: Integridade das fichas históricas
+        run: node tests/site-smoke.cjs
+      - name: Navegação e cards
+        run: node tests/browser-lite.cjs
+      - name: Expansão VIII
+        run: node tests/phase8-smoke.cjs
