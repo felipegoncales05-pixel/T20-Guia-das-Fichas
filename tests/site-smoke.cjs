@@ -3,6 +3,8 @@ const vm=require("node:vm");
 const assert=require("node:assert/strict");
 const files=["index.html","styles.css","responsive.css","rentarou.css","data.js","guide.js","rentarou-guide.js","expansion.js","expansion-runtime.js","expansion.css","mega-data.js","mega-runtime.js","mega.css","catalog.css","catalog-media.js","acheron-samurai.js","heroes-custom.js","d-salvage.js","user-gallery.js","local-media.js","character-art.js","character-art.css","card-worlds.js","card-worlds.css","visual-direction.js","visual-direction.css","signature-finish.css","planned-data.js","planned.css","assets/motifs/capri-hud.webp","assets/motifs/capri-source.json","review-data.js","review.css","character-fx.css","assets/portraits/d-salvage.avif","app.js"];
 files.push("art-portraits.css","assets/planned-art/sources.json","build-concepts.js","build-presets.js");
+files.push("remote-portraits.js");
+new vm.Script(fs.readFileSync("remote-portraits.js","utf8"),{filename:"remote-portraits.js"});
 files.push("rules-catalog.js","class-options.js","herois-variants.js","archive-revisions.js","build-engine.js","build-lab.js","build-lab.css","docs/laboratorio.md","catalog-cover-art.js","assets/card-art/catalog-covers.json","automatic-dossiers.js","catalog-revision.js");
 for(const file of files){assert.ok(fs.existsSync(file),file+" ausente");assert.ok(fs.statSync(file).size>100,file+" vazio");}
 const context={window:{}};
