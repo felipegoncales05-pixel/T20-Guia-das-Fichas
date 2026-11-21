@@ -211,13 +211,15 @@ for(const id of ["em-diamond","em-taravan","em-shuhu"]){
  const c=project.characters.find(x=>x.id===id);
  assert.ok(c.portrait.url.endsWith(".svg")||c.portrait.url.startsWith("data:image/svg+xml"),id+" requer visual pendente");
 }
-assert.match(fs.readFileSync("index.html","utf8"),/local-media\.js"><\/script>\s*<script defer src="\.\/character-art\.js"/);
+const assetOrder=require("../scripts/build-site.cjs".replace("../","./")).js;
+assert.ok(assetOrder.indexOf("local-media.js")<assetOrder.indexOf("character-art.js"),"O retrato local deve carregar antes do registro de artes.");
+assert.match(fs.readFileSync("index.html","utf8"),/site-core\.bundle\.js/);
 const capriSource=JSON.parse(fs.readFileSync("assets/motifs/capri-source.json","utf8"));
 assert.equal(capriSource.asset,"assets/motifs/capri-hud.webp");
 assert.ok(capriSource.source_page.startsWith("https://www.cyberpunk.net/"));
 assert.equal(fs.readFileSync(capriSource.asset).toString("ascii",0,4),"RIFF","Imagem de Capri inválida");
-assert.match(fs.readFileSync("index.html","utf8"),/card-worlds\.css/);
-assert.match(fs.readFileSync("index.html","utf8"),/card-worlds\.js/);
+assert.ok(require("./scripts/build-site.cjs").css.includes("card-worlds.css"),"CSS de identidade ausente do bundle");
+assert.ok(require("./scripts/build-site.cjs").js.includes("card-worlds.js")===false,"O script já é substituído pela versão leve do catálogo");
 assert.equal(context.window.T20_REVIEW.list().length,0,"Uma decisão não pode vir aprovada de fábrica");
 const review=context.window.T20_REVIEW;
 const sample=review.add({type:"regra",character:"diego",variant:"alternative",title:"Conferir custo",body:"Verificar livro antes de aprovar",page:""});
