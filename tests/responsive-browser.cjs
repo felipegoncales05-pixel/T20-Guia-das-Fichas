@@ -179,6 +179,11 @@ async function assertPortraitInFrame(frame,label){
     assert.equal(await celenova.locator('.card-body').evaluate(el=>getComputedStyle(el).borderTopWidth),"0px","Faixa horizontal atravessou Celenova");
     await celenova.screenshot({path:"tests/screenshots/"+width+"-celenova-depois.png"});
     await page.locator("[data-clear-search]").click();
+    await page.locator("#search").fill("Remielle Dan");
+    const remielle=page.locator('[data-open="zzz-remielle"] .photo');
+    await assertPortraitInFrame(remielle,"Card de Remielle Dan");
+    assert.equal(await remielle.locator("img:not(.portrait-underlay)").getAttribute("src"),"./assets/card-art/zzz-remielle.webp");
+    await page.locator("[data-clear-search]").click();
    }
    if([375,1440].includes(width)){
     await page.locator("#universe").selectOption("cyberpunk");

@@ -2212,6 +2212,7 @@ function cardEffect(id){
  if(id==="david")return '<div class="psycho-hud" aria-hidden="true"><span class="psycho-echo"></span><span class="psycho-status">NEURAL LINK // INSTÁVEL</span><span class="psycho-error">ERRO DE SINAL</span></div>';
  return "";
 }
+const cardPortraits={"zzz-remielle":"./assets/card-art/zzz-remielle.webp"};
 function card(c,priority="lazy"){
  const nForms=window.T20_FATE_VARIANTS?.[c.id]?.length||0;
  const alternate=c.id==="diego"?"2 VERSÕES · SCARY MONSTERS / THE WORLD":c.id==="goku"?"4 VERSÕES · DBZ / GT / DAIMA / SUPER":nForms>1?nForms+" VERSÕES · "+window.T20_FATE_VARIANTS[c.id].map(x=>x[1]).join(" / "):"";
@@ -2220,7 +2221,7 @@ function card(c,priority="lazy"){
  const visual=visualFor(shown,mode);
  const cover=!(c.id==="diego"&&mode==="alternative")?window.T20_CATALOG_COVERS?.[c.id]:null;
  const world=archiveCategory(c);
- const featured=displayedMedia(shown,cover?.image||shown.portrait.url,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,
+ const featured=displayedMedia(shown,cover?.image||cardPortraits[shown.id]||shown.portrait.url,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,
   {portrait:true,attrs:cover?' data-cover-volume="'+e(cover.volume||"")+'"':"",priority});
  const button='<button type="button" class="roster-card '+e(c.theme)+'" style="'+visualStyle(visual)+'" data-world="'+e(world)+'"'+visualAttrs(visual)+' data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+(alternate?' · versão '+mode:'')+'">'+
   '<div class="photo">'+portraitUnderlay(shown)+featured+'</div>'+
