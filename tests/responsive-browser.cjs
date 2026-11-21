@@ -39,7 +39,7 @@ async function assertLayout(page,label){
    page.on("pageerror",err=>errors.push(String(err)));
    await page.route(/^https?:\/\//,route=>route.abort()); // Testa também fallbacks de imagens
    await page.goto(site,{waitUntil:"load"});
-   assert.equal(await page.locator(".roster-card").count(),142);
+   assert.equal(await page.locator(".roster-card").count(),298);
    assert.ok(await page.locator(".top-right .top-version").isVisible());
    assert.ok(await page.locator(".hero-mark").isVisible());
    await assertLayout(page,width+" catálogo");
@@ -47,7 +47,20 @@ async function assertLayout(page,label){
    const names=await page.locator(".roster-card h3").allTextContents();
    const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
    assert.deepEqual(names,[...names].sort(collator.compare),width+": fichas fora da ordem alfabética");
-   assert.match(await page.locator("#resultsCount").textContent(),/142 DE 142/);
+   assert.match(await page.locator("#resultsCount").textContent(),/298 DE 298/);
+   await page.locator("#universe").selectOption("fate");
+   assert.equal(await page.locator(".roster-card").count(),98,width+": 98 Espíritos Heroicos de Fate");
+   assert.equal(await page.locator('[data-open="fate-artoria"]').count(),1,width+": Artoria não deve duplicar cards");
+   assert.equal(await page.locator('[data-card-switch="fate-artoria"]').count(),7,width+": faltam formas de Artoria");
+   await page.locator("#universe").selectOption("the-boys");
+   assert.equal(await page.locator(".roster-card").count(),6,width+": grupo principal de The Boys");
+   await page.locator("#universe").selectOption("blue-lock");
+   assert.equal(await page.locator(".roster-card").count(),2,width+": Isagi e Rin");
+   await page.locator("#universe").selectOption("one-punch-man");
+   assert.equal(await page.locator(".roster-card").count(),1,width+": Saitama");
+   await page.locator("#universe").selectOption("kamen-rider");
+   assert.equal(await page.locator(".roster-card").count(),1,width+": Sento Kiryu");
+   await page.locator("#universe").selectOption("all");
    await page.locator("#universe").selectOption("wuwa");
    assert.equal(await page.locator(".roster-card").count(),3,width+": crossover WuWa incompleto");
    await page.locator("#universe").selectOption("overwatch");
@@ -60,6 +73,17 @@ async function assertLayout(page,label){
    await page.locator("#universe").selectOption("all");
 
    
+    if([375,1440].includes(width)){
+      await page.locator('[data-card-switch="fate-artoria"][data-card-mode="alter"]').click();
+      assert.equal(await page.locator('[data-card-switch="fate-artoria"][data-card-mode="alter"]').getAttribute('aria-pressed'),'true',width+': Artoria Alter selecionada');
+      await page.locator('[data-open="fate-artoria"]').click();
+      assert.match(await page.locator('#character-title').textContent(),/Artoria.*Alter/i,width+': dossiê Alter');
+      assert.ok(page.url().includes('/fate-artoria/alter'),width+': URL da versão Alter');
+      await page.locator('[data-fate-character="fate-artoria"][data-fate-mode="caster"]').click();
+      assert.match(await page.locator('#character-title').textContent(),/Caster/i,width+': mudou para Caster Artoria');
+      assert.ok(page.url().includes('/fate-artoria/caster'),width+': URL da Caster');
+      await page.goto(site,{waitUntil:'load'});
+    }
     // Fase III: categoria Chrysos e alternadores de Diego/Goku.
     await page.locator("#universe").selectOption("chrysos");
     const heirs=await page.locator(".roster-card").evaluateAll(nodes=>nodes.map(node=>node.dataset.open));
@@ -82,9 +106,9 @@ async function assertLayout(page,label){
     }
     await page.locator("#search").fill("MAKIMA");
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
-   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 142/);
+   assert.match(await page.locator("#resultsCount").textContent(),/01 DE 298/);
    await page.locator("[data-clear-search]").click();
-   assert.equal(await page.locator(".roster-card").count(),142,width+": limpar busca");
+   assert.equal(await page.locator(".roster-card").count(),298,width+": limpar busca");
    await page.locator("#universe").selectOption("jojo");
    assert.ok(await page.locator(".roster-card").count()>=8,width+": filtro JoJo");
    await page.locator("#universe").selectOption("mha");
@@ -299,10 +323,10 @@ async function assertLayout(page,label){
     await page.locator('.lab-draft').first().waitFor({state:"visible"});
     assert.equal(await page.locator('.lab-draft').count(),1,"Abrir do dossiê duplicou ficha pessoal");
     await page.goto(site,{waitUntil:'load'});
-    assert.equal(await page.locator('.roster-card').count(),142,"Ficha pessoal entrou no catálogo");
+    assert.equal(await page.locator('.roster-card').count(),298,"Ficha pessoal entrou no catálogo");
    }
    assert.deepEqual(errors,[]);
-   console.log("OK viewport "+width+"x"+height+" — 142 dossiês e interações");
+   console.log("OK viewport "+width+"x"+height+" — 298 dossiês e interações");
    await page.close();
   }
   const reduced=await browser.newPage({viewport:{width:375,height:812},reducedMotion:"reduce"});
@@ -316,6 +340,6 @@ async function assertLayout(page,label){
   assert.equal(await reduced.locator('[data-open="d"]').evaluate(el=>el.style.getPropertyValue("--capri-x")),"","HUD reage sob movimento reduzido");
   await reduced.close();
   console.log("Movimento reduzido validado: Capri e David sem animações.");
-  console.log("VALIDADO: 11 viewports, 142 fichas completas e dez builds automáticas sem corte horizontal.");
+  console.log("VALIDADO: 11 viewports, 298 fichas completas e dez builds automáticas sem corte horizontal.");
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

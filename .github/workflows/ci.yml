@@ -42,6 +42,12 @@ jobs:
           node --check umamusume-runtime.js
           node --check crossovers-data.js
           node --check crossovers-runtime.js
+          node --check wave7-data.js
+          node --check wave7-fate.js
+          node --check wave7-forms.js
+          node --check wave7-art.js
+          node --check wave7-runtime.js
+          node --check tests/wave7.cjs
           node --check tests/crossovers.cjs
           node --check tests/umamusume.cjs
           node --check catalog-revision.js
@@ -62,6 +68,7 @@ jobs:
           node tests/site-smoke.cjs
           node tests/umamusume.cjs
           node tests/crossovers.cjs
+          node tests/wave7.cjs
           node tests/browser-lite.cjs
           node tests/herois-variants.cjs
           node tests/class-options.cjs
