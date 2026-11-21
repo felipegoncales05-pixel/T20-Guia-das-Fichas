@@ -157,7 +157,7 @@ function card(c){
  const featuredAttrs=cover?' data-card-fallback="'+imageUrl(shown.portrait.url)+'" data-cover-volume="'+e(cover.volume||"")+'"':"";
  const world=archiveCategory(c);
  const button='<button type="button" class="roster-card '+e(c.theme)+'" style="'+visualStyle(visual)+'" data-world="'+e(world)+'"'+visualAttrs(visual)+' data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+(alternate?' · versão '+mode:'')+'">'+
-  '<div class="photo">'+(["umamusume","konosuba","mushoku","wuwa","dmc","fma","genshin","witcher","overwatch","fate","the-boys","blue-lock","one-punch-man","kamen-rider"].includes(world)||c.id.startsWith("cx-")||c.id.startsWith("jb-")?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">')+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs)+'</div>'+
+  '<div class="photo">'+(["umamusume","konosuba","mushoku","wuwa","dmc","fma","genshin","witcher","overwatch","fate","the-boys","blue-lock","one-punch-man","kamen-rider"].includes(world)||c.id.startsWith("cx-")||c.id.startsWith("jb-")||window.T20_WAVE7?.ids.has(c.id)?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">')+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs)+'</div>'+
   '<div class="art-insignia" aria-hidden="true"><span>'+e(visual.motif)+'</span><i></i></div><span class="art-series" aria-hidden="true">'+e(visual.series)+'</span>'+
   ''+
   '<span class="card-no">DOSSIÊ // '+e(c.number)+'</span><span class="world-mark" aria-hidden="true">'+e(worldMarks[world]||"O SISTEMA")+'</span><span class="card-topline" aria-hidden="true"></span>'+
@@ -503,7 +503,8 @@ document.addEventListener("error",evt=>{
   "https://wsrv.nl/?url="+encodeURIComponent(original)+"&output=webp&w=1000":null;
  const backups=[...(window.T20_MEDIA_BACKUPS?.[original]||[]),
   im.dataset.cardFallback,proxy,im.dataset.posterFallback,
-  window.T20_MEDIA_POSTERS?.[original]].filter(Boolean);
+  window.T20_MEDIA_POSTERS?.[original],
+  data.characters.find(x=>x.id===(im.closest(".roster-card")?.dataset.open||getRoute().character?.id))?.portrait?.fallback].filter(Boolean);
  const tried=(im.dataset.triedSources||"").split("|").filter(Boolean);
  if(!tried.includes(original))tried.push(original);
  const local=im.closest(".roster-card")?.dataset.open||getRoute().character?.id;
