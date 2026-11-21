@@ -16,7 +16,15 @@ const url=(u)=>/^https:\/\//.test(String(u||""))?e(u):"#";
 const imageUrl=(u)=>String(u||"").startsWith("data:image/svg+xml;charset=utf-8,")||/^\.\/assets\/(?:portraits|art|art-optimized|card-art|character-art|planned-art)\/[a-z0-9-]+\.(?:svg|webp|avif|png|jpg)$/.test(String(u||""))?e(u):url(u);
 const icon=(v)=>e(v||"◈");
 const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
-const failedImageSources=new Set();
+const brokenImageKey="t20-broken-images-session";
+let failedFromSession=[];
+try{failedFromSession=JSON.parse(sessionStorage.getItem(brokenImageKey)||"[]")}catch{}
+const failedImageSources=new Set(Array.isArray(failedFromSession)?failedFromSession:[]);
+function rememberFailedImage(src){
+ if(!/^https:\/\//.test(src))return;
+ failedImageSources.add(src);
+ try{sessionStorage.setItem(brokenImageKey,JSON.stringify([...failedImageSources].slice(-400)))}catch{}
+}
 const normalizeSearch=(v)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").replace(/[^a-z0-9]+/g," ").trim();
 const archiveCategory=(c)=>c.catalogCategory||(["gyro","diego"].includes(c.id)?"jojo":["cipher","cyrene"].includes(c.id)?"chrysos":["rentarou","marin"].includes(c.id)?"romcom":["yoru","makima"].includes(c.id)?"chainsaw":c.id==="ado"?"music":c.id==="optimus"?"transformers":"cyberpunk");
 const archiveTerms=(c)=>normalizeSearch([c.name,c.universe,c.label,c.info?.className,c.info?.origin,c.info?.race,c.info?.role,c._mega?.identity,c.id==="goku"?"Dragon Ball Z GT Daima Super":"",window.T20_FATE_VARIANTS?.[c.id]?.map(x=>[x[1],x[2].name,x[2].info?.className,x[2]._wave7?.fateClass].join(" ")).join(" ")||""].filter(Boolean).join(" "));
@@ -496,10 +504,10 @@ document.addEventListener("error",evt=>{
  // Elementos decorativos não devem substituir a ilustração principal por um bloco de erro.
  if(im.classList.contains("portrait-underlay")||im.closest(".capri-hud")){im.remove();return}
  const original=im.getAttribute("src")||"";
- if(/^https:\/\//.test(original))failedImageSources.add(original);
+ rememberFailedImage(original);
  // Recuperação: fontes alternativas, proxy de imagens e pôster do personagem.
  const proxy=/^https:\/\/(?!wsrv\.nl\/)/i.test(original)?
-  "https://wsrv.nl/?url="+encodeURIComponent(original)+"&output=webp&w=1000":null;
+  "https://wsrv.nl/?url="+encodeURIComponent(original)+"&output=webp&w=720":null;
  const backups=[...(window.T20_MEDIA_BACKUPS?.[original]||[]),
   im.dataset.cardFallback,proxy,im.dataset.posterFallback,
   window.T20_MEDIA_POSTERS?.[original],
