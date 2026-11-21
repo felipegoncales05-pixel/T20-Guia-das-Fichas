@@ -157,6 +157,8 @@ async function assertLayout(page,label){
     await page.locator("#universe").selectOption("cyberpunk");
     assert.equal(await page.locator(".roster-card").count(),2);
     const capri=page.locator('[data-open="d"] .capri-gaze');
+    // A HUD fica ativa somente enquanto o card recebe interação.
+    await page.locator('[data-open="d"]').hover();
     await capri.scrollIntoViewIfNeeded();
     await page.waitForFunction(()=>document.querySelector('[data-open="d"] .capri-gaze')?.naturalWidth>0);
     assert.ok(await capri.evaluate(el=>el.naturalWidth>0),"Retrato local da Capri não carregou");
@@ -171,6 +173,7 @@ async function assertLayout(page,label){
     assert.ok(laugh>.9&&mouth.opacity>.9&&mouth.transform!=="none"&&mouth.loaded,"Boca e risada da Capri fora de sincronia");
     await page.locator("#roster").screenshot({path:"tests/screenshots/"+width+"-capri-risada.png"});
     for(const selector of [".capri-laugh",".capri-mouth"])await page.locator(selector).evaluate(el=>el.getAnimations()[0].currentTime=0);
+    await page.locator('[data-open="david"]').hover();
     const opacity=await page.locator(".psycho-echo").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13620;return Number(getComputedStyle(el).opacity)});
     await page.locator(".psycho-error").evaluate(el=>{const a=el.getAnimations()[0];a.pause();a.currentTime=13620});
     assert.ok(opacity>0&&opacity<=.18,"Glitch de David intenso ou ausente: "+opacity);
