@@ -1698,7 +1698,7 @@ window.T20_WAVE8_IDS=seeds.map(s=>s.id);
  for(const c of primary){
   guide.people[c.id]=c._guide;
   if(w.T20_VISUAL){
-   const palettes={jojo:"manga",fate:"astral","the-boys":"brutal",
+   const palettes={jojo:"manga",fate:"astral",hsr:"astral","the-boys":"brutal",
     dmc:"brutal","one-punch-man":"heroic","blue-lock":"heroic","kamen-rider":"machine"};
    w.T20_VISUAL.profiles[c.id]=[c._crossover.styles[0].toUpperCase().slice(0,14),
     palettes[c.catalogCategory]==="fantasy"?"gothic":palettes[c.catalogCategory]||"manga",
@@ -2011,7 +2011,7 @@ const charById=(id)=>id==="goku"&&window.T20_GOKU_VARIANTS?.[gokuMode]?window.T2
  id==="diego"&&diegoMode==="alternative"&&window.T20_ALTERNATES?.diego?.alternative?window.T20_ALTERNATES.diego.alternative:
  window.T20_FATE_VARIANTS?.[id]?variantByKey(id,catalogModes[id]||"principal"):
  data.characters.find(c=>c.id===id);
-function image(src,alt,css="",attrs=""){return '<img class="'+e(css)+'" '+attrs+' loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
+function image(src,alt,css="",attrs="",priority="lazy"){return '<img class="'+e(css)+'" '+attrs+' loading="'+(priority==="eager"?"eager":"lazy")+'" decoding="async" referrerpolicy="no-referrer" src="'+imageUrl(src)+'" alt="'+e(alt)+'">'}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),3200)}
 function note(text){return '<aside class="system-note"><span class="who">O SISTEMA // OBSERVAÇÃO</span><p>'+e(text)+'</p></aside>'}
 
@@ -2137,10 +2137,10 @@ function card(c){
  const featuredAttrs=cover?' data-card-fallback="'+imageUrl(safePortrait)+'" data-cover-volume="'+e(cover.volume||"")+'"':"";
  const world=archiveCategory(c);
  const underlay=window.T20_WAVE7?.ids.has(c.id)?
-  (shown.portrait.fallback?'<img class="portrait-underlay" src="'+imageUrl(shown.portrait.fallback)+'" alt="" aria-hidden="true" loading="lazy" decoding="async">':""):
+  (shown.portrait.fallback?'<img class="portrait-underlay" src="'+imageUrl(shown.portrait.fallback)+'" alt="" aria-hidden="true" loading="eager" decoding="async">':""):
   (["umamusume","konosuba","mushoku","wuwa","dmc","fma","genshin","witcher","overwatch","fate","the-boys","blue-lock","one-punch-man","kamen-rider"].includes(world)||c.id.startsWith("cx-")||c.id.startsWith("jb-")?"":'<img class="portrait-underlay" src="./assets/portraits/'+e(c.id)+'.svg" alt="" aria-hidden="true" loading="lazy" decoding="async">');
  const button='<button type="button" class="roster-card '+e(c.theme)+'" style="'+visualStyle(visual)+'" data-world="'+e(world)+'"'+visualAttrs(visual)+' data-open="'+e(c.id)+'" aria-label="Abrir ficha de '+e(c.name)+(alternate?' · versão '+mode:'')+'">'+
-  '<div class="photo">'+underlay+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs)+'</div>'+
+  '<div class="photo">'+underlay+image(featuredImage,(cover?"Capa editorial de ":"Retrato ilustrativo de ")+shown.name,"",featuredAttrs,"eager")+'</div>'+
   '<div class="art-insignia" aria-hidden="true"><span>'+e(visual.motif)+'</span><i></i></div><span class="art-series" aria-hidden="true">'+e(visual.series)+'</span>'+
   ''+
   '<span class="card-no">DOSSIÊ // '+e(c.number)+'</span><span class="world-mark" aria-hidden="true">'+e(worldMarks[world]||"O SISTEMA")+'</span><span class="card-topline" aria-hidden="true"></span>'+
