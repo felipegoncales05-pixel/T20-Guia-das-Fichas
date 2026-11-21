@@ -78,10 +78,10 @@ async function assertLayout(page,label){
       assert.equal(await page.locator('[data-card-switch="fate-artoria"][data-card-mode="alter"]').getAttribute('aria-pressed'),'true',width+': Artoria Alter selecionada');
       await page.locator('[data-open="fate-artoria"]').click();
       assert.match(await page.locator('#character-title').textContent(),/Artoria.*Alter/i,width+': dossiê Alter');
-      assert.match(page.url(),/fate-artoria\\/alter/,width+': URL da versão Alter');
+      assert.ok(page.url().includes('/fate-artoria/alter'),width+': URL da versão Alter');
       await page.locator('[data-fate-character="fate-artoria"][data-fate-mode="caster"]').click();
       assert.match(await page.locator('#character-title').textContent(),/Caster/i,width+': mudou para Caster Artoria');
-      assert.match(page.url(),/fate-artoria\\/caster/,width+': URL da Caster');
+      assert.ok(page.url().includes('/fate-artoria/caster'),width+': URL da Caster');
       await page.goto(site,{waitUntil:'load'});
     }
     // Fase III: categoria Chrysos e alternadores de Diego/Goku.
