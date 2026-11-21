@@ -33,7 +33,7 @@ function checkMedia(value,label,required=true){
  }else if(isPoster(src)){poster++;dataPosters.push(label)}
  else errors.push(label+" usa URL não reconhecida: "+src.slice(0,120));
 }
-assert.equal(catalog.length,319,"O catálogo não contém 319 fichas");
+assert.equal(catalog.length,319+(w.T20_COSMOS_DATA?.seeds.length||0),"A expansão deve preservar as 319 fichas anteriores");
 for(const c of catalog){
  const portrait=c.portrait||{};
  checkMedia(portrait.url,c.id+" / retrato");

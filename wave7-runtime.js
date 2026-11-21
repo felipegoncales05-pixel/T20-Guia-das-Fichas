@@ -3,8 +3,9 @@
  * Direitos de personagens, artes e regras reservados a seus titulares. */
 (()=>{
  "use strict";
- const w=window,data=w.T20_DATA,guide=w.T20_GUIDE,rules=w.T20_RULES,
-  opts=w.T20_CLASS_OPTIONS,seeds=[...(w.T20_WAVE7_SEEDS||[]),...(w.T20_WAVE7_FATE_SEEDS||[])],base=w.T20_UMA;
+ const w=window,data=w.T20_DATA,guide=w.T20_GUIDE,rules=w.T20_RULES,cosmos=w.T20_COSMOS_BUILDS,
+  extension=w.T20_COSMOS_DATA,
+  opts=w.T20_CLASS_OPTIONS,seeds=[...(w.T20_WAVE7_SEEDS||[]),...(w.T20_WAVE7_FATE_SEEDS||[]),...(extension?.seeds||[])],base=w.T20_UMA;
  const altSpecs=w.T20_WAVE7_ALT_SPECS||[];
  if(!seeds.length||!altSpecs.length)throw Error("Dados da fase VII ausentes");
  const indexed=new Map(seeds.map(x=>[x.id,x]));
@@ -21,7 +22,7 @@
    styles:[spec.identity,"Controle da forma e custo de mana","Golpe Nobre convertido em efeito oficial","Clímax limitado aos poderes adquiridos"],
    isAlt:true};
  });
- const allSeeds=[...seeds,...altSeeds];
+ const allSeeds=[...seeds,...altSeeds,...(extension?.forms||[])];
  const classPlans={
   Arcanista:["Caminho do Arcanista e magias de 1º círculo","Conhecimento Mágico (selecionar se permitido)","Poder Mágico (escolha a validar)","Magia Pungente ou Magia Discreta, após verificar requisitos","Magias do 2º círculo e controle de alcance","Defesa com Campo de Força se conhecida","Aumento de atributo-chave, mediante poder adquirido","Aprimoramentos de magias e limite de PM","Magias do 3º círculo se habilitado","Conhecimento Mágico adicional (avaliar repetição)","Proteção e resistência contra magias","Conjuração decisiva e recursos sustentáveis"],
   Bardo:["Inspiração e magias iniciais","Poder de Atuação com requisitos","Magia discreta (opção)","Melodia de apoio, se escolhida","Magias do 2º círculo e Inspiração","Aumento de Carisma se poder adquirido","Técnica de controle mental quando aprendida","Recursos de Inspiração e repertório","Magias do 3º círculo e proteção","Perícia social e magia sustentada","Aprimoramento de Atuação (selecionar)","Apresentação suprema limitada por PM"],
@@ -52,7 +53,7 @@
   }
   seed.number=seed.isAlt?(indexed.get(seed.parentId)?.number||0):143+i;
   if(!seed.isAlt)indexed.set(seed.id,seed);
-  seed.levels=seed.levels?.length===12?seed.levels.map((step,n)=>
+  seed.levels=seed.build?Array(12).fill(seed.tactic):seed.levels?.length===12?seed.levels.map((step,n)=>
    (classPlans[seed.className]?.[n]||"Escolha de classe sujeita a regra")+". "+step):createLevels(seed);
  }
 
@@ -124,7 +125,7 @@
   return (cl?.grants?.[n]||[]).map(abilityName);
  };
  for(const s of allSeeds){
-  const race=races[s.race],cl=classes[s.className],profile=buy[s.profile];
+  const race=s.build?cosmos.raceFor(s):races[s.race],cl=classes[s.className],profile=s.build?cosmos.attributesFor(s):buy[s.profile];
   if(owned.has(s.id)||byId[s.id]||!race||!cl||!profile||s.levels.length!==12)throw Error("Ficha inválida: "+s.id);
   if(Object.values(profile).reduce((a,v)=>a+(costs[String(v)]??99),0)!==10)throw Error("Compra não fecha 10: "+s.id);
   if(s.variant&&!opts.variants[s.variant.toLowerCase()])throw Error("Variante não mapeada: "+s.variant);
@@ -166,7 +167,7 @@
   const htmlEscape=v=>String(v??"").replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
   const color=/^#[0-9a-f]{6}$/i.test(s.color)?s.color:"#9ca5d1";
   const short=htmlEscape(s.name.length>27?s.name.slice(0,26)+"…":s.name);
-  const big=htmlEscape(s.name.split(/[ -]/).filter(Boolean).slice(0,2).map(x=>x.charAt(0)).join("").toUpperCase()||"◆");
+  const big=htmlEscape(s.posterMark||s.name.split(/[ -]/).filter(Boolean).slice(0,2).map(x=>x.charAt(0)).join("").toUpperCase()||"◆");
   const poster="<svg xmlns='http://www.w3.org/2000/svg' width='600' height='840' viewBox='0 0 600 840'>"+
    "<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#101a2d'/><stop offset='1' stop-color='#070e18'/></linearGradient></defs>"+
    "<rect width='600' height='840' fill='url(#g)'/><circle cx='300' cy='330' r='218' fill='none' stroke='"+color+"' stroke-width='5' opacity='.55'/>"+
@@ -279,7 +280,8 @@
   };
   c._variantSeed=!!s.isAlt;
   c._wave7={...c._crossover,arc:s.arc,fateClass:s.fateClass||"",parentId:s.parentId||null,
-   key:s.key||"principal",formLabel:s.label||"Principal"};
+   key:s.key||s.formKey||"principal",formLabel:s.label||"Principal"};
+  if(s.build)cosmos.apply(c,s);
   made.push(c);byId[c.id]=c;
  }
  if(made.length!==allSeeds.length||new Set(made.map(c=>c.id)).size!==allSeeds.length)throw Error("Fase VII incompleta");
@@ -291,34 +293,39 @@
  for(const c of primary){
   guide.people[c.id]=c._guide;
   if(w.T20_VISUAL){
-   const palettes={jojo:"manga",fate:"astral",hsr:"astral","the-boys":"brutal",
+   const palettes={jojo:"manga",fate:"astral",hsr:"astral",cdz:"astral",cyberpunk:"machine","murder-drones":"machine","the-boys":"brutal",
     dmc:"brutal","one-punch-man":"heroic","blue-lock":"heroic","kamen-rider":"machine"};
    w.T20_VISUAL.profiles[c.id]=[c._crossover.styles[0].toUpperCase().slice(0,14),
     palettes[c.catalogCategory]==="fantasy"?"gothic":palettes[c.catalogCategory]||"manga",
     "prism","spine",seeds.find(s=>s.id===c.id).color,"#172331"];
-   w.T20_VISUAL.finishes[c.id]=c.catalogCategory==="fate"?"gold":
+   w.T20_VISUAL.finishes[c.id]=["fate","cdz"].includes(c.catalogCategory)?"gold":
     c.catalogCategory==="kamen-rider"?"circuitry":"ink";
   }
  }
- const variantMap={};
+ const variantMap={},dossierForms={};
+ const variantParents=new Set((extension?.forms||[]).map(s=>s.parentId));
  for(const c of primary.filter(c=>c.catalogCategory==="fate"))variantMap[c.id]=[["principal",c._wave7.fateClass||"Base",c]];
+ for(const c of primary.filter(c=>variantParents.has(c.id)))dossierForms[c.id]=[[c._wave7.key,c._wave7.formLabel,c]];
  for(const alternate of alternatives){
   const parent=alternate._wave7.parentId;
-  if(!variantMap[parent])throw Error("Forma sem card original: "+parent);
+  const forms=alternate._cosmos?dossierForms[parent]:variantMap[parent];
+  if(!forms)throw Error("Forma sem card original: "+parent);
   const key=alternate._wave7.key,label=alternate._wave7.formLabel;
   alternate.id=parent; // A página é única; esta ficha é uma versão selecionável.
-  variantMap[parent].push([key,label,alternate]);
+  forms.push([key,label,alternate]);
   if(w.T20_VISUAL){
    const related=w.T20_VISUAL.profiles[parent]||["FATE","astral","prism","spine","#c9b38a","#172331"];
-   w.T20_VISUAL.variations[parent+":"+key]=[label.toUpperCase(),"astral","prism","spine",
-    altSpecs.find(x=>x.parentId===parent&&x.key===key)?.color||related[4],related[5]];
+   w.T20_VISUAL.variations[parent+":"+key]=[label.toUpperCase(),alternate._cosmos?related[1]:"astral","prism","spine",
+    allSeeds.find(x=>x.parentId===parent&&x.key===key)?.color||related[4],related[5]];
    w.T20_VISUAL.finishes[parent+":"+key]="gold";
   }
  }
  const ids=new Set(primary.map(c=>c.id));
  function delta(c,n,k){return 0;}
  function stats(c,n){
-  const lvl=Math.min(12,Math.max(1,Number(n)||1)),s=c._crossover,cl=classes[s.className],
+  const lvl=Math.min(12,Math.max(1,Number(n)||1));
+  if(c._cosmos)return cosmos.stats(c,lvl);
+  const s=c._crossover,cl=classes[s.className],
    race=s.raceData,attr=Object.fromEntries(c.attrs.map(a=>[a.key,a.value]));
   const extra=race.extraPMPerLevel?lvl:race.extraPMOdd?Math.ceil(lvl/2):0;
   const initialRacePM=race.extraPMPerLevel||race.extraPMOdd?1:0;
@@ -339,12 +346,15 @@
   };
  }
  function skill(c,entry,n){
-  const lvl=Math.min(12,Math.max(1,Number(n)||1)),a=skillAttr[entry[0]]||"INT";
+  const lvl=Math.min(12,Math.max(1,Number(n)||1));
+  if(c._cosmos)return cosmos.skill(c,entry[0],lvl);
+  const a=skillAttr[entry[0]]||"INT";
   const base=c.attrs.find(x=>x.key===a)?.value||0;
   return fmt(base+2+Math.floor(lvl/2)+(lvl>=7?2:0));
  }
  function draftById(id,engine){
   const c=byId[id];if(!c||!engine)return null;
+  if(c._cosmos)return cosmos.draft(c);
   const d=engine.makeDraft({catalogId:id,name:c.name,work:c.universe,theme:c.catalogCategory});
   d.attributes=Object.fromEntries(c.attrs.map(a=>[a.key,a.buy]));
   const cls=classId(c._crossover.className);
@@ -367,4 +377,5 @@
  w.T20_WAVE7={count:primary.length,forms:alternatives.length,ids,characters:primary,
   seeds:allSeeds,alternatives,variantMap,races,classes,stats,skill,delta,draftById};
  w.T20_FATE_VARIANTS=variantMap;
+ w.T20_DOSSIER_VARIANTS=dossierForms;
 })();
