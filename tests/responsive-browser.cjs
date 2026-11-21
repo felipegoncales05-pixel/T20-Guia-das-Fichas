@@ -123,6 +123,7 @@ async function assertLayout(page,label){
       if([375,1440].includes(width))await page.locator('[data-open="'+id+'"]').screenshot({path:"tests/screenshots/"+width+"-"+id+"-fase3-depois.png"});
     }
     await page.locator("#search").fill("MAKIMA");
+   await page.waitForFunction(()=>document.querySelectorAll(".roster-card").length===1,{timeout:5000});
    assert.equal(await page.locator(".roster-card").count(),1,width+": busca por personagem");
    assert.match(await page.locator("#resultsCount").textContent(),/01 DE 319/);
    await page.locator("[data-clear-search]").click();
@@ -146,6 +147,7 @@ async function assertLayout(page,label){
     if([375,1440].includes(width))await page.locator('[data-open="toji"]').screenshot({path:"tests/screenshots/"+width+"-toji-ficha-ativa.png"});
    if([375,1440].includes(width)){
     await page.locator("#search").fill("Celenova");
+    await page.waitForFunction(()=>document.querySelector('[data-open="em-celenova"]')&&document.querySelectorAll(".roster-card").length===1,{timeout:5000});
     const celenova=page.locator('[data-open="em-celenova"]');
     const celenovaArt=celenova.locator('img:not(.portrait-underlay)');
     await celenovaArt.scrollIntoViewIfNeeded();
