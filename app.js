@@ -564,7 +564,34 @@ function updateLevel(v){
  document.querySelectorAll("[data-current-attr]").forEach(node=>{const a=c.attrs.find(v=>v.key===node.dataset.currentAttr);if(a)node.textContent=fmt(a.value+attrDelta(c,selectedLevel,a.key))});
 }
 
-function render(){const route=getRoute();const selected=route.character||route.planned;const key=route.atlas?"atlas/"+route.atlasSlug:route.lab?"lab/"+route.seedId:route.board?"board":selected?selected.id+"/"+activeVariant(selected.id)+"/"+route.tab:"library";if(key===lastRoute)return;if(!route.planned)document.body.removeAttribute("data-pending");if(!route.lab)document.body.removeAttribute("data-lab");const previous=lastRoute;const sameCharacter=!!selected&&previous.startsWith(selected.id+"/");if(route.lab){window.T20_LAB?.render(root,route.seedId);lastRoute=key}else if(route.atlas){window.T20_ATLAS.render(root,route.atlasSlug);lastRoute=key}else if(route.board)reviewBoard();else if(route.planned)plannedDetail(route.planned,route.tab);else if(route.character)detail(route.character,route.tab);else listView();if(sameCharacter){const nav=document.querySelector?.(".detail-tabs");if(nav?.scrollIntoView)nav.scrollIntoView({block:"start",behavior:"instant"});else window.scrollTo({top:0,behavior:"instant"});const active=document.getElementById("tab-"+route.tab);active?.focus?.({preventScroll:true})}else window.scrollTo({top:0,behavior:"instant"})}
+function render(){
+ const route=getRoute();
+ const selected=route.character||route.planned;
+ const key=route.atlas?"atlas/"+route.atlasSlug:route.lab?"lab/"+route.seedId:route.board?"board":
+   selected?selected.id+"/"+activeVariant(selected.id)+"/"+route.tab:"library";
+ const previous=lastRoute;
+ const commit=()=>{
+  if(key===lastRoute)return;
+  if(!route.planned)document.body.removeAttribute("data-pending");
+  if(!route.lab)document.body.removeAttribute("data-lab");
+  if(!route.atlas&&previous.startsWith("atlas/"))window.T20_ATLAS.leave();
+  if(route.lab){window.T20_LAB?.render(root,route.seedId);lastRoute=key}
+  else if(route.atlas){window.T20_ATLAS.render(root,route.atlasSlug);lastRoute=key}
+  else if(route.board)reviewBoard();
+  else if(route.planned)plannedDetail(route.planned,route.tab);
+  else if(route.character)detail(route.character,route.tab);
+  else listView();
+  if(selected&&previous.startsWith(selected.id+"/")){
+   const nav=document.querySelector?.(".detail-tabs");
+   if(nav?.scrollIntoView)nav.scrollIntoView({block:"start",behavior:"instant"});
+   else window.scrollTo({top:0,behavior:"instant"});
+   document.getElementById("tab-"+route.tab)?.focus?.({preventScroll:true});
+  }else window.scrollTo({top:0,behavior:"instant"});
+ };
+ const motion=window.T20_ATLAS_MOTION;
+ if(motion)motion.navigate(root,previous,key,commit);
+ else commit();
+}
 function copySummary(c){const a=c.attrs.map(x=>x.key+" "+(x.value>=0?"+":"")+x.value).join(" · ");const st=statFor(c,selectedLevel);return [c.name+" — T20 | O Sistema",c.info.race+" / "+c.info.className+" / "+c.info.origin,"Nível "+selectedLevel+": PV "+st.pv+" · PM "+st.pm+" · Defesa "+st.defense+" · "+st.extra,a,"Habilidades iniciais: "+c.initial.join("; "),"Progressão: "+c.progression.map(x=>"Nv. "+x[0]+": "+x[1]).join(" | "),"Fontes: "+data.rulebooks.map(b=>b.url).join(" ; ")].join("\n")}
 document.addEventListener("click",evt=>{
  if(evt.target.closest("[data-scroll-roster]")){document.getElementById("catalogo")?.scrollIntoView?.({block:"start",behavior:"smooth"});return}

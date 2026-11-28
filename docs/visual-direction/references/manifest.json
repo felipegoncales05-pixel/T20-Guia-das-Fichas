@@ -1,0 +1,944 @@
+[
+  {
+    "universo": "Fate",
+    "id": "fate",
+    "dossies": 98,
+    "pontoDePartida": "https://www.fate-sn.com/",
+    "tipo": "site oficial e captura de jogo fornecida",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://fate-go.us/",
+        "urlFinal": "https://fate-go.us/",
+        "captura": "fate-us.jpg",
+        "sha256": "df15b511e687f24911ac3796c848348eaa805bc01049e8925af468c8a7fafbf1"
+      },
+      {
+        "origem": "Imagem incluída no texto do proprietário",
+        "contexto": "https://www.fate-go.jp/",
+        "url": "https://images.openai.com/static-rsc-4/dYbtS-QcN_bxgDSSWPsiIvyBA2mUF2DkBS4hJCZL-bnIbL4fSXErn5098cr08sDzuWzFeU8U-I6t9nqINrbTfpuDLdZj7vv_cfY4s5z_N1SkigsTWMTntRvzqXJiA2jMpDOfiFSwKw0z5NViCd2WPpKhI7WfCVS5ndpqYV6mZS4?purpose=inline",
+        "captura": "user-fate-ui.jpg",
+        "sha256": "03e624f1f8b8c67603a407f7900033b06d4ee8e8e5cb73c7076eeeed6487cbb8"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.fate-sn.com/",
+        "urlFinal": "https://www.fate-sn.com/",
+        "captura": "fate-stay-night.jpg",
+        "sha256": "0ee6a83054834a7de12dad5a0adf09ed2b24cabaac30b30e0079d1e9f52dc600"
+      }
+    ],
+    "observado": "Navegação azul estreita e capas emolduradas em ouro. A invocação usa anéis ciano concêntricos com foco axial único. Heaven’s Feel desloca o foco para a margem editorial violeta.",
+    "traducao": "Palco axial no registro. Anéis achatados em perspectiva, medalhões laterais e índice em formato de cartas. Em ZERO e Apocrypha mudam a prancha e a geometria da moldura."
+  },
+  {
+    "universo": "Cavaleiros do Zodíaco",
+    "id": "cavaleiros-do-zodiaco",
+    "dossies": 90,
+    "pontoDePartida": "https://www.toei-animation.com/catalog/saint-seiya/",
+    "tipo": "catálogo oficial da Toei",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.toei-animation.com/catalog/saint-seiya/",
+        "urlFinal": "https://www.toei-animation.com/catalog/saint-seiya/",
+        "captura": "saint-seiya-toei.jpg",
+        "sha256": "907e5debb4304f116aacde382eb16c7a3aa5365adf3dd5cf556412405612b30a"
+      }
+    ],
+    "observado": "Cabeçalho branco e vermelho, faixas de catálogo. A arte do banner sobrepõe armaduras metálicas à mancha azul-violeta e a diagonais azuis.",
+    "traducao": "Dourado e pedra sobre céu noturno. Portal monumental de pilastras, escadaria e constelação. Resultados como placas de santuário."
+  },
+  {
+    "universo": "JoJo's Bizarre Adventure",
+    "id": "jojo-s-bizarre-adventure",
+    "dossies": 65,
+    "pontoDePartida": "https://jojo-portal.com/",
+    "tipo": "site oficial com sobreposição e arte catalogada",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://jojo-portal.com/",
+        "urlFinal": "https://jojo-portal.com/",
+        "captura": "jojo-s-bizarre-adventure.jpg",
+        "sha256": "06d00e02f01a514d67f07c7db2ec75fed2f18529fe03243d5b58a8d86e95d39d"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/character-art/jojo-jolyne.webp",
+        "captura": "jojo-local.jpg",
+        "sha256": "c2974de2b685a938f71f384646413947cd65f3175243cff42e65e4584a8ffd3c"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://jojo-portal-anime.com/sbr/",
+        "urlFinal": "https://jojo-portal.com/anime/sbr/",
+        "captura": "jojo-sbr.jpg",
+        "sha256": "961d217fad9cfc9e1348ffbe074c8b2ac16efc32277e0e570c9879a0c6631d07"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/character-art/jojo-johnny.webp",
+        "captura": "sbr-local.jpg",
+        "sha256": "b688995d3e03dcfae117120e59d2e3ffcea5b59e460053f9eed59cb952138660"
+      },
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://jojo-portal.com/",
+        "midia": "https://jojo-portal.com/wp-content/themes/jojo-portal/assets/images/common/common/ogp_02.png",
+        "captura": "jojo-keyvisual.jpg",
+        "sha256": "adc28b70b3949dc26435201451c9e3cb44de331da3f65826d84bb5141ca53294"
+      },
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://jojo-portal-anime.com/sbr/",
+        "midia": "https://jojo-portal-anime.com/sbr/assets/images/common/ogp4.png",
+        "captura": "sbr-keyvisual.jpg",
+        "sha256": "14c621acfe2ba930a5dc1afdeb625f156674c7ecadce95c3ada76a91546652c4"
+      }
+    ],
+    "observado": "Cores rosa, ciano e tons de papel. Recortes diagonais, figura fragmentada e impressão contrastada. O anúncio de SBR usa moldura de ferraduras em turquesa sobre fundo ocre. A capa oficial de Steel Ball Run traz sol vermelho, poeira ocre e bordas ciano.",
+    "traducao": "Capa de revista em quadros oblíquos com retícula. SBR usa cartaz de corrida com curvas de Spin e contraste turquesa/ocre."
+  },
+  {
+    "universo": "Uma Musume",
+    "id": "uma-musume",
+    "dossies": 57,
+    "pontoDePartida": "https://umamusume.com/",
+    "tipo": "site oficial da Cygames",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://umamusume.com/",
+        "urlFinal": "https://umamusume.com/",
+        "captura": "uma-musume.jpg",
+        "sha256": "2a6fce5f715f80e702d55334eca68c1070b2d9ee0d63b9645804697b43c55987"
+      }
+    ],
+    "observado": "Cabeçalho azul regular, pistas verdes oblíquas e organização competitiva com acentos rosa e branco.",
+    "traducao": "Placar verde com curvas de raia e separadores de chegada. Resultados em faixas horizontais."
+  },
+  {
+    "universo": "Honkai: Star Rail",
+    "id": "honkai-star-rail",
+    "dossies": 36,
+    "pontoDePartida": "https://hsr.hoyoverse.com/en-us/",
+    "tipo": "site oficial e captura de compêndio fornecida",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://hsr.hoyoverse.com/en-us/character",
+        "urlFinal": "https://hsr.hoyoverse.com/en-us/character",
+        "captura": "honkai-characters.jpg",
+        "sha256": "14eb0887070533a1400863456f6a38a736362c1a5925975002f4792b13b95e14"
+      },
+      {
+        "origem": "Imagem incluída no texto do proprietário",
+        "contexto": "https://hsr.hoyoverse.com/en-us/character",
+        "url": "https://images.openai.com/static-rsc-4/PbLP4ro4kMZCQ0Vj_-JhpazfhFaPL7pygPFbsiBGkExYmzk5PoWRIL-yTqOeBmDMkJalsoIynZWBUdK_2ea8ysowCwFgelG_zqOWOApxHI-L1JNHoDonnfEKgqP8cmI1L07paEvih69C9bZ74FbjXiKYctaoVvqLgTZdeKC3_qs?purpose=inline",
+        "captura": "user-honkai-ui.jpg",
+        "sha256": "02cf6859c3592665772f7d52934877c76e61d67ec760d5fd2877f39f5b02dabc"
+      }
+    ],
+    "observado": "Cartas altas sobre nebulosa azul, menu vertical de grupos, navegação dourada contida e molduras leves.",
+    "traducao": "Compêndio à esquerda e cartografia orbital no centro. Cartas verticais com serifas preservadas e conteúdo de Chrysos distinguível pelo registro temático."
+  },
+  {
+    "universo": "The Boys",
+    "id": "the-boys",
+    "dossies": 12,
+    "pontoDePartida": "https://www.primevideo.com/detail/The-Boys/0KRGHGZCHKS920ZQGY5LBRF7MA",
+    "tipo": "página oficial de distribuição",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.primevideo.com/detail/The-Boys/0KRGHGZCHKS920ZQGY5LBRF7MA",
+        "urlFinal": "https://www.primevideo.com/detail/The-Boys/0KRGHGZCHKS920ZQGY5LBRF7MA",
+        "captura": "the-boys.jpg",
+        "sha256": "418e3d1fd8ffc0296c64eb29a8e33b8112ce2371ab96fe575c3cd4f90b311dd7"
+      }
+    ],
+    "observado": "Concreto quase branco, riscos vermelhos inclinados, roupa azul escura e título branco com gesto irregular.",
+    "traducao": "Publicação de campanha com faixas diagonais e cruz de impressão. Placas de dossier com chamada curta."
+  },
+  {
+    "universo": "Cyberpunk",
+    "id": "cyberpunk",
+    "dossies": 7,
+    "pontoDePartida": "https://www.cyberpunk.net/us/en/",
+    "tipo": "site oficial e estudo visual fornecido",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.cyberpunk.net/us/en/",
+        "urlFinal": "https://www.cyberpunk.net/us/en/",
+        "captura": "cyberpunk.jpg",
+        "sha256": "bea68f2780be44a6301c0ae34009aa0c63de098e593900ca992cc8fafb2a7164"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.cyberpunk.net/en/edgerunners2",
+        "urlFinal": "https://www.cyberpunk.net/en/edgerunners2",
+        "captura": "cyberpunk-edgerunners.jpg",
+        "sha256": "3481ab9167b4ac986bdc3ea361153f7a7255f964a03e75a7a92b94b76e985589"
+      },
+      {
+        "origem": "Imagem incluída no texto do proprietário",
+        "contexto": "https://www.behance.net/search/projects/cyberpunk%202077%20user%20interface",
+        "url": "https://images.openai.com/static-rsc-4/eU_G72fUbxpLHy_aIFz90y0k9yiRWmpF281f1L28TxGZ_mJ9sm_Z-zkzupaYReTCrQFwRVDYm_pKDCXRMKaN3dWOl2zt3-p5RS_znHJXoHEwhBOVOq1PKDxcjPerA4dAPapcaT5DOv3zlncv2dtlkZqliDNQ-6p37Jm8LpliZPs?purpose=inline",
+        "captura": "user-cyberpunk-ui.jpg",
+        "sha256": "eaabbdf2e25e39ba8c929aca4cc1dd6a5a113d9d7070efc762dff8b1402bcc8d"
+      }
+    ],
+    "observado": "Preto/amarelo industrial, acento vermelho de terminal, seções assimétricas, cantos chanfrados e navegação fina.",
+    "traducao": "Terminal em colunas de larguras diferentes. Silhueta urbana, registros seccionados em amarelo e diagonais de sinal em ciano."
+  },
+  {
+    "universo": "Dragon Ball",
+    "id": "dragon-ball",
+    "dossies": 4,
+    "pontoDePartida": "https://en.dragon-ball-official.com/",
+    "tipo": "site oficial",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://en.dragon-ball-official.com/",
+        "urlFinal": "https://en.dragon-ball-official.com/",
+        "captura": "dragon-ball.jpg",
+        "sha256": "00b0cc5b741705446ca114bd46ac8594fb1a782870a765784e177d48f9ece678"
+      }
+    ],
+    "observado": "Campo laranja de alto contraste, navegação preta seca e tipografia pesada. Direções de impacto convergem entre personagens.",
+    "traducao": "Cartaz em bloco laranja e azul, composição assimétrica de impacto e páginas de resultado compactas."
+  },
+  {
+    "universo": "Chainsaw Man",
+    "id": "chainsaw-man",
+    "dossies": 3,
+    "pontoDePartida": "https://chainsawman.dog/",
+    "tipo": "arte oficial do portal e prancha catalogada",
+    "capturas": [
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://chainsawman.dog/",
+        "midia": "https://chainsawman.dog/assets/portal/og/ogp.jpg?251221",
+        "captura": "chainsaw-keyvisual.jpg",
+        "sha256": "7897f598f5ba54b79fc307cd41e57a13ef875cd9554f10742f89a660b317994e"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/character-art/denji.webp",
+        "captura": "chainsaw-local.jpg",
+        "sha256": "c3f944aee550a6150313bb57f06da806f3cbc8790af963ad22d062438ea9acb7"
+      }
+    ],
+    "observado": "O portal combina contorno branco técnico em quadro negro e painel recortado verde e vermelho. O tipo condensado e o traço diagonal cortam a imagem.",
+    "traducao": "Capa tipográfica em preto e papel cortada por dentes de serra alaranjados. Lista com régua de corte e filés retos."
+  },
+  {
+    "universo": "Jujutsu Kaisen",
+    "id": "jujutsu-kaisen",
+    "dossies": 3,
+    "pontoDePartida": "https://jujutsukaisen.jp/",
+    "tipo": "galeria oficial, arte oficial e acervo local",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://jujutsukaisen.jp/character/",
+        "urlFinal": "https://jujutsukaisen.jp/character/",
+        "captura": "jjk-characters.jpg",
+        "sha256": "0a7a792527bb9961b52b75bf9fa10b3a26e0e9b49285131e2590a07a7dc530fc"
+      },
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://jujutsukaisen.jp/",
+        "midia": "https://jujutsukaisen.jp/images/ogp19.jpg",
+        "captura": "jjk-keyvisual.jpg",
+        "sha256": "1a9eb4f6038f48688e5521b471a73b81e7689677a0457a6b3a26c6cfe03e90d5"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/character-art/satoru-gojo.webp",
+        "captura": "jjk-local.jpg",
+        "sha256": "deb9e84b10bd3584cea5d5d46852637e5dd2bb2f1fe7445f070fee8436d61660"
+      }
+    ],
+    "observado": "A galeria mostra estrutura arquitetônica escura, ardósia azul, tipos claros e personagens alinhados por colunas. Pontos luminosos e recortes de energia contrastam com as massas escuras.",
+    "traducao": "Fenda assimétrica sobre fundo índigo, traços interrompidos e campos de busca estreitos."
+  },
+  {
+    "universo": "Murder Drones",
+    "id": "murder-drones",
+    "dossies": 3,
+    "pontoDePartida": "https://www.glitchprod.com/murder-drones",
+    "tipo": "site oficial da GLITCH",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.glitchprod.com/murder-drones",
+        "urlFinal": "https://www.glitchprod.com/murder-drones",
+        "captura": "murder-drones.jpg",
+        "sha256": "06362630e5321f13751916c5bfec502ce7e04c0086552bcc6575950314880f6a"
+      }
+    ],
+    "observado": "A arte recorta torres em azul escuro, luz no eixo e neve. A tipografia é alta e o título é central.",
+    "traducao": "Câmara de manutenção com pórticos metálicos, linha de segurança e console lateral."
+  },
+  {
+    "universo": "Mushoku Tensei",
+    "id": "mushoku-tensei",
+    "dossies": 3,
+    "pontoDePartida": "https://mushokutensei.jp/",
+    "tipo": "galeria oficial de episódios",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://mushokutensei.jp/story/",
+        "urlFinal": "https://mushokutensei.jp/story/",
+        "captura": "mushoku-story.jpg",
+        "sha256": "e2e159e38f83fca5862ffaa5445842471b512280c31579604a9764f827581c9c"
+      }
+    ],
+    "observado": "Barra lateral preta com dourado na base, tipografia serifada de fantasia e grade editorial muito clara.",
+    "traducao": "Margem de tomo e mapa angular lado a lado. Cartões usam superfície de papel e marcadores de capítulos."
+  },
+  {
+    "universo": "Record of Ragnarok",
+    "id": "record-of-ragnarok",
+    "dossies": 3,
+    "pontoDePartida": "https://ragnarok-official.com/",
+    "tipo": "arte oficial do anime e abertura oficial",
+    "capturas": [
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://ragnarok-official.com/",
+        "midia": "https://ragnarok-official.com/core_sys/images/others/ogp.jpg",
+        "captura": "ragnarok-keyvisual.jpg",
+        "sha256": "8fb23e2e088a3d797854d33bbeb47a4b820b6efdfcf1a895f87c1051d4840f03"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://ragnarok-official.com/",
+        "urlFinal": "https://ragnarok-official.com/",
+        "captura": "record-of-ragnarok.jpg",
+        "sha256": "9635e1ac7041f39b44c29f5c0e1a7aec2c93342d7d1c14346df7e044accd3734"
+      }
+    ],
+    "observado": "Os grupos opostos são alinhados em duas alas contra um campo verde intenso. A abertura concentra o gesto em vermelho sobre preto.",
+    "traducao": "Arena em duas alas enfrentadas, alto contraste e faixa de duelo. Simetria e movimento de colisão."
+  },
+  {
+    "universo": "Wuthering Waves",
+    "id": "wuthering-waves",
+    "dossies": 3,
+    "pontoDePartida": "https://store.steampowered.com/app/3513350/Wuthering_Waves/",
+    "tipo": "ficha oficial da distribuidora, arte de cápsula",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://store.steampowered.com/app/3513350/Wuthering_Waves/",
+        "urlFinal": "https://store.steampowered.com/app/3513350/Wuthering_Waves/",
+        "captura": "wuthering-waves.jpg",
+        "sha256": "ab12006bdeaaa04c2ad8acbcf3667b57b612f03b12598c506ba1e95695920ddb"
+      },
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://store.steampowered.com/app/3513350/Wuthering_Waves/",
+        "midia": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3513350/f931f564645583c14392447002d0cfaffb89520d/capsule_616x353.jpg?t=1794439536",
+        "captura": "wuwa-keyvisual.jpg",
+        "sha256": "7bd5363e6f8a5d2367fd31f35cbe7e8e9f284375bba8a14358749d154e1742cb"
+      }
+    ],
+    "observado": "A cápsula oficial articula figuras claras, pétalas roxas, feixes azuis e planos diagonais de profundidade. O título é escuro e compacto.",
+    "traducao": "Osciloscópio em azul ardósia com desenho de ondas e gaveta de registros. Interpretação de arte promocional."
+  },
+  {
+    "universo": "Blue Lock",
+    "id": "blue-lock",
+    "dossies": 2,
+    "pontoDePartida": "https://www.bluelock-kc.com/",
+    "tipo": "site oficial do mangá",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.bluelock-kc.com/",
+        "urlFinal": "https://www.bluelock-kc.com/",
+        "captura": "blue-lock.jpg",
+        "sha256": "0bcf386d8d6f0686cee9773d6aa65dde144bb59b9de818c8241fa4c58144b916"
+      }
+    ],
+    "observado": "Painel pentagonal escuro sobre concreto azulado e navegação de contraste duro em branco e azul.",
+    "traducao": "Tática em faixas de campo e pentágonos inscritos. Placar amplo com cartões numerados apenas pela paginação."
+  },
+  {
+    "universo": "Devil May Cry",
+    "id": "devil-may-cry",
+    "dossies": 2,
+    "pontoDePartida": "https://store.steampowered.com/app/601150/Devil_May_Cry_5/",
+    "tipo": "ficha oficial de loja, arte de cápsula",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://store.steampowered.com/app/601150/Devil_May_Cry_5/",
+        "urlFinal": "https://store.steampowered.com/app/601150/Devil_May_Cry_5/",
+        "captura": "devil-may-cry.jpg",
+        "sha256": "4a7f5500fa08a16cbecc82c8f2651ce081cc2a0f9814c620d9ad24cd44348665"
+      },
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://store.steampowered.com/app/601150/Devil_May_Cry_5/",
+        "midia": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/601150/capsule_616x353.jpg?t=1790215341",
+        "captura": "dmc-keyvisual.jpg",
+        "sha256": "c4294f7823485827434806ec7e6f4d793de1d67cd28febaf7c6eac11b2a8de67"
+      }
+    ],
+    "observado": "A arte da Capcom enquadra a composição entre flancos escuros de um corredor, com feixes azul frio e vermelho. O tipo é estreito e de influência gótica.",
+    "traducao": "Arco gótico em camadas, vermelho escuro, grafite e filigrana em prata. Dossiês lembram fichas de armas/editoriais."
+  },
+  {
+    "universo": "Genshin Impact",
+    "id": "genshin-impact",
+    "dossies": 2,
+    "pontoDePartida": "https://genshin.hoyoverse.com/",
+    "tipo": "arte promocional oficial via PlayStation e cabeçalho do site",
+    "capturas": [
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://www.playstation.com/en-us/games/genshin-impact/",
+        "midia": "https://image.api.playstation.com/vulcan/ap/rnd/202608/0109/4d4f67a277b41db5d4f78d7827784e80188086ee6c526161.png",
+        "captura": "genshin-keyvisual.jpg",
+        "sha256": "152029801891e868000e44ce55be94cdd817fba5936ca31db20a200efa0750f1"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://genshin.hoyoverse.com/",
+        "urlFinal": "https://genshin.hoyoverse.com/en/",
+        "captura": "genshin-impact.jpg",
+        "sha256": "9d6fbdbc1e2d69c34f4c6f352e232dca89daf967827dc1f415c750e9ba925d54"
+      }
+    ],
+    "observado": "A arte de divulgação usa azuis glaciais, branco brilhante, recortes cristalinos, contraste de profundidade e título serifado. O cabeçalho do site apareceu em fundo escuro durante o carregamento.",
+    "traducao": "Moldura editorial com horizonte glacial em azul, planos cristalinos e marca de bússola. A interface interativa do jogo segue como referência complementar a conferir."
+  },
+  {
+    "universo": "My Hero Academia",
+    "id": "my-hero-academia",
+    "dossies": 2,
+    "pontoDePartida": "https://heroaca.com/",
+    "tipo": "abertura oficial e arte catalogada",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://heroaca.com/",
+        "urlFinal": "https://heroaca.com/",
+        "captura": "my-hero-academia.jpg",
+        "sha256": "10ba7d949c0c455f31732b87d20f86dcdd51843ed68485e709fa1cdb4e4a3374"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/character-art/midoriya.webp",
+        "captura": "mha-local.jpg",
+        "sha256": "f7e57b74f8d452729f095a284cc7e54b49d79683d4fef19f316b5d7d41e97c33"
+      }
+    ],
+    "observado": "O site abriu em quadro escuro. A arte local de Midoriya mostra preto/esverdeado, branco quente, contorno muito marcado e silhueta diagonal.",
+    "traducao": "Quadros de revista de ação em amarelo, verde e carvão com raios escalonados de movimento."
+  },
+  {
+    "universo": "The Witcher",
+    "id": "the-witcher",
+    "dossies": 2,
+    "pontoDePartida": "https://www.thewitcher.com/",
+    "tipo": "site oficial da franquia",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.thewitcher.com/us/en/witcher3",
+        "urlFinal": "https://www.thewitcher.com/us/en/witcher3",
+        "captura": "witcher3.jpg",
+        "sha256": "648efecfb395bbd2059ba09c95237087e0254865973d1810e02109623c3a8ef8"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.thewitcher.com/",
+        "urlFinal": "https://www.thewitcher.com/us/en",
+        "captura": "the-witcher.jpg",
+        "sha256": "74cdb5c6954e81166abf6636716eb24b5495bbbe938adb54ede33bc8d96befce"
+      }
+    ],
+    "observado": "Menu fino em ouro, serifas, grandes vazios sobre preto e chamadas com molduras de bico. A página do jogo revela silhuetas cinzentas em paisagem cinza-verde e luz quente no eixo.",
+    "traducao": "Registro de bestiário com folha incrustada, linhas de gravura e uma margem de busca."
+  },
+  {
+    "universo": "Zenless Zone Zero",
+    "id": "zenless-zone-zero",
+    "dossies": 2,
+    "pontoDePartida": "https://zenless.hoyoverse.com/",
+    "tipo": "abertura oficial e arte catalogada",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://zenless.hoyoverse.com/en-us/main",
+        "urlFinal": "https://zenless.hoyoverse.com/en-us/main",
+        "captura": "zenless-alternative.jpg",
+        "sha256": "974e5bcf5fa93d83026c76386d611b3cd80fed65f064c61ddb7c901558479871"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/card-art/zzz-remielle.webp",
+        "captura": "zenless-local.jpg",
+        "sha256": "1d0db7c46a047a5037390403fbf0ba97a6d8614365725eb4e4d8e5303890838d"
+      }
+    ],
+    "observado": "A tela de carregamento oficial usa caixa alta inclinada, preto e branco e ícone lateral. A arte local mostra superfícies coloridas cortadas em branco e violeta.",
+    "traducao": "Painéis adesivados e tipografia inclinada de sinalização urbana, com as cores isoladas por cortes brancos."
+  },
+  {
+    "universo": "Ado",
+    "id": "ado",
+    "dossies": 1,
+    "pontoDePartida": "https://ado-dokidokihimitsukichi-daigakuimo.com/",
+    "tipo": "página oficial da Universal Music Japão",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.universal-music.co.jp/ado/",
+        "urlFinal": "https://www.universal-music.co.jp/ado/",
+        "captura": "ado-label.jpg",
+        "sha256": "c760603d51663da1de79a25a2222cd04b63d8e6069167465ced2112cbb3e09b2"
+      }
+    ],
+    "observado": "Grandes planos azul-violeta de capa de álbum, serifas brancas e fita horizontal de navegação.",
+    "traducao": "Marquise de palco com feixes oblíquos, uma silhueta de pétalas não figurativa e lista de faixas."
+  },
+  {
+    "universo": "Black Souls",
+    "id": "black-souls",
+    "dossies": 1,
+    "pontoDePartida": "https://www.dlsite.com/maniax/work/=/product_id/RJ203687.html",
+    "tipo": "página oficial de distribuição",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.dlsite.com/maniax/work/=/product_id/RJ203687.html",
+        "urlFinal": "https://www.dlsite.com/maniax/work/=/product_id/RJ203687.html",
+        "captura": "black-souls.jpg",
+        "sha256": "c7c198d051478b14e3d4a3194f7ea4b3de248de336c40e3aac999c39172ec82a"
+      }
+    ],
+    "observado": "Na capa visível, lápis preto sobre branco, verde dessaturado e uma mancha de fogo alaranjado.",
+    "traducao": "Caderno sombrio de páginas costuradas. Gravura reticulada, margem larga e abertura de livro."
+  },
+  {
+    "universo": "Bleach",
+    "id": "bleach",
+    "dossies": 1,
+    "pontoDePartida": "https://bleach-anime.com/",
+    "tipo": "arte principal e abertura do site oficial",
+    "capturas": [
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://bleach-anime.com/",
+        "midia": "https://bleach-anime.com/ogp5.png",
+        "captura": "bleach-keyvisual.jpg",
+        "sha256": "b7b8164a5fe54eca1211ee49f479d96f23fb63d3226ff15173a973ac59eed8bd"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://bleach-anime.com/",
+        "urlFinal": "https://bleach-anime.com/",
+        "captura": "bleach.jpg",
+        "sha256": "9092b5b756e940771acc3f487184e6e86722e3b924db24cd73e8e551597d4bc2"
+      }
+    ],
+    "observado": "Campo preto plano e título laranja amplo com grão seco. A arte chave contrapõe grandes áreas negras e brancas, com cantos laranja inclinados.",
+    "traducao": "Folha branca cortada por massa de tinta e uma faixa laranja. Grande respiro tipográfico no índice."
+  },
+  {
+    "universo": "Dark Souls",
+    "id": "dark-souls",
+    "dossies": 1,
+    "pontoDePartida": "https://en.bandainamcoent.eu/dark-souls/dark-souls-iii",
+    "tipo": "página oficial Bandai Namco e arte catalogada",
+    "capturas": [
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://store.steampowered.com/app/374320/DARK_SOULS_III/",
+        "midia": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/374320/capsule_616x353.jpg?t=1748630784",
+        "captura": "souls-keyvisual.jpg",
+        "sha256": "4eb5a8e23673188d6fadc5b6e49c239fc49e74f8d38e213a85764ae3aeb29787"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://en.bandainamcoent.eu/dark-souls/dark-souls-iii",
+        "urlFinal": "https://en.bandainamcoent.eu/dark-souls/dark-souls-iii",
+        "captura": "dark-souls.jpg",
+        "sha256": "6fa971f9a57504d7efa1bd06619b16bab01b8b89d6bcbe24c7b91846838b3744"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/planned-art/soul-of-cinder.jpg",
+        "captura": "souls-local.jpg",
+        "sha256": "ea8707ec157b049c3d2a3003cd85715734275bb2c27a39a973fec6db2a4743a8"
+      }
+    ],
+    "observado": "Preto, cinza, bronze e um horizonte irregular atrás da barreira de idade. A prancha escura reforça granulação e brasas. A cápsula oficial destaca ouro velado e fortaleza silhuetada.",
+    "traducao": "Fogão de brasa contido em muralha quebrada. Seções escuras em serifas de contraste e barras de metal oxidado."
+  },
+  {
+    "universo": "Dungeon Meshi",
+    "id": "dungeon-meshi",
+    "dossies": 1,
+    "pontoDePartida": "https://delicious-in-dungeon.com/",
+    "tipo": "site oficial",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://delicious-in-dungeon.com/",
+        "urlFinal": "https://delicious-in-dungeon.com/",
+        "captura": "dungeon-meshi-jp.jpg",
+        "sha256": "c912e3288bc68eb83e21213ebcc41f28fbf02a48037fb30231d0d8006c4a9ad3"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://delicious-in-dungeon.com/en/",
+        "urlFinal": "https://delicious-in-dungeon.com/en/",
+        "captura": "dungeon-meshi-alternative.jpg",
+        "sha256": "654e488a74c5b5aefcb021c29dbcccd35e9cc463bb2876a45e19fa8d08bb662c"
+      }
+    ],
+    "observado": "Título serifado arredondado em branco com contorno forte. A vista das figuras é circular, concentrada como um facho.",
+    "traducao": "Livro de receitas em papel quente, quadro circular de panela e colunas semelhantes a fichas de ingredientes."
+  },
+  {
+    "universo": "Fullmetal Alchemist",
+    "id": "fullmetal-alchemist",
+    "dossies": 1,
+    "pontoDePartida": "https://www.hagaren.jp/",
+    "tipo": "site oficial",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.hagaren.jp/",
+        "urlFinal": "https://www.hagaren.jp/",
+        "captura": "fullmetal-alchemist.jpg",
+        "sha256": "8fd5e04a6245a710659752a8293a8f9866de1ea47374a2d4123a213f3cdbff76"
+      }
+    ],
+    "observado": "Mosaico vermelho/preto, lados estreitos de navegação e composição transversal com título claro.",
+    "traducao": "Ficha de alquimia com anéis técnicos e um índice estreito, industrial, em vermelho e bronze."
+  },
+  {
+    "universo": "Kamen Rider",
+    "id": "kamen-rider",
+    "dossies": 1,
+    "pontoDePartida": "https://www.kamen-rider-official.com/",
+    "tipo": "portal oficial da Toei",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.kamen-rider-official.com/",
+        "urlFinal": "https://www.kamen-rider-official.com/",
+        "captura": "kamen-rider.jpg",
+        "sha256": "e0604eb7d31d3a299df217b4e73ccbf00ea3960e2876696882ad19613de0aa9d"
+      }
+    ],
+    "observado": "Branco e azul com blocos retangulares, recortes de capacete e metal dourado no plano principal.",
+    "traducao": "Oficina em chapa branca azulada, uma trava metálica central e resultados com linhas de prancheta."
+  },
+  {
+    "universo": "KonoSuba",
+    "id": "konosuba",
+    "dossies": 1,
+    "pontoDePartida": "https://konosuba.com/",
+    "tipo": "arte oficial e site oficial",
+    "capturas": [
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://konosuba.com/",
+        "midia": "http://konosuba.com/assets/img/ogp.png",
+        "captura": "konosuba-keyvisual.jpg",
+        "sha256": "a5d484e1ca3080ede52c7c29a4976b0a0b49b6570c0d5cdd2aab15da0a935271"
+      },
+      {
+        "origem": "Página renderizada",
+        "url": "https://konosuba.com/",
+        "urlFinal": "https://konosuba.com/",
+        "captura": "konosuba.jpg",
+        "sha256": "d0212d3538fdb284cc1b37ba214a535b70054318d5e37071d1d31a4c81c5ede9"
+      }
+    ],
+    "observado": "A moldura restante deixa ver cabeçalho creme, azuis e fita festiva. O modal de vídeo impediu a leitura completa da arte. A arte editorial oficial confirma fundo branco e acentos coral, rosa e alaranjados.",
+    "traducao": "Quadro de missões com lacres, moldura de papel e fitas azuis. Geometria editorial apoiada no cabeçalho observado."
+  },
+  {
+    "universo": "Marvel",
+    "id": "marvel",
+    "dossies": 1,
+    "pontoDePartida": "https://movies.disney.com/thunderbolts",
+    "tipo": "página oficial Disney para Thunderbolts*",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://movies.disney.com/thunderbolts",
+        "urlFinal": "https://movies.disney.com/thunderbolts",
+        "captura": "marvel-disney.jpg",
+        "sha256": "2ca2d8a3cc0947bb4cecfcec2512533229d7386e3dd3e3e342107286ef5a170a"
+      }
+    ],
+    "observado": "Composição de pôster largo com cortes de luz verticais, título amarelo pequeno sobre preto e ações arredondadas brancas.",
+    "traducao": "Cartela cinematográfica em proporção larga, negativos de filme e luz de âmbar."
+  },
+  {
+    "universo": "My Dress-Up Darling",
+    "id": "my-dress-up-darling",
+    "dossies": 1,
+    "pontoDePartida": "https://bisquedoll-anime.com/",
+    "tipo": "abertura oficial e arte catalogada",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://bisquedoll-anime.com/",
+        "urlFinal": "https://bisquedoll-anime.com/",
+        "captura": "my-dress-up-darling.jpg",
+        "sha256": "235f8a38649a95b1e646963f1287bc9e9e0b89f54fb2518c281c84b6e35cd90c"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/card-art/marin.webp",
+        "captura": "dress-up-local.jpg",
+        "sha256": "c1c2c920bc51dd602b0cd59195ae927bbbf9998e9aceb8626143f8d054998d84"
+      }
+    ],
+    "observado": "A abertura visível usa grade delicada rosa sobre branco. A prancha de Marin usa colunas claras e retratos circulares recortados.",
+    "traducao": "Folha de modelagem clara com marcas de corte e costura, furos e pastéis."
+  },
+  {
+    "universo": "One Punch Man",
+    "id": "one-punch-man",
+    "dossies": 1,
+    "pontoDePartida": "https://onepunchman-anime.net/",
+    "tipo": "site oficial",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://onepunchman-anime.net/",
+        "urlFinal": "https://onepunchman-anime.net/",
+        "captura": "one-punch-man.jpg",
+        "sha256": "c8683c6c1eeed0729df41d15bdc74f933a617d99a1f5ace829e6a65b528a4db0"
+      }
+    ],
+    "observado": "Faixa superior vermelha, caixa alta condensada, margens brancas e arte explosiva com diagonais fortes.",
+    "traducao": "Capa em impressão vermelha e branca. Um traço de impacto invade os registros como divisória."
+  },
+  {
+    "universo": "Overwatch",
+    "id": "overwatch",
+    "dossies": 1,
+    "pontoDePartida": "https://overwatch.blizzard.com/",
+    "tipo": "lista oficial de heróis",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://overwatch.blizzard.com/en-us/heroes/",
+        "urlFinal": "https://overwatch.blizzard.com/en-us/heroes/",
+        "captura": "overwatch-heroes.jpg",
+        "sha256": "28b58510e9f817ec4409b37e591c6416246544e2779e9fb3d276bef9eb8212b7"
+      }
+    ],
+    "observado": "Capa larga escura, tipografia robusta branca central, filtros brancos sobre faixa azul e ação laranja.",
+    "traducao": "Operação em blocos azuis com linha de sinal laranja; navegação técnica e resultado em placas."
+  },
+  {
+    "universo": "Sekiro",
+    "id": "sekiro",
+    "dossies": 1,
+    "pontoDePartida": "https://www.sekirothegame.com/",
+    "tipo": "site oficial",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.sekirothegame.com/",
+        "urlFinal": "https://www.sekirothegame.com/br/pt/",
+        "captura": "sekiro.jpg",
+        "sha256": "5247efd0de2458ace3bb5a1f9dd584040d04ce91789d12b83766521ddb3d419e"
+      }
+    ],
+    "observado": "Página muito escura com serifas, papel irregular no topo e vermelho aplicado em pincel seco.",
+    "traducao": "Pergaminho de pedra clara, pincel seco escuro e etiqueta vermelha. A composição se abre lateralmente."
+  },
+  {
+    "universo": "SIGNALIS",
+    "id": "signalis",
+    "dossies": 1,
+    "pontoDePartida": "https://rose-engine.org/signalis/",
+    "tipo": "site oficial de rose-engine",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://rose-engine.org/signalis/",
+        "urlFinal": "https://rose-engine.org/signalis/",
+        "captura": "signalis.jpg",
+        "sha256": "372752b38cf1ce5f2000da6cedf4978a3c9b9147eb660cccbc4fb949db809206"
+      }
+    ],
+    "observado": "Impressão azul cinza, tipografia espaçada, moldura vermelha de sinal e figura com simetria rígida.",
+    "traducao": "Terminal em vermelho, carvão e branco. Diagrama fechado de radar, visor estreito e linhas de arquivo."
+  },
+  {
+    "universo": "Swordmaster's Youngest Son",
+    "id": "swordmaster-s-youngest-son",
+    "dossies": 1,
+    "pontoDePartida": "https://tapas.io/series/the-swordmasters-son/info",
+    "tipo": "página oficial de distribuição",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://tapas.io/series/the-swordmasters-son/info",
+        "urlFinal": "https://tapas.io/series/the-swordmasters-son/info",
+        "captura": "swordmaster-s-youngest-son.jpg",
+        "sha256": "c66647500c9380e401447afd232cf28a99111ca1eaee591fdd142c578f927612"
+      }
+    ],
+    "observado": "Faixa de fantasia com ciano brilhante, azul noturno e margens brancas em coluna de episódios.",
+    "traducao": "Pórtico com brasão e espada geométrica em ciano. Colunas retas de ficha editorial."
+  },
+  {
+    "universo": "The 100 Girlfriends Who Really, Really, Really, Really, Really Love You",
+    "id": "the-100-girlfriends-who-really-really-really-really-really-love-you",
+    "dossies": 1,
+    "pontoDePartida": "https://hyakkano.com/",
+    "tipo": "site oficial",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://hyakkano.com/",
+        "urlFinal": "https://hyakkano.com/",
+        "captura": "the-100-girlfriends-who-really-really-really-really-really-love-you.jpg",
+        "sha256": "946faf93f7aa1f03177e8ba2c820180f0a3af0851780f219a438993f37642919"
+      }
+    ],
+    "observado": "Menu branco lateral estreito, recortes verticais de personagens e rosa claro.",
+    "traducao": "Faixas de retrato abstratas e laço dividido sobre papel rosa, título longo em caixa baixa para manter leitura."
+  },
+  {
+    "universo": "The Amazing Digital Circus",
+    "id": "the-amazing-digital-circus",
+    "dossies": 1,
+    "pontoDePartida": "https://www.glitchprod.com/digital-circus",
+    "tipo": "site oficial da GLITCH",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.glitchprod.com/digital-circus",
+        "urlFinal": "https://www.glitchprod.com/digital-circus",
+        "captura": "the-amazing-digital-circus.jpg",
+        "sha256": "041604be8314f77e3157efb966c184f344d58804608470d824988599880d5903"
+      }
+    ],
+    "observado": "Cortinas arqueadas, amarelo, ciano e magenta em áreas chapadas e tipo cheio, arredondado.",
+    "traducao": "Pista de teatro em blocos coloridos, arco assimétrico e botões de palco."
+  },
+  {
+    "universo": "The Binding of Isaac",
+    "id": "the-binding-of-isaac",
+    "dossies": 1,
+    "pontoDePartida": "https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/",
+    "tipo": "captura oficial de jogo via Steam e capa catalogada",
+    "capturas": [
+      {
+        "origem": "Mídia editorial da página de origem",
+        "url": "https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/",
+        "midia": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/250900/ss_18388222cc55311d39fa5221effd6ea620845010.jpg",
+        "captura": "isaac-keyvisual.jpg",
+        "sha256": "224ea997ce846e6cc3225ad9f845bdcd1029f316c40724a11e025061cb70477c"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/planned-art/isaac.jpg",
+        "captura": "isaac-local.jpg",
+        "sha256": "d81fa50e196f6fc8e0500f9cc52fcdd05e840c908e129b48f981b6e7795f7a83"
+      }
+    ],
+    "observado": "O jogo usa quarto em vista superior, moldura de pedra e madeira em tons escuros e HUD mínimo nos cantos. A capa usa rabisco de contorno negro e acentos azuis.",
+    "traducao": "Moldura desenhada à mão e papel manchado, ícone pictórico de lágrima e arquivo monocromático."
+  },
+  {
+    "universo": "The Greatest Estate Developer",
+    "id": "the-greatest-estate-developer",
+    "dossies": 1,
+    "pontoDePartida": "https://www.webtoons.com/en/fantasy/the-greatest-estate-developer/list?title_no=3596",
+    "tipo": "página oficial da WEBTOON",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.webtoons.com/en/fantasy/the-greatest-estate-developer/list?title_no=3596",
+        "urlFinal": "https://www.webtoons.com/en/fantasy/the-greatest-estate-developer/list?title_no=3596",
+        "captura": "the-greatest-estate-developer.jpg",
+        "sha256": "297151396d78da92466930c930090fe561a5b6204bbfe64265e5771bd958a0ea"
+      }
+    ],
+    "observado": "Faixa verde de paisagem, tipografia preta simples e índice técnico muito claro.",
+    "traducao": "Prancha de obra verde e marfim, planta de engenharia modular com régua e etiquetas úteis."
+  },
+  {
+    "universo": "Tokyo Ghoul",
+    "id": "tokyo-ghoul",
+    "dossies": 1,
+    "pontoDePartida": "https://www.marv.jp/special/tokyoghoul/",
+    "tipo": "site oficial e promoção de exposição",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://www.marv.jp/special/tokyoghoul/",
+        "urlFinal": "https://www.marv.jp/special/tokyoghoul/",
+        "captura": "tokyo-ghoul.jpg",
+        "sha256": "bf85bc71a009f80782a7a292cab8d3720008b814c5b1c3ee0d8ddc1bdb245f2e"
+      }
+    ],
+    "observado": "Fios vermelhos emaranhados sobre preto, moldura longa e recorte diagonal de figura.",
+    "traducao": "Feixes de fita vermelha em painel vertical escuro, margem cortada e vazios."
+  },
+  {
+    "universo": "Transformers · Autobots",
+    "id": "transformers-autobots",
+    "dossies": 1,
+    "pontoDePartida": "https://transformers.hasbro.com/",
+    "tipo": "distribuição oficial com modal e arte catalogada",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://transformers.hasbro.com/",
+        "urlFinal": "https://www.hasbropulse.com/collections/transformers?utm_source=redirect&utm_medium=domain_redirect&utm_campaign=transformers_hasbro_com",
+        "captura": "transformers-autobots.jpg",
+        "sha256": "6fb9b9ac76b875a71c848a8385c3d1f18987ca3c05f2f302b79fca5d742cba8e"
+      },
+      {
+        "origem": "Arte já catalogada no repositório",
+        "arquivo": "assets/card-art/optimus.webp",
+        "captura": "autobots-local.jpg",
+        "sha256": "4997fd954e0e898d50b1f49906ff6d4c89fafa7a9c30d8a1f93a1767e636b720"
+      }
+    ],
+    "observado": "Portal de loja mantém barras escuras e controles azuis. A arte de Optimus no acervo mostra chapas azuis, vermelho e metal prateado.",
+    "traducao": "Oficina em chapas metálicas grandes, juntas angulares e linhas de montagem azuis/vermelhas."
+  },
+  {
+    "universo": "Undertale",
+    "id": "undertale",
+    "dossies": 1,
+    "pontoDePartida": "https://undertale.com/",
+    "tipo": "site oficial",
+    "capturas": [
+      {
+        "origem": "Página renderizada",
+        "url": "https://undertale.com/",
+        "urlFinal": "https://undertale.com/",
+        "captura": "undertale.jpg",
+        "sha256": "673d14d996ecacad1d1a900e35a3e0cc28b9b59fe8cbaf73cabe2dda449b5744"
+      }
+    ],
+    "observado": "Preto absoluto, tipo pixelado branco, navegação cinza estrita e acento vermelho.",
+    "traducao": "Caixa de diálogo rigidamente retangular, pixelável, com corredor geométrico e acento vermelho."
+  }
+]
