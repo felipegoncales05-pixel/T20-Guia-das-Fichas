@@ -55,7 +55,7 @@ function groupIndex(items){
 }
 function themeStyle(theme){
   return '--atlas-bg:'+theme.background+';--atlas-panel:'+theme.panel+';--atlas-ink:'+theme.ink+
-    ';--atlas-accent:'+theme.accent+';--atlas-title:'+theme.font;
+    ';--atlas-accent:'+theme.accent+';--atlas-title:'+theme.font+';--atlas-scheme:'+theme.colorScheme;
 }
 function themeAttrs(theme){
   return ' data-atlas-theme="'+esc(theme.id)+'" data-atlas-layout="'+theme.layout+'" style="'+esc(themeStyle(theme))+'"';
@@ -77,8 +77,12 @@ function dossierHref(item){
   return "#/"+encodeURIComponent(item.id)+(item.key?"/"+encodeURIComponent(item.key):"")+"/overview";
 }
 function displayEntry(item){
-  const edition=item.editions.find(e=>e.theme.id===state.continuity);
+  const themeId=state.continuity||item.theme.id;
+  const edition=item.editions.find(e=>e.theme.id===themeId);
   return edition?{...item,...edition}:item;
+}
+function compareIndex(entry){
+  return state.compare.findIndex(item=>item.id===entry.id&&item.key===entry.key);
 }
 function compareCard(item){
   if(!item)return '<article class="atlas-compare-slot"><span>ESPAÇO DISPONÍVEL</span><p>Adicione outro personagem no catálogo.</p></article>';
@@ -134,7 +138,7 @@ function updateResults(){
   const region=document.getElementById("atlasResults");
   if(!region)return;
   region.innerHTML=pageItems.length?pageItems.map(c=>{
-    const selected=state.compare.some(item=>item.id===c.id);
+    const selected=compareIndex(c)!==-1;
     const theme=c.theme;
     const href=dossierHref(c);
     const art=state.universe?themeAttrs(theme):"";
@@ -145,7 +149,7 @@ function updateResults(){
       '<p>'+esc(c.work)+' · '+esc(c.race)+' · '+esc(c.className)+'</p></div>'+
       '<div class="atlas-result-actions"><a href="'+href+'" aria-label="Abrir ficha de '+esc(c.name)+'">VER FICHA ↗</a>'+
       '<button type="button" data-atlas-compare="'+esc(c.id)+'" aria-pressed="'+selected+'"'+
-      (!selected&&state.compare.length>=2?' disabled title="Remova uma escolha para comparar outro personagem"':'')+'>'+
+      (!selected&&state.compare.length>=2?' disabled title="Remova uma escolha para adicionar outro dossiê ou versão"':'')+'>'+
       (selected?'REMOVER':'COMPARAR')+'</button></div></article>';
   }).join(""):'<p class="atlas-empty">Nenhuma ficha encontrada. Tente outro termo ou limpe os filtros.</p>';
   const count=document.getElementById("atlasResultCount");
@@ -235,6 +239,7 @@ function render(root,requestedSlug){
     '<div class="atlas-results" id="atlasResults"></div><nav class="atlas-pager" id="atlasPager" aria-label="Paginação dos personagens"></nav></section>'+
     '<section class="atlas-compare" id="atlasComparison" aria-label="Comparação de personagens"></section>'+
     '<div class="rule-note"><b>O SISTEMA //</b><span>Este atlas indexa dados já cadastrados e não aprova automaticamente regras ou fontes. Expansões futuras devem manter IDs únicos, progressão 1–12 e revisão editorial.</span></div></div>';
+  if(state.continuity)updateContinuity();
   renderUniverses(items);
   updateResults();
 }
@@ -269,8 +274,11 @@ document.addEventListener("click",event=>{
   if(target.hasAttribute("data-atlas-compare")){
     const id=target.getAttribute("data-atlas-compare");
     const item=getIndex().find(c=>c.id===id);
-    if(state.compare.some(c=>c.id===id))state.compare=state.compare.filter(c=>c.id!==id);
-    else if(item&&state.compare.length<2)state.compare.push(displayEntry(item));
+    if(!item)return;
+    const entry=displayEntry(item);
+    const index=compareIndex(entry);
+    if(index!==-1)state.compare.splice(index,1);
+    else if(state.compare.length<2)state.compare.push(entry);
     updateResults();
     [...document.querySelectorAll("[data-atlas-compare]")].find(button=>button.dataset.atlasCompare===id)?.focus();
   }else if(target.hasAttribute("data-atlas-clear-compare")){

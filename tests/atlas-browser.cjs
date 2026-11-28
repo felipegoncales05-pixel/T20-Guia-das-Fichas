@@ -65,6 +65,27 @@ async function reviewThemes(browser,width){
  assert.equal(await page.locator(".atlas-dossier-link").getAttribute("data-atlas-theme"),"dragon-ball/gt");
  assert.equal(await page.locator("body").getAttribute("data-family"),"ki");
  assert.equal(await page.locator(".atlas-shell").count(),0);
+ await page.locator(".atlas-dossier-link").click();
+ await page.locator("#atlasContinuity").waitFor();
+ assert.equal(await page.locator("#atlasContinuity").inputValue(),"dragon-ball/gt");
+ assert.equal(await page.locator(".atlas-shell").getAttribute("data-atlas-theme"),"dragon-ball/gt",
+   "O tema da continuidade selecionada deve voltar junto com o filtro");
+ assert.equal(await page.locator(".atlas-world-hero h1").textContent(),"Dragon Ball GT");
+ assert.match(await page.locator("#atlasResultCount").textContent(),/^1 DE 421/);
+ await page.locator("#atlasContinuity").selectOption("dragon-ball/super");
+ assert.equal(await page.locator("[data-atlas-compare=goku]").getAttribute("aria-pressed"),"false",
+   "Selecionar Goku GT na comparação não seleciona Goku Super");
+ await page.locator("[data-atlas-compare=goku]").click();
+ assert.deepEqual(await page.locator(".atlas-compare-slot a").evaluateAll(links=>links.map(link=>link.hash)),
+   ["#/goku/gt/overview","#/goku/super/overview"]);
+ await page.locator("[data-atlas-compare=goku]").click();
+ assert.equal(await page.locator(".atlas-compare-slot a").getAttribute("href"),"#/goku/gt/overview");
+ const fate=await visitWorld(page,"#/atlas/fate");
+ await fate.locator("#atlasContinuity").selectOption("fate/zero");
+ assert.equal(await page.locator("#atlasContinuity").evaluate(select=>getComputedStyle(select).colorScheme),"dark");
+ const western=await visitWorld(page,"#/atlas/jojo-s-bizarre-adventure");
+ await western.locator("#atlasContinuity").selectOption("jojo-s-bizarre-adventure/steel-ball-run");
+ assert.equal(await page.locator("#atlasContinuity").evaluate(select=>getComputedStyle(select).colorScheme),"light");
  await page.goto(site+"#/atlas/manhwa",{waitUntil:"load"});
  await page.locator(".atlas-shell h1").filter({hasText:"MANHWA"}).waitFor();
  assert.equal(await page.locator(".atlas-universe").count(),2);

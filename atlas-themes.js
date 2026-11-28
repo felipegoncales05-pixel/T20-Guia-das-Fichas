@@ -6,7 +6,7 @@
     terminal: "var(--mono)", modern: "var(--body)", action: "Impact, var(--head)"
   };
 
-  // ID, composição, fonte, superfície, painel, texto, acento, direção, traçado, referência.
+  // ID, composição, fonte, superfície, painel, texto, acento, direção, traçado, referência, esquema opcional.
   const directions = [
     ["jojo-s-bizarre-adventure","manga","action","#2a102a","#441a3c","#fff4ef","#ffa9d8","Páginas de mangá","M8 84 32 14h37L47 84Zm43 0 19-54h39L89 84ZM14 31h16M78 17h31M12 94h89M22 70l20-14-15-6 28-20M60 72l25-17-12-2 22-13M3 63l11-5m16-38 9-6m52 78 16-8","https://jojo-portal.com/"],
     ["cavaleiros-do-zodiaco","temple","book","#1c1930","#2d2640","#fff5e6","#f9d88b","Templo celeste","M8 33 60 8l52 25ZM15 40h90M23 46v38m12-38v38m50-38v38m12-38v38M10 89h100M4 97h112M44 55l16-12 13 19-12 13Z","https://www.toei-animation.com/catalog/saint-seiya/"],
@@ -17,22 +17,22 @@
     ["uma-musume","track","display","#12291f","#1d3c2d","#f7fff4","#baf783","Programa de corridas","M2 86Q42 4 116 22M2 96Q42 16 116 32M17 96Q52 28 116 43M74 48l14 9m-8-20 16 10m-7-19 16 10m-6-20 16 10","https://umamusume.com/"],
     ["signalis","terminal","terminal","#171716","#282523","#fff7ef","#ff8a82","Terminal de arquivo","M16 14h88v72H16ZM22 22h76v56H22ZM30 31l16 12-16 12m23 0h29M30 68h4m5 0h4m5 0h4","https://rose-engine.org/signalis/"],
     ["devil-may-cry","gothic","book","#21121a","#371d28","#fff2f5","#ffa1ae","Vitral gótico","M60 4Q14 34 14 63v28h92V63Q106 34 60 4ZM60 13Q34 43 34 63v28m26-78q26 30 26 50v28M60 14v77M44 51l16 19 16-19-16-9Z","https://store.steampowered.com/app/601150/Devil_May_Cry_5/"],
-    ["bleach","ink","modern","#f2eee8","#fffdfa","#201d21","#514653","Página em tinta","M8 82 111 18 81 54 94 46 35 85 44 70 4 93ZM89 16l24-7-11 16ZM6 67l22-14M72 88l30-23","https://bleach-anime.com/"],
+    ["bleach","ink","modern","#f2eee8","#fffdfa","#201d21","#514653","Página em tinta","M8 82 111 18 81 54 94 46 35 85 44 70 4 93ZM89 16l24-7-11 16ZM6 67l22-14M72 88l30-23","https://bleach-anime.com/","light"],
     ["jujutsu-kaisen","fracture","display","#1e192b","#30263c","#fff5f7","#ffaabd","Energia amaldiçoada","M61 6 38 38l22-4-23 35 31-9-20 35M17 12l10 28-16 9 13 29m73-67-9 31 18-6-15 31 20 13M49 17l11 3m19 54 12 8","https://jujutsukaisen.jp/"],
-    ["genshin-impact","filigree","book","#f0e8d8","#fff8ec","#302824","#674421","Carta de aventura","M60 7 72 24 60 41 48 24ZM60 40v49M58 67Q7 83 17 46q6-15 26 0-17 15-16-4m35 25q51 16 41-21-6-15-26 0 17 15 16-4M41 89h38","https://genshin.hoyoverse.com/"],
-    ["wuthering-waves","wave","modern","#e0e9ec","#f4f9fa","#172b36","#235466","Leitura de frequência","M4 53h13l9-11 10 21 13-42 14 61 14-43 10 23 11-9h18M7 17h103M7 88h103","https://store.steampowered.com/app/3513350/Wuthering_Waves/"],
+    ["genshin-impact","filigree","book","#f0e8d8","#fff8ec","#302824","#674421","Carta de aventura","M60 7 72 24 60 41 48 24ZM60 40v49M58 67Q7 83 17 46q6-15 26 0-17 15-16-4m35 25q51 16 41-21-6-15-26 0 17 15 16-4M41 89h38","https://genshin.hoyoverse.com/","light"],
+    ["wuthering-waves","wave","modern","#e0e9ec","#f4f9fa","#172b36","#235466","Leitura de frequência","M4 53h13l9-11 10 21 13-42 14 61 14-43 10 23 11-9h18M7 17h103M7 88h103","https://store.steampowered.com/app/3513350/Wuthering_Waves/","light"],
     ["dark-souls","embers","book","#231e1a","#332b24","#fff2df","#edbd88","Arquivo de cinzas","M13 86h94M24 93h72M39 83q-19-18 7-42-1 14 7 18 16-16 8-42 31 26 17 55-8 13-18 13M68 15l5-9m17 35 9-12M25 51l-8-6","https://en.bandainamcoent.eu/dark-souls/dark-souls-iii"],
     ["undertale","pixel","terminal","#141417","#202025","#ffffff","#ff9595","Moldura de diálogo","M14 17h92v66H14ZM39 39h14v7h14v-7h14v21h-7v7h-7v7H53v-7h-7v-7h-7Z","https://undertale.com/"],
     ["murder-drones","hazard","terminal","#231c35","#312744","#fff2ff","#ffdf78","Terminal mecânico","M60 7 109 88H11ZM47 33l11 17-14 17h20l-6 13 23-23H62l12-24M13 14h20m53 0h20M8 91h104","https://www.glitchprod.com/murder-drones"],
     ["blue-lock","score","action","#102548","#192f56","#f4f9ff","#9bc8ff","Quadro tático","M12 13h96v74H12ZM60 13v74m0-51a14 14 0 1 0 .01 0ZM12 33h23v34H12m96-34H85v34h23M21 76l67-56m-22-1h22v21","https://www.bluelock-kc.com/"],
     ["the-boys","press","display","#172743","#213856","#fff6ec","#ffb4ab","Cartaz publicitário","M10 25h100v6H10Zm0 45h100v6H10Zm50-35 6 12h14l-11 8 4 13-13-8-13 8 4-13-11-8h14Z","https://www.primevideo.com/detail/The-Boys/0KRGHGZCHKS920ZQGY5LBRF7MA"],
     ["kamen-rider","chassis","action","#202332","#313648","#f5f7ff","#ffb493","Painel de transformação","M9 35 29 15h62l20 20v30L91 85H29L9 65ZM60 27l22 12v22L60 73 38 61V39ZM20 43h18m44 14h18M54 44l12 12m0-12-12 12","https://www.kamen-rider-official.com/"],
-    ["dungeon-meshi","recipe","slab","#eee1ca","#fff3de","#30271f","#724121","Caderno de culinária","M30 45h60l-7 34H37ZM18 53h14m56 0h14M25 40h70M46 31q-10-10 4-22m11 22q-10-10 4-22m11 22q-10-10 4-22M32 87h56","https://delicious-in-dungeon.com/"],
+    ["dungeon-meshi","recipe","slab","#eee1ca","#fff3de","#30271f","#724121","Caderno de culinária","M30 45h60l-7 34H37ZM18 53h14m56 0h14M25 40h70M46 31q-10-10 4-22m11 22q-10-10 4-22m11 22q-10-10 4-22M32 87h56","https://delicious-in-dungeon.com/","light"],
     ["the-amazing-digital-circus","circus","display","#382351","#482e63","#fff5ff","#ffcbed","Pista de circo digital","M12 47 60 9l48 38ZM22 47v39h76V47M60 10 43 47m17-37 17 37M52 85V60h16v25M14 93h92","https://www.glitchprod.com/digital-circus"],
     ["konosuba","quest","slab","#173654","#224663","#fff8e7","#ffe085","Quadro de missões","M19 23h82v59H19ZM10 29h16m68 0h16M10 75h16m68 0h16M40 68l33-32m-22 0h22v22M36 49h12m-12 8h9","https://konosuba.com/"],
     ["chainsaw-man","saw","action","#301c12","#47251b","#fff1da","#ffae77","Corte industrial","M8 75 20 55l9 3 7-15 10 4 8-15 10 4 9-15 10 4 8-14 17 10-5 18-10 2-4 15-10 2-4 13-10 1-4 14-12 1-6 10Z","https://chainsawman.dog/"],
     ["my-hero-academia","comic","action","#1c3230","#27433b","#f6fff2","#c7f68e","Quadro de ação","M5 12h110v75H66l-18 10 6-10H5ZM63 22 43 52h15l-3 24 24-33H63ZM15 23l20 12M15 75l20-13m50-24 18-15m-18 41 18 12","https://heroaca.com/"],
-    ["mushoku-tensei","map","book","#eadcc5","#f9edd8","#36291f","#6d482d","Mapa de viagem","M60 8 70 40l32 10-32 10-10 32-10-32-32-10 32-10ZM60 20v60M28 50h64M24 15l16 14m39 42 17 14m0-70L80 29M40 70 24 85","https://mushokutensei.jp/"],
+    ["mushoku-tensei","map","book","#eadcc5","#f9edd8","#36291f","#6d482d","Mapa de viagem","M60 8 70 40l32 10-32 10-10 32-10-32-32-10 32-10ZM60 20v60M28 50h64M24 15l16 14m39 42 17 14m0-70L80 29M40 70 24 85","https://mushokutensei.jp/","light"],
     ["marvel","cinema","action","#34191e","#49222a","#fff3f0","#ffadad","Cartela cinematográfica","M8 30h104v53H8ZM7 21l99-13 3 13L9 34ZM25 19l14 10m9-13 14 10m9-13 14 10m9-13 14 10M15 70h90","https://movies.disney.com/thunderbolts"],
     ["one-punch-man","impact","action","#3a2314","#51301c","#fff8df","#ffe078","Quadro de impacto","M4 19 70 40M4 34l50 12M3 64l59-9M4 87l66-24M103 7 81 38m32-9-27 17m30 19-32-12m18 40L79 64M70 44l10-4 8 9-8 12-13-5Z","https://onepunchman-anime.net/"],
     ["transformers-autobots","alloy","action","#222a37","#313f50","#f3f7ff","#a9d4ff","Chassi em corte","M8 48h104M18 30h84v38H18ZM28 22h16v54H28Zm48 0h16v54H76ZM49 39h22v21H49ZM8 83h104","https://transformers.hasbro.com/"],
@@ -43,7 +43,7 @@
     ["fullmetal-alchemist","alchemy","slab","#282525","#403534","#fff0e5","#f5b99b","Diagrama alquímico","M60 5a45 45 0 1 0 .01 0ZM60 12l36 63H24Zm0 74L24 25h72ZM60 23v54M35 50h50M60 42l8 8-8 8-8-8Z","https://www.hagaren.jp/"],
     ["tokyo-ghoul","horror","modern","#231c21","#372931","#fff3f7","#f9a7ac","Recorte de horror urbano","M8 50Q60 6 112 50 60 94 8 50ZM60 30a20 20 0 1 0 .01 0ZM60 40l9 10-9 10-9-10ZM9 83l18-11m68-49 18-11","https://www.marv.jp/special/tokyoghoul/"],
     ["record-of-ragnarok","arena","book","#282136","#3b3049","#fff7ed","#f8d2a0","Arena dos deuses","M23 14 99 79l-8 10L15 24l-1-12Zm74 0L21 79l8 10 76-65 1-12ZM76 82l17-20M27 62l17 20M60 7v14","https://ragnarok-official.com/"],
-    ["sekiro","scroll","book","#e9d9ba","#fbedd1","#30271e","#803d2b","Pergaminho de combate","M24 8h72v79H24ZM13 8h94M14 88h92M43 69Q50 30 78 22L47 66l25-16-28 26Z","https://www.sekirothegame.com/"],
+    ["sekiro","scroll","book","#e9d9ba","#fbedd1","#30271e","#803d2b","Pergaminho de combate","M24 8h72v79H24ZM13 8h94M14 88h92M43 69Q50 30 78 22L47 66l25-16-28 26Z","https://www.sekirothegame.com/","light"],
     ["black-souls","folklore","book","#2c2031","#403046","#fff1ef","#e9b8d8","Livro de contos sombrios","M60 29Q39 7 10 17v66q30-9 50 9 20-18 50-9V17Q81 7 60 29Zm0 0v63M22 34q19-6 29 6M22 49q19-6 29 6m32-25 6 9-6 9-6-9Z","https://www.dlsite.com/maniax/work/=/product_id/RJ203687.html"],
     ["the-binding-of-isaac","sketch","terminal","#382725","#4d3432","#fff3e7","#ffbcb0","Rabisco de porão","M15 18 101 12l6 68-95 5ZM60 25a22 22 0 1 0 .01 0ZM49 44h3m16 0h3M50 57q10-7 20 0M50 48v4m20-4v4M22 93l68-5","https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/"],
     ["the-witcher","bestiary","book","#242925","#343c34","#f7f4e5","#d6d8ad","Página de bestiário","M60 13 38 37 12 22l13 39 35 29 35-29 13-39-26 15ZM31 51l16 8m42-8-16 8M50 71h20l-10 12ZM12 94h96","https://www.thewitcher.com/"],
@@ -52,8 +52,9 @@
     ["swordmaster-s-youngest-son","heraldry","book","#271c38","#3a2a4d","#fff3ff","#dfbdfa","Brasão de linhagem","M17 11h86v39q0 24-43 42-43-18-43-42ZM60 20l6 12-6 28-6-28Zm-15 43h30m-15 0v16M28 35l8 10-8 10m64-20-8 10 8 10","https://tapas.io/series/the-swordmasters-son/info"]
   ];
 
-  const registry = new Map(directions.map(([id, layout, font, background, panel, ink, accent, label, drawing, reference]) =>
-    [id, {id, layout, font:fonts[font], background, panel, ink, accent, label, drawing, reference}]
+  const registry = new Map(directions.map(
+    ([id, layout, font, background, panel, ink, accent, label, drawing, reference, colorScheme="dark"]) =>
+      [id, {id, layout, font:fonts[font], background, panel, ink, accent, label, drawing, reference, colorScheme}]
   ));
 
   const variants = {
@@ -124,7 +125,7 @@
         ...parent, id:id+"/"+part, layout, accent, font:fonts[font], label,
         drawing:directions.find(direction=>direction[1]===layout)?.[8] || parent.drawing,
         ...(part==="steel-ball-run" && {
-          background:"#ead8b9", panel:"#fff0d5", ink:"#3d2b20",
+          background:"#ead8b9", panel:"#fff0d5", ink:"#3d2b20", colorScheme:"light",
           drawing:"M12 22h96v56H12ZM20 30h80v40H20ZM60 34l5 10h12l-9 8 4 12-12-7-12 7 4-12-9-8h12ZM24 50h12m48 0h12"
         })
       });
@@ -133,7 +134,7 @@
 
   const fallback = {
     id:"arquivo", layout:"terminal", font:fonts.display, background:"#142733",
-    panel:"#1b3541", ink:"#eefbf9", accent:"#a1efe2", label:"Direção artística pendente",
+    panel:"#1b3541", ink:"#eefbf9", accent:"#a1efe2", label:"Direção artística pendente", colorScheme:"dark",
     drawing:"M10 26h100v56H10Zm0 0V16h36l10 10M21 40h49M21 52h66M21 64h40"
   };
   const workAliases = [

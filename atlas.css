@@ -164,10 +164,7 @@
   border-color:var(--atlas-line);
   border-radius:var(--atlas-radius);
 }
-.atlas-shell[data-atlas-theme] select {color-scheme:dark}
-.atlas-shell[data-atlas-layout=ink] select,.atlas-shell[data-atlas-layout=wave] select,
-.atlas-shell[data-atlas-layout=filigree] select,.atlas-shell[data-atlas-layout=recipe] select,
-.atlas-shell[data-atlas-layout=map] select,.atlas-shell[data-atlas-layout=scroll] select {color-scheme:light}
+.atlas-shell[data-atlas-theme] .atlas-controls {color-scheme:var(--atlas-scheme,dark)}
 .atlas-shell[data-atlas-theme] .atlas-controls input::placeholder {color:var(--atlas-muted)}
 .atlas-shell[data-atlas-theme] :is(.atlas-result,.atlas-result:nth-child(even)) {
   background:var(--atlas-panel);

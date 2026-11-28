@@ -67,7 +67,7 @@ Os links apontam para os titulares, emissoras, editoras ou páginas de distribui
 - **Cyberpunk**. Edgerunners 2, Edgerunners, Cyberpunk 2077.
 - **Dragon Ball**. Dragon Ball Z, Dragon Ball GT, Dragon Ball Daima, Dragon Ball Super.
 
-As quatro versões de Goku são acessíveis por continuidade. Elas mantêm o mesmo ID de dossiê no total de 421. Formas mecânicas de outras fichas continuam governadas pela direção individual existente.
+As quatro versões de Goku são acessíveis por continuidade e mantêm o mesmo ID de dossiê no total de 421. A comparação rápida pode manter duas versões de Goku, com os metadados e links de cada uma. Formas mecânicas de outras fichas continuam governadas pela direção individual existente.
 
 ## Pendências editoriais
 
@@ -84,6 +84,7 @@ Os estilos temáticos ficam nos elementos com `data-atlas-theme` e `data-atlas-l
 - As suítes de integridade indexaram 421 IDs, conferiram as variantes e os avanços, auditaram as referências de mídia e validaram o motor de builds. Os arquivos de dados, regras, imagens e Laboratório têm o mesmo conteúdo da base.
 - O teste de temas verifica uma composição por entrada, fallback e contraste de pelo menos 4,5:1 entre as cores de texto e as superfícies principais, incluindo os subtemas.
 - O Chromium percorre as 42 rotas em 320 px e 1440 px e verifica overflow, busca, paginação, comparação por teclado, rotas legadas, continuidade, isolamento, Laboratório e a fonte de Honkai. O teste original também percorre 375 px, 768 px e 1440 px.
+- A revisão de lançamento verifica se voltar do dossiê restaura o tema da continuidade, se as versões de Goku têm seleções independentes e se os controles nativos acompanham a paleta clara ou escura do tema.
 - A suíte de navegação gera 88 JPEGs que integram o artefato `responsivo-capturas` do GitHub Actions. O arquivo inclui a central, cada universo e Steel Ball Run em desktop e celular.
 - `node scripts/build-site.cjs --check` verifica a consistência dos bundles de produção.
 - A prancha de revisão reúne a central e sete composições lado a lado. [Abrir prancha](screenshots/atlas-direcao-comparativo.jpg)
