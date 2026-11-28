@@ -3450,6 +3450,7 @@ document.addEventListener("keydown",evt=>{
 window.addEventListener("hashchange",render);render();
 })();
 
+
 /* card-worlds.js */
 /* A HUD de Capri acompanha o ponteiro quando o card de D. está visível.
    Ouvintes delegados persistem durante busca e filtros, sem loop de animação. */
