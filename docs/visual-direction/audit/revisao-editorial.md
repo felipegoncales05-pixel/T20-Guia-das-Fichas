@@ -9,21 +9,21 @@ A leitura visual comparou as fontes do manifesto com a rota publicada em `39be50
 | JoJo's Bizarre Adventure | 8,8 | 9,3 | 8,9 | 9,0 | 8,8 | 9,0 | 8,96 | Três quadros inclinados, impressão magenta e montagem tipográfica assimétrica. Steel Ball Run ganha uma segunda leitura em ocre, vermelho e ciano. |
 | Uma Musume | 8,5 | 9,0 | 8,6 | 8,7 | 8,8 | 9,0 | 8,72 | As pistas e largada dão direção própria. Tipos e controles seguem a orientação do placar. |
 | Honkai: Star Rail | 8,8 | 9,2 | 8,9 | 8,9 | 8,9 | 9,2 | 8,96 | Cartas altas, índice lateral e quadro orbital aproximam o compêndio. A tipografia Georgia sobrevive ao bloqueio de fontes externas. |
-| The Boys | 8,4 | 8,8 | 8,7 | 8,6 | 8,8 | 9,0 | 8,66 | A faixa vermelha sobre o papel concreto recupera o gesto do pôster. O recorte Prime Video usa cartela escura. |
+| The Boys | 8,4 | 8,8 | 8,7 | 8,6 | 8,8 | 9,0 | 8,66 | A faixa vermelha sobre o concreto recupera o gesto do pôster. A equipe principal usa um fólio claro e Os Sete usam cartela azul escura. |
 | Cyberpunk | 9,0 | 9,3 | 9,1 | 9,0 | 8,8 | 9,1 | 9,07 | A revisão trouxe um bloco amarelo e separou o cone de sinal da coluna de consulta. Recortes, faixas e reajuste vertical da interface têm leitura técnica. |
 | Dragon Ball | 8,8 | 9,1 | 8,8 | 8,7 | 8,8 | 9,0 | 8,87 | O laranja e a estrela azul deixam o impacto claro. Formas GT, Z, Daima e Super mantêm seleções independentes. |
-| Chainsaw Man | 8,2 | 8,6 | 8,5 | 8,4 | 8,8 | 8,9 | 8,49 | O corte serrilhado dá peso ao cartaz. O painel verde e vermelho da arte promocional tem tradução cromática mais contida. |
+| Chainsaw Man | 8,6 | 8,9 | 8,8 | 8,4 | 8,8 | 8,9 | 8,73 | As colunas escuras retomam a galeria do anime e a lâmina ganha espessura. As ilhas verdes trazem ao cartaz a sujeira cromática da arte impressa. |
 | Jujutsu Kaisen | 8,5 | 8,7 | 8,8 | 8,6 | 8,7 | 9,0 | 8,68 | A ardósia azul e o corte de energia se aproximam da galeria observada. Os quadros receberam contornos arquitetônicos na revisão. |
 | Murder Drones | 8,3 | 8,8 | 8,7 | 8,5 | 8,8 | 9,0 | 8,62 | Consoles e sinais industriais aparecem no cartão e no hero. A leitura é mais técnica que o enquadramento fotográfico oficial. |
 | Mushoku Tensei | 8,4 | 8,7 | 8,8 | 8,5 | 8,9 | 9,0 | 8,66 | A prancheta de viagem usa papel e serifas. A fonte oficial tem uma navegação lateral preta mais forte. |
 | Record of Ragnarok | 8,3 | 8,7 | 8,5 | 8,8 | 8,7 | 9,0 | 8,58 | As duas alas e o corte central foram reforçados com um filete verde. A arte oficial dá maior presença aos combatentes. |
-| Wuthering Waves | 8,0 | 8,6 | 8,6 | 8,4 | 8,8 | 9,0 | 8,46 | A prancha acrescenta pétalas frias e linhas de oscilação. A interface interativa do jogo ainda é referência complementar. |
+| Wuthering Waves | 8,6 | 8,8 | 8,8 | 8,4 | 8,8 | 9,0 | 8,72 | A tipografia leve e o fundo frio retomam a seleção de ressoadores. A onda em dois planos cruza o horizonte de penhascos da galeria oficial. |
 | Blue Lock | 8,6 | 9,0 | 8,7 | 8,8 | 8,8 | 9,0 | 8,78 | O pentágono e o campo técnico ganharam desenho próprio. Tipos inclinados e recorte em azul recuperam o contraste esportivo. |
 | Devil May Cry | 8,0 | 8,7 | 8,7 | 8,6 | 8,8 | 9,0 | 8,52 | O arco substitui a caixa padronizada do antes e recebeu flancos azuis. O julgamento de fidelidade se apoia principalmente na arte da Capcom. |
 | Genshin Impact | 8,1 | 8,7 | 8,7 | 8,4 | 8,8 | 9,0 | 8,53 | A revisão trocou o pergaminho por um horizonte glacial à luz da arte oficial. A galeria interativa segue como fonte complementar. |
-| My Hero Academia | 8,0 | 8,6 | 8,6 | 8,7 | 8,8 | 9,0 | 8,49 | Recortes de revista e faixa de ação verdes combinam com a prancha de Midoriya. A abertura do site ficou incompleta. |
+| My Hero Academia | 8,6 | 8,9 | 8,9 | 8,7 | 8,8 | 9,0 | 8,79 | As abas amarelas, os quadros verde-azulados e a retícula foram comparados com a ficha oficial de Midoriya. As fichas do Atlas ganham molduras de revista. |
 | The Witcher | 8,4 | 8,8 | 8,7 | 8,6 | 8,8 | 9,0 | 8,66 | O bestiário usa uma margem forte e gravura angular. O contraste verde-cinza visto na página do jogo permanece. |
-| Zenless Zone Zero | 7,8 | 8,5 | 8,6 | 8,6 | 8,8 | 9,0 | 8,40 | Faixas urbanas, tipos inclinados e placas amarelas são legíveis. A leitura da referência jogável ainda é limitada. |
+| Zenless Zone Zero | 8,5 | 8,9 | 8,7 | 8,6 | 8,8 | 9,0 | 8,71 | O quadro de mídia analógica traduz os círculos e as diagonais da ficha de agente. A navegação retoma o amarelo de seleção e as cápsulas dos controles. |
 | Ado | 8,7 | 8,9 | 8,8 | 8,7 | 8,8 | 9,1 | 8,81 | Capa de álbum, serifas brancas e luz em diagonais traduzem as margens do material da gravadora. |
 | Black Souls | 8,4 | 8,7 | 8,6 | 8,5 | 8,8 | 9,0 | 8,61 | Páginas costuradas e verde empoeirado distinguem o fólio. O traço original conserva uma textura livre, mais grossa que a gravura vetorial. |
 | Bleach | 8,6 | 8,9 | 8,9 | 8,6 | 8,9 | 9,2 | 8,81 | A área branca, a massa de tinta e o corte laranja condensam a direção da arte oficial. |
@@ -49,6 +49,6 @@ A leitura visual comparou as fontes do manifesto com a rota publicada em `39be50
 
 ## Pontos de revisão
 
-A média editorial ficou abaixo de 8,5 em Chainsaw Man, Wuthering Waves, My Hero Academia e Zenless Zone Zero. A revisão já acrescentou recortes glaciais em Genshin, flancos frios no arco de DMC5, formas espectrais no osciloscópio de Wuthering Waves e placas em Transformers. As capturas disponíveis de Zenless e My Hero sustentam melhor a composição editorial do que uma leitura das interfaces interativas. As notas registram essa limitação.
+A primeira rodada deixou Chainsaw Man, Wuthering Waves, My Hero Academia e Zenless Zone Zero abaixo de 8,5. A revisão de publicação comparou o PR inicial, novas fontes e a página atual no Chromium. As notas desses quatro temas foram revistas a partir da comparação. A direção de Wuthering Waves e Zenless usa capturas publicadas do menu. Genshin e DMC5 continuam baseados principalmente nas galerias oficiais.
 
-[Comparativo de antes e depois](comparativo.jpg) · [Quadros de transições](transicoes.jpg) · [Fontes por universo](../references/README.md)
+[Comparativo de antes e depois](comparativo.jpg) · [Ajustes da revisão de publicação](ajustes-finais.jpg) · [Quadros de transições](transicoes.jpg) · [Fontes por universo](../references/README.md)

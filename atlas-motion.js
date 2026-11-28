@@ -38,6 +38,12 @@
   let revision=0;
   let active=null;
   let returnPoint=null;
+  let activatedPortal=null;
+
+  document.addEventListener("click",event=>{
+    if(event.defaultPrevented||event.button!==0||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;
+    activatedPortal=event.target.closest?.(".atlas-universe[data-atlas-portal]")||null;
+  });
 
   function themeFor(route){
     if(!route.startsWith("atlas/")||route==="atlas/"||route==="atlas/manhwa")return null;
@@ -104,14 +110,18 @@
     const previousBase=themeFor(from);
     const previousKey=root.querySelector(".atlas-shell[data-atlas-theme]")?.dataset.atlasTheme;
     const previous=previousBase && window.T20_ATLAS_THEMES.resolve(previousKey||previousBase.id);
-    const card=from==="atlas/"&&next?portal(root,next.id):null;
-    if(card)returnPoint={slug:next.id,top:window.scrollY};
-    const restoring=previous&&to==="atlas/"&&returnPoint;
+    const candidate=from==="atlas/"&&next?portal(root,next.id):null;
+    const card=candidate&&(candidate===activatedPortal||candidate===document.activeElement)?candidate:null;
+    const openingPoint=card?{slug:next.id,top:window.scrollY}:null;
+    activatedPortal=null;
+    const restoring=previousBase&&to==="atlas/"&&returnPoint?.slug===previousBase.id?returnPoint:null;
     let committed=false;
     const commit=()=>{
       if(committed||token!==revision||hash!==location.hash)return;
       committed=true;
       render();
+      if(from==="atlas/")returnPoint=openingPoint;
+      else if(next&&next.id!==returnPoint?.slug)returnPoint=null;
       if(restoring){
         const target=portal(root,restoring.slug);
         if(target)target.dataset.atlasReturned="";

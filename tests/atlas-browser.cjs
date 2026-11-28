@@ -88,6 +88,16 @@ async function reviewThemes(browser,width,height){
  const fate=await visitWorld(page,"#/atlas/fate");
  await fate.locator("#atlasContinuity").selectOption("fate/zero");
  assert.equal(await page.locator("#atlasContinuity").evaluate(select=>getComputedStyle(select).colorScheme),"dark");
+ const boys=await visitWorld(page,"#/atlas/the-boys");
+ await boys.locator("#atlasContinuity").selectOption("the-boys/equipe-principal");
+ assert.equal(await page.locator(".atlas-world-hero h1").textContent(),"Equipe principal · Prime Video");
+ assert.match(await page.locator("#atlasResultCount").textContent(),/^6 DE 421/);
+ assert.equal(await page.locator('#atlasResults [data-atlas-theme="the-boys/equipe-principal"]').count(),6);
+ await checkWidth(page,width,"The Boys · equipe principal");
+ await page.locator("#atlasContinuity").selectOption("the-boys/prime-video");
+ assert.equal(await page.locator(".atlas-world-hero h1").textContent(),"Os Sete · Prime Video");
+ assert.equal(await page.locator('#atlasResults [data-atlas-theme="the-boys/prime-video"]').count(),6);
+ await checkWidth(page,width,"The Boys · Os Sete");
  const western=await visitWorld(page,"#/atlas/jojo-s-bizarre-adventure");
  await western.locator("#atlasContinuity").selectOption("jojo-s-bizarre-adventure/steel-ball-run");
  assert.equal(await page.locator("#atlasContinuity").evaluate(select=>getComputedStyle(select).colorScheme),"light");
@@ -108,6 +118,10 @@ async function reviewThemes(browser,width,height){
  await page.goto(site+"#/atlas",{waitUntil:"load"});
  await page.locator("#atlasUniverseList").waitFor();
  assert.equal(await page.locator(".atlas-shell[data-atlas-theme]").count(),0);
+ await visitWorld(page,"#/atlas/cyberpunk");
+ await page.evaluate(()=>{location.hash="#/atlas/%E0%A4";});
+ await page.locator("#atlasUniverseList").waitFor();
+ assert.equal(await page.locator(".atlas-universe").count(),42,"Uma URL incompleta volta à central");
  assert.deepEqual(errors,[]);
  await page.close();
 }
@@ -140,6 +154,14 @@ async function reviewMotion(browser,width,mode){
  await page.goForward();
  await card.waitFor();
  await page.locator("html[data-atlas-motion]").waitFor({state:"detached"});
+ await page.locator("#atlasUniverse").selectOption("fate");
+ await page.locator('.atlas-shell[data-atlas-theme="fate"]').waitFor();
+ await page.locator("html[data-atlas-motion]").waitFor({state:"detached"});
+ await page.locator(".atlas-trail .back-link").click();
+ await card.waitFor();
+ await page.locator("html[data-atlas-motion]").waitFor({state:"detached"});
+ assert.equal(await page.locator("[data-atlas-returned]").count(),0,"O seletor não ativa um portal");
+ assert.equal(await page.evaluate(()=>document.activeElement.tagName),"H1","O seletor devolve o foco ao título da central");
  await page.evaluate(()=>{location.hash="#/atlas/fate";});
  await page.locator('html[data-atlas-motion="'+mode+'"]').waitFor({state:"attached"});
  await page.evaluate(()=>{location.hash="#/atlas/honkai-star-rail";});

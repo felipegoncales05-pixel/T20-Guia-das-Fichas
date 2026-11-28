@@ -20,7 +20,7 @@
     ["bleach","ink","modern","#f2eee8","#fffdfa","#201d21","#514653","Página em tinta","M8 82 111 18 81 54 94 46 35 85 44 70 4 93ZM89 16l24-7-11 16ZM6 67l22-14M72 88l30-23","https://bleach-anime.com/","light"],
     ["jujutsu-kaisen","fracture","display","#131d2c","#233047","#f5f9ff","#c0ddff","Energia amaldiçoada","M61 6 38 38l22-4-23 35 31-9-20 35M17 12l10 28-16 9 13 29m73-67-9 31 18-6-15 31 20 13M49 17l11 3m19 54 12 8","https://jujutsukaisen.jp/"],
     ["genshin-impact","filigree","book","#e3eef1","#f8faf4","#203443","#285371","Carta de aventura","M60 7 72 24 60 41 48 24ZM60 40v49M58 67Q7 83 17 46q6-15 26 0-17 15-16-4m35 25q51 16 41-21-6-15-26 0 17 15 16-4M41 89h38","https://genshin.hoyoverse.com/","light"],
-    ["wuthering-waves","wave","modern","#e0e9ec","#f4f9fa","#172b36","#235466","Leitura de frequência","M4 53h13l9-11 10 21 13-42 14 61 14-43 10 23 11-9h18M7 17h103M7 88h103","https://store.steampowered.com/app/3513350/Wuthering_Waves/","light"],
+    ["wuthering-waves","resonance","modern","#111b25","#1a2733","#eff8fa","#b3e3eb","Arquivo de ressonância","M4 53h13l9-11 10 21 13-42 14 61 14-43 10 23 11-9h18M7 17h103M7 88h103","https://www.playstation.com/en-us/games/wuthering-waves/"],
     ["dark-souls","embers","book","#231e1a","#332b24","#fff2df","#edbd88","Arquivo de cinzas","M13 86h94M24 93h72M39 83q-19-18 7-42-1 14 7 18 16-16 8-42 31 26 17 55-8 13-18 13M68 15l5-9m17 35 9-12M25 51l-8-6","https://en.bandainamcoent.eu/dark-souls/dark-souls-iii"],
     ["undertale","pixel","terminal","#141417","#202025","#ffffff","#ff9595","Moldura de diálogo","M14 17h92v66H14ZM39 39h14v7h14v-7h14v21h-7v7h-7v7H53v-7h-7v-7h-7Z","https://undertale.com/"],
     ["murder-drones","hazard","terminal","#231c35","#312744","#fff2ff","#ffdf78","Terminal mecânico","M60 7 109 88H11ZM47 33l11 17-14 17h20l-6 13 23-23H62l12-24M13 14h20m53 0h20M8 91h104","https://www.glitchprod.com/murder-drones"],
@@ -30,8 +30,8 @@
     ["dungeon-meshi","recipe","slab","#eee1ca","#fff3de","#30271f","#724121","Caderno de culinária","M30 45h60l-7 34H37ZM18 53h14m56 0h14M25 40h70M46 31q-10-10 4-22m11 22q-10-10 4-22m11 22q-10-10 4-22M32 87h56","https://delicious-in-dungeon.com/","light"],
     ["the-amazing-digital-circus","circus","display","#31194a","#46245a","#fff8f0","#ffe182","Pista de circo digital","M12 47 60 9l48 38ZM22 47v39h76V47M60 10 43 47m17-37 17 37M52 85V60h16v25M14 93h92","https://www.glitchprod.com/digital-circus"],
     ["konosuba","quest","slab","#f2e6d3","#fbf4e9","#262337","#334b92","Quadro de missões","M19 23h82v59H19ZM10 29h16m68 0h16M10 75h16m68 0h16M40 68l33-32m-22 0h22v22M36 49h12m-12 8h9","https://konosuba.com/","light"],
-    ["chainsaw-man","saw","action","#241c1a","#352522","#fff1e0","#ffb987","Corte industrial","M8 75 20 55l9 3 7-15 10 4 8-15 10 4 9-15 10 4 8-14 17 10-5 18-10 2-4 15-10 2-4 13-10 1-4 14-12 1-6 10Z","https://chainsawman.dog/"],
-    ["my-hero-academia","comic","action","#1c3230","#27433b","#f6fff2","#c7f68e","Quadro de ação","M5 12h110v75H66l-18 10 6-10H5ZM63 22 43 52h15l-3 24 24-33H63ZM15 23l20 12M15 75l20-13m50-24 18-15m-18 41 18 12","https://heroaca.com/"],
+    ["chainsaw-man","saw","action","#191c1c","#252929","#fff1e1","#ffd09e","Galeria de personagens","M8 75 20 55l9 3 7-15 10 4 8-15 10 4 9-15 10 4 8-14 17 10-5 18-10 2-4 15-10 2-4 13-10 1-4 14-12 1-6 10Z","https://chainsawman.dog/tvseries/character/"],
+    ["my-hero-academia","hero-panel","action","#cbdedb","#f5f7ee","#182424","#155853","Galeria de heróis","M5 12h110v75H66l-18 10 6-10H5ZM63 22 43 52h15l-3 24 24-33H63ZM15 23l20 12M15 75l20-13m50-24 18-15m-18 41 18 12","https://heroaca.com/character/chara_group01/01-01/","light"],
     ["mushoku-tensei","map","book","#eadcc5","#f9edd8","#36291f","#6d482d","Mapa de viagem","M60 8 70 40l32 10-32 10-10 32-10-32-32-10 32-10ZM60 20v60M28 50h64M24 15l16 14m39 42 17 14m0-70L80 29M40 70 24 85","https://mushokutensei.jp/","light"],
     ["marvel","cinema","action","#16171c","#27272d","#f8f4eb","#f5cd79","Cartela cinematográfica","M8 30h104v53H8ZM7 21l99-13 3 13L9 34ZM25 19l14 10m9-13 14 10m9-13 14 10m9-13 14 10M15 70h90","https://movies.disney.com/thunderbolts"],
     ["one-punch-man","impact","action","#f2e7df","#fffaf1","#292027","#8c2432","Quadro de impacto","M4 19 70 40M4 34l50 12M3 64l59-9M4 87l66-24M103 7 81 38m32-9-27 17m30 19-32-12m18 40L79 64M70 44l10-4 8 9-8 12-13-5Z","https://onepunchman-anime.net/","light"],
@@ -47,7 +47,7 @@
     ["black-souls","folklore","book","#2c2031","#403046","#fff1ef","#e9b8d8","Livro de contos sombrios","M60 29Q39 7 10 17v66q30-9 50 9 20-18 50-9V17Q81 7 60 29Zm0 0v63M22 34q19-6 29 6M22 49q19-6 29 6m32-25 6 9-6 9-6-9Z","https://www.dlsite.com/maniax/work/=/product_id/RJ203687.html"],
     ["the-binding-of-isaac","sketch","terminal","#382725","#4d3432","#fff3e7","#ffbcb0","Rabisco de porão","M15 18 101 12l6 68-95 5ZM60 25a22 22 0 1 0 .01 0ZM49 44h3m16 0h3M50 57q10-7 20 0M50 48v4m20-4v4M22 93l68-5","https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/"],
     ["the-witcher","bestiary","book","#242925","#343c34","#f7f4e5","#d6d8ad","Página de bestiário","M60 13 38 37 12 22l13 39 35 29 35-29 13-39-26 15ZM31 51l16 8m42-8-16 8M50 71h20l-10 12ZM12 94h96","https://www.thewitcher.com/"],
-    ["zenless-zone-zero","street","action","#242325","#37363c","#fff9ee","#efee90","Sinalização de rua","M6 38 105 14l9 38-99 24Zm7 45 101-24m-94 35 63-15M25 47l16-4-11 16 16-4m11-15 16-4-11 16 16-4","https://zenless.hoyoverse.com/"],
+    ["zenless-zone-zero","street","action","#171819","#282a2f","#fff8ea","#ffe06a","Arquivo de New Eridu","M14 22h92v59H14Zm21 14a12 12 0 1 0 .01 0Zm50 0a12 12 0 1 0 .01 0ZM28 74l8-14h48l8 14M8 88h104","https://store.steampowered.com/app/4162040/Zenless_Zone_Zero/"],
     ["the-greatest-estate-developer","blueprint","terminal","#e5eddb","#f7f8eb","#203129","#25563c","Prancha de engenharia","M20 85V31h80v54ZM37 31V15h46v16M20 50h80M47 85V64h26v21M10 11v78m-5-70 5-8 5 8M15 94h90m-8-5 8 5-8 5","https://www.webtoons.com/en/fantasy/the-greatest-estate-developer/list?title_no=3596","light"],
     ["swordmaster-s-youngest-son","heraldry","book","#10243b","#1d3450","#e9faff","#91dfff","Brasão de linhagem","M17 11h86v39q0 24-43 42-43-18-43-42ZM60 20l6 12-6 28-6-28Zm-15 43h30m-15 0v16M28 35l8 10-8 10m64-20-8 10 8 10","https://tapas.io/series/the-swordmasters-son/info"]
   ];
@@ -60,12 +60,13 @@
     track:["track","sprint","#7ce047"], terminal:["terminal","scan","#be3145"],
     gothic:["proscenium","veil","#af2847"], ink:["folio","page","#f06931"],
     fracture:["panels","split","#637cee"], filigree:["landscape","unfold","#87bed8"],
-    wave:["scope","pulse","#808cf3"], embers:["monument","ash","#b16b39"],
+    wave:["scope","pulse","#808cf3"], resonance:["scope","pulse","#67b4d8"], embers:["monument","ash","#b16b39"],
     pixel:["terminal","step","#f45a67"], hazard:["console","lock","#ffbd32"],
     score:["track","dash","#2461d3"], press:["folio","press","#a9304c"],
     chassis:["workshop","lock","#5397dd"], recipe:["folio","unfold","#b46e31"],
     circus:["marquee","spring","#e95aa8"], quest:["folio","page","#ed7c83"],
-    saw:["impact","strike","#f16d35"], comic:["panels","spring","#62a94a"],
+    saw:["impact","strike","#d96d36"], comic:["panels","spring","#62a94a"],
+    "hero-panel":["panels","spring","#e6b928"],
     map:["landscape","page","#98724a"], cinema:["marquee","reel","#ce9845"],
     impact:["impact","split","#e64e4e"], alloy:["workshop","assemble","#3c9bd9"],
     ribbon:["ribbon","sweep","#ee88b0"], stitch:["folio","sew","#e49daf"],
@@ -73,7 +74,7 @@
     alchemy:["seal","pulse","#dc623c"], horror:["proscenium","split","#d43152"],
     arena:["monument","clash","#b04743"], scroll:["landscape","unfold","#be493a"],
     folklore:["folio","sew","#929a6b"], sketch:["terminal","page","#6286b5"],
-    bestiary:["folio","press","#8c9b72"], street:["panels","sweep","#dfbe39"],
+    bestiary:["folio","press","#8c9b72"], street:["marquee","sweep","#e6a72e"],
     blueprint:["workshop","draft","#7eb363"], heraldry:["proscenium","rise","#56bde9"],
     western:["western","sweep","#407e83"]
   };
@@ -139,7 +140,13 @@
       ["nova-era","Nova Era",/nova era/,"cinema","display","#ffdc98"]
     ],
     "the-boys": [
-      ["prime-video","Os Sete · Prime Video",/prime video/,"cinema","action","#ffb4ab"]
+      ["equipe-principal","Equipe principal · Prime Video",/\bequipe principal\b/,"press","display","#862b3f",{
+        background:"#dce4e8",panel:"#f3f6f4",ink:"#202b36",
+        reference:"https://www.aboutamazon.com/news/entertainment/the-boys-season-4-cast-guide-prime-video"
+      }],
+      ["prime-video","Os Sete · Prime Video",/\bos sete\b/,"cinema","action","#ffb4ab",{
+        background:"#172743",panel:"#213856",ink:"#fff6ec",colorScheme:"dark"
+      }]
     ],
     cyberpunk: [
       ["edgerunners-2","Edgerunners 2",/edgerunners 2/,"hazard","terminal","#9df3ff"],
@@ -149,7 +156,7 @@
   };
 
   for (const [id, entries] of Object.entries(variants)) {
-    for (const [part, label, , layout, font, accent] of entries) {
+    for (const [part, label, , layout, font, accent, overrides] of entries) {
       const parent = registry.get(id);
       registry.set(id+"/"+part, {
         ...parent, id:id+"/"+part, layout, accent, font:fonts[font], label, ...artFor(layout),
@@ -163,14 +170,12 @@
         ...(id==="uma-musume" && {
           background:"#12291f", panel:"#1d3c2d", ink:"#f7fff4", colorScheme:"dark"
         }),
-        ...(id==="the-boys" && {
-          background:"#172743", panel:"#213856", ink:"#fff6ec", colorScheme:"dark"
-        }),
         ...(id==="dragon-ball" && part==="z" && {accent:parent.accent}),
         ...(part==="steel-ball-run" && {
           background:"#e9d1a8", panel:"#fff1d6", ink:"#3d2b20", colorScheme:"light",
           drawing:"M12 22h96v56H12ZM20 30h80v40H20ZM60 34l5 10h12l-9 8 4 12-12-7-12 7 4-12-9-8h12ZM24 50h12m48 0h12"
-        })
+        }),
+        ...overrides
       });
     }
   }
@@ -181,6 +186,7 @@
     drawing:"M10 26h100v56H10Zm0 0V16h36l10 10M21 40h49M21 52h66M21 64h40"
   };
   const workAliases = [
+    [/^the boys\b/,"The Boys"],
     [/the greatest estate developer/,"The Greatest Estate Developer"],
     [/swordmaster.s youngest son/,"Swordmaster's Youngest Son"],
     [/the 100 girlfriends/,"The 100 Girlfriends Who Really, Really, Really, Really, Really Love You"],

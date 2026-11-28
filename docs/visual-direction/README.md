@@ -6,6 +6,8 @@ A proposta parte da versão publicada em `39be50f`. A central abre uma galeria e
 
 O Chromium capturou 176 imagens antes e 176 depois em 1440 × 900, 768 × 1024, 390 × 844 e 320 × 700. Cada conjunto contém a central, as 42 rotas e o dossiê de Gyro. As capturas do dossiê aguardaram a decodificação do retrato no build correspondente. A comparação lado a lado considerou a fonte visual, a página publicada e a página proposta. [Diagnóstico da versão publicada](audit/baseline.md) · [Prancha comparativa](audit/comparativo.jpg) · [Rubrica por universo](audit/revisao-editorial.md)
 
+Na revisão de publicação, novas fontes guiaram quatro refinamentos. Chainsaw Man ganhou colunas industriais, Wuthering Waves ganhou um horizonte com ondas e linhas de frequência, My Hero Academia ganhou uma prancha de revista com retícula e Zenless Zone Zero ganhou uma marquise de mídia analógica. O guia de elenco do Prime Video confirmou os seis dossiês da equipe principal de The Boys e o Atlas oferece dois recortes da série. [Prancha da revisão de publicação](audit/ajustes-finais.jpg) · [Referências por obra](references/README.md)
+
 Os 108 quadros de transição registram entrada e saída de nove universos em desktop e celular. Cada sequência congela os tempos reais das animações do Chromium em 0, 112 e 238 ms. A aparência da transição em execução depende da cadência do dispositivo. [Quadros selecionados](audit/transicoes.jpg)
 
 ## Implementação e cobertura
@@ -20,7 +22,7 @@ As referências estão vinculadas por obra. O manifesto identifica as capturas o
 | --- | --- |
 | `node tests/atlas.cjs` | 421 entradas únicas, 42 temas e cenas distintas, contraste de texto das paletas e continuidade de Goku. |
 | `node tests/phase9-smoke.cjs` | 102 dossiês, 65 variantes, 2.004 avanços e cópias do Laboratório da Fase IX. |
-| `node tests/atlas-browser.cjs` | 42 rotas em quatro tamanhos, busca, filtros, comparação, retorno ao dossiê, histórico, fallback, rotas rápidas, movimento reduzido e limpeza de estilos. |
+| `node tests/atlas-browser.cjs` | 42 rotas em quatro tamanhos, busca, filtros, recortes de The Boys, comparação, retorno ao dossiê, histórico, URLs incompletas, fallback, retorno de foco após seletor e portal, movimento reduzido e limpeza de estilos. |
 | `node tests/responsive-browser.cjs` | 11 viewports, carregamento dos retratos locais, preservação das 421 fichas e dez builds automáticas, inclusive em 320 px. |
 | Demais suítes Node | Builds, presets, versões, mídias, expansões e navegação. |
 | `node scripts/build-site.cjs --check` | Bundle de expansão reproduz o roteador da branch. |
@@ -28,10 +30,10 @@ As referências estão vinculadas por obra. O manifesto identifica as capturas o
 
 ## Desempenho
 
-O Atlas adiciona grafismos incorporados ao documento e usa os estilos e fontes já disponíveis no projeto. Os cinco arquivos temáticos somam 33.4 KiB após compressão gzip individual. O conteúdo fora da área visível da galeria tem desenho adiado pelo navegador. As fases em telas de até 570 px usam até 250 ms na entrada e 200 ms na saída, além do tempo de renderização.
+O Atlas adiciona grafismos incorporados ao documento e usa os estilos e fontes já disponíveis no projeto. Os cinco arquivos temáticos somam 35,3 KiB após compressão gzip individual. O conteúdo fora da área visível da galeria tem desenho adiado pelo navegador. As fases em telas de até 570 px usam até 250 ms na entrada e 200 ms na saída, além do tempo de renderização.
 
-Na amostra de seis temas em 320 × 700 com CPU emulada a 4×, o conteúdo ficou disponível entre 191 e 338 ms no caminho nativo e entre 265 e 523 ms com a alternativa de compatibilidade. O fim das duas fases variou de 513 a 663 ms e de 490 a 778 ms, respectivamente. A medição foi feita no Chromium headless, com as fontes remotas desligadas.
+Na amostra final de seis temas em 320 × 700 com CPU emulada a 4×, o conteúdo ficou disponível entre 135 e 308 ms no caminho nativo e entre 262 e 485 ms com a alternativa de compatibilidade. O fim da transição variou de 412 a 641 ms e de 494 a 774 ms, respectivamente. Um ensaio separado registrou 22 tarefas acima de 50 ms na amostra e uma passagem de Honkai próxima de um segundo. As duas medições usaram Chromium headless com as fontes remotas desligadas.
 
-## Pendências de revisão
+## Limites das referências
 
-A rubrica registra as obras abaixo de 8,5 e as limitações das referências. Menus interativos de Wuthering Waves, Devil May Cry 5 e Zenless ficaram com evidência visual parcial. Genshin foi refinado a partir da arte oficial da PlayStation. A continuidade dos registros agrupados como equipe principal em The Boys segue em revisão editorial. [Limites das referências](references/README.md#limites-da-leitura) · [Avaliação editorial](audit/revisao-editorial.md)
+As leituras de Wuthering Waves e Zenless usam capturas de menus publicadas e galerias oficiais. Genshin e Devil May Cry 5 se apoiam sobretudo na arte promocional. A rubrica descreve o que cada fonte sustentou e registra a comparação feita no Chromium. [Limites das referências](references/README.md#limites-da-leitura) · [Avaliação editorial](audit/revisao-editorial.md)

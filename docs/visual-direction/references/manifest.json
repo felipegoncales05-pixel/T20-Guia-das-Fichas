@@ -148,7 +148,7 @@
     "id": "the-boys",
     "dossies": 12,
     "pontoDePartida": "https://www.primevideo.com/detail/The-Boys/0KRGHGZCHKS920ZQGY5LBRF7MA",
-    "tipo": "página oficial de distribuição",
+    "tipo": "distribuição, elenco e arte oficiais do Prime Video",
     "capturas": [
       {
         "origem": "Página renderizada",
@@ -156,10 +156,24 @@
         "urlFinal": "https://www.primevideo.com/detail/The-Boys/0KRGHGZCHKS920ZQGY5LBRF7MA",
         "captura": "the-boys.jpg",
         "sha256": "418e3d1fd8ffc0296c64eb29a8e33b8112ce2371ab96fe575c3cd4f90b311dd7"
+      },
+      {
+        "origem": "Guia oficial de elenco",
+        "url": "https://www.aboutamazon.com/news/entertainment/the-boys-season-4-cast-guide-prime-video",
+        "urlFinal": "https://www.aboutamazon.com/news/entertainment/the-boys-season-4-cast-guide-prime-video",
+        "captura": "boys-elenco.jpg",
+        "sha256": "9a7fafae05180d03c99b9440015c45c5a6f955b406f3d853e687a98a42b541cd"
+      },
+      {
+        "origem": "Arte oficial da quarta temporada",
+        "url": "https://www.aboutamazon.com/news/entertainment/the-boys-season-4-key-art-exclusive-prime-video",
+        "urlFinal": "https://www.aboutamazon.com/news/entertainment/the-boys-season-4-key-art-exclusive-prime-video",
+        "captura": "boys-poster.jpg",
+        "sha256": "cf90e297b7a24b1c7df1281a973fc6f259b3003dc05b66464ea8e5b13630045c"
       }
     ],
-    "observado": "Concreto quase branco, riscos vermelhos inclinados, roupa azul escura e título branco com gesto irregular.",
-    "traducao": "Publicação de campanha com faixas diagonais e cruz de impressão. Placas de dossier com chamada curta."
+    "observado": "A arte da equipe principal usa azul de concreto, preto pesado e estilhaços vermelhos. O guia oficial confirma Billy Butcher, Hughie Campbell, Mother’s Milk, Frenchie, Kimiko e Annie January na equipe.",
+    "traducao": "Fólio em concreto claro para a equipe principal e cartela azul escura para Os Sete. Os dois grupos do acervo pertencem à série do Prime Video."
   },
   {
     "universo": "Cyberpunk",
@@ -215,8 +229,8 @@
     "universo": "Chainsaw Man",
     "id": "chainsaw-man",
     "dossies": 3,
-    "pontoDePartida": "https://chainsawman.dog/",
-    "tipo": "arte oficial do portal e prancha catalogada",
+    "pontoDePartida": "https://chainsawman.dog/tvseries/character/",
+    "tipo": "galeria do anime e catálogo da editora",
     "capturas": [
       {
         "origem": "Mídia editorial da página de origem",
@@ -230,10 +244,24 @@
         "arquivo": "assets/character-art/denji.webp",
         "captura": "chainsaw-local.jpg",
         "sha256": "c3f944aee550a6150313bb57f06da806f3cbc8790af963ad22d062438ea9acb7"
+      },
+      {
+        "origem": "Galeria oficial do anime",
+        "url": "https://chainsawman.dog/tvseries/character/",
+        "urlFinal": "https://chainsawman.dog/tvseries/character/",
+        "captura": "chainsaw-anime-cast.jpg",
+        "sha256": "1eb348b886f4fd7637d232018ad385e10791ce7c3d15e2bcf56981f0d885787b"
+      },
+      {
+        "origem": "Página renderizada da editora",
+        "url": "https://www.viz.com/chainsaw-man",
+        "urlFinal": "https://www.viz.com/chainsaw-man",
+        "captura": "chainsaw-viz.jpg",
+        "sha256": "0485c00b92b78acfca1082963b2dbf29da6148160236bd63a2c05da9744f9ed7"
       }
     ],
-    "observado": "O portal combina contorno branco técnico em quadro negro e painel recortado verde e vermelho. O tipo condensado e o traço diagonal cortam a imagem.",
-    "traducao": "Capa tipográfica em preto e papel cortada por dentes de serra alaranjados. Lista com régua de corte e filés retos."
+    "observado": "A galeria do anime alinha personagens em faixas verticais pretas com contornos claros. A VIZ acrescenta ruído de impressão e um plano branco com tinta e laranja.",
+    "traducao": "Colunas verticais riscadas de fundo, lâmina diagonal de duas camadas e rebites com contraste quente. Os dossiês conservam o mesmo estilo individual."
   },
   {
     "universo": "Jujutsu Kaisen",
@@ -331,8 +359,8 @@
     "universo": "Wuthering Waves",
     "id": "wuthering-waves",
     "dossies": 3,
-    "pontoDePartida": "https://store.steampowered.com/app/3513350/Wuthering_Waves/",
-    "tipo": "ficha oficial da distribuidora, arte de cápsula",
+    "pontoDePartida": "https://www.playstation.com/en-us/games/wuthering-waves/",
+    "tipo": "galerias oficiais e captura do menu de ressoadores",
     "capturas": [
       {
         "origem": "Página renderizada",
@@ -347,10 +375,41 @@
         "midia": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3513350/f931f564645583c14392447002d0cfaffb89520d/capsule_616x353.jpg?t=1794439536",
         "captura": "wuwa-keyvisual.jpg",
         "sha256": "7bd5363e6f8a5d2367fd31f35cbe7e8e9f284375bba8a14358749d154e1742cb"
+      },
+      {
+        "origem": "Galeria oficial da PlayStation",
+        "url": "https://www.playstation.com/en-us/games/wuthering-waves/",
+        "urlFinal": "https://www.playstation.com/en-us/games/wuthering-waves/",
+        "captura": "wuwa-playstation.jpg",
+        "sha256": "644d3a4dedf9fa2ec41ca481a5288af40eb6e2bf8423b529188d9601a07b7f2c"
+      },
+      {
+        "origem": "Captura de jogo da galeria PlayStation",
+        "contexto": "https://www.playstation.com/en-us/games/wuthering-waves/",
+        "url": "https://gmedia.playstation.com/is/image/SIEPDC/wuthering-waves-screenshot-05-en-22jan25?$1600px$",
+        "urlFinal": "https://gmedia.playstation.com/is/image/SIEPDC/wuthering-waves-screenshot-05-en-22jan25?$1600px$",
+        "captura": "wuwa-cliffs.jpg",
+        "sha256": "7b9f9a633898dc8a841eb0be84ad824c7b3e6e00325032f9e31984be24f0aa59"
+      },
+      {
+        "origem": "Captura de jogo da galeria PlayStation",
+        "contexto": "https://www.playstation.com/en-us/games/wuthering-waves/",
+        "url": "https://gmedia.playstation.com/is/image/SIEPDC/wuthering-waves-screenshot-06-en-22jan25?$1600px$",
+        "urlFinal": "https://gmedia.playstation.com/is/image/SIEPDC/wuthering-waves-screenshot-06-en-22jan25?$1600px$",
+        "captura": "wuwa-hall.jpg",
+        "sha256": "38f18735a2bf78a8341d0b693f5c2c8d421c2db3610a5b09173fdcae2bb50458"
+      },
+      {
+        "origem": "Captura do menu publicada pela PLGames",
+        "contexto": "https://plgames.ru/guidgame/ggames/705-rukovodstvo-po-wuthering-waves-15-sovetov-dlja-nachinajuschih.html",
+        "url": "https://plgames.ru/uploads/posts/2024-05/wuthering-waves-tips-beginners-guide-1-3840x2160-05dfe36ede12.jpg",
+        "urlFinal": "https://plgames.ru/uploads/posts/2024-05/wuthering-waves-tips-beginners-guide-1-3840x2160-05dfe36ede12.jpg",
+        "captura": "wuwa-resonator-menu.jpg",
+        "sha256": "35ad76be69c4235cd8e86a35cdbbd7b86606192bd669104e4fcdb11653fb2a73"
       }
     ],
-    "observado": "A cápsula oficial articula figuras claras, pétalas roxas, feixes azuis e planos diagonais de profundidade. O título é escuro e compacto.",
-    "traducao": "Osciloscópio em azul ardósia com desenho de ondas e gaveta de registros. Interpretação de arte promocional."
+    "observado": "O menu do jogo distribui miniaturas à esquerda e a figura à direita contra um fundo escuro frio. As galerias mostram penhascos claros recortados, névoa e luz azul nas ruínas.",
+    "traducao": "Título leve e instrumentos em grafite. A leitura de frequência cruza um horizonte de penhascos com ondas desenhadas e filetes finos."
   },
   {
     "universo": "Blue Lock",
@@ -424,8 +483,8 @@
     "universo": "My Hero Academia",
     "id": "my-hero-academia",
     "dossies": 2,
-    "pontoDePartida": "https://heroaca.com/",
-    "tipo": "abertura oficial e arte catalogada",
+    "pontoDePartida": "https://heroaca.com/character/chara_group01/01-01/",
+    "tipo": "ficha oficial do anime e catálogo da editora",
     "capturas": [
       {
         "origem": "Página renderizada",
@@ -439,10 +498,24 @@
         "arquivo": "assets/character-art/midoriya.webp",
         "captura": "mha-local.jpg",
         "sha256": "f7e57b74f8d452729f095a284cc7e54b49d79683d4fef19f316b5d7d41e97c33"
+      },
+      {
+        "origem": "Ficha oficial de Izuku Midoriya",
+        "url": "https://heroaca.com/character/chara_group01/01-01/",
+        "urlFinal": "https://heroaca.com/character/chara_group01/01-01/",
+        "captura": "mha-deku.jpg",
+        "sha256": "d17cde982a437bf2ae59c0b33d6e50901039e756bb4bbf0c35c8404f52e7dba6"
+      },
+      {
+        "origem": "Página renderizada da editora",
+        "url": "https://www.viz.com/my-hero-academia",
+        "urlFinal": "https://www.viz.com/my-hero-academia",
+        "captura": "mha-viz.jpg",
+        "sha256": "f3718087c3264504b07e02f0f6c549b08e7234e7a0425ca1a90cb7407ea92923"
       }
     ],
-    "observado": "O site abriu em quadro escuro. A arte local de Midoriya mostra preto/esverdeado, branco quente, contorno muito marcado e silhueta diagonal.",
-    "traducao": "Quadros de revista de ação em amarelo, verde e carvão com raios escalonados de movimento."
+    "observado": "A ficha oficial de Midoriya usa uma navegação com abas amarelas e brancas, contornos pretos de revista e campos verde-azulados. O catálogo da VIZ reforça as retículas e o alto contraste.",
+    "traducao": "Prancha editorial com uma coluna de ação e dois módulos laterais. Busca, título e botões usam moldura preta, fundo claro e amarelo pontual."
   },
   {
     "universo": "The Witcher",
@@ -473,8 +546,8 @@
     "universo": "Zenless Zone Zero",
     "id": "zenless-zone-zero",
     "dossies": 2,
-    "pontoDePartida": "https://zenless.hoyoverse.com/",
-    "tipo": "abertura oficial e arte catalogada",
+    "pontoDePartida": "https://store.steampowered.com/app/4162040/Zenless_Zone_Zero/",
+    "tipo": "galeria oficial e captura da ficha de agente",
     "capturas": [
       {
         "origem": "Página renderizada",
@@ -488,10 +561,25 @@
         "arquivo": "assets/card-art/zzz-remielle.webp",
         "captura": "zenless-local.jpg",
         "sha256": "1d0db7c46a047a5037390403fbf0ba97a6d8614365725eb4e4d8e5303890838d"
+      },
+      {
+        "origem": "Galeria oficial da PlayStation",
+        "url": "https://www.playstation.com/en-us/games/zenless-zone-zero/",
+        "urlFinal": "https://www.playstation.com/en-us/games/zenless-zone-zero/",
+        "captura": "zzz-playstation.jpg",
+        "sha256": "573d3d4bc4c2695ec89ec9274a849998ecd256796bf7d39f531908ca69bedc1e"
+      },
+      {
+        "origem": "Captura da ficha de agente publicada pela Vandal",
+        "contexto": "https://vandal.elespanol.com/guias/guia-zenless-zone-zero-trucos-consejos-y-secretos/como-mejorar-agentes",
+        "url": "https://media.vandal.net/m/7-2024/11/202471114434070_4.jpg.webp",
+        "urlFinal": "https://media.vandal.net/m/7-2024/11/202471114434070_4.jpg.webp",
+        "captura": "zzz-vandal-menu.jpg",
+        "sha256": "841419fcf7e1fcae8b67655dc548fe57bba539326055f510cafb7e05692abe22"
       }
     ],
-    "observado": "A tela de carregamento oficial usa caixa alta inclinada, preto e branco e ícone lateral. A arte local mostra superfícies coloridas cortadas em branco e violeta.",
-    "traducao": "Painéis adesivados e tipografia inclinada de sinalização urbana, com as cores isoladas por cortes brancos."
+    "observado": "O jogo usa planos escuros inclinados, botões arredondados, ícones circulares e amarelo de seleção. A galeria oficial mostra a cidade densa cortada em planos de luz.",
+    "traducao": "A marquise desliza sobre uma faixa angular com fita e bobinas. Os controles arredondados e o foco amarelo mantêm a leitura da ficha de agente."
   },
   {
     "universo": "Ado",

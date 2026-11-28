@@ -222,7 +222,9 @@ function selectedMetrics(c,n){const v=statFor(c,n);
 }
 
 function getRoute(){
- const parts=decodeURIComponent(location.hash.replace(/^#\/?/,"")).split("/").filter(Boolean);
+ let routePath=location.hash.replace(/^#\/?/,"");
+ try{routePath=decodeURIComponent(routePath)}catch{}
+ const parts=routePath.split("/").filter(Boolean);
  const [id,version]=parts;
  if(id==="laboratorio")return{character:null,board:false,lab:true,seedId:version||"",tab:"overview"};
  if(id==="arquivo")return{character:null,board:true,tab:"review"};

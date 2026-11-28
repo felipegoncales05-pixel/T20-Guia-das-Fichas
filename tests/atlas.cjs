@@ -63,6 +63,13 @@ assert.equal(api.createIndex([{id:"novo-lloyd",catalogCategory:"manhwa",universe
 assert.equal(api.createIndex([{id:"novo-jojo",universe:"JoJo · Parte 7"}])[0].theme.layout,"western");
 assert.equal(items.find(c=>c.id==="goku").editions.length,4);
 assert.equal(items.find(c=>c.id==="goku").editions.find(e=>e.key==="gt").theme.id,"dragon-ball/gt");
+const boys=items.filter(c=>c.universeSlug==="the-boys");
+assert.equal(boys.length,12);
+assert.equal(boys.filter(c=>c.theme.id==="the-boys/equipe-principal").length,6);
+assert.equal(boys.filter(c=>c.theme.id==="the-boys/prime-video").length,6);
+assert.equal(api.createIndex([{id:"new-boys",universe:"The Boys · equipe principal"}])[0].theme.id,
+  "the-boys/equipe-principal","A obra deve definir o tema quando vier sem categoria");
+assert.equal(themes.forWork("the-boys","the boys").id,"the-boys","O registro genérico conserva o tema da franquia");
 assert.ok(index.indexOf("atlas-themes.js")<index.indexOf("atlas.js"));
 
 function luminance(hex){
