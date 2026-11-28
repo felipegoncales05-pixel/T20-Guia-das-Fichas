@@ -2,6 +2,10 @@
 
 Catálogo de fichas **não oficial** de Tormenta20, inspirado na linguagem visual de dossiês da aba PERSONAGENS do [Terminal DCX](https://github.com/felipegoncales05-pixel/Agencia-Operacional-DCX). Este repositório é independente: não reutiliza autenticação, banco de dados ou credenciais do DCX.
 
+## Atlas Multiversal (2026-11-28)
+
+A nova área **Atlas Multiversal** fica em **#/atlas**: navegação por universos, busca por nomes, classes, raças e técnicas já cadastradas, filtros, paginação de resultados e comparação editorial de dois personagens. O catálogo mantém os **421 dossiês da Fase IX**, com links para as fichas, o Laboratório e o painel de revisão. Veja [arquitetura, limites e testes](docs/atlas-multiversal.md). O texto abaixo documenta fases históricas da evolução do repositório; as contagens antigas não representam a dimensão atual.
+
 ## Dossiês iniciais
 
 - **Gyro Zeppeli** — Guerreiro humano, Spin/Steel Balls, Valkyrie como montaria condicionada ao mestre; tema velho oeste
