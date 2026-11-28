@@ -98,6 +98,8 @@ jobs:
           npx playwright install chromium
       - name: Verificar onze tamanhos de tela
         run: node tests/responsive-browser.cjs
+      - name: Validar Atlas Multiversal nos três tamanhos principais
+        run: node tests/atlas-browser.cjs
       - name: Anexar capturas para revisão
         if: always()
         uses: actions/upload-artifact@v4
