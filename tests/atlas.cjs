@@ -54,6 +54,14 @@ for(const group of groups){
   assert.ok(theme.composition&&theme.motion&&theme.flare,"Direção incompleta em "+group.name);
 }
 assert.equal(new Set(groups.map(group=>art.scene(themes.resolve(group.slug)))).size,42);
+const directoryGroups=groups.filter(group=>themes.resolve(group.slug).directory);
+assert.deepEqual(Array.from(directoryGroups,group=>group.slug),["honkai-star-rail","cyberpunk"]);
+const pilotItems=items.filter(item=>directoryGroups.some(group=>group.slug===item.universeSlug));
+assert.equal(pilotItems.length,43);
+assert.ok(pilotItems.every(item=>item.portrait===ctx.window.T20_DATA.characters.find(c=>c.id===item.id).portrait),
+  "A galeria deve reutilizar o retrato cadastrado no dossiê");
+assert.equal(themes.resolve("honkai-star-rail/chrysos").directory.style,"astral");
+assert.equal(themes.resolve("cyberpunk/edgerunners-2").directory.style,"night-city");
 assert.ok(new Set(groups.map(group=>themes.resolve(group.slug).composition)).size>=12);
 assert.ok(new Set(groups.map(group=>themes.resolve(group.slug).motion)).size>=20);
 assert.equal(themes.resolve("origem-desconhecida").id,"arquivo");

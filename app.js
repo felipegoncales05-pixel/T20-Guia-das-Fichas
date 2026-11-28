@@ -246,10 +246,26 @@ function getRoute(){
  }
  return{character:charById(id),board:false,tab:tabs.some(t=>t[0]===tab)?tab:"overview"};
 }
-function linkFor(c,tab="overview"){
- const version=c.id==="diego"||c.id==="goku"||dossierForms(c.id).length>1?activeVariant(c.id)+"/":"";
+function linkFor(c,tab="overview",key=activeVariant(c.id)){
+ const version=c.id==="diego"||c.id==="goku"||dossierForms(c.id).length>1?encodeURIComponent(key)+"/":"";
  return "#/"+encodeURIComponent(c.id)+"/"+version+tab;
 }
+function atlasPortrait(entry){
+ const record=variantByKey(entry.id,entry.key||defaultForm(entry.id));
+ const primary=entry.portrait?.url||record?.portrait?.url;
+ const sources=[primary,...(window.T20_MEDIA_BACKUPS?.[primary]||[])];
+ const src=sources.find(isLocalArt)||sources.find(isRemoteImage)||primary||portraitBackup(record);
+ if(!src)return "";
+ const [width,height,position]=src===primary&&!entry.key&&!isPoster(src)?window.T20_PORTRAIT_FRAMES?.[entry.id]||[]:[];
+ const attrs=' data-media-character="'+e(entry.id)+'" data-media-variant="'+e(entry.key||"")+'"'+
+  (width&&height?' width="'+width+'" height="'+height+'"':"")+
+  (position?' data-atlas-crop style="--atlas-portrait-position:'+e(position)+'"':"");
+ return displayedMedia(record,src,"Retrato de "+entry.name,{portrait:true,attrs});
+}
+window.T20_CATALOG_VIEW={
+ portrait:atlasPortrait,
+ dossierHref:(id,key)=>linkFor({id},"overview",key||(id==="diego"?"normal":id==="goku"?"z":defaultForm(id)))
+};
 function shell(title,number,content,comment){const c=getRoute().character,v=visualFor(c,activeVariant(c.id));return '<header class="section-head section-cover"><div><div class="kicker">O SISTEMA // DOSSIÊ ATIVO</div><h2>'+e(title)+'</h2><span class="section-context">'+e(v.series)+' / '+e(v.motif)+'</span></div><span class="number">'+e(number)+'</span></header>'+content+(comment?note(comment):"")}
 function sourceLink(entry,category){return '<a class="source-link" href="'+url(entry.url)+'" target="_blank" rel="noopener noreferrer"><span><b>'+e(entry.name)+'</b><small>'+e(category||entry.detail||"Referência externa")+'</small></span><i aria-hidden="true">↗</i></a>'}
 const worldMarks={cdz:"SANTUÁRIO",undertale:"SUBSOLO","murder-drones":"COPPER 9","digital-circus":"CIRCO DIGITAL","dungeon-meshi":"MASMORRA",zenless:"NEW ERIDU",manhwa:"MANHWA",marvel:"MARVEL / MCU",fate:"FATE / SPIRIT ORIGIN","the-boys":"THE BOYS","one-punch-man":"ONE PUNCH","blue-lock":"BLUE LOCK","kamen-rider":"KAMEN RIDER",konosuba:"KONOSUBA",mushoku:"MUSHOKU TENSEI",wuwa:"WUTHERING WAVES",dmc:"DEVIL MAY CRY",fma:"FULLMETAL",genshin:"GENSHIN IMPACT",witcher:"THE WITCHER",overwatch:"OVERWATCH",umamusume:"TRACEN // UMA",jojo:"JOJO ★",cyberpunk:"NIGHT CITY",hsr:"STAR RAIL",chrysos:"AMPHOREUS",emanator:"STAR RAIL",romcom:"ROMANCE",chainsaw:"CHAINSAW",music:"VOZ // ADO",transformers:"AUTOBOT",jjk:"JUJUTSU",dragonball:"DRAGON BALL",signalis:"SIGNALIS",mha:"HERO ACADEMIA",bleach:"BLEACH","dark-souls":"DARK SOULS III","binding-of-isaac":"ISAAC",shuumatsu:"SHUUMATSU","black-souls":"BLACK SOULS",sekiro:"SEKIRO","tokyo-ghoul":"TOKYO GHOUL"};
@@ -652,11 +668,12 @@ document.addEventListener("error",evt=>{
  const original=im.getAttribute("src")||"";
  rememberFailedImage(original);
  const card=im.closest(".roster-card");
- const id=card?.dataset.open;
- const c=id?variantByKey(id,catalogModes[id]||defaultForm(id)):getRoute().character;
+ const id=card?.dataset.open||im.dataset.mediaCharacter;
+ const variant=card?catalogModes[id]:im.dataset.mediaVariant;
+ const c=id?variantByKey(id,variant||defaultForm(id)):getRoute().character;
  const attempt=imageAttempts.get(im)||{primary:im.dataset.mediaOriginal||original,tried:new Set()};
  attempt.tried.add(original);imageAttempts.set(im,attempt);
- const next=mediaBackup(c,attempt.primary,!!(card||im.closest(".hero-portrait")),attempt.tried,im.dataset.posterFallback);
+ const next=mediaBackup(c,attempt.primary,!!(id||im.closest(".hero-portrait")),attempt.tried,im.dataset.posterFallback);
  if(imageFailures.length<150)imageFailures.push({id:id||c?.id||"",failed:original,backup:next||null});
  if(next){
   im.dataset.recovered="true";
@@ -692,7 +709,7 @@ document.addEventListener("load",evt=>{
 },true);
 document.addEventListener("keydown",evt=>{
  if(evt.key==="/"&&(!getRoute().character&&!getRoute().planned)&&!["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName||"")){
-  evt.preventDefault();document.getElementById("search")?.focus();return;
+  evt.preventDefault();(document.getElementById("atlasSearch")||document.getElementById("search"))?.focus();return;
  }
  if(evt.key==="Escape"){
   if(!getRoute().character&&search){search="";visibleCount=PAGE_SIZE;const input=document.getElementById("search");if(input)input.value="";updateCards()}

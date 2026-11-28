@@ -83,9 +83,22 @@
     return {composition,motion,flare};
   };
 
+  const directories = {
+    "honkai-star-rail": {
+      style:"astral", label:"Compêndio astral",
+      description:"Explore os dossiês de Star Rail por continuidade, classe ou raça.",
+      partLabels:{"chrysos":"Chrysos","emanadores":"Emanadores","impact-3rd":"Impact 3rd"}
+    },
+    cyberpunk: {
+      style:"night-city", label:"Terminal de Night City",
+      description:"Consulte os registros de Night City por série, classe ou raça."
+    }
+  };
+
   const registry = new Map(directions.map(
     ([id, layout, font, background, panel, ink, accent, label, drawing, reference, colorScheme="dark"]) =>
-      [id, {id, layout, font:fonts[font], background, panel, ink, accent, label, drawing, reference, colorScheme, ...artFor(layout)}]
+      [id, {id, layout, font:fonts[font], background, panel, ink, accent, label, drawing, reference, colorScheme,
+        directory:directories[id], ...artFor(layout)}]
   ));
 
   const variants = {

@@ -176,6 +176,127 @@ async function reviewMotion(browser,width,mode){
  assert.deepEqual(errors,[]);
  await page.close();
 }
+async function reviewPortraitDirectory(browser,width,world){
+ const isHonkai=world==="honkai-star-rail";
+ const page=await browser.newPage({viewport:{width,height:900},reducedMotion:"reduce"});
+ const errors=[];
+ page.on("pageerror",error=>errors.push(String(error)));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ await page.goto(site+"#/atlas/"+world,{waitUntil:"load"});
+ const shell=page.locator(".atlas-shell");
+ const results=page.locator("#atlasResults");
+ const cards=results.locator("[data-atlas-portrait-card]");
+ const view=mode=>page.locator('[data-atlas-view-switch="'+mode+'"]');
+ const compare=page.locator("#atlasComparison");
+ const search=page.locator("#atlasSearch");
+ const id=isHonkai?"em-acheron":"david";
+ const name=isHonkai?"Acheron":"David Martinez";
+ const cover=results.locator('[data-media-character="'+id+'"]');
+ assert.equal(await shell.getAttribute("data-atlas-directory"),isHonkai?"astral":"night-city");
+ assert.equal(await shell.getAttribute("data-atlas-view"),"gallery");
+ assert.equal(await cards.count(),isHonkai?12:7);
+ assert.equal(await cover.getAttribute("loading"),"lazy");
+ assert.equal(await cover.evaluate(img=>getComputedStyle(img.parentElement).aspectRatio),"3 / 4");
+ assert.ok(await compare.isHidden(),"O painel compacto aparece após selecionar uma ficha");
+ await cover.scrollIntoViewIfNeeded();
+ await cover.evaluate(img=>img.decode());
+ assert.ok(await cover.evaluate(img=>img.naturalWidth>0&&img.getAttribute("src").startsWith("./assets/")));
+ await cover.evaluate(img=>img.dataset.testPortrait="sameNode");
+
+ await view("list").click();
+ assert.equal(await view("list").getAttribute("aria-pressed"),"true");
+ assert.equal(await shell.getAttribute("data-atlas-view"),"list");
+ assert.equal(await cover.getAttribute("data-test-portrait"),"sameNode","Trocar a apresentação mantém os elementos de imagem");
+ await checkWidth(page,width,world+" lista");
+ await page.keyboard.press("/");
+ assert.equal(await page.evaluate(()=>document.activeElement.id),"atlasSearch");
+ await search.pressSequentially(name,{delay:17});
+ assert.equal(await search.inputValue(),name);
+ assert.equal(await page.evaluate(()=>document.activeElement.id),"atlasSearch","Digitação deve manter o foco");
+ const matching=await page.evaluate(({world,name})=>{
+   const words=name.toLowerCase().split(" ");
+   return window.T20_ATLAS.createIndex(window.T20_DATA.characters).filter(row=>
+     row.universeSlug===world&&words.every(word=>row.search.includes(word)));
+ },{world,name});
+ const visibleIds=()=>cards.locator("img[data-media-character]").evaluateAll(images=>images.map(img=>img.dataset.mediaCharacter).sort());
+ assert.deepEqual(await visibleIds(),matching.map(row=>row.id).sort());
+ const expected=matching.find(row=>row.id===id);
+ await page.locator("#atlasClass").selectOption(expected.classType);
+ await page.locator("#atlasRace").selectOption(expected.race);
+ assert.deepEqual(await visibleIds(),matching.filter(row=>row.classType===expected.classType&&row.race===expected.race)
+   .map(row=>row.id).sort());
+ await page.locator("[data-atlas-reset]").click();
+
+ const continuation=isHonkai?"honkai-star-rail/chrysos":"cyberpunk/edgerunners";
+ const part=page.locator('[data-atlas-part="'+continuation+'"]');
+ await page.locator('[data-atlas-part=""]').focus();
+ await page.keyboard.press("Tab");
+ assert.ok(await page.evaluate(()=>{
+   const focused=document.activeElement;
+   const style=getComputedStyle(focused);
+   return focused.hasAttribute("data-atlas-part")&&focused.matches(":focus-visible")&&
+     parseFloat(style.outlineWidth)>=2&&style.clipPath==="none";
+ }),"Aba de continuidade deve mostrar foco pelo teclado");
+ await part.click();
+ assert.equal(await page.locator("#atlasContinuity").inputValue(),continuation);
+ assert.equal(await part.getAttribute("aria-pressed"),"true");
+ assert.ok(await cards.count()>0);
+ assert.equal(await cards.evaluateAll((nodes,expected)=>nodes.every(node=>node.dataset.atlasTheme===expected),continuation),true);
+ await page.locator("#atlasContinuity").selectOption("");
+ assert.equal(await page.locator('[data-atlas-part=""]').getAttribute("aria-pressed"),"true");
+ await page.locator("#atlasSort").selectOption("class");
+ const sorted=await page.evaluate(world=>{
+   const collator=new Intl.Collator("pt-BR",{sensitivity:"base",numeric:true});
+   return window.T20_ATLAS.createIndex(window.T20_DATA.characters).filter(item=>item.universeSlug===world)
+     .sort((a,b)=>collator.compare(a.className,b.className)||collator.compare(a.name,b.name))
+     .slice(0,12).map(item=>item.name);
+ },world);
+ assert.deepEqual(await cards.locator("h3").allTextContents(),sorted);
+ await page.locator("#atlasSort").selectOption("name");
+ if(isHonkai){
+   const first=await cards.locator("h3").allTextContents();
+   await page.locator('[data-atlas-page="1"]').click();
+   assert.match(await page.locator("#atlasResultCount").textContent(),/PÁGINA 2 \/ 3/);
+   assert.ok((await cards.locator("h3").allTextContents()).every(label=>!first.includes(label)));
+   await page.locator('[data-atlas-page="-1"]').click();
+ }else assert.ok(await page.locator('[data-atlas-page="1"]').isDisabled());
+
+ const primary=cards.filter({has:page.locator('[data-atlas-compare="'+id+'"]')});
+ const second=cards.locator('[data-atlas-compare]:not([data-atlas-compare="'+id+'"])').first();
+ await primary.locator("[data-atlas-compare]").click();
+ assert.ok(await compare.isVisible());
+ assert.ok(await compare.getByRole("button",{name:"Remover "+name+" da comparação"}).isVisible());
+ assert.equal(await compare.locator("[data-atlas-expand-compare]").count(),0);
+ await second.click();
+ await compare.getByRole("button",{name:"Comparar fichas"}).click();
+ assert.equal(await compare.locator(".atlas-compare-slot h3").count(),2);
+ assert.equal(await compare.locator(".atlas-compare-slot").first().locator("a").getAttribute("href"),"#/"+id+"/overview");
+ await compare.getByRole("button",{name:"Remover "+name+" da comparação"}).click();
+ assert.equal(await primary.locator("[data-atlas-compare]").getAttribute("aria-pressed"),"false");
+ await compare.getByRole("button",{name:"Limpar",exact:true}).click();
+ assert.ok(await compare.isHidden());
+
+ if(!isHonkai){
+   const remote=cards.locator('img[data-media-character="lucy"]');
+   await remote.scrollIntoViewIfNeeded();
+   await page.waitForFunction(()=>document.querySelector('img[data-media-character="lucy"]')?.dataset.recovered==="true");
+   await remote.evaluate(img=>img.decode());
+   assert.match(await remote.getAttribute("alt"),/Pôster de reserva/);
+ }
+ await search.fill(name);
+ await primary.getByRole("link",{name:"Abrir ficha de "+name}).click();
+ await page.locator("#character-title").waitFor();
+ assert.ok((await page.locator("#character-title").textContent()).includes(name));
+ assert.equal(await page.locator("[data-atlas-directory],[role=dialog]").count(),0);
+ await page.locator(".atlas-dossier-link").click();
+ await view("list").waitFor();
+ assert.equal(await view("list").getAttribute("aria-pressed"),"true");
+ await page.locator(".atlas-trail .back-link").click();
+ await page.locator("#atlasUniverseList").waitFor();
+ assert.equal(await page.locator("[data-atlas-directory]").count(),0);
+ assert.deepEqual(errors,[]);
+ await page.close();
+}
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:["--no-sandbox"]});
  try{
@@ -215,10 +336,14 @@ async function reviewMotion(browser,width,mode){
    await page.close();
   }
   for(const [width,height] of [[320,700],[390,844],[768,1024],[1440,900]])await reviewThemes(browser,width,height);
+  for(const width of [320,1440]){
+   for(const world of ["honkai-star-rail","cyberpunk"])await reviewPortraitDirectory(browser,width,world);
+  }
   await reviewMotion(browser,1440,"view");
   await reviewMotion(browser,390,"fallback");
   console.log("OK: 42 rotas em quatro resoluções, 176 capturas e isolamento entre Atlas, dossiê e Laboratório.");
   console.log("OK: entrada, saída, restauração de foco e rolagem, histórico, fallback e movimento reduzido.");
   console.log("OK: Atlas navegável em 375, 768 e 1440px com busca, filtros, comparação e retorno.");
+  console.log("OK: Honkai e Cyberpunk em galeria e lista, com retratos locais, reserva, filtros e links reais em 320 e 1440px.");
  }finally{await browser.close()}
 })().catch(err=>{console.error(err);process.exitCode=1});
