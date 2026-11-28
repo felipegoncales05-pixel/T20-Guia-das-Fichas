@@ -54,6 +54,8 @@ jobs:
           node --check build-engine.js
           node --check build-lab.js
           node --check app.js
+          node --check atlas.js
+          node --check tests/atlas.cjs
           node --check card-worlds.js
           node --check visual-direction.js
           node --check tests/site-smoke.cjs
@@ -76,6 +78,8 @@ jobs:
           node tests/class-options.cjs
           node tests/build-engine.cjs
           node tests/build-presets.cjs
+          node tests/atlas.cjs
+          node scripts/build-site.cjs --check
 
   mobile:
     name: Validar celular e tablet (Chromium)
