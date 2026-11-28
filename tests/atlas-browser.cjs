@@ -2,10 +2,111 @@
 const {chromium}=require("playwright");
 const {pathToFileURL}=require("node:url");
 const path=require("node:path");
+const fs=require("node:fs");
 const assert=require("node:assert/strict");
 const site=pathToFileURL(path.resolve("index.html")).href;
+const captures=process.env.T20_ATLAS_SCREENSHOTS||"tests/screenshots/atlas";
+async function checkWidth(page,width,label){
+ const overflow=await page.evaluate(()=>Math.max(document.body.scrollWidth,document.documentElement.scrollWidth)
+   -document.documentElement.clientWidth);
+ assert.ok(overflow<=2,width+"px · "+label+" · overflow "+overflow+"px");
+}
+async function visitWorld(page,href){
+ await page.evaluate(hash=>{location.hash=hash},href);
+ const shell=page.locator('.atlas-shell[data-atlas-theme="'+href.split("/").at(-1)+'"]');
+ await shell.locator(".atlas-world-hero h1").waitFor();
+ return shell;
+}
+async function reviewThemes(browser,width){
+ const page=await browser.newPage({viewport:{width,height:width===320?1180:960},reducedMotion:"reduce"});
+ const errors=[];
+ page.on("pageerror",error=>errors.push(String(error)));
+ await page.route(/^https?:\/\//,route=>route.abort());
+ await page.goto(site+"#/atlas",{waitUntil:"load"});
+ const covers=await page.locator(".atlas-universe").evaluateAll(links=>links.map(link=>({
+   href:link.getAttribute("href"),id:link.dataset.atlasTheme,layout:link.dataset.atlasLayout
+ })));
+ assert.equal(covers.length,42);
+ assert.equal(new Set(covers.map(cover=>cover.layout)).size,42);
+ await checkWidth(page,width,"Atlas");
+ fs.mkdirSync(captures,{recursive:true});
+ const capture=label=>page.screenshot({path:path.join(captures,width+"-"+label+".jpg"),quality:84});
+ await capture("atlas");
+ for(const cover of covers){
+   const shell=await visitWorld(page,cover.href);
+   assert.equal(await shell.getAttribute("data-atlas-layout"),cover.layout);
+   assert.ok(await shell.locator(".atlas-result").count());
+   assert.equal(await page.locator("body[data-atlas-theme],body[data-world],body[data-family]").count(),0);
+   assert.notEqual(await shell.evaluate(element=>getComputedStyle(element.querySelector(".atlas-world-hero")).backgroundImage),"none");
+   await checkWidth(page,width,cover.id);
+   await capture(cover.id);
+ }
+ const jojo=await visitWorld(page,"#/atlas/jojo-s-bizarre-adventure");
+ await jojo.locator("#atlasContinuity").selectOption("jojo-s-bizarre-adventure/steel-ball-run");
+ assert.equal(await page.locator(".atlas-shell").getAttribute("data-atlas-layout"),"western");
+ assert.match(await page.locator(".atlas-world-copy h1").textContent(),/Steel Ball Run/);
+ await checkWidth(page,width,"Steel Ball Run");
+ await capture("jojo-steel-ball-run");
+ await page.locator("#atlasSearch").fill("nome inexistente abcxyz");
+ assert.ok(await page.locator(".atlas-empty").isVisible());
+ await page.locator("[data-atlas-reset]").click();
+ assert.equal(await page.locator(".atlas-shell").getAttribute("data-atlas-layout"),"manga");
+ await page.locator("[data-atlas-page='1']").click();
+ assert.match(await page.locator("#atlasResultCount").textContent(),/PÁGINA 2/);
+ const dragon=await visitWorld(page,"#/atlas/dragon-ball");
+ await dragon.locator("#atlasContinuity").selectOption("dragon-ball/gt");
+ await page.locator("[data-atlas-compare=goku]").focus();
+ await page.keyboard.press("Enter");
+ assert.equal(await page.locator("[data-atlas-compare=goku]").getAttribute("aria-pressed"),"true");
+ assert.equal(await page.evaluate(()=>document.activeElement.dataset.atlasCompare),"goku");
+ assert.match(await page.locator(".atlas-compare-slot a").getAttribute("href"),/goku\/gt\/overview/);
+ await page.locator(".atlas-result h3 a").first().click();
+ await page.locator("#character-title").waitFor();
+ assert.equal(await page.locator(".atlas-dossier-link").getAttribute("data-atlas-theme"),"dragon-ball/gt");
+ assert.equal(await page.locator("body").getAttribute("data-family"),"ki");
+ assert.equal(await page.locator(".atlas-shell").count(),0);
+ await page.locator(".atlas-dossier-link").click();
+ await page.locator("#atlasContinuity").waitFor();
+ assert.equal(await page.locator("#atlasContinuity").inputValue(),"dragon-ball/gt");
+ assert.equal(await page.locator(".atlas-shell").getAttribute("data-atlas-theme"),"dragon-ball/gt",
+   "O tema da continuidade selecionada deve voltar junto com o filtro");
+ assert.equal(await page.locator(".atlas-world-hero h1").textContent(),"Dragon Ball GT");
+ assert.match(await page.locator("#atlasResultCount").textContent(),/^1 DE 421/);
+ await page.locator("#atlasContinuity").selectOption("dragon-ball/super");
+ assert.equal(await page.locator("[data-atlas-compare=goku]").getAttribute("aria-pressed"),"false",
+   "Selecionar Goku GT na comparação não seleciona Goku Super");
+ await page.locator("[data-atlas-compare=goku]").click();
+ assert.deepEqual(await page.locator(".atlas-compare-slot a").evaluateAll(links=>links.map(link=>link.hash)),
+   ["#/goku/gt/overview","#/goku/super/overview"]);
+ await page.locator("[data-atlas-compare=goku]").click();
+ assert.equal(await page.locator(".atlas-compare-slot a").getAttribute("href"),"#/goku/gt/overview");
+ const fate=await visitWorld(page,"#/atlas/fate");
+ await fate.locator("#atlasContinuity").selectOption("fate/zero");
+ assert.equal(await page.locator("#atlasContinuity").evaluate(select=>getComputedStyle(select).colorScheme),"dark");
+ const western=await visitWorld(page,"#/atlas/jojo-s-bizarre-adventure");
+ await western.locator("#atlasContinuity").selectOption("jojo-s-bizarre-adventure/steel-ball-run");
+ assert.equal(await page.locator("#atlasContinuity").evaluate(select=>getComputedStyle(select).colorScheme),"light");
+ await page.goto(site+"#/atlas/manhwa",{waitUntil:"load"});
+ await page.locator(".atlas-shell h1").filter({hasText:"MANHWA"}).waitFor();
+ assert.equal(await page.locator(".atlas-universe").count(),2);
+ assert.match(await page.locator("#atlasResultCount").textContent(),/^2 DE 421/);
+ await page.goto(site+"#/atlas/j-pop-cantora-japonesa",{waitUntil:"load"});
+ await page.locator('.atlas-shell[data-atlas-theme="ado"]').waitFor();
+ await visitWorld(page,"#/atlas/honkai-star-rail");
+ await page.locator(".atlas-result h3 a").first().click();
+ await page.locator("#character-title").waitFor();
+ assert.match(await page.locator(".hero-copy h1").evaluate(node=>getComputedStyle(node).fontFamily),/Georgia/);
+ await page.goto(site+"#/laboratorio",{waitUntil:"load"});
+ await page.waitForFunction(()=>document.body.hasAttribute("data-lab"));
+ assert.equal(await page.locator("[data-atlas-theme]").count(),0);
+ await page.goto(site+"#/atlas",{waitUntil:"load"});
+ await page.locator("#atlasUniverseList").waitFor();
+ assert.equal(await page.locator(".atlas-shell[data-atlas-theme]").count(),0);
+ assert.deepEqual(errors,[]);
+ await page.close();
+}
 (async()=>{
- const browser=await chromium.launch({headless:true,args:["--no-sandbox"]});
+ const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:["--no-sandbox"]});
  try{
   for(const width of [375,768,1440]){
    const page=await browser.newPage({viewport:{width,height:900}});
@@ -41,6 +142,8 @@ const site=pathToFileURL(path.resolve("index.html")).href;
    assert.deepEqual(errors,[],width+"px erros JS no Atlas");
    await page.close();
   }
+  for(const width of [320,1440])await reviewThemes(browser,width);
+  console.log("OK: 42 rotas temáticas, 88 capturas e isolamento entre Atlas, dossiê e Laboratório.");
   console.log("OK: Atlas navegável em 375, 768 e 1440px com busca, filtros, comparação e retorno.");
  }finally{await browser.close()}
 })().catch(err=>{console.error(err);process.exitCode=1});
