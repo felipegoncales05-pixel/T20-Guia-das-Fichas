@@ -3,7 +3,9 @@
 "use strict";
 const PAGE_SIZE=24;
 const manhwaWorks=new Set(["the-greatest-estate-developer","swordmaster-s-youngest-son"]);
+const highlights=["jojo-s-bizarre-adventure","cyberpunk","fate","honkai-star-rail","cavaleiros-do-zodiaco","uma-musume"];
 const themes=window.T20_ATLAS_THEMES;
+const art=window.T20_ATLAS_ART;
 const state={continuity:"",search:"",universe:"",classType:"",race:"",sort:"name",page:1,compare:[]};
 let cacheSource=null,cacheSize=-1,cache=[];
 const {norm,groupFor}=themes;
@@ -53,22 +55,34 @@ function groupIndex(items){
   }
   return Array.from(groups.values()).sort((a,b)=>b.count-a.count||sortBR(a.name,b.name));
 }
+function tokens(theme){
+  return {"--atlas-bg":theme?.background,"--atlas-panel":theme?.panel,"--atlas-ink":theme?.ink,
+    "--atlas-accent":theme?.accent,"--atlas-title":theme?.font,"--atlas-scheme":theme?.colorScheme,
+    "--atlas-flare":theme?.flare};
+}
 function themeStyle(theme){
-  return '--atlas-bg:'+theme.background+';--atlas-panel:'+theme.panel+';--atlas-ink:'+theme.ink+
-    ';--atlas-accent:'+theme.accent+';--atlas-title:'+theme.font+';--atlas-scheme:'+theme.colorScheme;
+  return Object.entries(tokens(theme)).map(([name,value])=>name+":"+value).join(";");
 }
 function themeAttrs(theme){
-  return ' data-atlas-theme="'+esc(theme.id)+'" data-atlas-layout="'+theme.layout+'" style="'+esc(themeStyle(theme))+'"';
+  return ' data-atlas-theme="'+esc(theme.id)+'" data-atlas-layout="'+theme.layout+
+    '" data-atlas-composition="'+theme.composition+'" style="'+esc(themeStyle(theme))+'"';
 }
-function ornament(theme){
-  return '<svg class="atlas-ornament" aria-hidden="true" focusable="false" viewBox="0 0 120 100"><path d="'+theme.drawing+'"/></svg>';
+function applyChrome(theme,inAtlas){
+  const header=document.getElementById("siteHeader");
+  if(!header)return;
+  if(inAtlas)header.dataset.atlasChrome=theme?.composition||"central";
+  else delete header.dataset.atlasChrome;
+  for(const [name,value] of Object.entries(tokens(theme))){
+    if(value)header.style.setProperty(name,value);
+    else header.style.removeProperty(name);
+  }
 }
 function dossierLink(character,variant){
   const universe=groupFor(character);
   const universeSlug=slug(universe);
   const theme=themes.forWork(universeSlug,norm(character.universe),variant);
   return '<a class="atlas-dossier-link"'+themeAttrs(theme)+' href="#/atlas/'+encodeURIComponent(universeSlug)+
-    '"><span aria-hidden="true">◇</span> Atlas · '+esc(universe)+'</a>';
+    '"><span aria-hidden="true">◇</span><span>Atlas · '+esc(universe)+'</span><span aria-hidden="true">↗</span></a>';
 }
 function option(value,label,selected){
   return '<option value="'+esc(value)+'"'+(value===selected?' selected':'')+'>'+esc(label)+'</option>';
@@ -85,7 +99,7 @@ function compareIndex(entry){
   return state.compare.findIndex(item=>item.id===entry.id&&item.key===entry.key);
 }
 function compareCard(item){
-  if(!item)return '<article class="atlas-compare-slot"><span>ESPAÇO DISPONÍVEL</span><p>Adicione outro personagem no catálogo.</p></article>';
+  if(!item)return '<article class="atlas-compare-slot"><span>Espaço disponível</span><p>Adicione um dossiê ou versão pelos resultados.</p></article>';
   return '<article class="atlas-compare-slot"><span>'+esc(item.key?item.work:item.universe)+'</span><h3>'+esc(item.name)+'</h3>'+
     '<dl><div><dt>Classe</dt><dd>'+esc(item.className)+'</dd></div><div><dt>Raça</dt><dd>'+esc(item.race)+'</dd></div>'+
     '<div><dt>Origem</dt><dd>'+esc(item.origin)+'</dd></div></dl>'+
@@ -94,19 +108,23 @@ function compareCard(item){
 function renderComparison(){
   const slot=document.getElementById("atlasComparison");if(!slot)return;
   const choices=state.compare;
-  slot.innerHTML='<div class="atlas-section-head"><div><span class="kicker">ANÁLISE CRUZADA // METADADOS</span><h2>Comparação rápida</h2></div>'+
+  slot.innerHTML='<div class="atlas-section-head"><h2>Comparação rápida</h2>'+
     (choices.length?'<button class="sys-button" type="button" data-atlas-clear-compare>LIMPAR</button>':'')+'</div>'+
     '<div class="atlas-compare-grid">'+compareCard(choices[0])+compareCard(choices[1])+'</div>'+
     '<p class="atlas-disclaimer">Comparação editorial, não de poder ou equilíbrio. A progressão e as regras de cada adaptação continuam nos dossiês e no Laboratório.</p>';
 }
 function renderUniverses(items){
   const slot=document.getElementById("atlasUniverseList");if(!slot)return;
-  slot.innerHTML=groupIndex(items).filter(group=>matchesUniverse(group.slug)).map(group=>{
+  const groups=groupIndex(items).filter(group=>matchesUniverse(group.slug));
+  const featured=highlights.map(id=>groups.find(group=>group.slug===id)).filter(Boolean);
+  const rest=groups.filter(group=>!highlights.includes(group.slug));
+  slot.innerHTML=[...featured,...rest].map(group=>{
     const theme=themes.resolve(group.slug);
-    return '<a class="atlas-universe"'+themeAttrs(theme)+' href="#/atlas/'+encodeURIComponent(group.slug)+'">'+
-      ornament(theme)+'<span class="atlas-universe-count">'+group.count+' '+(group.count===1?'dossiê':'dossiês')+'</span>'+
-      '<strong>'+esc(group.name)+'</strong><small>'+esc(theme.label)+'</small>'+
-      '<span class="atlas-universe-action" aria-hidden="true">↗</span></a>';
+    return '<a class="atlas-universe"'+themeAttrs(theme)+(featured.includes(group)?' data-atlas-featured':'')+
+      ' data-atlas-portal="'+esc(group.slug)+'" href="#/atlas/'+encodeURIComponent(group.slug)+'">'+
+      '<div class="atlas-portal-visual">'+art.scene(theme)+'</div>'+
+      '<span class="atlas-universe-count">'+group.count+' '+(group.count===1?'dossiê':'dossiês')+'</span>'+
+      '<strong>'+esc(group.name)+'</strong><span class="atlas-universe-action" aria-hidden="true">↗</span></a>';
   }).join("");
 }
 function matchesUniverse(slug){
@@ -141,9 +159,9 @@ function updateResults(){
     const selected=compareIndex(c)!==-1;
     const theme=c.theme;
     const href=dossierHref(c);
-    const art=state.universe?themeAttrs(theme):"";
-    return '<article class="atlas-result"'+art+'>'+
-      (state.universe?'<div class="atlas-result-ornament" aria-hidden="true">'+ornament(theme)+'</div>':'')+
+    const attributes=state.universe?themeAttrs(theme):"";
+    return '<article class="atlas-result"'+attributes+'>'+
+      (state.universe?'<div class="atlas-result-ornament" aria-hidden="true">'+art.emblem(theme)+'</div>':'')+
       '<div class="atlas-result-meta"><span>'+esc(state.universe&&theme.id.includes("/")?theme.label:c.universe)+'</span>'+
       '<h3><a href="'+href+'">'+esc(c.name)+'</a></h3>'+
       '<p>'+esc(c.work)+' · '+esc(c.race)+' · '+esc(c.className)+'</p></div>'+
@@ -160,19 +178,38 @@ function updateResults(){
     '<button type="button" data-atlas-page="1"'+(state.page===pages?' disabled':'')+'>PRÓXIMA →</button>';
   renderComparison();
 }
+function worldHero(name,theme,count){
+  const label=state.continuity?name:theme.label;
+  const title=state.continuity?theme.label:name;
+  return '<header class="atlas-hero atlas-world-hero" data-world-name="'+esc(name)+'">'+
+    '<div class="atlas-world-visual">'+art.scene(theme)+'</div>'+
+    '<div class="atlas-world-copy"><span class="atlas-eyebrow">'+esc(label)+'</span>'+
+    '<h1 tabindex="-1">'+esc(title)+'</h1><div class="atlas-world-actions">'+
+    '<button type="button" class="atlas-cta" data-atlas-jump="atlasDirectoryTitle">'+count+' '+(count===1?'dossiê':'dossiês')+' <span aria-hidden="true">↓</span></button>'+
+    '</div></div></header>';
+}
+function centralHero(count,universes,isManhwa){
+  return '<header class="atlas-hero atlas-central-hero">'+
+    '<div class="atlas-central-visual">'+art.starMap()+'</div>'+
+    '<div class="atlas-central-copy"><span class="atlas-eyebrow">Arquivo de Tormenta20</span>'+
+    '<h1 tabindex="-1">'+(isManhwa?'Manhwa':'Atlas <em>Multiversal</em>')+'</h1>'+
+    '<p>'+(isManhwa?'Explore os dossiês por obra.':'Escolha um universo ou encontre uma ficha no acervo.')+'</p>'+
+    '<div class="atlas-hero-actions"><button type="button" class="atlas-cta" data-atlas-jump="atlasUniverseTitle">Explorar universos <span aria-hidden="true">↓</span></button>'+
+    '<button type="button" class="atlas-cta atlas-cta-secondary" data-atlas-jump="atlasDirectoryTitle">Buscar fichas</button></div></div>'+
+    '<div class="atlas-stats"><span><strong>'+count+'</strong> dossiês</span><span><strong>'+universes+'</strong> universos</span></div></header>';
+}
 function updateContinuity(){
   const shell=document.querySelector(".atlas-shell[data-atlas-theme]");
   if(!shell)return;
   const theme=themes.resolve(state.continuity||state.universe);
   shell.dataset.atlasTheme=theme.id;
   shell.dataset.atlasLayout=theme.layout;
+  shell.dataset.atlasComposition=theme.composition;
   shell.style.cssText=themeStyle(theme);
-  shell.querySelector(".atlas-world-hero > .atlas-ornament").outerHTML=ornament(theme);
-  const copy=shell.querySelector(".atlas-world-copy");
-  const world=copy.dataset.worldName;
-  copy.querySelector(".kicker").textContent=state.continuity?world:theme.label;
-  copy.querySelector("h1").textContent=state.continuity?theme.label:world;
-  copy.querySelector(".atlas-stats strong").textContent=getIndex().filter(matchesWorld).length;
+  const previous=shell.querySelector(".atlas-world-hero");
+  previous.outerHTML=worldHero(previous.dataset.worldName,theme,getIndex().filter(matchesWorld).length);
+  document.title=(state.continuity?theme.label:previous.dataset.worldName)+" // O Sistema · T20";
+  applyChrome(theme,true);
 }
 function render(root,requestedSlug){
   const items=getIndex(),groups=groupIndex(items);
@@ -199,46 +236,39 @@ function render(root,requestedSlug){
     .flatMap(c=>[c.theme,...c.editions.map(e=>e.theme)])
     .filter(theme=>theme.id.includes("/")).map(theme=>[theme.id,theme])).values()];
   document.title=(selected?.name||(isManhwa?"Manhwa":"Atlas Multiversal"))+" // O Sistema · T20";
+  applyChrome(theme,true);
   const classes=[...new Set(items.flatMap(c=>[c.classType,...c.editions.map(e=>e.classType)]))].sort(sortBR);
   const races=[...new Set(items.flatMap(c=>[c.race,...c.editions.map(e=>e.race)]))].sort(sortBR);
-  const hero=selected?
-    '<header class="atlas-hero atlas-world-hero">'+ornament(theme)+'<div class="atlas-world-copy" data-world-name="'+esc(selected.name)+'">'+
-    '<span class="kicker">'+esc(theme.label)+'</span><h1>'+esc(selected.name)+'</h1>'+
-    '<div class="atlas-stats"><div><strong>'+selected.count+'</strong><span>DOSSIÊS</span></div></div></div></header>':
-    '<header class="atlas-hero"><span class="kicker">O SISTEMA // SETOR DE EXPLORAÇÃO</span>'+
-    (isManhwa?'<h1>MANHWA</h1><p>Explore os dossiês por obra.</p>':
-      '<h1>ATLAS <em>MULTIVERSAL.</em></h1><p>Explore universos, encontre personagens e compare seus dossiês de Tormenta20.</p>')+
-    '<div class="atlas-stats"><div><strong>'+worldItems.length+'</strong><span>DOSSIÊS</span></div>'+
-    '<div><strong>'+(isManhwa?manhwaWorks.size:groups.length)+'</strong><span>UNIVERSOS</span></div>'+
-    '<div><strong>12</strong><span>NÍVEIS POR BUILD</span></div></div>'+
-    '<div class="atlas-hero-actions"><a class="sys-button primary" href="#/laboratorio">ABRIR LABORATÓRIO ↗</a>'+
-    '<a class="sys-button" href="#/arquivo">FONTES E REVISÕES ↗</a></div></header>';
-  root.innerHTML='<div class="container atlas-shell"'+(theme?themeAttrs(theme):"")+'><a href="'+
-    (state.universe?'#/atlas':'#/')+'" class="back-link">← '+(state.universe?'TODOS OS UNIVERSOS':'VOLTAR AO GUIA DAS FICHAS')+'</a>'+hero+
+  const hero=selected?worldHero(selected.name,theme,selected.count):
+    centralHero(worldItems.length,isManhwa?manhwaWorks.size:groups.length,isManhwa);
+  root.innerHTML='<div class="atlas-shell"'+(theme?themeAttrs(theme):"")+'><div class="atlas-container">'+
+    '<nav class="atlas-trail" aria-label="Navegação do Atlas"><a href="'+
+    (state.universe?'#/atlas':'#/')+'" class="back-link">← '+(state.universe?'Voltar ao Atlas':'Guia das fichas')+'</a>'+
+    '<div class="atlas-shortcuts"><a href="#/laboratorio">Laboratório</a><a href="#/arquivo">Fontes e revisões</a></div></nav>'+hero+
     (selected?'':'<section class="atlas-universe-section" aria-labelledby="atlasUniverseTitle">'+
-      '<div class="atlas-section-head"><h2 id="atlasUniverseTitle">Universos do arquivo</h2></div>'+
+      '<div class="atlas-section-head"><h2 id="atlasUniverseTitle" tabindex="-1">Universos</h2></div>'+
       '<div class="atlas-universe-grid" id="atlasUniverseList"></div></section>')+
-    '<section class="atlas-directory" aria-labelledby="atlasDirectoryTitle"><div class="atlas-section-head"><div><span class="kicker">BUSCA FACETADA // ÍNDICE LEVE</span>'+
-    '<h2 id="atlasDirectoryTitle" tabindex="-1">Explorar personagens</h2></div></div>'+
-    '<div class="atlas-controls"><label class="atlas-search">BUSCAR POR NOME, OBRA, TÉCNICA OU HABILIDADE'+
-    '<input type="search" id="atlasSearch" autocomplete="off" placeholder="Ex.: Gyro, Samurai, Spin, Cyberpunk..." value="'+esc(state.search)+'"></label>'+
-    '<label>UNIVERSO<select id="atlasUniverse">'+option("","Todos os universos",state.universe)+
+    '<section class="atlas-directory" aria-labelledby="atlasDirectoryTitle"><div class="atlas-section-head">'+
+    '<h2 id="atlasDirectoryTitle" tabindex="-1">Dossiês</h2></div>'+
+    '<div class="atlas-dossier-index"><div class="atlas-controls"><label class="atlas-search">Buscar ficha'+
+    '<input type="search" id="atlasSearch" autocomplete="off" placeholder="Nome, classe ou técnica" value="'+esc(state.search)+'"></label>'+
+    '<label>Universo<select id="atlasUniverse">'+option("","Todos os universos",state.universe)+
        (isManhwa?option("manhwa","Manhwa · 2 obras",state.universe):"")+
        groups.map(g=>option(g.slug,g.name+" ("+g.count+")",state.universe)).join("")+'</select></label>'+
-    (continuities.length?'<label>CONTINUIDADE<select id="atlasContinuity">'+
+    (continuities.length?'<label>Continuidade<select id="atlasContinuity">'+
       option("","Todas as continuidades",state.continuity)+continuities.sort((a,b)=>sortBR(a.label,b.label))
         .map(part=>option(part.id,part.label,state.continuity)).join("")+'</select></label>':'')+
-    '<label>CLASSE<select id="atlasClass">'+option("","Todas as classes",state.classType)+
+    '<label>Classe<select id="atlasClass">'+option("","Todas as classes",state.classType)+
        classes.map(c=>option(c,c,state.classType)).join("")+'</select></label>'+
-    '<label>RAÇA<select id="atlasRace">'+option("","Todas as raças",state.race)+
+    '<label>Raça<select id="atlasRace">'+option("","Todas as raças",state.race)+
        races.map(c=>option(c,c,state.race)).join("")+'</select></label>'+
-    '<label>ORDENAR<select id="atlasSort">'+option("name","Nome A–Z",state.sort)+
+    '<label>Ordenar<select id="atlasSort">'+option("name","Nome A–Z",state.sort)+
       option("universe","Universo",state.sort)+option("class","Classe",state.sort)+'</select></label></div>'+
-    '<div class="atlas-results-head"><span id="atlasResultCount" role="status" aria-live="polite"></span>'+
-    '<button type="button" data-atlas-reset>REINICIAR FILTROS</button></div>'+
-    '<div class="atlas-results" id="atlasResults"></div><nav class="atlas-pager" id="atlasPager" aria-label="Paginação dos personagens"></nav></section>'+
+    '<div class="atlas-records"><div class="atlas-results-head"><span id="atlasResultCount" role="status" aria-live="polite"></span>'+
+    '<button type="button" data-atlas-reset>Limpar filtros</button></div>'+
+    '<div class="atlas-results" id="atlasResults"></div><nav class="atlas-pager" id="atlasPager" aria-label="Paginação dos personagens"></nav></div></div></section>'+
     '<section class="atlas-compare" id="atlasComparison" aria-label="Comparação de personagens"></section>'+
-    '<div class="rule-note"><b>O SISTEMA //</b><span>Este atlas indexa dados já cadastrados e não aprova automaticamente regras ou fontes. Expansões futuras devem manter IDs únicos, progressão 1–12 e revisão editorial.</span></div></div>';
+    '</div></div>';
   if(state.continuity)updateContinuity();
   renderUniverses(items);
   updateResults();
@@ -269,9 +299,13 @@ document.addEventListener("change",event=>{
 });
 document.addEventListener("click",event=>{
   if(!location.hash.startsWith("#/atlas"))return;
-  const target=event.target.closest("[data-atlas-compare],[data-atlas-clear-compare],[data-atlas-page],[data-atlas-reset]");
+  const target=event.target.closest("[data-atlas-compare],[data-atlas-clear-compare],[data-atlas-page],[data-atlas-reset],[data-atlas-jump]");
   if(!target)return;
-  if(target.hasAttribute("data-atlas-compare")){
+  if(target.hasAttribute("data-atlas-jump")){
+    const heading=document.getElementById(target.dataset.atlasJump);
+    heading?.focus({preventScroll:true});
+    heading?.scrollIntoView({block:"start"});
+  }else if(target.hasAttribute("data-atlas-compare")){
     const id=target.getAttribute("data-atlas-compare");
     const item=getIndex().find(c=>c.id===id);
     if(!item)return;
@@ -300,5 +334,5 @@ document.addEventListener("click",event=>{
     updateResults();
   }
 });
-window.T20_ATLAS={render,createIndex,groupFor,groupIndex,dossierLink};
+window.T20_ATLAS={render,createIndex,groupFor,groupIndex,dossierLink,leave:()=>applyChrome(null,false)};
 })();

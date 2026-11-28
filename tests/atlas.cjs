@@ -11,7 +11,7 @@ for(const file of js.slice(0,js.indexOf("build-lab.js"))){
   vm.runInNewContext(fs.readFileSync(path.join(root,file),"utf8"),ctx,{filename:file});
 }
 const before=ctx.window.T20_DATA.characters.map(c=>[c.id,c.name,c.info?.className]);
-for(const file of ["atlas-themes.js","atlas.js"]){
+for(const file of ["atlas-themes.js","atlas-art.js","atlas.js"]){
   vm.runInNewContext(fs.readFileSync(path.join(root,file),"utf8"),ctx,{filename:file});
 }
 const api=ctx.window.T20_ATLAS;
@@ -40,6 +40,7 @@ assert.match(fs.readFileSync(path.join(root,"app.js"),"utf8"),/if\(id==="atlas"\
 assert.match(fs.readFileSync(path.join(root,"site-expansion.bundle.js"),"utf8"),/T20_ATLAS\.render/);
 console.log("OK: Atlas indexa 421 fichas, grupos de universos, classes e raças sem alterar builds.");
 const themes=ctx.window.T20_ATLAS_THEMES;
+const art=ctx.window.T20_ATLAS_ART;
 assert.equal(groups.length,42,"Cada obra identificada tem sua própria entrada");
 assert.equal(new Set(groups.map(group=>themes.resolve(group.slug).drawing)).size,groups.length,
   "Cada universo tem um ornamento original próprio");
@@ -49,7 +50,12 @@ for(const group of groups){
   const theme=themes.resolve(group.slug);
   assert.equal(theme.id,group.slug,"Tema próprio ausente em "+group.name);
   assert.match(theme.reference,/^https:\/\//);
+  assert.ok(art.layouts.includes(theme.layout),"Ilustração ausente em "+group.name);
+  assert.ok(theme.composition&&theme.motion&&theme.flare,"Direção incompleta em "+group.name);
 }
+assert.equal(new Set(groups.map(group=>art.scene(themes.resolve(group.slug)))).size,42);
+assert.ok(new Set(groups.map(group=>themes.resolve(group.slug).composition)).size>=12);
+assert.ok(new Set(groups.map(group=>themes.resolve(group.slug).motion)).size>=20);
 assert.equal(themes.resolve("origem-desconhecida").id,"arquivo");
 assert.equal(api.createIndex([{id:"x",name:"Nova ficha",universe:"Obra não identificada"}])[0].theme.id,"arquivo");
 assert.equal(api.createIndex([{id:"novo-lloyd",catalogCategory:"manhwa",universe:"The Greatest Estate Developer"}])[0].theme.id,
@@ -57,6 +63,13 @@ assert.equal(api.createIndex([{id:"novo-lloyd",catalogCategory:"manhwa",universe
 assert.equal(api.createIndex([{id:"novo-jojo",universe:"JoJo · Parte 7"}])[0].theme.layout,"western");
 assert.equal(items.find(c=>c.id==="goku").editions.length,4);
 assert.equal(items.find(c=>c.id==="goku").editions.find(e=>e.key==="gt").theme.id,"dragon-ball/gt");
+const boys=items.filter(c=>c.universeSlug==="the-boys");
+assert.equal(boys.length,12);
+assert.equal(boys.filter(c=>c.theme.id==="the-boys/equipe-principal").length,6);
+assert.equal(boys.filter(c=>c.theme.id==="the-boys/prime-video").length,6);
+assert.equal(api.createIndex([{id:"new-boys",universe:"The Boys · equipe principal"}])[0].theme.id,
+  "the-boys/equipe-principal","A obra deve definir o tema quando vier sem categoria");
+assert.equal(themes.forWork("the-boys","the boys").id,"the-boys","O registro genérico conserva o tema da franquia");
 assert.ok(index.indexOf("atlas-themes.js")<index.indexOf("atlas.js"));
 
 function luminance(hex){
